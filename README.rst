@@ -43,6 +43,7 @@ Then:
     * Push the content of the local repository to Github (``git push -u origin master``)
 * Create a virtual Python environment for your project (see `virtual environments at CSCS`_)
 * Install the dev requirements into a virtualenv. (``pipenv install --dev``)
+* Install the current package (``pipenv install -e .``)
 * Release your package by pushing a new tag to master.
 * Adapt the `requirements.txt` and `Pipfile` files to specify the packages you will need for
   your project and their versions. For more info see the `pip docs for requirements files`_.
