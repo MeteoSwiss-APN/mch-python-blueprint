@@ -68,7 +68,7 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
 
     $ cd {{ cookiecutter.project_slug }}/
     $ mkvirtualenv flexplot-dev
-    $ pip install -r requirements_dev_frozen.txt
+    $ pip install -r requirements_dev.hard.txt
     
     $ python setup.py develop # or
     $ pip install -e .
@@ -160,17 +160,19 @@ Project Structure
    * - README.rst
      - Short documentation about the package. It lists features and contains a quick start.
    * - requirements.txt
+     - Softlink to one of the ``requirements*.txt`` files (defaut: ``requirements.hard.txt``). It is read by ``setup.py``. To have ``setup.py`` read a different set of requirements (e.g., soft instead of hard, or development instead of production), just point this softlink to the respective ``requirements*.txt`` file.
+   * - requirements.soft.txt
      - Contains all pip packages required in production, without their dependencies. Version numbers should only be restricted if absolutely necessary.
-   * - requirements_dev.txt
+   * - requirements_dev.soft.txt
      - Contains additional pip packages required in the development process, without their dependencies. Version numbers should only be restricted if absolutely necessary.
-   * - requirements_frozen.txt
+   * - requirements.hard.txt
      - Contains all pip packages required in production, including their dependencies. Version numbers must be fixed for all packages. Output of ``pip freeze``. The packages listed in this file must be the same as in the variable ``requirements`` in the file ``setup.py``
-   * - requirements_dev_frozen.txt
+   * - requirements_dev.hard.txt
      - Contains additional pip packages required in the development process, including their dependencies. Version numbers must be fixed for all packages. Output of ``pip freeze``. The packages listed in this file must be the same as in the variable ``requirements`` in the file ``setup.py``
    * - setup.cfg
      - Configuration file for different build tools such as bumpversion, bdist, flake8, pytest, and yapf
    * - setup.py
-     - Script used to build the package. It specifies the dependencies of the library/application and the Python verions which are compatible with this library/application. These two things are usually the only things to adapt in this file. The Python version listed here should be the same as in the file ``tox.ini``.
+     - Script used to build the package. It reads the depencencies of the library/application from ``requirements.txt`` (which constitutes a softlinks to one of the four ``requirements*.txt`` files), and specifies the Python verions which are compatible with this library/application. The latter is usually the only thing to adapt in this file. The Python version listed here should be the same as in the file ``tox.ini``.
    * - tox.ini
      - A configuration file for tox carring out the test for different Python verions. The listed versions should be the same as in the file ``setup.py``.
 
@@ -178,16 +180,16 @@ Managing dependencies
 ---------------------
 
 Often projects make use of other libraries. Which libraries and their versions have to be listed in different places in the project:
-- variable requirements in setup.py (for example ``requirements = ['Click>=6.0', 'sh>=1.12.14']``)
-- requirements*.txt files (see `pip requirements file`_)
+- variable requirements in ``setup.py`` (for example ``requirements = ['Click>=6.0', 'sh>=1.12.14']``)
+- ``requirements*.txt`` files (see `pip requirements file`_)
 
 Ensure that the needed libraries and their versions (where given) listend in these files are the same.
-The files requirements.txt and requirements_dev.txt should only contain packages which are directly
+The files ``requirements.soft.txt`` and ``requirements_dev.soft.txt`` should only contain packages which are directly
 used, but no further dependencies; and their versions should only be constrained (``<=``, ``>=``, ``==``)
-when absolutely necessary. When you install a new package, add it to requirements.txt if it is used by
-{{ cookiecutter.project_slug }}, or to requirements_dev.txt if it is only used in the development process. Whenever you
-add or update any package -- and you are positively sure that everything still works correctly -- don't
-forget to update requirements_frozen.txt and/or requirements_dev_frozen.txt, depending on whether the
+when absolutely necessary. When you install a new package, add it to ``requirements.soft.txt`` if it is used by
+{{ cookiecutter.project_slug }}, or to ``requirements_dev.soft.txt`` if it is only used in the development process.
+Whenever you add or update any package -- and you are positively sure that everything still works correctly -- don't
+forget to update ``requirements.hard.txt`` and/or ``requirements_devhard.txt``, depending on whether the
 change affects the production environment or only the development environment, by redirecting the
 output of ``pip freeze``.
 
