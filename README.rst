@@ -46,6 +46,13 @@ Then:
 * Release your package by pushing a new tag to master.
 * Adapt the `requirements.txt` and `Pipfile` files to specify the packages you will need for
   your project and their versions. For more info see the `pip docs for requirements files`_.
+* type ``make help`` to learn what make can do for you with your project, e.g.
+    * check python style with ``make lint``
+    * run unit tests with ``make test``
+    * check code coverage with ``make coverage``
+    * create Sphinx HTML documentation with ``make docs``
+    * install the package to the active Python's site-packages with ``make install``
+  and many more!
 
 .. _`pipenv`: https://realpython.com/pipenv-guide/
 .. _`virtualenv`: https://virtualenv.pypa.io/en/stable/userguide/
