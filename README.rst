@@ -53,6 +53,7 @@ Then:
     * create Sphinx HTML documentation with ``make docs``
     * install the package to the active Python's site-packages with ``make install``
   and many more!
+ * type ``make docs``, and learn more on your project.
 
 .. _`pipenv`: https://realpython.com/pipenv-guide/
 .. _`virtualenv`: https://virtualenv.pypa.io/en/stable/userguide/
