@@ -142,8 +142,8 @@ Project Structure
    * - docs
      - Directory containing the documentation
    * - tests
-     - Directory containing the tests. The directory structure in this folder is the same as in the source folder ({{ cookiecutter.project_slug }}). For each file in the source folder, there is a file with the same name, but, with the prefix ``text_``.
-   * - {{ cookiecutter.project_slug }}
+     - Directory containing the tests. The directory structure in this folder is the same as in the source folder (src). For each file in the source folder, there is a file with the same name, but, with the prefix ``text_``.
+   * - src
      - Source folder
    * - AUTHORS.rst
      - Contains information about the lead developer and contributors
@@ -194,7 +194,7 @@ How to provide executable scripts
 
 By default, a single executable script called {{ cookiecutter.project_slug }} is provided. It is created
 when the package is installed. When you call it the main function in
-``{{ cookiecutter.project_slug }}/cli.py`` is called.
+``src/{{ cookiecutter.project_slug }}/cli.py`` is called.
 
 How many scripts that are created, their names and which functions are called can be configured in the
 ``setup.py`` file. The function ``setup`` has a named argument called ``entry_point`` which is a
@@ -207,7 +207,7 @@ dictionary with an element ``console_scripts``. The element is an array of strin
 
 When the package is installed, a executable script is created in the Python's bin folder with the name
 ``{{ cookiecutter.project_slug }}``. If a user calls this script, the function ``main`` in the file
-``{{ cookiecutter.project_slug }}/cli.py`` is called. If more scripts should be created, add further
+``src/{{ cookiecutter.project_slug }}/cli.py`` is called. If more scripts should be created, add further
 entries to array ``console_scripts``.
 
 {%- endif %}
