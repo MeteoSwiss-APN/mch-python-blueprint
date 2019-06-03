@@ -58,13 +58,15 @@ In the following, we introduce the most important command using `pipenv`::
     # Activate the virtual envorinment associated with the current project 
     # (executed in the root directory of the project). If no environment associated
     # with the project exists then a new one is created on the fly.
+    # Starts a new shell with the activated virtual environment.
     $ pipenv shell
     
     # or specifying the Pyhon version
     $ pipenv shell --python 3.7
     
-    # to leave the environment
-    $ deactivate
+    # to leave the environment and the shell
+    # (``deactivate`` only exits the environment, but not the shell!)
+    $ exit
     
     # Install a new package used by the library or the application
     $ pipenv install package1
