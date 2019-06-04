@@ -17,6 +17,8 @@ setup_requirements = ['pytest-runner', ]
 
 test_requirements = ['pytest', ]
 
+packages = find_packages('src')
+
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
 } %}
@@ -51,7 +53,8 @@ setup(
     include_package_data=True,
     keywords='{{ cookiecutter.project_slug }}',
     name='{{ cookiecutter.project_slug }}',
-    package_dir={'': "src"},
+    packages=packages,
+    package_dir={package: f'src/{package}' for package in packages},
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
