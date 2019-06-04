@@ -51,7 +51,8 @@ setup(
     include_package_data=True,
     keywords='{{ cookiecutter.project_slug }}',
     name='{{ cookiecutter.project_slug }}',
-    package_dir={'': "src"},
+    packages=find_packages('src'),  # collect names of packages in ``src/``
+    package_dir={'': 'src'},  # location of packages: ``src/<package>``
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
