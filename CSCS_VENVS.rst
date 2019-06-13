@@ -48,9 +48,11 @@ before you can use the scripts of virtualenvwrapper.
 
 In the following, we introduce the most important command using `pipenv`::
 
-    # Create a virutal env for current project with the specified. Make sure to enter the root
-    # directory of the project before executing the command! Note that this
-    # will install all packages in ``requirements.txt`` (if there is one).
+    # Create a virutal env for current project with current Python version.
+    # Make sure to enter the root directory of the project before executing
+    # the command! Note that this will install all packages in ``requirements.txt``
+    # (if there is one). If this only displays the help page, then specify
+    # the Python version (see below), which is anyway a good idea.
     $ pipenv 
     
     # Like ``pipenv``, but with a specific Python version.
