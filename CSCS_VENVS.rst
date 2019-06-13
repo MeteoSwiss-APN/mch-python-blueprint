@@ -48,15 +48,13 @@ before you can use the scripts of virtualenvwrapper.
 
 In the following, we introduce the most important command using `pipenv`::
 
-    # Create a virutal env for current project with current Python version.
+    # Create a virutal env for project with the specified Python version.
     # Make sure to enter the root directory of the project before executing
     # the command! Note that this installs all packages in ``requirements.txt``
     # (if there is one). If only the help page is displayed, then specify
     # the Python version (see below), which is anyway a good idea.
-    $ pipenv 
-    
-    # Like ``pipenv``, but with a specific Python version.
-    $ pipenv --python 3.7
+    $ pipenv --three        # default v3.X
+    $ pipenv --python 3.7   # specific v3.7
     
     # Display the path to the virtual environment associated with the project.
     # Complains if no virtual environment has been created for the project yet,
@@ -65,15 +63,22 @@ In the following, we introduce the most important command using `pipenv`::
     
     # Activate the virtual envorinment associated with the current project 
     # (executed in the root directory of the project). If no environment
-    # associated with the project exists, a new one is created on the fly.
-    # Starts a new shell with the activated virtual environment.
-    # (To check whether there is an environemnt, run ``pipenv --venv``.)
+    # associated with the project exists, a new one is created (see below).
     $ pipenv shell
     
-    # Like ``pipenv shell``, but with a specific Python version.
-    $ pipenv shell --python 3.7
+    # If the current project is has no virtual environment associated with it
+    # (check with ``pipenv --venv``; see above), a new one is created. Note
+    # that if a Python version is specified (e.g., ``--three``, ``--python 3.7``),
+    # then a new environment is created in any case -- if there has already been
+    # one, it is removed without asking. It is therefore advisable not to create
+    # a new virtual environment with ``pipenv shell``, but to check whether one
+    # already exists (``pipenv --venv``; see above), and if not, to create one
+    # with ``pipenv --python 3.7`` or the like (see above).
+    $ pipenv shell                # default v*.*
+    $ pipenv shell --three        # default v3.*
+    $ pipenv shell --python 3.7   # specific v3.7
     
-    # Leave the environement. Caution: This does NOT leave the shell entered with
+    # Leave environement. Caution: This does NOT leave the shell entered with
     # ``pipenv shell``! You most likely want to leave with ``exit`` (see below).
     $ deactivate
     
