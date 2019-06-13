@@ -101,6 +101,9 @@ In the following, we introduce the most important command using `pipenv`::
     
     # Check for security updates
     $ pipenv check
+    
+    # Remove virtual environment from $PIPENV_CACHE_DIR
+    $ pipenv --rm
 
 .. _`pipenv`: https://realpython.com/pipenv-guide/
 .. _`virtualenv`: https://virtualenv.pypa.io/en/stable/userguide/
