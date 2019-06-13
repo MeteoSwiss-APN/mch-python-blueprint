@@ -48,7 +48,7 @@ before you can use the scripts of virtualenvwrapper.
 
 In the following, we introduce the most important command using `pipenv`::
 
-    # Create a virutal env for current project. Make sure to enter the root
+    # Create a virutal env for current project with the specified. Make sure to enter the root
     # directory of the project before executing the command! Note that this
     # will install all packages in ``requirements.txt`` (if there is one).
     $ pipenv 
@@ -75,9 +75,8 @@ In the following, we introduce the most important command using `pipenv`::
     # ``pipenv shell``! You most likely want to leave with ``exit`` (see below).
     $ deactivate
     
-    # Leave the environment AND the shell entered with ``pipenv shell``.
-    # If you entered the environment with ``pipenv shell``, this is how you leave,
-    # rather than with ``deactivate`` (see above).
+    # Leave the environment AND the shell entered with ``pipenv shell``. This is
+    # most likely how you want to leave, rather than with ``deactivate`` (see above).
     $ exit
     
     # Install a new package used by the library or the application.
@@ -117,6 +116,9 @@ In the following, we introduce the most important command using `pipenv`::
     $ pipenv check
     
     # Remove the virtual environment associated with the package from $PIPENV_CACHE_DIR.
+    # Caution: If you run this from inside a pipenv environment/shell, the environment
+    # will be removed, but you will remain inside the environment/shell! Make sure to
+    # leave with ``exit`` before (or after) removing the activated environment.
     $ pipenv --rm
 
 .. _`pipenv`: https://realpython.com/pipenv-guide/
