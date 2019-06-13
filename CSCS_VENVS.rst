@@ -48,61 +48,75 @@ before you can use the scripts of virtualenvwrapper.
 
 In the following, we introduce the most important command using `pipenv`::
 
-    # Create a virutal env for current project (execute the command in the 
-    # root directory of the project)
+    # Create a virutal env for current project. Make sure to enter the root
+    # directory of the project before executing the command! Note that this
+    # will install all packages in ``requirements.txt`` (if there is one).
     $ pipenv 
     
-    # The same specifying the python version to use
+    # Like ``pipenv``, but with a specific Python version.
     $ pipenv --python 3.7
     
+    # Display the path to the virtual environment associated with the project.
+    # Complains if no virtual environment has been created for the project yet,
+    # so use this to check whether a virtual environment already exists or not.
+    $ pipenv --venv
+    
     # Activate the virtual envorinment associated with the current project 
-    # (executed in the root directory of the project). If no environment associated
-    # with the project exists then a new one is created on the fly.
+    # (executed in the root directory of the project). If no environment
+    # associated with the project exists, a new one is created on the fly.
     # Starts a new shell with the activated virtual environment.
+    # (To check whether there is an environemnt, run ``pipenv --venv``.)
     $ pipenv shell
     
-    # or specifying the Pyhon version
+    # Like ``pipenv shell``, but with a specific Python version.
     $ pipenv shell --python 3.7
     
-    # to leave the environment and the shell
-    # (``deactivate`` only exits the environment, but not the shell!)
+    # Leave the environement. Caution: This does NOT leave the shell entered with
+    # ``pipenv shell``! You most likely want to leave with ``exit`` (see below).
+    $ deactivate
+    
+    # Leave the environment AND the shell entered with ``pipenv shell``.
+    # If you entered the environment with ``pipenv shell``, this is how you leave,
+    # rather than with ``deactivate`` (see above).
     $ exit
     
-    # Install a new package used by the library or the application
-    $ pipenv install package1
+    # Install a new package used by the library or the application.
+    $ pipenv install <package>
     
-    # Install a new package used for development (such as the debugger)
-    $ pipenv install pdb --dev
+    # Install a new package used for development (such as a debugger).
+    # Development packages are those the application/library can run without.
+    $ pipenv install <dev-package> --dev
     
-    # Install all packages used by the library or application specified in the Pipfile
+    # Install all packages specified in ``Pipfile``.
     $ pipenv install
     
-    # Install all packages used for development specified in the Pipfile
+    # Install all packages specified in ``Pipfile``, including development packages.
     $ pipenv install --dev
     
-    # Install all packages used by the library or the application specified in the 
-    # requirements.txt file
+    # Install all packages specified in ``requirements.txt``.
     $ pipenv install -r requirements.txt
     
-    # Install all packages used for development specified in the requirements_dev.txt file
+    # Install all packages specified in ``requirements_dev.txt``, including development
+    # packages.
     $ pipenv install -r requirements_dev.txt --dev
     
-    # Rewrite the requirements.txt and the requirements_dev.txt file (needed to sync the 
-    # content of the Pipfile with the requirements.txt and the requirements_dev.txt)
+    # Rewrite ``requirements.txt`` and ``requirements_dev.txt`` (needed to sync the 
+    # content of ``Pipfile`` with ``requirements.txt`` and ``requirements_dev.txt``).
     $ pipenv lock -r > requirements.txt
     $ pipenv lock -r -d > requirements_dev.txt
     
-    # Pinpoint the version of the installed packages to rebuild the exact the same
-    # virtual environment on another machine or for another user
+    # Pinpoint the versions of the installed packages to ``Pipenv.lock``, in order to
+    # rebuild a reproducible virtual environment on another machine or for another user.
     $ pipenv lock
     
-    # And to rebuild it
+    # Rebuild a reproducible virtual environment (same package versions) from ``Pipenv.lock``,
+    # as pinned down with ``pipenv lock`` on an other machine or by another user.
     $ pipenv install --ignore-pipfile
     
-    # Check for security updates
+    # Check for security updates.
     $ pipenv check
     
-    # Remove virtual environment from $PIPENV_CACHE_DIR
+    # Remove the virtual environment associated with the package from $PIPENV_CACHE_DIR.
     $ pipenv --rm
 
 .. _`pipenv`: https://realpython.com/pipenv-guide/
