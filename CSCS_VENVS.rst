@@ -51,9 +51,9 @@ In the following, we introduce the most important command using `pipenv`::
     # Create a virutal env for project with the specified Python version.
     # Make sure to enter the root directory of the project before executing
     # the command! Note that this installs all packages in ``requirements.txt``
-    # (if there is one). If only the help page is displayed, then specify
-    # the Python version (see below), which is anyway a good idea.
-    $ pipenv --three        # default v3.X
+    # (if there is one).
+    $ pipenv                # default v*.* (or might just displays help page)
+    $ pipenv --three        # default v3.*
     $ pipenv --python 3.7   # specific v3.7
     
     # Display the path to the virtual environment associated with the project.
@@ -78,12 +78,10 @@ In the following, we introduce the most important command using `pipenv`::
     $ pipenv shell --three        # default v3.*
     $ pipenv shell --python 3.7   # specific v3.7
     
-    # Show the currently active virtual environment. If no virtual environment
-    # is active, this environment variable is undefined. This can be used to
-    # check if an environment is active, should one desire to do so. Note that
-    # by default the name of the active virtual environment is displayed ahead
-    # of the bash prompt in parentheses (e.g., ``(my-project)``) (even if the
-    # prompt (``$PS1``) has been modified in ``.bashrc``).
+    # Show the currently active virtual environment. If no virtual environment is
+    # active, this environment variable is undefined. Note that by default, the
+    # name of the active virtual environment is displayed ahead of the bash prompt
+    # (e.g., ``(my-project)``) -- even if ``$PS1`` is modified in ``.bashrc``.
     $ echo $VIRTUAL_ENV
     
     # Leave environement. Caution: This does NOT leave the shell entered with
@@ -101,21 +99,32 @@ In the following, we introduce the most important command using `pipenv`::
     # Development packages are those the application/library can run without.
     $ pipenv install <dev-package> --dev
     
-    # Install all packages specified in ``Pipfile``.
+    # Install all non-development packages specified in ``Pipfile``. Creates a
+    # ``Pipfile.lock``, overwriting an existing one. If no ``Pipfile`` exists, one is
+    # created. Note that an existing ``Pipfile.lock`` is ignored (and overwritten)
+    # whether ``Pipfile`` already exists or not (see below how to install from
+    # ``Pipfile.lock``). If there is no ``Pipile``, but a ``requirements.txt``, the
+    # packages listed in the latter are installed. (Caution: if ``requirements.txt``
+    # contains pinned versions, so will ``Pipfile``, which should be avoided!)
     $ pipenv install
     
     # Install all packages specified in ``Pipfile``, including development packages.
     $ pipenv install --dev
     
-    # Install all packages specified in ``requirements.txt``.
+    # Install all packages specified in ``requirements.txt``. Caution: If package
+    # versions are pinned in ``requirements.txt``, they will also be pinned in ``Pipfile``,
+    # which they should not be (that what ``Pipfile.lock`` is for)!
     $ pipenv install -r requirements.txt
     
     # Install all packages specified in ``requirements_dev.txt``, including development
-    # packages.
+    # packages. (Same caution as above regarding pinned versions is advised.)
     $ pipenv install -r requirements_dev.txt --dev
     
     # Rewrite ``requirements.txt`` and ``requirements_dev.txt`` (needed to sync the 
     # content of ``Pipfile`` with ``requirements.txt`` and ``requirements_dev.txt``).
+    # (Note that ``requirements*.txt`` are only necessary for compatibility with other
+    # packaging/release tools or workflows, but not needed for a purely pipenv-based
+    # workflow, so best don't create them in the first place during development.)
     $ pipenv lock -r > requirements.txt
     $ pipenv lock -r -d > requirements_dev.txt
     
