@@ -78,6 +78,14 @@ In the following, we introduce the most important command using `pipenv`::
     $ pipenv shell --three        # default v3.*
     $ pipenv shell --python 3.7   # specific v3.7
     
+    # Show the currently active virtual environment. If no virtual environment
+    # is active, this environment variable is undefined. This can be used to
+    # check if an environment is active, should one desire to do so. Note that
+    # by default the name of the active virtual environment is displayed ahead
+    # of the bash prompt in parentheses (e.g., ``(my-project)``) (even if the
+    # prompt (``$PS1``) has been modified in ``.bashrc``).
+    $ echo $VIRTUAL_ENV
+    
     # Leave environement. Caution: This does NOT leave the shell entered with
     # ``pipenv shell``! You most likely want to leave with ``exit`` (see below).
     $ deactivate
