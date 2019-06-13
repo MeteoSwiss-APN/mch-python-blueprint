@@ -50,8 +50,8 @@ In the following, we introduce the most important command using `pipenv`::
 
     # Create a virutal env for current project with current Python version.
     # Make sure to enter the root directory of the project before executing
-    # the command! Note that this will install all packages in ``requirements.txt``
-    # (if there is one). If this only displays the help page, then specify
+    # the command! Note that this installs all packages in ``requirements.txt``
+    # (if there is one). If only the help page is displayed, then specify
     # the Python version (see below), which is anyway a good idea.
     $ pipenv 
     
