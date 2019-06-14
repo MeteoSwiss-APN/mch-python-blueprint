@@ -167,9 +167,11 @@ Project Structure
    * - setup.py
      - Script used to build the package.
        It specifies most requirements of the library/application (as few version restrictions as possible):
+
        * production dependencies (variable ``requirements``),
        * setup dependencies (variable ``setup_requirements``), and
        * testing dependencies (variable ``test_requirements``).
+
        (Only the development dependencies are listed in ``Pipfile`` instead.)
        In addition, the compatible Python verions are specified (should be the same as in the file ``tox.ini``).
        The requirements and Python versions are usually the only things to adapt in this file.
@@ -182,6 +184,7 @@ Managing dependencies
 
 Generally, projects make use of other libraries, be it as (production) dependencies (e.g., ``import numpy`` in source code)
 Which libraries -- and, but only if necessary, restrictions regarding their versions -- have to be listed in different places in the project:
+
 * Production dependencies, without which the application/library does not work, belong in ``setup.py`` (``setup(..., installl_requires=[<packages>], ...)``), with as few version restrictions as possible.
 * Development dependencies, required for development, belong in ``Pipfile`` (under ``[dev-packages]``), with as few version restrictions as possible.
 * Setup and test dependencies, required during setup/testing, belong in ``setup.py`` (``setup(..., setup_requires=[<packages>], tests_require=[<packages>], ...)``), with as few version restrictions as possible.
