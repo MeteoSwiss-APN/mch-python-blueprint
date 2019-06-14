@@ -145,6 +145,93 @@ In the following, we introduce the most important command using `pipenv`::
     # leave with ``exit`` before (or after) removing the activated environment.
     $ pipenv --rm
 
+**Hack: Activate virtual environment without entering a subshell**
+
+Word of caution: Ignore this unless you really, really don't want to run in a subshell and can live with any unintended consequences!
+Pipenv is not supposed to used this way, so use this at your own peril.
+
+Usually, if you work in a pipenv virtual environment, you will activate it in a subshell using `pipenv shell`.
+(While one can also run commands without activating the environment by prepending them with `pipenv run`, this only works inside the project directory; outside you don't get around activating the environment, unless you call your application by its full path.)
+The subshell provides isolation, i.e., does not pollute the original shell in any way (environment variables etc.); if the environment were run in the same shell, all kind of cleanup would be necessary when deactivating the environment, which is why the authors of pipenv decided on using a subshell.
+However, the subshell has also some effects that are drawbacks to some users, notably that on exiting it, the current directory is reset to that before entering the shell, and the bash history is lost (or at least messed up).
+
+For some, this is reason enough to want to forego the subshell.
+Luckily, this is relatively easy, as the virtual environment that is created under the hood by pipenv can be activated the usual virtualenv-way by sourcing the `<venv>/bin/activate` script. The path to the virtual environment, in turn, can be optained from inside the project directory with `pipenv --venv`.
+
+So you can forego the subshell like this:
+
+    $ pipenv-activate() { source "$(pipenv --venv)/bin/activate"; }  # put in .bashrc
+    $ cd <project-directory>
+    $ pipenv-activate
+    (<project-name>) $ <do stuff>
+    
+Or, if you want to activate the environment from outside the project directory:
+
+    $ pipenv-activate() { [ $# -eq 1 ] && source "$(cd $1; pipenv --venv)/bin/activate"; } # put in bashrc
+    $ pipenv-activate <project-directory>
+    $ (<project-name>) $ <do stuff>
+    
+(Note the check `[ $# -eq 1 ]` to ensure one argument has been passed.
+Without this, if you passed no argument, it would try to `source /bin/activate`.)
+    
+To leave the virtual environment, type `deactivate`.
+
+A slightly more sophisticated script that does essentially the same as the above one-liners (put it in your $PATH):
+
+    #!/bin/bash
+    #
+    # pipenv-activate -- Activate a pipenv environment without spawning a new shell
+    #
+    
+    # Avoid any non-local variables that would be sourced
+    global() {
+    
+    local script="$(basename "${BASH_SOURCE}")"
+    local usage="usage: source ${SCRIPT} [path]"
+    
+    # Make sure the script is sourced, not executed
+    [ "${BASH_SOURCE}" == "${0}" ] && {
+        echo "error: ${script} must be sourced!" >&2
+        return 1
+    }
+    
+    main()
+    {
+        # Get project directory (optional argument)
+        local proj_path="${1}"
+        [ "${1}" == '' ] && proj_path='.'
+    
+        # Check that project path directory exists
+        [ -d "${proj_path}" ] || {
+            echo "error: project path not found: ${proj_path}" >&2
+            return 1
+        }
+    
+        # Path to virtual environment
+        local venv_path="$(cd "${proj_path}"; pipenv --venv 2>/dev/null)" || {
+            echo "error: you must enter a project directory!" >&2
+            return 1
+        }
+    
+        # Path to activate script
+        local activate_path="${venv_path}/bin/activate"
+        [ ! -f "${activate_path}" ] && {
+            echo "error: activate script not found: ${activate_path}" >&2
+            return 1
+        }
+    
+        # Activate environment
+        echo 'source "'"${activate_path}"'"'
+        \source "${activate_path}" || {
+            echo "error: cannot source activate script: ${activate_path}" >&2
+            return 1
+        }
+    }
+    main "${@}" || { echo "${USAGE}" >&2; return $?; }
+    
+    }; global "${@}"
+
+
 .. _`pipenv`: https://realpython.com/pipenv-guide/
 .. _`virtualenv`: https://virtualenv.pypa.io/en/stable/userguide/
 .. _`virtualenvwrapper`: https://virtualenvwrapper.readthedocs.io/en/latest/index.html
