@@ -158,14 +158,14 @@ However, the subshell has also some effects that are drawbacks to some users, no
 For some, this is reason enough to want to forego the subshell.
 Luckily, this is relatively easy, as the virtual environment that is created under the hood by pipenv can be activated the usual virtualenv-way by sourcing the `<venv>/bin/activate` script. The path to the virtual environment, in turn, can be optained from inside the project directory with `pipenv --venv`.
 
-So you can forego the subshell like this:
+So you can forego the subshell like this::
 
     $ pipenv-activate() { source "$(pipenv --venv)/bin/activate"; }  # put in .bashrc
     $ cd <project-directory>
     $ pipenv-activate
     (<project-name>) $ <do stuff>
     
-Or, if you want to activate the environment from outside the project directory:
+Or, if you want to activate the environment from outside the project directory::
 
     $ pipenv-activate() { [ $# -eq 1 ] && source "$(cd $1; pipenv --venv)/bin/activate"; } # put in bashrc
     $ pipenv-activate <project-directory>
@@ -176,7 +176,7 @@ Without this, if you passed no argument, it would try to `source /bin/activate`.
     
 To leave the virtual environment, type `deactivate`.
 
-A slightly more sophisticated script that does essentially the same as the above one-liners (put it in your $PATH):
+A slightly more sophisticated script that does essentially the same as the above one-liners (put it in your $PATH)::
 
     #!/bin/bash
     #
