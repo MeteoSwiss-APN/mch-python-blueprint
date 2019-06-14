@@ -4,7 +4,8 @@
 Contributing
 ============
 
-Contributions are welcome, and they are greatly appreciated! Every little bit helps, and credit will always be given.
+Contributions are welcome, and they are greatly appreciated!
+Every little bit helps, and credit will always be given.
 
 You can contribute in many ways:
 
@@ -77,8 +78,8 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
 
 5. When you're done making changes, format them with yapf, check that your changes pass the static code analyses with flake8 and the tests with pytest, including testing other Python versions with tox::
 
-    $ yapf -ir {{ cookiecutter.project_slug }}
-    $ flake8 {{ cookiecutter.project_slug }} tests
+    $ yapf -ir src
+    $ flake8 src tests
     $ pytest
     $ tox  # optional, currently only flake8 and Python 3.7 configured and thus not necessary
 
@@ -200,7 +201,7 @@ Fixed versions should be avoided if possible, as they impede keeping dependencie
 
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 How to provide executable scripts
---------------------------------
+---------------------------------
 
 By default, a single executable script called {{ cookiecutter.project_slug }} is provided.
 It is created when the package is installed.
