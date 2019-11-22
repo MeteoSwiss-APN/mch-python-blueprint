@@ -1,11 +1,10 @@
 {
-  "full_name": "Donat Perler",
-  "email": "donat.perler@meteoswiss.ch",
-  "github_username": "donatperler",
-  "project_name": "Python Boilerplate",
+  "full_name": "Donald Duck",
+  "email": "donald.duck@meteoswiss.ch",
+  "github_username": "donaldduck",
+  "project_name": "Donald Tools",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-  "project_short_description": "Python Boilerplate contains all the boilerplate you need to create a Python package.",
+  "project_short_description": "Collection of tools by Donald.",
   "version": "0.1.0",
   "command_line_interface": ["Click", "No command-line interface"],
-  "open_source_license": ["MCH", "MIT license"]
 }
