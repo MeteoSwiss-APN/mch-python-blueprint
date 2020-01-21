@@ -11,31 +11,33 @@ __version__ = '{{ cookiecutter.version }}'
 
 @click.command()
 @click.option(
-    '--dry-run',
-    '-n',
-    flag_value='dry_run',
+    "--dry-run",
+    "-n",
+    flag_value="dry_run",
     default=False,
-    help="Perform a trial run with no changes made")
+    help="Perform a trial run with no changes made",
+)
 @click.option(
-    '--verbose',
-    '-v',
+    "--verbose",
+    "-v",
     count=True,
-    help="Increase verbosity (specify multiple times for more)")
-@click.option('--version', '-V', is_flag=True, help="Print version")
+    help="Increase verbosity (specify multiple times for more)",
+)
+@click.option("--version", "-V", is_flag=True, help="Print version")
 def main(*args, **kwargs):
     """Console script for test_cli_project."""
 
-    logging.basicConfig(level=count_to_log_level(kwargs['verbose']))
+    logging.basicConfig(level=count_to_log_level(kwargs["verbose"]))
 
     logging.warning("This is a warning.")
     logging.info("This is an info message.")
     logging.debug("This is a debug message.")
 
-    if kwargs['version']:
+    if kwargs["version"]:
         click.echo(__version__)
         return 0
 
-    if kwargs['dry_run']:
+    if kwargs["dry_run"]:
         click.echo("Is dry run")
         return 0
 

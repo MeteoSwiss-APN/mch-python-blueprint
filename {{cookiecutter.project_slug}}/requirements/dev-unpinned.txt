@@ -1,0 +1,15 @@
+-e .
+black
+bumpversion
+coverage
+flake8
+flake8-isort
+isort
+pluggy
+pytest-runner
+pytest
+sphinx
+tox
+twine
+watchdog
+wheel

@@ -9,11 +9,13 @@ Every little bit helps, and credit will always be given.
 
 You can contribute in many ways:
 
+
 Types of Contributions
 ----------------------
 
+
 Report Bugs
-~~~~~~~~~~~
+^^^^^^^^^^^
 
 Report bugs at https://github.com/MeteoSwiss-APN/{{ cookiecutter.project_slug }}/issues.
 
@@ -23,25 +25,29 @@ If you are reporting a bug, please include:
 * Any details about your local setup that might be helpful in troubleshooting.
 * Detailed steps to reproduce the bug.
 
+
 Fix Bugs
-~~~~~~~~
+^^^^^^^^
 
 Look through the GitHub issues for bugs.
 Anything tagged with "bug" and "help wanted" is open to whoever wants to implement it.
 
+
 Implement Features
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^
 
 Look through the GitHub issues for features.
 Anything tagged with "enhancement" and "help wanted" is open to whoever wants to implement it.
 
+
 Write Documentation
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
 
 {{ cookiecutter.project_name }} could always use more documentation, whether as part of the official {{ cookiecutter.project_name }} docs, in docstrings, or even on the web in blog posts, articles, and such.
 
+
 Submit Feedback
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
 
 The best way to send feedback is to file an issue at https://github.com/MeteoSwiss-APN/{{ cookiecutter.project_slug }}/issues.
 
@@ -50,6 +56,7 @@ If you are proposing a feature:
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible, to make it easier to implement.
 * Remember that this is a volunteer-driven project, and that contributions are welcome! :)
+
 
 Get Started!
 ------------
@@ -64,11 +71,8 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
 3. Install your local copy into a virtualenv. This is how you set up your fork for local development::
 
     $ cd {{ cookiecutter.project_slug }}/
-    $ pipenv shell
-    $ pipenv install --dev
-
-    $ python setup.py develop # or
-    $ pip install -e .
+    $ python -m virtualenv venv
+    $ pip install -r requirements/dev-unpinned.txt
 
 4. Create a branch for local development::
 
@@ -83,8 +87,6 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
     $ pytest
     $ tox  # optional, currently only flake8 and Python 3.7 configured and thus not necessary
 
-   To get black, flake8 and tox, just pip install them into your virtualenv (``pipenv install --dev``).
-
 6. Commit your changes and push your branch to GitHub::
 
     $ git add .
@@ -92,6 +94,7 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
     $ git push origin name-of-your-bugfix-or-feature
 
 7. Submit a pull request through the GitHub website.
+
 
 Pull Request Guidelines
 -----------------------
@@ -104,12 +107,14 @@ Before you submit a pull request, check that it meets these guidelines:
 3. The pull request should work for Python 3.6 and 3.7, and for PyPy.
    Make sure that the tests pass for all supported Python versions.
 
+
 Tips
 ----
 
 To run a subset of tests::
 
     $ pytest tests.test_{{ cookiecutter.project_slug }}
+
 
 Deploying
 ---------
@@ -124,6 +129,7 @@ $ git push --tags
 
 Jenkins will then deploy to PyPI if tests pass.
 
+
 Project Structure
 -----------------
 
@@ -133,73 +139,106 @@ Project Structure
 
    * - File / Directory
      - Description
-   * - docs
+   * - docs/
      - Directory containing the documentation.
-   * - tests
+   * - tests/
      - Directory containing the tests.
        The directory structure in this folder is the same as in the source folder (src).
        For each file in the source folder, there is a file with the same name, but, with the prefix ``text_``.
-   * - src
+   * - src/
      - Source folder.
    * - AUTHORS.rst
      - Contains information about the lead developer and contributors.
+   * - .bumpversion.cfg
+     - Configuration file of ``bumpversion``.
+       Rewritten and reformatted when ``bumpversion`` runs, therefore the config is not in ``setup.cfg``.
    * - CONTRIBUTION.rst
      - Contains all the information you need when you contribute to this project.
    * - HISTORY.rst
      - Lists the releases and their new features.
-   * - LICENSE
-     - License of this project.
+   * - LICENSE.txt
+     - Project license.
    * - MANIFEST.in
-     - Specifies the files and directories which will be added to the Pip package.
+     - Specifies the files and directories which will be added to the pip package.
    * - Makefile
      - Build file for cleaning, creating and releasing packages, for testing and linting code, and for creating the documentation.
-   * - Pipefile
-     - Contains all development dependencies (pip packages used for development) in the section ``[dev-packages]`` (as few version restrictions as possible), and the application/library itself as the only entry in the section ``[packages]`` (e.g., ``{{ cookiecutter.project_slug }} = {editable=true, path="."}``).
-       Production dependencies (pip packages imported in the source code) are listed in ``setup.py``, which is invoked when installing the current spplication.
-       The file is used and managed by pipenv, but can also be edited manually.
-   * - Pipfile.lock
-     - Contains all recursive dependencies with pinned version numbers to create reproducible virtual environments across users and machines.
-       The file is managed automatically by pipenv and must not be edited manually.
    * - README.rst
      - Short documentation about the package.
        It lists features and contains a quick start.
+   * - requirements/
+     - Requirements files containing dependencies.
+   * - requirements/dev-unpinned.txt
+     - Unpinned top-level development requirements, including ``{{ cookiecutter.project_slug }}`` in editable mode (and by implication its runtime dependencies).
+       Run ``pip install -r requirements/dev-unpinned.txt`` to install the project and the newest versions of its runtime and development dependencies.
+   * - requirements/dev-pinned.txt
+     - Pinned development requirements, covering the whole dependency tree with fixed versions.
+   * - requirements/run-pinned.txt
+     - Pinned runtime requirements, covering the whole dependency tree with fixed versions.
+       Subset of the pinned development requirements in ``requirements/dev-pinned.txt``.
+   * - requirements/setup.txt
+     - Packages required to be installed before installing ``{{ cookiecutter.project_slug }}`` and its dependencies.
+       For instance, to build ``cartopy`` from source, ``cython`` and ``numpy`` must be pre-installed.
    * - setup.cfg
-     - Configuration file for different build tools such as bumpversion, bdist, flake8, and pytest.
+     - Configuration file containing:
+
+       * package meta data (incl. version number incremented by ``bumpversion``);
+       * build specifications (source files, entry points, etc.);
+       * unpinned runtime dependencies;
+       * configuration of various development tools like ``pytest``, ``flake8``, or ``tox``.
+
    * - setup.py
-     - Script used to build the package.
-       It specifies most requirements of the library/application (as few version restrictions as possible):
+     - Script building the package based on the configuration in ``setup.cfg``.
+   * - VERSION.txt
+     - Package version number (incremented by ``bumpversion``).
 
-       * production dependencies (variable ``requirements``),
-       * setup dependencies (variable ``setup_requirements``), and
-       * testing dependencies (variable ``test_requirements``).
-
-       (Only the development dependencies are listed in ``Pipfile`` instead.)
-       In addition, the compatible Python verions are specified (should be the same as in the file ``tox.ini``).
-       The requirements and Python versions are usually the only things to adapt in this file.
-   * - tox.ini
-     - A configuration file for tox carring out the test for different Python verions.
-       The listed versions should be the same as in the file ``setup.py``.
 
 Managing dependencies
 ---------------------
 
-Generally, projects make use of other libraries, be it as (production) dependencies (e.g., ``import numpy`` in source code)
-Which libraries -- and, but only if necessary, restrictions regarding their versions -- have to be listed in different places in the project:
+Most projects make use of, and thus depend on, external libraries, be it at runtime (e.g., ``numpy``) or during development (e.g., ``pytest``).
+These dependencies are specified in different files, depending on the dependency type (runtime vs. development) and the degree to which the package versions are restricted (unpinned vs. pinned; see below).
 
-* Production dependencies, without which the application/library does not work, belong in ``setup.py`` (``setup(..., installl_requires=[<packages>], ...)``), with as few version restrictions as possible.
-* Development dependencies, required for development, belong in ``Pipfile`` (under ``[dev-packages]``), with as few version restrictions as possible.
-* Setup and test dependencies, required during setup/testing, belong in ``setup.py`` (``setup(..., setup_requires=[<packages>], tests_require=[<packages>], ...)``), with as few version restrictions as possible.
-* Pinned dependencies (all recursively required packages with pinned version numbers) are automatically written to ``Pipfile.lock`` (which must not be edited manually).
-* Should a ``requirements.txt`` ever be needed (see `pip requirements file`), pipenv can export pinned dependencies in the respective format (``pipenv freeze > requirements.txt``).
+The dependencies in the following files are managed by hand:
 
-Ensure that the needed libraries and their versions listend in the 3 files are the same.
-If at all necessary, it is best practice is to list the minimal compatible version of a package (``>=``), rather than a fixed version (``==``).
-Fixed versions should be avoided if possible, as they impede keeping dependencies up-to-date.
+* ``setup.cfg``: Unpinned top-level runtime dependencies, i.e., packages directly used by the application/library; installed alongside the package/application (e.g., with ``python setup.py install``).
+* ``requirements/dev-unpinned.txt``: Unpinned top-level development dependencies, i.e., packages used during development and testing.
+* ``requirements/setup.txt``: Setup dependencies, i.e., all packages required before installing the application/package and its dependencies (e.g., building ``cartopy`` from source requires ``cython`` and ``numpy`` to be pre-installed).
+
+The following files, by contrast, and created with ``pip freeze`` after installing the respective packages:
+
+* ``requirements/run-pinned.txt``: Pinned runtime dependencies, i.e., all packages directly or indirectly used by the application/library.
+* ``requirements/dev-pinned.txt``: Pinned development dependencies, i.e., all packages directly or indirectly used during development and testing.
+
+For instance, the runtime dependencies can be pinned as follows::
+
+    python -m virtualenv venv
+    source venv/bin/activate
+    python setup.py install
+    pip freeze > requirements/run-pinned.txt
+
+Note that the quasi-standard `pip requirements file`_ ``requirements.txt`` corresponds to ``requirements/run-pinned.txt``.
+The dependencies specified in a requirements file are installed with ``pip install -r <requirements file>``.
+
+Unpinned and pinned dependencies have specific characteristics, advantages, and drawbacks:
+
+* Unpinned dependencies encompass only packages which are used directly, and their version numbers are restricted as little as possible.
+  This facilitates keeping the setup up-to-date, but at the danger of breaking due to newly introduced bugs or incompatibilities.
+  Many packages can usually be specified without any version restrictions.
+  Sometimes, however, certain versions of packages may be incompatible, specific versions may be buggy, or certain features may only have been introduced with in a specific version; in these cases, the version number can be restricted with the comparison operators ``>=``, ``==``, etc.
+  If possible, the version should be specified without an upper bound lest the setup eventually become out-of-date.
+
+* Pinned dependencies encompass the whole dependency tree, including all dependencies of dependencies, all with fixed version numbers (``==``).
+  This guarantees a working setup, but makes it hard to keep dependencies up-to-date.
+  (Note that non-Python dependencies like C libraries need to be managed separately, i.e., one must ensure that their versions are compatible with a given setup.)
+
+We specify unpinned top-level dependencies.
+Based on these, we can install an up-to-date setup comprised of the most recent package versions.
+Once we have tested this setup thoroughly and ensured that it works, we can pin it.
+By repeating this occasionally, we can provide a working up-to-date setup.
 
 .. _`pip requirements file`: https://pip.readthedocs.io/en/1.1/requirements.html
-.. _`example Pipefile`: https://pipenv.readthedocs.io/en/latest/basics/#example-pipfile-pipfile-lock
 
-{%- if cookiecutter.command_line_interface|lower == 'click' %}
+
 How to provide executable scripts
 ---------------------------------
 
@@ -208,19 +247,13 @@ It is created when the package is installed.
 When you call it the main function in ``src/{{ cookiecutter.project_slug }}/cli.py`` is called.
 
 How many scripts that are created, their names and which functions are called can be configured in the
-``setup.py`` file.
-The function ``setup`` has a named argument called ``entry_point`` which is a
-dictionary with an element ``console_scripts``.
-The element is an array of string.
-For Example::
+``setup.cfg`` file.
+The section ``[options.entry_points]`` contains the variable ``console_scripts``, under which one or more entry points can be defined as follows::
 
-    entry_points={
-        'console_scripts': [
-            '{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main',
-    ],
+    [options.entry_points]
+    console_scripts =
+        {{ cookiecutter.project_slug }} = {{ cookiecutter.project_slug }}.cli:main
 
+The left-hand side of each definition specifies the name of the executable, the right-hand side the module and function that is called on execution.
 When the package is installed, a executable script is created in the Python's bin folder with the name ``{{ cookiecutter.project_slug }}``.
-If a user calls this script, the function ``main`` in the file ``src/{{ cookiecutter.project_slug }}/cli.py`` is called.
-If more scripts should be created, add further entries to array ``console_scripts``.
-
-{%- endif %}
+In the above case, when a user calls ``{{ cookiecutter.project_slug }}``, the function ``main`` in the file ``src/{{ cookiecutter.project_slug }}/cli.py`` is called.
