@@ -4,19 +4,21 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
-pip = "*"
+black = "*"
 bumpversion = "*"
-wheel = "*"
-watchdog = "*"
-flake8 = "*"
-tox = "*"
 coverage = "*"
-Sphinx = "*"
-twine = "*"
+flake8 = "*"
+flake8-isort = "*"
+isort = "*"
+pip = "*"
 pluggy= "*"
-pytest= "*"
 pytest-runner = "*"
-yapf = "*"
+pytest = "*"
+sphinx = "*"
+tox = "*"
+twine = "*"
+watchdog = "*"
+wheel = "*"
 
 [packages]
 {{ cookiecutter.project_slug }} = {editable = true,path = "."}

@@ -76,14 +76,14 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
 
    Now you can make your changes locally.
 
-5. When you're done making changes, format them with yapf, check that your changes pass the static code analyses with flake8 and the tests with pytest, including testing other Python versions with tox::
+5. When you're done making changes, format them with black, check that your changes pass the static code analyses with flake8 and the tests with pytest, including testing other Python versions with tox::
 
-    $ yapf -ir src
+    $ black src
     $ flake8 src tests
     $ pytest
     $ tox  # optional, currently only flake8 and Python 3.7 configured and thus not necessary
 
-   To get yapf, flake8 and tox, just pip install them into your virtualenv (``pipenv install --dev``).
+   To get black, flake8 and tox, just pip install them into your virtualenv (``pipenv install --dev``).
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -164,7 +164,7 @@ Project Structure
      - Short documentation about the package.
        It lists features and contains a quick start.
    * - setup.cfg
-     - Configuration file for different build tools such as bumpversion, bdist, flake8, pytest, and yapf.
+     - Configuration file for different build tools such as bumpversion, bdist, flake8, and pytest.
    * - setup.py
      - Script used to build the package.
        It specifies most requirements of the library/application (as few version restrictions as possible):
