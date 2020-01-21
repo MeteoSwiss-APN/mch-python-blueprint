@@ -147,7 +147,7 @@ Project Structure
      - Contains all the information you need when you contribute to this project.
    * - HISTORY.rst
      - Lists the releases and their new features.
-   * - LICENSE
+   * - LICENSE.txt
      - License of this project.
    * - MANIFEST.in
      - Specifies the files and directories which will be added to the Pip package.
