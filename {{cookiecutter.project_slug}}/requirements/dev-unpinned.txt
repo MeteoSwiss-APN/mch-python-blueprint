@@ -1,15 +1,14 @@
--e .
+-e . # this package in editable mode
 black
 bumpversion
 coverage
 flake8
 flake8-isort
 isort
-pluggy
-pytest-runner
+# pluggy
 pytest
-sphinx
+# sphinx
 tox
-twine
-watchdog
-wheel
+# twine
+# watchdog
+# wheel

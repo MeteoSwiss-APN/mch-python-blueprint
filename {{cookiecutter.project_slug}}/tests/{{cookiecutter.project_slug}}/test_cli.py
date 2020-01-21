@@ -7,6 +7,10 @@ from click.testing import CliRunner
 from {{ cookiecutter.project_slug }} import cli
 
 
+# dummy lines to avoid flake8 error F401 (imported but unused); remove!
+pytest
+
+
 def test_command_line_interface():
     """Test the CLI."""
     runner = CliRunner()

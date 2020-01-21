@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """Console script for {{cookiecutter.project_slug}}."""
-import sys
-import click
 import logging
+import sys
 
-from {{ cookiecutter.project_slug }}.utils import count_to_log_level
+import click
 
-__version__ = '{{ cookiecutter.version }}'
+from . import __version__
+from .utils import count_to_log_level
 
 
 @click.command()

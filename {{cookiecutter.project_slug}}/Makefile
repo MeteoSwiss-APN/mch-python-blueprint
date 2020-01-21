@@ -34,71 +34,86 @@ help:
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
-	\rm -fr build/
-	\rm -fr dist/
-	\rm -fr .eggs/
-	find . -name '*.egg-info' -exec \rm -fr {} +
-	find . -name '*.egg' -exec \rm -f {} +
+	@\rm -rfv build/
+	@\rm -rfv dist/
+	@\rm -rfv .eggs/
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg-info' -exec \rm -rfv {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg' -exec \rm -f {} +
 
 clean-pyc: ## remove Python file artifacts
-	find . -name '*.pyc' -exec \rm -f {} +
-	find . -name '*.pyo' -exec \rm -f {} +
-	find . -name '*~' -exec \rm -f {} +
-	find . -name '__pycache__' -exec \rm -fr {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyc' -exec \rm -f {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyo' -exec \rm -f {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*~' -exec \rm -f {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '__pycache__' -exec \rm -rfv {} +
 
 clean-test: ## remove test and coverage artifacts
-	\rm -fr .tox/
-	\rm -f .coverage
-	\rm -fr htmlcov/
-	\rm -fr .pytest_cache
+	@\rm -rfv .tox/
+	@\rm -fv .coverage
+	@\rm -rfv htmlcov/
+	@\rm -rfv .pytest_cache
 
-install: clean ## install the package to the active Python's site-packages
+install: clean ## install the package (non-editable)
 	python -m pip install -r requirements/setup.txt
 	python setup.py install
 
-venv: ## create virtual environment
+install-dev: install ## install the package (editable) and the development dependencies
+	python -m pip install -r requirements/dev-unpinned.txt
+
+venv: ## create a virtual environment
 	python -m virtualenv venv --prompt='({{ cookiecutter.project_slug }})'
 
-venv-install: venv ## install package into virtual environment
+venv-install: clean venv ## install the package (non-editable) into a virtual environment
 	venv/bin/python -m pip install -r requirements/setup.txt
 	venv/bin/python setup.py install
 
-venv-install-dev: venv-install ## install package and development dependencies into virtual environment
+venv-install-dev: venv-install ## install the package (editable) and the development dependencies into a virtual environment
 	venv/bin/python -m pip install -r requirements/dev-unpinned.txt
 
-format: ## reformat code to conform to standard
+git: clean ## initialize a git repository and make initial commit
+ifeq ($(shell git tag >/dev/null 2>&1 && echo 0 || echo 1),0)
+	@echo "git already initialized"
+else
+	git init
+	git add .
+	git commit -m 'initial commit'
+	git --no-pager log -n1 --stat
+endif
+
+format: ## reformat the code to conform to standard
 	black src tests
 
-lint: ## check style with flake8
+lint: ## check the code style
 	flake8 src tests
 
-test: ## run tests quickly with the default Python
+test: ## run tests quickly with the default Python version
 	pytest -r s
 
-test-all: ## run tests on every Python version with tox
+test-all: ## run tests on all specified Python versions with tox
 	tox
 
-coverage: ## check code coverage quickly with the default Python
+coverage: ## check code coverage of tests
 	coverage run --source src -m pytest
 	coverage report -m
+
+coverage-html: coverage ## check code coverage of tests and show results in browser
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
-docs: ## generate Sphinx HTML documentation, including API docs
-	\rm -f docs/{{ cookiecutter.project_slug }}.rst
-	\rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	$(BROWSER) docs/_build/html/index.html
+# docs: ## generate Sphinx HTML documentation, including API docs
+# 	\rm -f docs/{{ cookiecutter.project_slug }}.rst
+# 	\rm -f docs/modules.rst
+# 	sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
+# 	$(MAKE) -C docs clean
+# 	$(MAKE) -C docs html
+# 	$(BROWSER) docs/_build/html/index.html
 
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+# servedocs: docs ## compile the docs watching for changes
+# 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
-release: dist ## package and upload a release
-	twine upload dist/*
+# release: dist ## package and upload a release
+# 	twine upload dist/*
 
-dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
-	\ls -l dist
+# dist: clean ## builds source and wheel package
+# 	python setup.py sdist
+# 	python setup.py bdist_wheel
+# 	\ls -l dist

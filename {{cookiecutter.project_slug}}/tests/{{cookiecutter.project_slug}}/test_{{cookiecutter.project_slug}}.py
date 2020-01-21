@@ -6,6 +6,10 @@ import pytest
 from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
 
 
+# dummy line to avoid flake8 error F401 (imported but unused); remove!
+{{ cookiecutter.project_slug }}
+
+
 @pytest.fixture
 def response():
     """Sample pytest fixture.
