@@ -76,7 +76,7 @@ else
 	git init
 	git add .
 	git commit -m 'initial commit'
-	git log -n1 --stat
+	git --no-pager log -n1 --stat
 endif
 
 format: ## reformat the code to conform to standard
@@ -91,9 +91,11 @@ test: ## run tests quickly with the default Python version
 test-all: ## run tests on all specified Python versions with tox
 	tox
 
-coverage: ## check code coverage quickly with the default Python version
+coverage: ## check code coverage of tests
 	coverage run --source src -m pytest
 	coverage report -m
+
+coverage-html: coverage ## check code coverage of tests and show results in browser
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
