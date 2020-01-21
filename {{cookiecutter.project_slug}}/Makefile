@@ -34,29 +34,30 @@ help:
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
-	\rm -fr build/
-	\rm -fr dist/
-	\rm -fr .eggs/
-	find . -name '*.egg-info' -exec \rm -fr {} +
-	find . -name '*.egg' -exec \rm -f {} +
+	@\rm -rfv build/
+	@\rm -rfv dist/
+	@\rm -rfv .eggs/
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg-info' -exec \rm -rfv {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg' -exec \rm -f {} +
 
 clean-pyc: ## remove Python file artifacts
-	find . -name '*.pyc' -exec \rm -f {} +
-	find . -name '*.pyo' -exec \rm -f {} +
-	find . -name '*~' -exec \rm -f {} +
-	find . -name '__pycache__' -exec \rm -fr {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyc' -exec \rm -f {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyo' -exec \rm -f {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*~' -exec \rm -f {} +
+	@\find . -not -path './venv*' -and -not -path './ENV*' -name '__pycache__' -exec \rm -rfv {} +
 
 clean-test: ## remove test and coverage artifacts
-	\rm -fr .tox/
-	\rm -f .coverage
-	\rm -fr htmlcov/
-	\rm -fr .pytest_cache
+	@\rm -rfv .tox/
+	@\rm -fv .coverage
+	@\rm -rfv htmlcov/
+	@\rm -rfv .pytest_cache
 
 install: clean ## install the package (non-editable)
 	python -m pip install -r requirements/setup.txt
 	python setup.py install
 
-install-venv: install ## install the package (editable) and the development dependencies
+install-dev: install ## install the package (editable) and the development dependencies
+	python -m pip install -r requirements/dev-unpinned.txt
 
 venv: ## create a virtual environment
 	python -m virtualenv venv --prompt='({{ cookiecutter.project_slug }})'
@@ -67,6 +68,16 @@ venv-install: clean venv ## install the package (non-editable) into a virtual en
 
 venv-install-dev: venv-install ## install the package (editable) and the development dependencies into a virtual environment
 	venv/bin/python -m pip install -r requirements/dev-unpinned.txt
+
+git: clean ## initialize a git repository and make initial commit
+ifeq ($(shell git tag >/dev/null 2>&1 && echo 0 || echo 1),0)
+	@echo "git already initialized"
+else
+	git init
+	git add .
+	git commit -m 'initial commit'
+	git log -n1 --stat
+endif
 
 format: ## reformat the code to conform to standard
 	black src tests
