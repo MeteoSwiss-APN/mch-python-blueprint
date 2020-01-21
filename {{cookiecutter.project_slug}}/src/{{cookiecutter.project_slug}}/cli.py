@@ -5,9 +5,8 @@ import sys
 
 import click
 
-from {{ cookiecutter.project_slug }}.utils import count_to_log_level
-
-__version__ = '{{ cookiecutter.version }}'
+from . import __version__
+from .utils import count_to_log_level
 
 
 @click.command()
