@@ -1,11 +1,9 @@
 {
   "full_name": "Donald Duck",
-  "email": "donald.duck@meteoswiss.ch",
-  "github_username": "donaldduck",
+  "email": "{{ cookiecutter.full_name.lower().replace(' ', '.') }}@meteoswiss.ch",
+  "github_username": "{{ cookiecutter.full_name.lower().replace(' ', '') }}",
   "project_name": "Donald Tools",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-  "project_short_description": "Collection of tools by Donald.",
-  "version": "0.1.0",
-  "command_line_interface": ["Click", "No command-line interface"],
-  "open_source_license": "MIT license"
+  "project_short_description": "{{ cookiecutter.full_name }}'s shiny new tool.",
+  "version": "0.1.0"
 }

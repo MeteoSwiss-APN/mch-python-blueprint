@@ -199,7 +199,6 @@ Fixed versions should be avoided if possible, as they impede keeping dependencie
 .. _`pip requirements file`: https://pip.readthedocs.io/en/1.1/requirements.html
 .. _`example Pipefile`: https://pipenv.readthedocs.io/en/latest/basics/#example-pipfile-pipfile-lock
 
-{%- if cookiecutter.command_line_interface|lower == 'click' %}
 How to provide executable scripts
 ---------------------------------
 
@@ -222,5 +221,3 @@ For Example::
 When the package is installed, a executable script is created in the Python's bin folder with the name ``{{ cookiecutter.project_slug }}``.
 If a user calls this script, the function ``main`` in the file ``src/{{ cookiecutter.project_slug }}/cli.py`` is called.
 If more scripts should be created, add further entries to array ``console_scripts``.
-
-{%- endif %}
