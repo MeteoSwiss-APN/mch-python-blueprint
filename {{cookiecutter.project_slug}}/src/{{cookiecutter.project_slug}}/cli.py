@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Console script for {{cookiecutter.project_slug}}."""
-import sys
-import click
 import logging
+import sys
+
+import click
 
 from {{ cookiecutter.project_slug }}.utils import count_to_log_level
 
