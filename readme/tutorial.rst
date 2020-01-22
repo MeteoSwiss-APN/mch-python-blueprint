@@ -304,18 +304,18 @@ Installation and Dependencies
 Please briefly summarize how we got here!
 -----------------------------------------
 
-Say we want to develop the command line application ``seq-calc`` that performs sequential calculations.
-First, we create the respository ``seq_calc`` on the `APN Github`_, and then create an empty package of the same name using the blueprint and upload it::
+Say we want to develop the command line application ``chain-calc`` that performs sequential calculations.
+First, we create the respository ``chain_calc`` on the `APN Github`_, and then create an empty package of the same name using the blueprint and upload it::
 
     cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
-    cd seq_calc
+    cd chain_calc
     make git
-    git remote add origin git+ssh://git@github.com/MeteoSwiss-APN/seq_calc.git
+    git remote add origin git+ssh://git@github.com/MeteoSwiss-APN/chain_calc.git
     git push --set-upstream origin master
 
 Then, we create and activate a virtual environment for development::
 
-    python -m venv ./venv --prompt='(seq-calc)'
+    python -m venv ./venv --prompt='(chain-calc)'
     source ./venv/bin/activate
 
 Now we're in a project-specific, pristine Python environment and good to go!
