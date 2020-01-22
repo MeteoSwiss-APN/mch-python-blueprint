@@ -88,9 +88,6 @@ lint: ## check the code style
 test: ## run tests quickly with the default Python version
 	pytest -r s
 
-test-all: ## run tests on all specified Python versions with tox
-	tox
-
 coverage: ## check code coverage of tests
 	coverage run --source src -m pytest
 	coverage report -m
@@ -98,6 +95,9 @@ coverage: ## check code coverage of tests
 coverage-html: coverage ## check code coverage of tests and show results in browser
 	coverage html
 	$(BROWSER) htmlcov/index.html
+
+test-all: ## run tests on all specified Python versions with tox
+	tox
 
 # docs: ## generate Sphinx HTML documentation, including API docs
 # 	\rm -f docs/{{ cookiecutter.project_slug }}.rst
