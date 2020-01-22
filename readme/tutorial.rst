@@ -429,7 +429,7 @@ In short, what development tools come with the blueprint?
 The blueprint comes with a variety of tools that assist with code development, most of which can be run with ``make`` commands:
 
 *   ``bumpversion``: Increment the version number of the package in the files which contain it, and create a new git tag.
-    Run with ``bumpversion (major|minor|path)``.
+    Run with ``bumpversion (major|minor|patch)``.
 
 *   ``isort``: Auto-groups and auto-sorts the package imports in Python module files.
     Run as part of ``make format`` and as a pre-commit hook.
