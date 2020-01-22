@@ -201,6 +201,8 @@ In Python virtual environment is created like this::
 This will create the directory ``path/to/venv`` (relative to the current directory), which contains directories like ``bin`` and ``lib`` into which the packages (applications and libraries) will be installed.
 Importantly, it contains its own Python executable ``path/to/venv/bin/python``.
 
+For convenience, this can be abbreviated with the command ``make venv`` defined in the ``Makefile``.
+
 The easiest way to install packages and work in a virtual environment is by activating it::
 
     source path/to/venv/bin/activate
@@ -292,3 +294,189 @@ In addition, there are other related tools that often come up in the context of 
 *   ``pipx``: A tool to install Python applications with a single command.
     It installs each application package and all its dependencies into a separate virtual environment.
     More details and examples will follow below.
+
+
+
+Installation and Dependencies
+=============================
+
+
+Please briefly summarize how we got here!
+-----------------------------------------
+
+Say we want to develop the command line application ``seq-calc`` that performs sequential calculations.
+First, we create the respository ``seq_calc`` on the `APN Github`_, and then create an empty package of the same name using the blueprint and upload it::
+
+    cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
+    cd seq_calc
+    make git
+    git remote add origin git+ssh://git@github.com/MeteoSwiss-APN/seq_calc.git
+    git push --set-upstream origin master
+
+Then, we create and activate a virtual environment for development::
+
+    python -m venv ./venv --prompt='(seq-calc)'
+    source ./venv/bin/activate
+
+Now we're in a project-specific, pristine Python environment and good to go!
+
+Note that unless stated otherwise, the following examples assume you're in an activated virtual environment.
+
+.. _`APN Github`: github.com/MeteoSwiss-APN
+
+
+In short, how to I install my package and manage my dependencies?
+-----------------------------------------------------------------
+
+To install your package along with up-do-date versions of its runtime dependencies::
+
+    make install
+
+This is short for::
+
+    make clean
+    python -m pip install -r requirements/setup.txt
+    python setup.py install
+
+To install your package in editable mode along with up-to-date versions of its runtime and development dependencies::
+
+    make install-dev
+
+This is short for::
+
+    make install
+    python -m pip install -r requirements/dev-unpinned.txt
+
+To install pre-defined pinned versions of your package and its runtime dependencies::
+
+    python -m pip install -r requirements/setup.txt
+    python -m pip install -r requirements/run-pinned.txt
+
+To install pre-defined pinned versions of your package and its runtime and development dependencies::
+
+    python -m pip install -r requirements/setup.txt
+    python -m pip install -r requirements/dev-pinned.txt
+
+
+If I have not yet created a virtual environment, can I abbreviate this further?
+-------------------------------------------------------------------------------
+
+Indeed, the ``Makefile`` provides commands to create a virtual environment and install the package and its dependencies into it::
+
+    make venv-install # or
+    make venv-install-dev
+
+Note that the commands cannot activate the virtual environment; you'll have to do this yourself with::
+
+    source venv/bin/activate
+
+
+What are those different types of dependencies you've mentioned above?
+----------------------------------------------------------------------
+
+On the one hand, we distinguish unpinned and pinned dependencies, which addresses the package versions:
+
+*   Unpinned dependencies comprise only top-level dependencies -- i.e., those directly used -- are specified with as few version restrictions as possible.
+    This facilitates keeping the environment up-to-date, but runs at the risk of new package versions introducing conflicts and thus breaking the environment.
+*   Pinned dependencies usually comprise the whole dependency tree -- i.e., including dependencies of dependencies -- and are specified with specific version numbers.
+    This guarantees a working environment, which however will inevitable become outdated.
+
+On the other hand, we distinguish various types of dependencies based on what they are used for, which addresses the packages themselves:
+
+*   Runtime dependencies are required to use a package, i.e., those imported in the source code.
+*   Development dependencies are required only during development and testing.
+*   Setup dependencies are packages that need to be available in an environment before installing the packages and its dependencies.
+    One example is ``cython`` to build packages based on it from source (e.g., ``cartopy``).
+
+These different types of dependencies are specified in different files:
+
+*   ``setup.cfg``: Unpinned runtime dependencies.
+*   ``requirements/dev-unpinned.txt``: Unpinned development dependencies (including the package itself in editable mode).
+*   ``requirements/run-pinned.txt``: Pinned runtime dependencies.
+*   ``requirements/dev-pinned.txt``: Pinned development (and runtime) dependencies.
+*   ``requirements/setup.txt``: Setup requirements.
+
+Those in ``setup.cfg`` are installed when the package itself is with ``python setup.py install``, while those in ``requirements/*.txt`` are installed with ``python -m pip -r <file>`` (or the respective ``make`` commands already mentioned above).
+
+
+What belongs in ``setup.cfg``?
+------------------------------
+
+The file ``setup.cfg`` is the general-purpose configuration file of the package.
+
+On the one hand, it contains all information required to install the package (and its runtime dependencies) with ``python setup.py install``, including the package structure (source files, entry points) and meta data.
+(Note that all this could also be specified in ``setup.py`` as arguments to ``setup()``.)
+
+On the other hand, it contains the configuration of most tools that come with the blueprint, such as ``pytest`` or ``tox``.
+
+
+
+Development Tools
+=================
+
+
+In short, what development tools come with the blueprint?
+---------------------------------------------------------
+
+The blueprint comes with a variety of tools that assist with code development, most of which can be run with ``make`` commands:
+
+*   ``bumpversion``: Increment the version number of the package in the files which contain it, and create a new git tag.
+    Run with ``bumpversion (major|minor|path)``.
+
+*   ``isort``: Auto-groups and auto-sorts the package imports in Python module files.
+    Run as part of ``make format`` and as a pre-commit hook.
+
+*   ``black``: Auto-formats your code to confirm with best praktices and PEP 8.
+    Run as part of ``make format`` and as a pre-commit hook.
+
+*   ``flake8``: Checks your code for common errors and violations of best practices.
+    Run with ``make lint`` and as a pre-commit hook.
+
+
+Can you tell me more about versioning?
+--------------------------------------
+
+TODO
+
+
+I write beautiful code, I don't need an autoformatter! Or do I?
+---------------------------------------------------------------
+
+Indeed you do!
+
+TODO
+
+
+What's the difference between formatting and linting?
+-----------------------------------------------------
+
+TODO
+
+
+What is a pre-commit hook, and what does it do?
+-----------------------------------------------
+
+TODO
+
+
+
+Testing Tools
+=============
+
+
+In short, what testing tools come with the blueprint?
+-----------------------------------------------------
+
+The blueprint comes with several tools that assist with testing the code to ensure that it works correctly:
+
+*   ``pytest``: Framework to write and run tests for your code, be it unit or integration tests.
+    Run with ``make test``, as well as by ``tox`` and ``coverage``.
+
+*   ``coverage``: Tool that quantifies how much of your code is covered (i.e., executed) by tests when running ``pytest``. 
+    Run with ``make coverage`` (and ``make coverage-html``), as well as by ``tox``.
+
+*   ``tox``: Tool to run ``pytest`` with various different Python versions.
+    Because it installs the package into temporary virtual environments, this also serves as a test whether package installation works.
+    Also runs ``flake8`` and ``coverage`` tests.
+    Run by ``make-all``.
+
