@@ -412,9 +412,11 @@ On the other hand, it contains the configuration of most tools that come with th
 Command Line Interface
 ======================
 
-Your project might want to provide a command line interface. The MCH Blueprint makes use of Click, a Python package for creating beautiful command line interfaces in a composable way with as little code as necessary. It’s the “Command Line Interface Creation Kit”. It’s highly configurable but comes with sensible defaults out of the box.
+Your project might want to provide a command line interface. The MCH Blueprint makes use of `Click`, a Python package for creating beautiful command line interfaces in a composable way with as little code as necessary. It’s the “Command Line Interface Creation Kit”. It’s highly configurable but comes with sensible defaults out of the box.
 
 The command line interface is provided in the file src/great_tool/cli.py. There, you can specifiy, what command line arguments your project should provide, a few sensible ones are already pre-defined (--version, --help, --verbose, --dry-run). There, you also provide the entry point to your code defined in src/great_tool/great_tool.py (this file is empty in a newly set up project) or other source files of your package in src/great_tool.
+
+.. _`Click`: https://click.palletsprojects.com
 
 
 Development Tools
