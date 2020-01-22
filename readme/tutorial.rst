@@ -409,6 +409,14 @@ On the one hand, it contains all information required to install the package (an
 
 On the other hand, it contains the configuration of most tools that come with the blueprint, such as ``pytest`` or ``tox``.
 
+Command Line Interface
+======================
+
+Your project might want to provide a command line interface. The MCH Blueprint makes use of `Click`_, a Python package for creating beautiful command line interfaces in a composable way with as little code as necessary. It’s the “Command Line Interface Creation Kit”. It’s highly configurable but comes with sensible defaults out of the box.
+
+The command line interface is provided in the file src/great_tool/cli.py. There, you can specifiy, what command line arguments your project should provide, a few sensible ones are already pre-defined (--version, --help, --verbose, --dry-run). There, you also provide the entry point to your code defined in src/great_tool/great_tool.py (this file is empty in a newly set up project) or other source files of your package in src/great_tool.
+
+.. _`Click`: https://click.palletsprojects.com
 
 
 Development Tools
@@ -444,9 +452,19 @@ I write beautiful code, I don't need an autoformatter! Or do I?
 
 Indeed you do!
 
-TODO
+The benefits of using an auto-formatter are manifold:
 
-Examples from https://github.com/psf/black::
+*   All code looks the same, regardless of the author, which is great in collaborative projects.
+*   You can stop worrying about how exactly your cold should look and just leave it to the tool.
+*   You can hack together any valid code and then just auto-format it, which is great for, e.g., large data dicts in tests.
+*   A lot of thought has gone into `Black`'s formatting choices, which you can profit from by using it.
+*   While you may disagree with some stylistic choices initially, changes are you'll get used to the style quickly.
+
+Following are a few examples taken from the `Black README`_.
+
+.. _`Black README`: https://github.com/psf/black::
+
+Example 1::
 
     # in:
     
@@ -458,6 +476,8 @@ Examples from https://github.com/psf/black::
     # out:
     
     j = [1, 2, 3]
+
+Example 2::
     
     # in:
     
@@ -468,6 +488,8 @@ Examples from https://github.com/psf/black::
     ImportantClass.important_method(
         exc, limit, lookup_lines, capture_locals, extra_argument
     )
+
+Example 3::
     
     # in:
     
