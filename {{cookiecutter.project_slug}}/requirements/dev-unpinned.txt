@@ -4,6 +4,8 @@ bumpversion
 coverage
 flake8
 flake8-isort
+ipdb
+ipython
 isort
 # pluggy
 pytest
