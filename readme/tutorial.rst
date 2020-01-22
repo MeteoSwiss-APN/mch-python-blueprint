@@ -444,7 +444,16 @@ The blueprint comes with a variety of tools that assist with code development, m
 Can you tell me more about versioning?
 --------------------------------------
 
-TODO
+The blueprint is set up to use `semantic versioning`_, whereby a version number consists of three parts, each of which is a number without leading zero: ``<major>.<minor>.<patch>``.
+See links for more information.
+
+To increment a version number with bumpversion, just run one of the following commands, depending on which part you want to increment::
+
+    bumpversion major
+    bumpversion minor
+    bumpversion patch
+
+.. _`semantic versioning`: https://semver.org/
 
 
 I write beautiful code, I don't need an autoformatter! Or do I?
