@@ -446,6 +446,50 @@ Indeed you do!
 
 TODO
 
+Examples from https://github.com/psf/black::
+
+    # in:
+    
+    j = [1,
+         2,
+         3
+    ]
+    
+    # out:
+    
+    j = [1, 2, 3]
+    
+    # in:
+    
+    ImportantClass.important_method(exc, limit, lookup_lines, capture_locals, extra_argument)
+    
+    # out:
+    
+    ImportantClass.important_method(
+        exc, limit, lookup_lines, capture_locals, extra_argument
+    )
+    
+    # in:
+    
+    def very_important_function(template: str, *variables, file: os.PathLike, engine: str, header: bool = True, debug: bool = False):
+        """Applies `variables` to the `template` and writes to `file`."""
+        with open(file, 'w') as f:
+            ...
+    
+    # out:
+    
+    def very_important_function(
+        template: str,
+        *variables,
+        file: os.PathLike,
+        engine: str,
+        header: bool = True,
+        debug: bool = False,
+    ):
+        """Applies `variables` to the `template` and writes to `file`."""
+        with open(file, "w") as f:
+            ...
+
 
 What's the difference between formatting and linting?
 -----------------------------------------------------
