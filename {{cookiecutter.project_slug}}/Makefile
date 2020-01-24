@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: clean clean-test clean-pyc clean-build docs help
+.PHONY: clean clean-test clean-pyc clean-build venv venv-install venv-install-dev docs help
 .DEFAULT_GOAL := help
 
 define BROWSER_PYSCRIPT
@@ -59,15 +59,18 @@ install: clean ## install the package (non-editable)
 install-dev: install ## install the package (editable) and the development dependencies
 	python -m pip install -r requirements/dev-unpinned.txt
 
+VENV_DIR ?= ./venv
+VENV_NAME ?= ({{ cookiecutter.project_slug }})
+
 venv: ## create a virtual environment
-	python -m virtualenv venv --prompt='({{ cookiecutter.project_slug }})'
+	python -m virtualenv ${VENV_DIR} --prompt='${VENV_NAME}'
 
 venv-install: clean venv ## install the package (non-editable) into a virtual environment
-	venv/bin/python -m pip install -r requirements/setup.txt
-	venv/bin/python setup.py install
+	${VENV_DIR}/bin/python -m pip install -r requirements/setup.txt
+	${VENV_DIR}/bin/python setup.py install
 
 venv-install-dev: venv-install ## install the package (editable) and the development dependencies into a virtual environment
-	venv/bin/python -m pip install -r requirements/dev-unpinned.txt
+	${VENV_DIR}/bin/python -m pip install -r requirements/dev-unpinned.txt
 
 git: clean ## initialize a git repository and make initial commit
 ifeq ($(shell git tag >/dev/null 2>&1 && echo 0 || echo 1),0)
