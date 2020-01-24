@@ -5,9 +5,11 @@ Python at CSCS
 
 How to set up and use Python at CSCS.
 
+All development should be conducted in (project-specific) virtual environments, hence only a bare-bones Python installation is provided that only includes Python, Pip, and Pipx.
 
-Load Python Environment
-=======================
+
+Set Up Environment
+==================
 
 On arolla/tsa
 -------------
@@ -59,3 +61,37 @@ Add the following commands to your `.bashrc`::
     
     # Access pipx etc.
     export PATH="/users/osm/bin:${PATH}"
+    
+This modifies the environment similarly to arolla/tsa as described above.
+
+
+Use Python
+==========
+
+Run cookiecutter
+----------------
+
+To create a new package with cookiecutter, use pipx::
+
+    pipx run cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
+    
+This will temporarily install cookiecutter and run it.
+
+(If you prefer to install cookiecutter, you can do so with `pipx install cookiecutter`.)
+
+Development
+-----------
+
+While developing a package, you are supposed to work in a project-specific virtual environment, installing all dependencies in there.
+For more information, see `Working in Virtual Environments`_.
+
+.. _`Working in Virtual Environments`: virtual_envs.rst
+
+Deployment
+----------
+
+To deploy a tool, the respective package and its dependencies are installed in a designated virtual environment, and its executable(s) linked in a directory which users have to add to their path.
+This can be done either automated with Pipx, or by hand (which, for instance, is necessary if the package depends on Cartopy or Shapely, which must be built from souce to guarantee compatibility with C-dependencies).
+For more information, see `Deployment`_.
+
+.. _`Deployment`: deployment.rst
