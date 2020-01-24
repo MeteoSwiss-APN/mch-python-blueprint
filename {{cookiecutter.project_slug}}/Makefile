@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: clean clean-test clean-pyc clean-build venv venv-install venv-install-dev docs help
+.PHONY: clean clean-test clean-pyc clean-build venv venv-install venv-install-pinned venv-install-dev docs help
 .DEFAULT_GOAL := help
 
 #==============================================================================
@@ -85,6 +85,11 @@ install: clean ## install the package (non-editable)
 	python -m pip install -r requirements/setup.txt
 	python setup.py install
 
+install-pinned: clean ## install the package (non-editable)
+	python -m pip install -r requirements/setup.txt
+	python -m pip install -r requirements/run-pinned.txt
+	python setup.py install
+
 install-dev: install ## install the package (editable) and the development dependencies
 	python -m pip install -r requirements/dev-unpinned.txt
 
@@ -97,6 +102,11 @@ venv: ## create a virtual environment; options: VENV_DIR=venv, VENV_NAME=({{ coo
 
 venv-install: clean venv ## install the package (non-editable) into a virtual environment; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
 	${VENV_DIR}/bin/python -m pip install -r requirements/setup.txt
+	${VENV_DIR}/bin/python setup.py install
+
+venv-install-pinned: clean venv ## install the package (non-editable) into a virtual environment with pinned dependencies; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
+	${VENV_DIR}/bin/python -m pip install -r requirements/setup.txt
+	${VENV_DIR}/bin/python -m pip install -r requirements/run-pinned.txt
 	${VENV_DIR}/bin/python setup.py install
 
 venv-install-dev: venv-install ## install the package (editable) and the development dependencies into a virtual environment; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
