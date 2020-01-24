@@ -12,7 +12,7 @@ Load Python Environment
 On arolla/tsa
 -------------
 
-Add the following commands to your `.bashrc`:
+Add the following commands to your `.bashrc`::
 
     # Load pristine Python environment
     source "/users/osm/.opr_setup_dir"
@@ -50,7 +50,7 @@ This changes the environment as follows (as of January 2020)::
 On kesch/escha
 --------------
 
-Add the following commands to your `.bashrc`:
+Add the following commands to your `.bashrc`::
 
     # Load pristine Python environment
     module use /apps/common/UES/sandbox/kraushm/kesch/modules/all
