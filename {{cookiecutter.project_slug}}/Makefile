@@ -3,6 +3,10 @@ SHELL := /bin/bash
 .PHONY: clean clean-test clean-pyc clean-build venv venv-install venv-install-dev docs help
 .DEFAULT_GOAL := help
 
+#==============================================================================
+# Helper Functions
+#==============================================================================
+
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
 
@@ -15,6 +19,8 @@ webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
 endef
 export BROWSER_PYSCRIPT
 
+#==============================================================================
+
 define PRINT_HELP_PYSCRIPT
 import re, sys
 
@@ -26,10 +32,29 @@ for line in sys.stdin:
 endef
 export PRINT_HELP_PYSCRIPT
 
+#==============================================================================
+# Options
+#==============================================================================
+
+VENV_DIR ?= venv
+VENV_NAME ?= ({{ cookiecutter.project_slug }})
+
+#==============================================================================
+# Parameters
+#==============================================================================
+
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
+
+#==============================================================================
+# Help
+#==============================================================================
 
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+
+#==============================================================================
+# Cleanup
+#==============================================================================
 
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
@@ -52,6 +77,10 @@ clean-test: ## remove test and coverage artifacts
 	@\rm -rfv htmlcov/
 	@\rm -rfv .pytest_cache
 
+#==============================================================================
+# Installation
+#==============================================================================
+
 install: clean ## install the package (non-editable)
 	python -m pip install -r requirements/setup.txt
 	python setup.py install
@@ -59,18 +88,23 @@ install: clean ## install the package (non-editable)
 install-dev: install ## install the package (editable) and the development dependencies
 	python -m pip install -r requirements/dev-unpinned.txt
 
-VENV_DIR ?= ./venv
-VENV_NAME ?= ({{ cookiecutter.project_slug }})
+#==============================================================================
+# Virtual Environments
+#==============================================================================
 
-venv: ## create a virtual environment
+venv: ## create a virtual environment; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
 	python -m virtualenv ${VENV_DIR} --prompt='${VENV_NAME}'
 
-venv-install: clean venv ## install the package (non-editable) into a virtual environment
+venv-install: clean venv ## install the package (non-editable) into a virtual environment; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
 	${VENV_DIR}/bin/python -m pip install -r requirements/setup.txt
 	${VENV_DIR}/bin/python setup.py install
 
-venv-install-dev: venv-install ## install the package (editable) and the development dependencies into a virtual environment
+venv-install-dev: venv-install ## install the package (editable) and the development dependencies into a virtual environment; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
 	${VENV_DIR}/bin/python -m pip install -r requirements/dev-unpinned.txt
+
+#==============================================================================
+# Git
+#==============================================================================
 
 git: clean ## initialize a git repository and make initial commit
 ifeq ($(shell git tag >/dev/null 2>&1 && echo 0 || echo 1),0)
@@ -82,11 +116,19 @@ else
 	git --no-pager log -n1 --stat
 endif
 
+#==============================================================================
+# Formatting & Linting
+#==============================================================================
+
 format: ## reformat the code to conform to standard
 	black src tests
 
 lint: ## check the code style
 	flake8 src tests
+
+#==============================================================================
+# Testing
+#==============================================================================
 
 test: ## run tests quickly with the default Python version
 	pytest -r s
@@ -102,6 +144,10 @@ coverage-html: coverage ## check code coverage of tests and show results in brow
 test-all: ## run tests on all specified Python versions with tox
 	tox
 
+#==============================================================================
+# Documentation
+#==============================================================================
+
 # docs: ## generate Sphinx HTML documentation, including API docs
 # 	\rm -f docs/{{ cookiecutter.project_slug }}.rst
 # 	\rm -f docs/modules.rst
@@ -113,6 +159,10 @@ test-all: ## run tests on all specified Python versions with tox
 # servedocs: docs ## compile the docs watching for changes
 # 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
+#==============================================================================
+# Release
+#==============================================================================
+
 # release: dist ## package and upload a release
 # 	twine upload dist/*
 
@@ -120,3 +170,5 @@ test-all: ## run tests on all specified Python versions with tox
 # 	python setup.py sdist
 # 	python setup.py bdist_wheel
 # 	\ls -l dist
+
+#==============================================================================
