@@ -25,23 +25,18 @@ To install the package ``great_tool`` to the virtual environment ``${PIPX_HOME}/
 
     pipx install git+https://github.com/MeteoSwiss-APN/great_tool.git
 
-In cases in which it is not possible to use `Pipx`_ (at CSCS for instance if you use `Cartopy`_ or `Shapely`_), install ``great_tool`` manually::
+In cases in which it is not possible to use `Pipx`_ (at CSCS for instance if you use `Cartopy`_ or `Shapely`_), install ``great_tool`` manually (commented version below)::
 
-    # Prepare directory for virtual environments
-    cd ${PIPX_HOME}/..  # e.g., /scratch/<user>/<machine>/local
-    mkdir -p pkgs/venvs
-    cd pkgs/venvs
-
-    # Install package with dependencies to a virtual environment
-    python -m virtualenv great_tool
-    source great_tool/bin/activate
-    pip install <installation dependencies>  # e.g., numpy and cython to build cartopy
-    pip install git+https://github.com/MeteoSwiss-APN/great_tool.git
-
-    # Make the installed command globally available
+    mkdir pv tmp
+    git clone git+https://github.com/MeteoSwiss-APN/great_tool.git tmp/great_tool
+    pushd tmp/great_tool # eventually, go back with popdir
+    venv_path="${PIPX_HOME}../pkgs/venvs/great_tool"
+    make venv-install VENV_DIR=${venv_path} # or
+    make venv-install-pinned VENV_DIR=${venv_path}
     cd ${PIPX_BIN_DIR}
-    ln -s $(which great-tool)
-    deactivate
+    ln -s ${venv_path}/bin/great_tool
+    popd
+    rm -rf tmp/great_tool
 
 .. _`Cartopy`: https://github.com/SciTools/cartopy
 .. _`Pipx`: https://github.com/pipxproject/pipx
@@ -101,6 +96,27 @@ But you don't need to care about these environments (let alone activate them) to
 By Hand
 =======
 
-TODO
+In cases in which it is not possible to use `Pipx`_ (at CSCS for instance if you use `Cartopy`_ or `Shapely`_), install ``great_tool`` manually::
 
+    # Go to the parent directory of `pipx`
+    cd ${PIPX_HOME}/..  # e.g., /scratch/<user>/<machine>/local
 
+    # Temporarily clone the package respository and enter it
+    mkdir pv tmp
+    git clone git+https://github.com/MeteoSwiss-APN/great_tool.git tmp/great_tool
+    pushd tmp/great_tool # eventually, go back with popdir
+    
+    # Install the package and its dependencies in a virtualenv
+    # Location: parallel to pipx's virtualenvs
+    venv_path="${PIPX_HOME}../pkgs/venvs/great_tool"
+    make venv-install VENV_DIR=${venv_path} # or
+    make venv-install-pinned VENV_DIR=${venv_path}
+
+    # Make the installed command globally available
+    cd ${PIPX_BIN_DIR}
+    ln -s ${venv_path}/bin/great_tool
+    
+    # Clean up
+    popd # go back where we started
+    rm -rf tmp/great_tool
+    
