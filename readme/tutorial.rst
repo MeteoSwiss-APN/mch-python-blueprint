@@ -561,7 +561,15 @@ Example 3::
 What's the difference between formatting and linting?
 -----------------------------------------------------
 
-TODO
+`code quality`_
+
+`linting`_
+
+`static program analysis`_
+
+.. _`code quality`: https://realpython.com/python-code-quality/
+.. _`linting`: https://en.wikipedia.org/wiki/Lint_%28software%29
+.. _`static program analysis`: https://en.wikipedia.org/wiki/Static_program_analysis
 
 
 What is a pre-commit hook, and what does it do?
