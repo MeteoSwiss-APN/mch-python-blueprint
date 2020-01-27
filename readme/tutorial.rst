@@ -11,8 +11,8 @@ On Packages and the Blueprint
 =============================
 
 
-What is this ``Python blueprint``?
-----------------------------------
+What is the ``Python blueprint``?
+---------------------------------
 
 The ``Python blueprint`` is a template for a Python package that includes many necessary and useful components to develop proper Python tools.
 It provides:
@@ -27,8 +27,8 @@ It provides:
 In short, it provides all the boilerplate that we know deep down is necessary, but that we hardly ever bother with when developing Python code!
 
 
-Hold on: What is a package even?
---------------------------------
+What is a package?
+------------------
 
 Some `terminology`_:
 
@@ -43,8 +43,8 @@ That's how we will generally use the term henceforth.
 .. _`project`: https://packaging.python.org/tutorials/packaging-projects/
 
 
-Why even bother?
-----------------
+Why should I use virtual environments?
+---------------------------------------
 
 In short: As with version control, properly packaging a project requires a little more effort which may seem unnecessary in the beginning, but the benefits are real and become apparent quickly!
 
@@ -60,8 +60,8 @@ Furthermore, turning all applications we write into proper packages also allows 
 .. _`Python Package Index (PyPI)`: https://pypi.org/
 
 
-Alright, how do I get started with the blueprint?
--------------------------------------------------
+How do I get started with the blueprint?
+----------------------------------------
 
 You find the blueprint `on Github`_, where you may already be if you're reading this.
 It is based on the tool `Cookiecutter`_ (which is part of our Python environment at CSCS).
@@ -145,8 +145,8 @@ Now that you have your package, you can forget all about cookiecutter and even t
 .. _`Cookiecutter`: https://github.com/cookiecutter/cookiecutter
 
 
-Cool, everyone will want to use this! How can I put it on Github?
------------------------------------------------------------------
+How can I put a new package it on Github?
+-----------------------------------------
 
 A new package already contains some git files like ``.gitignore``, but it is not yet a git repository!
 To turn it into a git repository, change into the root directory and run::
@@ -191,8 +191,8 @@ The solution is to create a separate virtual environment for each tool, into whi
 .. _`dependency hell`: https://en.wikipedia.org/wiki/Dependency_hell
 
 
-How can I create and work in a virtual environment?
----------------------------------------------------
+How can I create a virtual environment?
+---------------------------------------
 
 In Python virtual environment is created like this::
 
@@ -202,6 +202,10 @@ This will create the directory ``path/to/venv`` (relative to the current directo
 Importantly, it contains its own Python executable ``path/to/venv/bin/python``.
 
 For convenience, this can be abbreviated with the command ``make venv`` defined in the ``Makefile``.
+
+
+How do I work in a virtual environment?
+---------------------------------------
 
 The easiest way to install packages and work in a virtual environment is by activating it::
 
@@ -229,8 +233,8 @@ Your bash prompt will no longer be preceded by ``(my_tool)``, and ``which python
 (Note that packages can also be installed to the virtual environment without activating it by explicitly using its Python executable, e.g., ``path/to/venv/bin/python -m pip install ipython``; this can be useful in scripts -- for an exammple, see the ``venv-install`` commands in the ``Makefile``.)
 
 
-Where should I put these virtual environments?
-----------------------------------------------
+Where shall I put virtual environments?
+---------------------------------------
 
 That's totally up to you!
 Everything related to a virtual environment is contained in the folder in which it has been created, and it's location does not matter.
@@ -300,11 +304,10 @@ In addition, there are other related tools that often come up in the context of 
 Installation and Dependencies
 =============================
 
+Recap: How to create a new package with a virtual environment.
+--------------------------------------------------------------
 
-Please briefly summarize how we got here!
------------------------------------------
-
-Say we want to develop the command line application ``chain-calc`` that performs sequential calculations.
+Say we want to develop the command line application `chain_calc`_ that performs sequential calculations.
 First, we create the respository ``chain_calc`` on the `APN Github`_, and then create an empty package of the same name using the blueprint and upload it::
 
     cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
@@ -322,10 +325,11 @@ Now we're in a project-specific, pristine Python environment and good to go!
 
 Note that unless stated otherwise, the following examples assume you're in an activated virtual environment.
 
-.. _`APN Github`: github.com/MeteoSwiss-APN
+.. _`APN Github`: https://github.com/MeteoSwiss-APN
+.. _`chain calc`: https://github.com/MeteoSwiss-APN/chain_calc
 
 
-In short, how to I install my package and manage my dependencies?
+In short: How to I install my package and manage my dependencies?
 -----------------------------------------------------------------
 
 To install your package along with up-do-date versions of its runtime dependencies::
@@ -358,8 +362,8 @@ To install pre-defined pinned versions of your package and its runtime and devel
     python -m pip install -r requirements/dev-pinned.txt
 
 
-If I have not yet created a virtual environment, can I abbreviate this further?
--------------------------------------------------------------------------------
+Can I install the dependencies in the same step in which I create the virtual environment?
+------------------------------------------------------------------------------------------
 
 Indeed, the ``Makefile`` provides commands to create a virtual environment and install the package and its dependencies into it::
 
@@ -371,8 +375,8 @@ Note that the commands cannot activate the virtual environment; you'll have to d
     source venv/bin/activate
 
 
-What are those different types of dependencies you've mentioned above?
-----------------------------------------------------------------------
+What types of dependencies are there?
+-------------------------------------
 
 On the one hand, we distinguish unpinned and pinned dependencies, which addresses the package versions:
 
@@ -408,15 +412,6 @@ On the one hand, it contains all information required to install the package (an
 (Note that all this could also be specified in ``setup.py`` as arguments to ``setup()``.)
 
 On the other hand, it contains the configuration of most tools that come with the blueprint, such as ``pytest`` or ``tox``.
-
-Command Line Interface
-======================
-
-Your project might want to provide a command line interface. The MCH Blueprint makes use of `Click`_, a Python package for creating beautiful command line interfaces in a composable way with as little code as necessary. It’s the “Command Line Interface Creation Kit”. It’s highly configurable but comes with sensible defaults out of the box.
-
-The command line interface is provided in the file src/great_tool/cli.py. There, you can specifiy, what command line arguments your project should provide, a few sensible ones are already pre-defined (--version, --help, --verbose, --dry-run). There, you also provide the entry point to your code defined in src/great_tool/great_tool.py (this file is empty in a newly set up project) or other source files of your package in src/great_tool.
-
-.. _`Click`: https://click.palletsprojects.com
 
 
 Development Tools
@@ -555,3 +550,23 @@ The blueprint comes with several tools that assist with testing the code to ensu
     Also runs ``flake8`` and ``coverage`` tests.
     Run by ``make-all``.
 
+
+
+Recommended Libraries
+=====================
+
+How do I add a command line interface to my application?
+--------------------------------------------------------
+
+Your project might want to provide a command line interface.
+The MCH Blueprint makes use of `Click`_, a Python package for creating beautiful command line interfaces in a composable way with as little code as necessary.
+It’s the “Command Line Interface Creation Kit”. It’s highly configurable but comes with sensible defaults out of the box.
+
+The command line interface is provided in the file src/great_tool/cli.py.
+There, you can specifiy, what command line arguments your project should provide, a few sensible ones are already pre-defined (--version, --help, --verbose, --dry-run).
+There, you also provide the entry point to your code defined in src/great_tool/great_tool.py (this file is empty in a newly set up project) or other source files of your package in src/great_tool.
+
+For a somewhat more sophisticated command line interface than that provided by default by the blueprint, see the sample application `chain_calc`_.
+
+.. _`Click`: https://click.palletsprojects.com
+.. _`chain_calc`: https://github.com/MeteoSwiss-APN/chain_calc
