@@ -285,6 +285,7 @@ A far-from-exhaustive list of alternatives includes:
 *   ``pipenv``: This third-party tool aims to combine and abstract the creation of virtual environments and the installation of packages therein.
     It uses ``virtualenv+pip`` under the hood, thus essentially constituting a wrapper for the standard solution.
     It is often (somewhat erroneously) referred to as the officially recommended tool (and may in time develop into that), as well as a convenient and beginner-friendly solution.
+    If you prefer ``pipenv`` over ``venv+pip`` for development, see below how to handle dependencies (``Pipfile`` vs. ``requirements/*.txt``etc.).
 
 *   ``conda``: Often used in science, ``Anaconda``/``Miniconda`` is another solution that handles both virtual environments as well as the packages therein, similar to ``pipenv``.
     In contrast to all aforementioned tools, however, it does not restrict itself to Python packages, but also manages non-Python dependencies like C-libraries, and environments contain their own Python installation -- conda environments are thus even more isolated from the system environment than conventional virtual environments.
@@ -403,15 +404,55 @@ These different types of dependencies are specified in different files:
 Those in ``setup.cfg`` are installed when the package itself is with ``python setup.py install``, while those in ``requirements/*.txt`` are installed with ``python -m pip -r <file>`` (or the respective ``make`` commands already mentioned above).
 
 
-What belongs in ``setup.cfg``?
-------------------------------
+What belongs in ``setup.py`` and ``setup.cfg``?
+-----------------------------------------------
 
-The file ``setup.cfg`` is the general-purpose configuration file of the package.
+`setup.py`_ is the file managing the installation of your package with `python setup.py install`.
+It specifies the source files, entry points for command line commands, package meta data, runtime dependencies, etc., all of which are ultimately passed as arguments to the function ``setuptools.setup()``.
+As a regular Python file, it may contain arbitrary Python code.
 
-On the one hand, it contains all information required to install the package (and its runtime dependencies) with ``python setup.py install``, including the package structure (source files, entry points) and meta data.
-(Note that all this could also be specified in ``setup.py`` as arguments to ``setup()``.)
+`setup.cfg`_ is the configuration file accompanying `setup.py`_.
+Almost anything specified in ``setup.py`` as (ultimately) arguments to ``setup()`` with regular Python syntax can alternatively be specified in `setup.cfg`_ in a configuration file syntax similar to `INI files`_, which has certain technical advantages.
+In addition, `setup.cfg`_ serves as a general-purpose configuration file that can contain the configuration of many development tools, among them ``pytest`` and ``tox``.
 
-On the other hand, it contains the configuration of most tools that come with the blueprint, such as ``pytest`` or ``tox``.
+In the blueprint, all configuration is specified in `setup.cfg`_, which essentially reduces `setup.py`_ to ``setup()``.
+We choise this layout primarily in order to centralize as much of the configuration in a single file as possible.
+For the same reason, the configuration of development tools is only put into designated configuration files if it is not possible or feasible (e.g., ``.bumpversion``) to put it in `setup.cfg`_.
+
+.. _`INI files`: https://en.wikipedia.org/wiki/INI_file
+.. _`setup.cfg`: https://docs.python.org/3/distutils/configfile.html
+
+
+How do I specify my dependencies if I prefer ``pipenv`` over ``venv+pip`` for development?
+------------------------------------------------------------------------------------------
+
+As described above, `pipenv`_ is a tool to manages virtual environments and packages therein via a unified interface.
+As opposed to the files `requirements/*.txt` provided by the blueprint, `pipenv`_ uses the file `Pipfile`_ to specify unpinned dependencies, and generates the file ``Pipfile.lock`` to specify pinned dependencies.
+
+(Note that it is advisable that all developers collaborating on a package use the same tools -- be it ``venv+pip`` or `pipenv`_ -- to ensure consistent dependency specifications (``requirements/*.txt`` vs. ``Pipfile[.lock]``).
+If both approaches are used at the same time, special care must be taken to keep these files in sync.)
+
+Because `pipenv`_ manages virtual environments, it cannot be installed inside one.
+To install it user-wide, use `pipx`_::
+
+    pipx install pipenv
+    
+This will install the `pipenv`_ package in isolation and make the command ``pipenv`` available user-wide (see `Deployment`_).
+
+How to create a `Pipfile`_ for a blueprint-based package (see link for syntax etc.):
+
+-   Create an empty `Pipfile`_ with ``pipenv install``.
+-   Leave the unpinned runtime dependencies in ``setup.cfg``!
+    Instead, under ``[packages]``, only specify ``great_tool = {path = "."}``, so ``pipenv install`` will install the current package using ``setup.py``, and thereby the runtime dependencies specified in ``setup.cfg``.
+-   Transfer the unpinned development dependencies in ``requirements/dev-unpinned.txt`` to ``[dev-packages]`` in the `Pipfile`_.
+    Replace ``-e .`` by ``great_tool = {path = ".", editable = true}`` to install the current package in editable mode.
+
+Follow these steps backward to turn a `Pipfile`_ back into blueprint-style ``requirements/*.txt`` files.
+
+.. _`Deployment`: deployment.rst
+.. _`pipenv`: https://github.com/pypa/pipenv
+.. _`Pipfile`: https://github.com/pypa/pipfile
+.. _`pipx`: https://github.com/pipxproject/pipx
 
 
 Development Tools
