@@ -176,8 +176,8 @@ Virtual Environments
 ====================
 
 
-So, what are those virtual environments you've mentioned above?
----------------------------------------------------------------
+What are virtual environments?
+------------------------------
 
 You can think of a virtual environment as a container that isolates a tool from the system environment, i.e., from any Python packages that are installed system-wide (and may even be part of the system).
 Inside this container, you can install all the Python packages that you need to develop and run your tool without any fear of the system environment interfering with your tool -- or of your tool interfering with the system.
@@ -196,7 +196,7 @@ How can I create and work in a virtual environment?
 
 In Python virtual environment is created like this::
 
-    python -m venv path/to/venv --prompt='(my_tool)'
+    python -m venv path/to/venv --prompt=my_tool
 
 This will create the directory ``path/to/venv`` (relative to the current directory), which contains directories like ``bin`` and ``lib`` into which the packages (applications and libraries) will be installed.
 Importantly, it contains its own Python executable ``path/to/venv/bin/python``.
@@ -315,7 +315,7 @@ First, we create the respository ``chain_calc`` on the `APN Github`_, and then c
 
 Then, we create and activate a virtual environment for development::
 
-    python -m venv ./venv --prompt='(chain-calc)'
+    python -m venv ./venv --prompt=chain_calc
     source ./venv/bin/activate
 
 Now we're in a project-specific, pristine Python environment and good to go!
