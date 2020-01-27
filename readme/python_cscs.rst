@@ -19,7 +19,7 @@ Add the following commands to your `.bashrc`::
     # Load pristine Python environment
     source "/users/osm/.opr_setup_dir"
     source "${OPR_SETUP_DIR}/.python_base"
-    unset PYTHONPATH
+    unset PYTHONPATH  # Not strictly necessary
     
     # Access pipx etc.
     export PATH="/users/osm/bin:${PATH}"
@@ -57,7 +57,7 @@ Add the following commands to your `.bashrc`::
     # Load pristine Python environment
     module use /apps/common/UES/sandbox/kraushm/kesch/modules/all
     module load python/3.7.2-gmvolf-17.02
-    unset PYTHONPATH
+    unset PYTHONPATH  # Not strictly necessary
     
     # Access pipx etc.
     export PATH="/users/osm/bin:${PATH}"
