@@ -37,7 +37,7 @@ export PRINT_HELP_PYSCRIPT
 #==============================================================================
 
 VENV_DIR ?= venv
-VENV_NAME ?= ({{ cookiecutter.project_slug }})
+VENV_NAME ?= {{ cookiecutter.project_slug }}
 
 #==============================================================================
 # Parameters
