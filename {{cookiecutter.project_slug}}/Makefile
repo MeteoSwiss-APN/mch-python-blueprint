@@ -264,9 +264,9 @@ test-all: install-test #CMD Run tests on all specified Python versions with tox.
 #==============================================================================
 
 # docs: #CMD Generate Sphinx HTML documentation, including API docs.
-# 	\rm -f "docs/{{ cookiecutter.project_slug }}.rst"
-# 	\rm -f "docs/modules.rst"
-# 	sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug.rst }}
+# 	\rm -f docs/{{ cookiecutter.project_slug }}.rst
+# 	\rm -f docs/modules.rst
+# 	sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
 # 	$(MAKE) -C docs clean
 # 	$(MAKE) -C docs html
 # 	${browser} docs/_build/html/index.html
