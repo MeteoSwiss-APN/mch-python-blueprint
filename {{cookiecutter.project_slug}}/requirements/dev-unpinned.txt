@@ -1,16 +1,9 @@
--e . # this package in editable mode
 black
 bumpversion
-coverage
-flake8
-flake8-isort
 ipdb
 ipython
-isort
 # pluggy
-pytest
 # sphinx
-tox
 # twine
 # watchdog
 # wheel
