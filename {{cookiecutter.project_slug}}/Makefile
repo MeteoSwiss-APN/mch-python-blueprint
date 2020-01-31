@@ -11,6 +11,7 @@ SHELL := /bin/bash
 # Options
 #==============================================================================
 
+ECHO_PREFIX ?= \nMAKE: #OPT Prefix of command echos
 IGNORE_VENV ?= 0#OPT Don't create and/or use a virtual environment.
 INSTALL ?= 1#OPT Always ensure that dependencies etc. are installed
 VENV_DIR ?= venv#OPT Path to virtual environment to be created and/or used.
@@ -121,8 +122,10 @@ help:
 #==============================================================================
 
 clean-all: clean-venv clean-test clean-build clean-pyc #CMD Remove all build, test, coverage and Python artifacts.
+	@echo -e "${ECHO_PREFIX}cleaning up"
 
 clean-build: #CMD Remove build artifacts.
+	@echo -e "${ECHO_PREFIX}removing build artifacts"
 	\rm -rf "build/"
 	\rm -rf "dist/"
 	\rm -rf ".eggs/"
@@ -130,18 +133,21 @@ clean-build: #CMD Remove build artifacts.
 	@\rm -ff $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg' -exec echo "rm -ff '{}'" \;)
 
 clean-pyc: #CMD Remove Python file artifacts.
+	@echo -e "${ECHO_PREFIX}removing Python file artifacts"
 	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyc'       -exec echo "rm -rf '{}'" \;)
 	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyo'       -exec echo "rm -rf '{}'" \;)
 	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*~'          -exec echo "rm -rf '{}'" \;)
 	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '__pycache__' -exec echo "rm -rf '{}'" \;)
 
-clean-test: #CMD Remove test and coverage artifacts.
+clean-test: #CMD Remove testing artifacts.
+	@echo -e "${ECHO_PREFIX}removing testing artifacts"
 	\rm -rf ".tox/"
 	\rm -f ".coverage"
 	\rm -rf "htmlcov/"
 	\rm -rf ".pytest_cache"
 
 clean-venv: #CMD Remove virtual environment.
+	@echo -e "${ECHO_PREFIX}removing virtual environment at '${VENV_DIR}'"
 	\rm -rf "${VENV_DIR}"
 
 #==============================================================================
@@ -154,6 +160,7 @@ ifeq (${IGNORE_VENV}, 0)
 	@export PREFIX
 ifeq (${VIRTUAL_ENV},)
 ifneq (${INSTALL}, 0)
+	@echo -e "${ECHO_PREFIX}creating virtual environment '${VENV_NAME}' at '${VENV_DIR}'"
 	python -m venv ${VENV_DIR} --prompt='${VENV_NAME}'
 	${PREFIX}python -m pip install -U pip
 endif
@@ -166,33 +173,39 @@ endif
 
 install: venv #CMD Install the package with unpinned runtime dependencies.
 ifneq (${INSTALL}, 0)
+	@echo -e "${ECHO_PREFIX}installing the package"
 	${PREFIX}python -m pip install .
 endif
 
 install-edit: venv #CMD Install the package as editable with unpinned runtime dependencies.
 ifneq (${INSTALL}, 0)
+	@echo -e "${ECHO_PREFIX}installing the package as editable"
 	${PREFIX}python -m pip install -e .
 endif
 
 install-pinned: venv #CMD Install the package with pinned runtime dependencies.
 ifneq (${INSTALL}, 0)
+	@echo -e "${ECHO_PREFIX}installing the package with pinned dependencies"
 	${PREFIX}python -m pip install -r requirements/run-pinned.txt
 	${PREFIX}python -m pip install .
 endif
 
 install-test-pinned: venv #CMD Install the package with pinned runtime and testing dependencies.
 ifneq (${INSTALL}, 0)
+	@echo -e "${ECHO_PREFIX}installing the package as editable with pinned testing dependencies"
 	${PREFIX}python -m pip install -r requirements/test-pinned.txt
 	${PREFIX}python -m pip install -e .
 endif
 
 install-test: install-edit #CMD Install the package with unpinned runtime and testing dependencies.
 ifneq (${INSTALL}, 0)
+	@echo -e "${ECHO_PREFIX}installing the package with testing dependencies"
 	${PREFIX}python -m pip install -r requirements/test-unpinned.txt
 endif
 
 install-dev: install-test #CMD Install the package as editable with unpinned runtime,\ntesting, and development dependencies.
 ifneq (${INSTALL}, 0)
+	@echo -e "${ECHO_PREFIX}installing the package as editable with testing and development dependencies"
 	${PREFIX}python -m pip install -r requirements/dev-unpinned.txt
 endif
 
@@ -202,8 +215,9 @@ endif
 
 git: clean-all #CMD Initialize a git repository and make initial commit.
 ifeq ($(shell git tag >/dev/null 2>&1 && echo 0 || echo 1), 0)
-	@echo "git already initialized"
+	@echo -e "${ECHO_PREFIX}git already initialized"
 else
+	@echo -e "${ECHO_PREFIX}initializing Git repository"
 	git init
 	git add .
 	git commit -m 'initial commit'
@@ -214,22 +228,28 @@ endif
 # Versioning
 #==============================================================================
 
-bump-patch: install-dev #CMD Increment patch component of version number (x.y.Z), incl. git commit and tag
+bump-patch: install-dev #CMD Bump patch component of version number (x.y.Z), incl. git commit and tag
+	@echo -e "${ECHO_PREFIX}bumping version number: increment patch component"
 	${PREFIX}bumpversion patch
 
-bump-minor: install-dev #CMD Increment minor component of version number (x.Y.z), incl. git commit and tag
+bump-minor: install-dev #CMD Bump minor component of version number (x.Y.z), incl. git commit and tag
+	@echo -e "${ECHO_PREFIX}bumping version number: increment minor component"
 	${PREFIX}bumpversion minor
 
-bump-major: install-dev #CMD Increment minor component of version number (X.y.z), incl. git commit and tag
+bump-major: install-dev #CMD Bump minor component of version number (X.y.z), incl. git commit and tag
+	@echo -e "${ECHO_PREFIX}bumping version number: increment major component"
 	${PREFIX}bumpversion major
 
-bump-patch-dry: install-dev #CMD Increment patch component of version number (x.y.Z), without git commit and tag
+bump-patch-dry: install-dev #CMD Bump patch component of version number (x.y.Z), without git commit and tag
+	@echo -e "${ECHO_PREFIX}bumping version number: increment patch component (dry run)"
 	${PREFIX}bumpversion patch --no-commit --no-tag
 
-bump-minor-dry: install-dev #CMD Increment minor component of version number (x.Y.z), without git commit and tag
+bump-minor-dry: install-dev #CMD Bump minor component of version number (x.Y.z), without git commit and tag
+	@echo -e "${ECHO_PREFIX}bumping version number: increment minor component (dry run)"
 	${PREFIX}bumpversion minor --no-commit --no-tag
 
-bump-major-dry: install-dev #CMD Increment minor component of version number (X.y.z), without git commit and tag
+bump-major-dry: install-dev #CMD Bump minor component of version number (X.y.z), without git commit and tag
+	@echo -e "${ECHO_PREFIX}bumping version number: increment major component (dry run)"
 	${PREFIX}bumpversion major --no-commit --no-tag
 
 #==============================================================================
@@ -237,9 +257,11 @@ bump-major-dry: install-dev #CMD Increment minor component of version number (X.
 #==============================================================================
 
 format: #CMD Reformat the code to conform with standards like PEP 8.
+	@echo -e "${ECHO_PREFIX}reformatting the code"
 	black src tests
 
 lint: #CMD Check the code style.
+	@echo -e "${ECHO_PREFIX}checking the code style (linting)"
 	flake8 src tests
 
 #==============================================================================
@@ -247,23 +269,28 @@ lint: #CMD Check the code style.
 #==============================================================================
 
 test: install-test #CMD Run all tests with the default Python version.
+	@echo -e "${ECHO_PREFIX}running tests"
 	${PREFIX}pytest
 
 test-cov: install-test #CMD Check code coverage of tests.
+	@echo -e "${ECHO_PREFIX}running tests with coverage check"
 	${PREFIX}pytest --cov=src
 
 test-cov-html: install-test #CMD Check code coverage of tests and show results in browser.
+	@echo -e "${ECHO_PREFIX}running tests with coverage check and browser report"
 	${PREFIX}pytest --cov=src --cov-report=html
 	${browser} htmlcov/index.html
 
 test-all: install-test #CMD Run tests on all specified Python versions with tox.
+	@echo -e "${ECHO_PREFIX}running tests in isolated environments"
 	${PREFIX}tox
 
 #==============================================================================
 # Documentation
 #==============================================================================
 
-# docs: #CMD Generate Sphinx HTML documentation, including API docs.
+# docs: install-dev #CMD Generate HTML documentation, including API docs.
+#	@echo -e "${ECHO_PREFIX}generating HTML documentation"
 # 	\rm -f docs/{{ cookiecutter.project_slug }}.rst
 # 	\rm -f docs/modules.rst
 # 	sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
@@ -272,6 +299,7 @@ test-all: install-test #CMD Run tests on all specified Python versions with tox.
 # 	${browser} docs/_build/html/index.html
 
 # servedocs: docs #CMD Compile the docs watching for changes.
+#	@echo -e "${ECHO_PREFIX}continuously regenerating HTML documentation"
 # 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 #==============================================================================
