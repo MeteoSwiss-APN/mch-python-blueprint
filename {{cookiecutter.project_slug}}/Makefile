@@ -1,123 +1,207 @@
 SHELL := /bin/bash
 
-.PHONY: clean clean-test clean-pyc clean-build venv venv-install venv-install-pinned venv-install-dev docs help
+.PHONY: clean-all clean-test clean-pyc clean-build clean-venv
+.PHONY: venv install install-edit install-pinned install-test install-test-pinned install-dev
+.PHONY: bump-major bump-minor bump-patch bump-major-dry bump-minor-dry bump-patch-dry
+.PHONY: test test-cov test-cov-html test-all
+.PHONY: docs help
 .DEFAULT_GOAL := help
-
-#==============================================================================
-# Helper Functions
-#==============================================================================
-
-define BROWSER_PYSCRIPT
-import os, webbrowser, sys
-
-try:
-	from urllib import pathname2url
-except:
-	from urllib.request import pathname2url
-
-webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
-endef
-export BROWSER_PYSCRIPT
-
-#==============================================================================
-
-define PRINT_HELP_PYSCRIPT
-import re, sys
-
-for line in sys.stdin:
-	match = re.match(r'^([a-zA-Z_-]+):.*?## (.*)$$', line)
-	if match:
-		target, help = match.groups()
-		print("%-20s %s" % (target, help))
-endef
-export PRINT_HELP_PYSCRIPT
 
 #==============================================================================
 # Options
 #==============================================================================
 
-VENV_DIR ?= venv
-VENV_NAME ?= {{ cookiecutter.project_slug }}
+IGNORE_VENV ?= 0#OPT Don't create and/or use a virtual environment.
+INSTALL ?= 1#OPT Always ensure that dependencies etc. are installed
+VENV_DIR ?= venv#OPT Path to virtual environment to be created and/or used.
+VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of virtual environment if one is created.
+
+#------------------------------------------------------------------------------
+
+PREFIX_VENV = ${VENV_DIR}/bin/#
+export PREVIX_VENV
+
+ifneq (${IGNORE_VENV}, 0)
+PREFIX ?=#
+else
+ifeq (${VIRTUAL_ENV},)
+PREFIX =#
+else
+PREFIX = ${PREFIX_VENV}
+endif
+endif
+export PREFIX
 
 #==============================================================================
-# Parameters
+# Python script: Print help
 #==============================================================================
 
-BROWSER := python -c "$$BROWSER_PYSCRIPT"
+define PRINT_HELP_PY
+import re
+import sys
+
+def parse_makefile(lines):
+    options = {}
+    commands = {}
+    rx_opt = re.compile(
+        r"^(?P<name>[A-Z_]+) *\?= *(?P<value>[^ ]*) *#OPT (?P<help>.*)? *$$"
+    )
+    rx_cmd = re.compile(
+        r"^(?P<name>[a-zA-Z_-]+):.*?#CMD (?P<help>.*) *$$"
+    )
+    for line in lines:
+        match_opt = rx_opt.match(line)
+        match_cmd = rx_cmd.match(line)
+        if match_opt:
+            m = match_opt
+            help = m.group("help").split(r"\n")
+            options[m.group("name")] = (m.group("value"), help)
+        elif match_cmd:
+            m = match_cmd
+            commands[m.group("name")] = m.group("help").split(r"\n")
+    return options, commands
+
+def format_options(items):
+    s = ""
+    for name, (value, help) in items.items():
+        name_value = f"{name}={value}"
+        for idx, line in enumerate(help):
+            s += f"  {name_value if idx == 0 else '':25s} {line}\n"
+    return s.rstrip()
+
+def format_commands(items):
+    s = ""
+    for name, help in items.items():
+        for idx, line in enumerate(help):
+            s += f"  {name if idx == 0 else '':25s} {line}\n"
+    return s.rstrip()
+
+options, commands = parse_makefile(sys.stdin)
+
+print(f"""\
+Usage: make COMMAND [OPTIONS]
+
+Options:
+{format_options(options)}
+
+Commands:
+{format_commands(commands)}
+""")
+endef
+export PRINT_HELP_PY
+
+#==============================================================================
+# Python script: Open browser
+#==============================================================================
+
+define BROWSER_PY
+import os
+import sys
+import webbrowser
+
+try:
+    from urllib import pathname2url
+except:
+    from urllib.request import pathname2url
+
+webbrowser.open(f"file://{pathname2url(os.path.abspath(sys.argv[1]))}")
+endef
+export BROWSER_PY
+browser = ${PREFIX}python -c "$$BROWSER_PY"
 
 #==============================================================================
 # Help
 #==============================================================================
 
 help:
-	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+	@python -c "$$PRINT_HELP_PY" < $(MAKEFILE_LIST)
 
 #==============================================================================
 # Cleanup
 #==============================================================================
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean-all: clean-venv clean-test clean-build clean-pyc #CMD Remove all build, test, coverage and Python artifacts.
 
-clean-build: ## remove build artifacts
-	@\rm -rfv build/
-	@\rm -rfv dist/
-	@\rm -rfv .eggs/
-	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg-info' -exec \rm -rfv {} +
-	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg' -exec \rm -f {} +
+clean-build: #CMD Remove build artifacts.
+	\rm -rf "build/"
+	\rm -rf "dist/"
+	\rm -rf ".eggs/"
+	@\rm -ff $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg' -exec echo "rm -ff '{}'" \;)
+	@\rm -ff $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg' -exec echo "rm -ff '{}'" \;)
 
-clean-pyc: ## remove Python file artifacts
-	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyc' -exec \rm -f {} +
-	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyo' -exec \rm -f {} +
-	@\find . -not -path './venv*' -and -not -path './ENV*' -name '*~' -exec \rm -f {} +
-	@\find . -not -path './venv*' -and -not -path './ENV*' -name '__pycache__' -exec \rm -rfv {} +
+clean-pyc: #CMD Remove Python file artifacts.
+	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyc'       -exec echo "rm -rf '{}'" \;)
+	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyo'       -exec echo "rm -rf '{}'" \;)
+	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*~'          -exec echo "rm -rf '{}'" \;)
+	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '__pycache__' -exec echo "rm -rf '{}'" \;)
 
-clean-test: ## remove test and coverage artifacts
-	@\rm -rfv .tox/
-	@\rm -fv .coverage
-	@\rm -rfv htmlcov/
-	@\rm -rfv .pytest_cache
+clean-test: #CMD Remove test and coverage artifacts.
+	\rm -rf ".tox/"
+	\rm -f ".coverage"
+	\rm -rf "htmlcov/"
+	\rm -rf ".pytest_cache"
 
-#==============================================================================
-# Installation
-#==============================================================================
-
-install: clean ## install the package (non-editable)
-	python -m pip install -r requirements/setup.txt
-	python setup.py install
-
-install-pinned: clean ## install the package (non-editable)
-	python -m pip install -r requirements/setup.txt
-	python -m pip install -r requirements/run-pinned.txt
-	python setup.py install
-
-install-dev: install ## install the package (editable) and the development dependencies
-	python -m pip install -r requirements/dev-unpinned.txt
+clean-venv: #CMD Remove virtual environment.
+	\rm -rf "${VENV_DIR}"
 
 #==============================================================================
 # Virtual Environments
 #==============================================================================
 
-venv: ## create a virtual environment; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
-	python -m virtualenv ${VENV_DIR} --prompt='${VENV_NAME}'
-
-venv-install: clean venv ## install the package (non-editable) into a virtual environment; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
-	${VENV_DIR}/bin/python -m pip install -r requirements/setup.txt
-	${VENV_DIR}/bin/python setup.py install
-
-venv-install-pinned: clean venv ## install the package (non-editable) into a virtual environment with pinned dependencies; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
-	${VENV_DIR}/bin/python -m pip install -r requirements/setup.txt
-	${VENV_DIR}/bin/python -m pip install -r requirements/run-pinned.txt
-	${VENV_DIR}/bin/python setup.py install
-
-venv-install-dev: venv-install ## install the package (editable) and the development dependencies into a virtual environment; options: VENV_DIR=venv, VENV_NAME=({{ cookiecutter.project_slug }})
-	${VENV_DIR}/bin/python -m pip install -r requirements/dev-unpinned.txt
+venv: #CMD Create a virtual environment.
+ifeq (${IGNORE_VENV}, 0)
+	$(eval PREFIX = ${PREFIX_VENV})
+	@export PREFIX
+ifeq (${VIRTUAL_ENV},)
+ifneq (${INSTALL}, 0)
+	python -m venv ${VENV_DIR} --prompt='${VENV_NAME}'
+	${PREFIX}python -m pip install -U pip
+endif
+endif
+endif
 
 #==============================================================================
-# Git
+# Installation
 #==============================================================================
 
-git: clean ## initialize a git repository and make initial commit
-ifeq ($(shell git tag >/dev/null 2>&1 && echo 0 || echo 1),0)
+install: venv #CMD Install the package with unpinned runtime dependencies.
+ifneq (${INSTALL}, 0)
+	${PREFIX}python -m pip install .
+endif
+
+install-edit: venv #CMD Install the package as editable with unpinned runtime dependencies.
+ifneq (${INSTALL}, 0)
+	${PREFIX}python -m pip install -e .
+endif
+
+install-pinned: venv #CMD Install the package with pinned runtime dependencies.
+ifneq (${INSTALL}, 0)
+	${PREFIX}python -m pip install -r requirements/run-pinned.txt
+	${PREFIX}python -m pip install .
+endif
+
+install-test-pinned: venv #CMD Install the package with pinned runtime and testing dependencies.
+ifneq (${INSTALL}, 0)
+	${PREFIX}python -m pip install -r requirements/test-pinned.txt
+	${PREFIX}python -m pip install -e .
+endif
+
+install-test: install-edit #CMD Install the package with unpinned runtime and testing dependencies.
+ifneq (${INSTALL}, 0)
+	${PREFIX}python -m pip install -r requirements/test-unpinned.txt
+endif
+
+install-dev: install-test #CMD Install the package as editable with unpinned runtime,\ntesting, and development dependencies.
+ifneq (${INSTALL}, 0)
+	${PREFIX}python -m pip install -r requirements/dev-unpinned.txt
+endif
+
+#==============================================================================
+# Version control
+#==============================================================================
+
+git: clean-all #CMD Initialize a git repository and make initial commit.
+ifeq ($(shell git tag >/dev/null 2>&1 && echo 0 || echo 1), 0)
 	@echo "git already initialized"
 else
 	git init
@@ -127,58 +211,67 @@ else
 endif
 
 #==============================================================================
-# Formatting & Linting
+# Versioning
 #==============================================================================
 
-format: ## reformat the code to conform to standard
+bump-patch: install-dev #CMD Increment patch component of version number (x.y.Z), incl. git commit and tag
+	${PREFIX}bumpversion patch
+
+bump-minor: install-dev #CMD Increment minor component of version number (x.Y.z), incl. git commit and tag
+	${PREFIX}bumpversion minor
+
+bump-major: install-dev #CMD Increment minor component of version number (X.y.z), incl. git commit and tag
+	${PREFIX}bumpversion major
+
+bump-patch-dry: install-dev #CMD Increment patch component of version number (x.y.Z), without git commit and tag
+	${PREFIX}bumpversion patch --no-commit --no-tag
+
+bump-minor-dry: install-dev #CMD Increment minor component of version number (x.Y.z), without git commit and tag
+	${PREFIX}bumpversion minor --no-commit --no-tag
+
+bump-major-dry: install-dev #CMD Increment minor component of version number (X.y.z), without git commit and tag
+	${PREFIX}bumpversion major --no-commit --no-tag
+
+#==============================================================================
+# Formatting and linting
+#==============================================================================
+
+format: #CMD Reformat the code to conform with standards like PEP 8.
 	black src tests
 
-lint: ## check the code style
+lint: #CMD Check the code style.
 	flake8 src tests
 
 #==============================================================================
 # Testing
 #==============================================================================
 
-test: ## run tests quickly with the default Python version
-	pytest -r s
+test: install-test #CMD Run all tests with the default Python version.
+	${PREFIX}pytest
 
-coverage: ## check code coverage of tests
-	coverage run --source src -m pytest
-	coverage report -m
+test-cov: install-test #CMD Check code coverage of tests.
+	${PREFIX}pytest --cov=src
 
-coverage-html: coverage ## check code coverage of tests and show results in browser
-	coverage html
-	$(BROWSER) htmlcov/index.html
+test-cov-html: install-test #CMD Check code coverage of tests and show results in browser.
+	${PREFIX}pytest --cov=src --cov-report=html
+	${browser} htmlcov/index.html
 
-test-all: ## run tests on all specified Python versions with tox
-	tox
+test-all: install-test #CMD Run tests on all specified Python versions with tox.
+	${PREFIX}tox
 
 #==============================================================================
 # Documentation
 #==============================================================================
 
-# docs: ## generate Sphinx HTML documentation, including API docs
-# 	\rm -f docs/{{ cookiecutter.project_slug }}.rst
-# 	\rm -f docs/modules.rst
-# 	sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
+# docs: #CMD Generate Sphinx HTML documentation, including API docs.
+# 	\rm -f "docs/{{ cookiecutter.project_slug }}.rst"
+# 	\rm -f "docs/modules.rst"
+# 	sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}.rst
 # 	$(MAKE) -C docs clean
 # 	$(MAKE) -C docs html
-# 	$(BROWSER) docs/_build/html/index.html
+# 	${browser} docs/_build/html/index.html
 
-# servedocs: docs ## compile the docs watching for changes
+# servedocs: docs #CMD Compile the docs watching for changes.
 # 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
-
-#==============================================================================
-# Release
-#==============================================================================
-
-# release: dist ## package and upload a release
-# 	twine upload dist/*
-
-# dist: clean ## builds source and wheel package
-# 	python setup.py sdist
-# 	python setup.py bdist_wheel
-# 	\ls -l dist
 
 #==============================================================================
