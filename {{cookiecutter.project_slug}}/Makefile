@@ -23,11 +23,14 @@ PREFIX_VENV = ${VENV_DIR}/bin/#
 export PREVIX_VENV
 
 ifneq (${IGNORE_VENV}, 0)
+# Ignore virtual env
 PREFIX ?=#
 else
-ifeq (${VIRTUAL_ENV},)
+ifneq (${VIRTUAL_ENV},)
+# Virtual env is active
 PREFIX =#
 else
+# Virtual env is not active
 PREFIX = ${PREFIX_VENV}
 endif
 endif
@@ -258,11 +261,11 @@ bump-major-dry: install-dev #CMD Bump minor component of version number (X.y.z),
 
 format: #CMD Reformat the code to conform with standards like PEP 8.
 	@echo -e "${ECHO_PREFIX}reformatting the code"
-	black src tests
+	${PREFIX}black src tests
 
 lint: #CMD Check the code style.
 	@echo -e "${ECHO_PREFIX}checking the code style (linting)"
-	flake8 src tests
+	${PREFIX}flake8 src tests
 
 #==============================================================================
 # Testing
