@@ -3,4 +3,4 @@ flake8-isort
 isort
 pytest
 pytest-cov
-tox
+tox >= 3.3
