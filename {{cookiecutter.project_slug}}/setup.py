@@ -38,7 +38,7 @@ dependencies = [
 ]
 
 scripts = [
-    '{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main',
+    "{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main",
 ]
 
 setup(
