@@ -6,8 +6,9 @@ repos:
     -   id: check-yaml
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
--   repo: https://github.com/Lucas-C/pre-commit-hooks-markup
-    rev: v1.0.0
+-   repo: https://github.com/myint/rstcheck
+    rev: ''
     hooks:
-    -   id: rst-linter
-
+    - id: rstcheck
+      additional_dependencies:
+        - sphinx==2.4.4
