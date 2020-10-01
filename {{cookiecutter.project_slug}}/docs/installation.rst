@@ -42,7 +42,7 @@ or in developer mode:
 
     $ pip install -e git+https://github.com/MeteoSwiss-APN/{{ cookiecutter.project_slug }}#egg={{ cookiecutter.project_slug }}
 
-For furhter details see the `pip documentation`_.
+For further details see the `pip documentation`_.
 
 Option 2
 ^^^^^^^^

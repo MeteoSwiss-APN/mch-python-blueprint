@@ -4,7 +4,7 @@ import logging
 
 
 def count_to_log_level(count: int) -> int:
-    """Map the occurence of the command line option verbose to the log level"""
+    """Map the occurrence of the command line option verbose to the log level"""
     if count == 0:
         return logging.ERROR
     elif count == 1:

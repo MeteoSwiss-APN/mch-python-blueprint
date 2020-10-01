@@ -9,6 +9,8 @@ Formatting and Linting
 `isort`_
 `Flake8`_
 `Flake8-isort`_
+`Automate Python workflow using pre-commits: black and flake8`_
+`Keeping python code clean with pre-commit hooks: black, flake8 and isort`_
 
 
 Formatting vs. Linting

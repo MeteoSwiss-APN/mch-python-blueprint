@@ -22,7 +22,7 @@ Features
 * Auto-format your code consistently with `black`_ and `isort`_
 * Prevent common coding mistakes with `flake8`_
 * Comprehensively test your code with `pytest`_ and `pytest-cov`_
-* Ensure compatibility with multiple Python versions with `tox`_ 
+* Ensure compatibility with multiple Python versions with `tox`_
 
 * Develop in a reproducible environment with `virtualenv`_ + `pip`_ or `pipenv`_
 * Properly package your code with `setuptools`_
@@ -69,17 +69,14 @@ Create a new package using `cookiecutter`_ based this `blueprint`_::
     cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint.git
 
 .. _`blueprint`: https://github.com/MeteoSwiss-APN/mch-python-blueprint.git
-.. _`cookiecutter`: https://github.com/audreyr/cookiecutter
 
 If you get an error because cookiecutter is not installed, try this::
 
     pipx run cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint.git
 
 (For more on pipx, see `Deployment`_.)
-    
-.. _`Deployment`: readme/deployment.rst
 
-.. _`pipx`: https://github.com/pipxproject/pipx
+.. _`Deployment`: readme/deployment.rst
 
 You will ask be a few questions about you and your project, and an empty package will be created based on the answers.
 We will call our package ``great_tool`` in these examples.
@@ -94,7 +91,7 @@ Create a local `git`_ repository for ``great_tool`` and commit all files::
     git init
     git add .
     git commit -m 'initial commit'
-    
+
 .. _`git`: https://github.com/git/git
 
 Create a `new repository`_ for your package on the `APN github`_ and upload it::
@@ -115,11 +112,8 @@ We recommend the standard `virtualenv`_ + `pip`_ approach, but note that there a
 .. _`Using Pipenv`: readme/using_pipenv.rst
 
 .. _`dependency hell`: https://en.wikipedia.org/wiki/Dependency_hell
-.. _`pipenv`: https://github.com/pypa/pipenv
-.. _`pip`: https://github.com/pypa/pip
 .. _`pip-tools`: https://github.com/jazzband/pip-tools
 .. _`poetry`: https://github.com/python-poetry/poetry
-.. _`virtualenv`: https://github.com/pypa/virtualenv
 .. _`virtualenvwrapper`: https://virtualenvwrapper.readthedocs.io/en/latest/
 .. _`virtual environment`: https://realpython.com/python-virtual-environments-a-primer/
 
@@ -187,7 +181,7 @@ A Note on Dependencies and Versions
 
 There are two ways of specifying dependencies:
 
-* directly used packages only (top-level depenencies), with enough restrictions on version numbers to prevent conflicts, but no more; and
+* directly used packages only (top-level dependencies), with enough restrictions on version numbers to prevent conflicts, but no more; and
 * all packages, including dependencies of dependencies, with pinned version numbers.
 
 The former approach makes it easy to keep dependencies up-to-date, but comes at the risk of newly introduced conflicts; while the latter approach ensures reproducibility, but makes it difficult to update dependencies to newer versions.
@@ -207,4 +201,3 @@ We specify the dependencies of ``great_tool`` as follows:
 +-------------------------------+-------------------+-----------+-------------------+
 | requirements-dev.txt          | all               | yes       | ``pip freeze``    |
 +-------------------------------+-------------------+-----------+-------------------+
-

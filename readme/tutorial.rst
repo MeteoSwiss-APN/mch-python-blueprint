@@ -74,15 +74,15 @@ You will be asked a few questions about yourself and the package you are about t
     $ cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
     You've downloaded /home/stefan/.cookiecutters/mch-python-blueprint before. Is it okay to delete and re-download it? [yes]: y
     full_name [Donald Duck]: Mickey Mouse
-    email [mickey.mouse@meteoswiss.ch]: 
-    github_username [mickeymouse]: mmouse 
+    email [mickey.mouse@meteoswiss.ch]:
+    github_username [mickeymouse]: mmouse
     project_name [Mickey's Tool]: Random Star Wars Generator
     project_slug [random_star_wars_generator]: star_wars_gen
     project_short_description [Mickey Mouse's shiny new tool.]: A tool to randomly generate more Star Wars movies.
-    version [0.1.0]: 
+    version [0.1.0]:
 
 Based on the answers, cookiecutter creates an empty project package::
-    
+
     $ ls star_wars_gen/
     AUTHORS.rst
     CONTRIBUTING.rst
@@ -118,7 +118,7 @@ It is not entirely empty, though -- it already contains a few files and some sam
 Your answers have even been turned into meta data for the package, which may, for instance, eventually help others find your package on PyPI::
 
     $ head -20 star_wars_gen/setup.cfg
-    
+
     [metadata]
     name = star_wars_gen
     version = 0.1.0
@@ -285,7 +285,7 @@ A far-from-exhaustive list of alternatives includes:
 *   ``pipenv``: This third-party tool aims to combine and abstract the creation of virtual environments and the installation of packages therein.
     It uses ``virtualenv+pip`` under the hood, thus essentially constituting a wrapper for the standard solution.
     It is often (somewhat erroneously) referred to as the officially recommended tool (and may in time develop into that), as well as a convenient and beginner-friendly solution.
-    If you prefer ``pipenv`` over ``venv+pip`` for development, see below how to handle dependencies (``Pipfile`` vs. ``requirements/*.txt``etc.).
+    If you prefer ``pipenv`` over ``venv+pip`` for development, see below how to handle dependencies (``Pipfile`` vs. ``requirements/*.txt`` etc.).
 
 *   ``conda``: Often used in science, ``Anaconda``/``Miniconda`` is another solution that handles both virtual environments as well as the packages therein, similar to ``pipenv``.
     In contrast to all aforementioned tools, however, it does not restrict itself to Python packages, but also manages non-Python dependencies like C-libraries, and environments contain their own Python installation -- conda environments are thus even more isolated from the system environment than conventional virtual environments.
@@ -309,7 +309,7 @@ Recap: How to create a new package with a virtual environment.
 --------------------------------------------------------------
 
 Say we want to develop the command line application `chain_calc`_ that performs sequential calculations.
-First, we create the respository ``chain_calc`` on the `APN Github`_, and then create an empty package of the same name using the blueprint and upload it::
+First, we create the repository ``chain_calc`` on the `APN Github`_, and then create an empty package of the same name using the blueprint and upload it::
 
     cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
     cd chain_calc
@@ -327,7 +327,7 @@ Now we're in a project-specific, pristine Python environment and good to go!
 Note that unless stated otherwise, the following examples assume you're in an activated virtual environment.
 
 .. _`APN Github`: https://github.com/MeteoSwiss-APN
-.. _`chain calc`: https://github.com/MeteoSwiss-APN/chain_calc
+.. _`chain_calc`: https://github.com/MeteoSwiss-APN/chain_calc
 
 
 In short: How to I install my package and manage my dependencies?
@@ -416,10 +416,11 @@ Almost anything specified in ``setup.py`` as (ultimately) arguments to ``setup()
 In addition, `setup.cfg`_ serves as a general-purpose configuration file that can contain the configuration of many development tools, among them ``pytest`` and ``tox``.
 
 In the blueprint, all configuration is specified in `setup.cfg`_, which essentially reduces `setup.py`_ to ``setup()``.
-We choise this layout primarily in order to centralize as much of the configuration in a single file as possible.
+We chose this layout primarily in order to centralize as much of the configuration in a single file as possible.
 For the same reason, the configuration of development tools is only put into designated configuration files if it is not possible or feasible (e.g., ``.bumpversion``) to put it in `setup.cfg`_.
 
 .. _`INI files`: https://en.wikipedia.org/wiki/INI_file
+.. _`setup.py`: https://docs.python.org/3/distutils/configfile.html
 .. _`setup.cfg`: https://docs.python.org/3/distutils/configfile.html
 
 
@@ -436,7 +437,7 @@ Because `pipenv`_ manages virtual environments, it cannot be installed inside on
 To install it user-wide, use `pipx`_::
 
     pipx install pipenv
-    
+
 This will install the `pipenv`_ package in isolation and make the command ``pipenv`` available user-wide (see `Deployment`_).
 
 How to create a `Pipfile`_ for a blueprint-based package (see link for syntax etc.):
@@ -512,39 +513,39 @@ Following are a few examples taken from the `Black README`_.
 Example 1::
 
     # in:
-    
+
     j = [1,
          2,
          3
     ]
-    
+
     # out:
-    
+
     j = [1, 2, 3]
 
 Example 2::
-    
+
     # in:
-    
+
     ImportantClass.important_method(exc, limit, lookup_lines, capture_locals, extra_argument)
-    
+
     # out:
-    
+
     ImportantClass.important_method(
         exc, limit, lookup_lines, capture_locals, extra_argument
     )
 
 Example 3::
-    
+
     # in:
-    
+
     def very_important_function(template: str, *variables, file: os.PathLike, engine: str, header: bool = True, debug: bool = False):
         """Applies `variables` to the `template` and writes to `file`."""
         with open(file, 'w') as f:
             ...
-    
+
     # out:
-    
+
     def very_important_function(
         template: str,
         *variables,
@@ -591,7 +592,7 @@ The blueprint comes with several tools that assist with testing the code to ensu
 *   ``pytest``: Framework to write and run tests for your code, be it unit or integration tests.
     Run with ``make test``, as well as by ``tox`` and ``coverage``.
 
-*   ``coverage``: Tool that quantifies how much of your code is covered (i.e., executed) by tests when running ``pytest``. 
+*   ``coverage``: Tool that quantifies how much of your code is covered (i.e., executed) by tests when running ``pytest``.
     Run with ``make coverage`` (and ``make coverage-html``), as well as by ``tox``.
 
 *   ``tox``: Tool to run ``pytest`` with various different Python versions.
@@ -612,10 +613,9 @@ The MCH Blueprint makes use of `Click`_, a Python package for creating beautiful
 It’s the “Command Line Interface Creation Kit”. It’s highly configurable but comes with sensible defaults out of the box.
 
 The command line interface is provided in the file src/great_tool/cli.py.
-There, you can specifiy, what command line arguments your project should provide, a few sensible ones are already pre-defined (--version, --help, --verbose, --dry-run).
+There, you can specify, what command line arguments your project should provide, a few sensible ones are already pre-defined (--version, --help, --verbose, --dry-run).
 There, you also provide the entry point to your code defined in src/great_tool/great_tool.py (this file is empty in a newly set up project) or other source files of your package in src/great_tool.
 
 For a somewhat more sophisticated command line interface than that provided by default by the blueprint, see the sample application `chain_calc`_.
 
 .. _`Click`: https://click.palletsprojects.com
-.. _`chain_calc`: https://github.com/MeteoSwiss-APN/chain_calc

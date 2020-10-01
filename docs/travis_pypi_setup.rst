@@ -1,5 +1,3 @@
-.. _travis-pypi-setup:
-
 
 Travis/PyPI Setup
 =================
@@ -16,9 +14,9 @@ This is OS-specific.
 
 We recommend the Homebrew travis package:
 
-```
-brew install travis
-```
+.. code-block:: bash
+
+    brew install travis
 
 ### Windows and Linux
 
