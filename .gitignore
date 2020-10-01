@@ -100,3 +100,6 @@ python_boilerplate/
 
 # Local python version used by pyenv
 .python-version
+
+# Visual Studio Code workspace settings
+.vscode
