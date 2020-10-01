@@ -95,3 +95,6 @@ target/
 # Cookiecutter
 output/
 python_boilerplate/
+
+# Local python version used by pyenv
+.python-version
