@@ -15,3 +15,19 @@ repos:
     rev: v1.17.1
     hooks:
     -   id: codespell
+-   repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+    -   id: black
+        files: ^tests/([^/]+/)*\w+.py$
+-   repo: https://github.com/timothycrosley/isort
+    rev: 5.5.4
+    hooks:
+    -   id: isort
+        files: ^tests/([^/]+/)*\w+.py$
+-   repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.3
+    hooks:
+    -   id: flake8
+        files: ^tests/([^/]+/)*\w+.py$
+        args: [--max-line-length=88]
