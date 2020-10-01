@@ -1,0 +1,7 @@
+alabaster
+cookiecutter>=1.4.0
+pre-commit
+pytest
+pytest-cookies
+tox
+watchdog
