@@ -762,22 +762,29 @@ In addition to some small checkers and fixers (find debug statements, remove tra
         Another good candidate, the spell checker `codespell <https://github.com/codespell-project/codespell>`_, is among the default development dependencies, but is not set up as a pre-commit hook because while it is very useful to find misspellings, it finds too many false positives, which are easy to ignore by eye but not by pre-commit.
         We strongly recommends to occasionally run codespell manually, though, in order to keep misspellings to a minimum.
 
-After creating a new project and installing the development dependencies, pre-commit must be activated once:
+After creating a new project and installing the development dependencies, pre-commit must be activated:
 
     .. code:: bash
 
-        make install-dev                        # install pre-commit
         ./venv/bin/pre-commit install           # hook into git
         ./venv/bin/pre-commit run --all-files   # run hooks the first time
 
-..
+Note that ``pre-commit install`` is run as part of ``make install-dev``, so if you stick to the Makefile commands, you won't have to activate pre-commit explicitly.
 
     .. note::
         If you have a good reason to make a commit despite failing pre-commit hooks, you can forego the checks with ``--no-verify``.
-        However, this should not be done lightly.
+        However, this should not be done routinely, but only in exceptional circumstances.
 
 What about tox?
 ---------------
+
+`Tox <https://github.com/tox-dev/tox>`_ is an automation framework to run arbitrary commands in isolated virtual environments.
+In addition to running tools like the linters flake8, mypy or pylint that check the correctness of the code, tox can also easily be set up to run unit tests (e.g., with pytest) against multiple installed Python versions (e.g., 3.7, 3.8, 3.9) to ensure broad compatibility.
+
+    .. note::
+        While less critical for end-user applications, ensuring compatibility with multiple Python versions is crucial for libraries that are used in other applications.
+
+TODO
 
 *************
 Testing Tools
