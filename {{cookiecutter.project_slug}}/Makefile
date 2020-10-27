@@ -1,10 +1,5 @@
 SHELL := /bin/bash
 
-.PHONY: clean-all clean-test clean-pyc clean-build clean-venv
-.PHONY: venv install install-edit install-pinned install-test install-test-pinned install-dev
-.PHONY: bump-major bump-minor bump-patch bump-major-dry bump-minor-dry bump-patch-dry
-.PHONY: test test-cov test-cov-html test-all
-.PHONY: docs help
 .DEFAULT_GOAL := help
 
 #==============================================================================
@@ -13,7 +8,7 @@ SHELL := /bin/bash
 
 ECHO_PREFIX ?= \nMAKE: #OPT Prefix of command echos
 IGNORE_VENV ?= 0#OPT Don't create and/or use a virtual environment.
-INSTALL ?= 0#OPT Whether to install project and dependencies if necessary.
+CHAIN ?= 0#OPT Whether to chain targets, e.g., let test depend on install-test.
 VENV_DIR ?= venv#OPT Path to virtual environment to be created and/or used.
 VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of virtual environment if one is created.
 
@@ -37,40 +32,34 @@ endif
 export PREFIX
 
 #
-# Targets conditional on ${INSTALL}.
+# Targets conditional on ${CHAIN}.
 #
 # Use these to specify the respective targets for post-installation targets
-# like ``test``, for which installation is optionally activated with INSTALL=1.
+# like ``test``, for which installation is optionally activated with CHAIN=1.
 #
 # Note that for interdependencies between venv/installation targets -- like
 # of ``install`` on ``venv``, or if ``install-dev`` on ``install-test`` -- the
 # targets are hard-coded w/o these variables, such that they are always executed
-# regardless of ${INSTALL}.
+# regardless of ${CHAIN}.
 #
-ifeq (${INSTALL}, 0)
+ifeq (${CHAIN}, 0)
 	_VENV :=
 	_INSTALL :=
 	_INSTALL_EDIT :=
-	_INSTALL_TEST :=
 	_INSTALL_DEV :=
-	_INSTALL_PINNED :=
-	_INSTALL_TEST_PINNED :=
 else
 	_VENV := venv
 	_INSTALL := install
 	_INSTALL_EDIT := install-edit
-	_INSTALL_TEST := install-test
 	_INSTALL_DEV := install-dev
-	_INSTALL_PINNED := install-pinned
-	_INSTALL_TEST_PINNED := install-test-pinned
 endif
 export _VENV
 export _INSTALL
 export _INSTALL_EDIT
-export _INSTALL_TEST
 export _INSTALL_DEV
-export _INSTALL_PINNED
-export _INSTALL_TEST_PINNED
+
+_TMP_VENV := $(shell date +venv-tmp-%s)
+export _TMP_VENV
 
 #==============================================================================
 # Python script: Print help
@@ -86,18 +75,22 @@ def parse_makefile(lines):
     rx_opt = re.compile(
         r"^(?P<name>[A-Z_]+) *\?= *(?P<value>[^ ]*) *#OPT (?P<help>.*)? *$$"
     )
-    rx_cmd = re.compile(
+    rx_cmd1 = re.compile(
         r"^(?P<name>[a-zA-Z_-]+):.*?#CMD (?P<help>.*) *$$"
+    )
+    rx_cmd2 = re.compile(
+        r"^.PHONY: (?P<name>[a-zA-Z_-]+) *#CMD (?P<help>.*) *$$"
     )
     for line in lines:
         match_opt = rx_opt.match(line)
-        match_cmd = rx_cmd.match(line)
+        match_cmd1 = rx_cmd1.match(line)
+        match_cmd2 = rx_cmd2.match(line)
         if match_opt:
             m = match_opt
             help = m.group("help").split(r"\n")
             options[m.group("name")] = (m.group("value"), help)
-        elif match_cmd:
-            m = match_cmd
+        elif match_cmd1 or match_cmd2:
+            m = match_cmd1 if match_cmd1 else match_cmd2
             commands[m.group("name")] = m.group("help").split(r"\n")
     return options, commands
 
@@ -153,6 +146,7 @@ browser = ${PREFIX}python -c "$$BROWSER_PY"
 # Help
 #==============================================================================
 
+.PHONY: help #CMD Print this help page.
 help:
 	@python -c "$$PRINT_HELP_PY" < $(MAKEFILE_LIST)
 
@@ -160,10 +154,12 @@ help:
 # Cleanup
 #==============================================================================
 
-clean-all: clean-venv clean-test clean-build clean-pyc #CMD Remove all build, test, coverage and Python artifacts.
+.PHONY: clean-all #CMD Remove all build, test, coverage and Python artifacts.
+clean-all: clean-venv clean-test clean-build clean-pyc
 	@echo -e "${ECHO_PREFIX}cleaning up"
 
-clean-build: #CMD Remove build artifacts.
+.PHONY: clean-build #CMD Remove build artifacts.
+clean-build:
 	@echo -e "${ECHO_PREFIX}removing build artifacts"
 	\rm -rf "build/"
 	\rm -rf "dist/"
@@ -171,74 +167,33 @@ clean-build: #CMD Remove build artifacts.
 	@\rm -ff $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg' -exec echo "rm -ff '{}'" \;)
 	@\rm -ff $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.egg' -exec echo "rm -ff '{}'" \;)
 
-clean-pyc: #CMD Remove Python file artifacts.
+.PHONY: clean-pyc #CMD Remove Python file artifacts.
+clean-pyc:
 	@echo -e "${ECHO_PREFIX}removing Python file artifacts"
 	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyc'       -exec echo "rm -rf '{}'" \;)
 	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*.pyo'       -exec echo "rm -rf '{}'" \;)
 	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '*~'          -exec echo "rm -rf '{}'" \;)
 	@\rm -rf $(\find . -not -path './venv*' -and -not -path './ENV*' -name '__pycache__' -exec echo "rm -rf '{}'" \;)
 
-clean-test: #CMD Remove testing artifacts.
+.PHONY: clean-test #CMD Remove testing artifacts.
+clean-test:
 	@echo -e "${ECHO_PREFIX}removing testing artifacts"
 	\rm -rf ".tox/"
 	\rm -f ".coverage"
 	\rm -rf "htmlcov/"
 	\rm -rf ".pytest_cache"
 
-clean-venv: #CMD Remove virtual environment.
+.PHONY: clean-venv #CMD Remove virtual environment.
+clean-venv:
 	@echo -e "${ECHO_PREFIX}removing virtual environment at '${VENV_DIR}'"
 	\rm -rf "${VENV_DIR}"
-
-#==============================================================================
-# Virtual Environments
-#==============================================================================
-
-venv: #CMD Create a virtual environment.
-ifeq (${IGNORE_VENV}, 0)
-	$(eval PREFIX = ${PREFIX_VENV})
-	@export PREFIX
-ifeq (${VIRTUAL_ENV},)
-	@echo -e "${ECHO_PREFIX}creating virtual environment '${VENV_NAME}' at '${VENV_DIR}'"
-	python -m venv ${VENV_DIR} --prompt='${VENV_NAME}'
-	${PREFIX}python -m pip install -U pip
-endif
-endif
-
-#==============================================================================
-# Installation
-#==============================================================================
-
-install: venv #CMD Install the package with unpinned runtime dependencies.
-	@echo -e "${ECHO_PREFIX}installing the package"
-	${PREFIX}python -m pip install .
-
-install-edit: venv #CMD Install the package as editable with unpinned runtime dependencies.
-	@echo -e "${ECHO_PREFIX}installing the package as editable"
-	${PREFIX}python -m pip install -e .
-
-install-pinned: venv #CMD Install the package with pinned runtime dependencies.
-	@echo -e "${ECHO_PREFIX}installing the package with pinned dependencies"
-	${PREFIX}python -m pip install -r requirements/run-pinned.txt
-	${PREFIX}python -m pip install .
-
-install-test-pinned: venv #CMD Install the package with pinned runtime and testing dependencies.
-	@echo -e "${ECHO_PREFIX}installing the package as editable with pinned testing dependencies"
-	${PREFIX}python -m pip install -r requirements/test-pinned.txt
-	${PREFIX}python -m pip install -e .
-
-install-test: install-edit #CMD Install the package with unpinned runtime and testing dependencies.
-	@echo -e "${ECHO_PREFIX}installing the package with testing dependencies"
-	${PREFIX}python -m pip install -r requirements/test-unpinned.txt
-
-install-dev: install-test #CMD Install the package as editable with unpinned runtime,\ntesting, and development dependencies.
-	@echo -e "${ECHO_PREFIX}installing the package as editable with testing and development dependencies"
-	${PREFIX}python -m pip install -r requirements/dev-unpinned.txt
 
 #==============================================================================
 # Version control
 #==============================================================================
 
-git: clean-all #CMD Initialize a git repository and make initial commit.
+.PHONY: git #CMD Initialize a git repository and make initial commit.
+git: clean-all
 ifeq ($(shell git tag >/dev/null 2>&1 && echo 0 || echo 1), 0)
 	@echo -e "${ECHO_PREFIX}git already initialized"
 else
@@ -250,72 +205,177 @@ else
 endif
 
 #==============================================================================
+# Virtual Environments
+#==============================================================================
+
+.PHONY: venv #CMD Create a virtual environment.
+venv:
+ifneq ($(shell git tag >/dev/null 2>&1 && echo 0 || echo 1), 0)
+	@echo -e "${ECHO_PREFIX}error: git not initialized (run `make git`)"
+else
+ifeq (${IGNORE_VENV}, 0)
+	$(eval PREFIX = ${PREFIX_VENV})
+	@export PREFIX
+ifeq (${VIRTUAL_ENV},)
+	@echo -e "${ECHO_PREFIX}creating virtual environment '${VENV_NAME}' at '${VENV_DIR}'"
+	python -m venv ${VENV_DIR} --prompt='${VENV_NAME}'
+	${PREFIX}python -m pip install -U pip
+endif
+endif
+endif
+
+#==============================================================================
+# Installation
+#==============================================================================
+
+.PHONY: install #CMD Install the package with pinned runtime dependencies.
+install: ${_VENV}
+	@echo -e "${ECHO_PREFIX}installing the package"
+	${PREFIX}python -m pip install . --use-feature=2020-resolver
+
+.PHONY: install-dev #CMD Install the package as editable with pinned runtime and development dependencies.
+install-dev: ${_VENV}
+	@echo -e "${ECHO_PREFIX}installing the package as editable with development dependencies"
+	${PREFIX}python -m pip install -r requirements/dev-pinned.txt --use-feature=2020-resolver
+	${PREFIX}python -m pip install -e . --use-feature=2020-resolver
+	${PREFIX}pre-commit install
+
+#==============================================================================
+# Dependencies
+#==============================================================================
+
+.PHONY: update-run-deps #CMD Update pinned runtime dependencies based on setup.py
+update-run-deps:
+	@echo -e "${ECHO_PREFIX}updating pinned runtime dependencies"
+	@echo -e "temporary virtual environment: ${_TMP_VENV}"
+	python -m venv ${_TMP_VENV}
+	${_TMP_VENV}/bin/python -m pip install -U pip
+	\rm -fv requirements.txt
+	${_TMP_VENV}/bin/python -m pip install . --use-feature=2020-resolver; \
+		ln -sfv requirements/run-pinned.txt requirements.txt
+	${_TMP_VENV}/bin/python -m pip freeze | \grep -v '\<file:' > requirements/run-pinned.txt
+	\rm -rf ${_TMP_VENV}
+
+.PHONY: update-dev-deps #CMD Update pinned development dependencies based on\nrequirements/run-pinned.txt and requitements/dev-unpinned.txt
+update-dev-deps:
+	@echo -e "${ECHO_PREFIX}updating pinned development dependencies"
+	@echo -e "temporary virtual environment: ${_TMP_VENV}"
+	python -m venv ${_TMP_VENV}
+	${_TMP_VENV}/bin/python -m pip install -U pip
+	${_TMP_VENV}/bin/python -m pip install -r requirements/dev-unpinned.txt --use-feature=2020-resolver
+	${_TMP_VENV}/bin/python -m pip install -r requirements/run-pinned.txt --no-deps --use-feature=2020-resolver
+	${_TMP_VENV}/bin/python -m pip freeze > requirements/dev-pinned.txt
+	\rm -rf ${_TMP_VENV}
+
+.PHONY: update-tox-deps #CMD Update pinned tox testing dependencies based on\nrequirements/tox-unpinned.txt
+update-tox-deps:
+	@echo -e "${ECHO_PREFIX}updating pinned tox testing dependencies"
+	@echo -e "temporary virtual environment: ${_TMP_VENV}"
+	python -m venv ${_TMP_VENV}
+	${_TMP_VENV}/bin/python -m pip install -U pip
+	${_TMP_VENV}/bin/python -m pip install -r requirements/tox-unpinned.txt --use-feature=2020-resolver
+	${_TMP_VENV}/bin/python -m pip freeze > requirements/tox-pinned.txt
+	\rm -rf ${_TMP_VENV}
+
+#==============================================================================
 # Versioning
 #==============================================================================
 
-bump-patch: ${_INSTALL_DEV} #CMD Bump patch component of version number (x.y.Z), incl. git commit and tag
-	@echo -e "${ECHO_PREFIX}bumping version number: increment patch component"
-	${PREFIX}bumpversion patch
+# Note:
+# Bump2version v1.0.0 is incompatible with pre-commit hook fix-trailing-whitespace
+# (https://ithub.com/c4urself/bump2version/issues/124), therefore we pre-commit,
+# commit, and tag manually. Once the whitespace problem is fixed, this can again
+# be done in one command:
+#  @read -p "Please annotate new tag: " msg \
+#  && ${PREFIX}bumpversion patch --verbose --tag-message="$${msg}"
 
-bump-minor: ${_INSTALL_DEV} #CMD Bump minor component of version number (x.Y.z), incl. git commit and tag
-	@echo -e "${ECHO_PREFIX}bumping version number: increment minor component"
-	${PREFIX}bumpversion minor
+.PHONY: bump-patch #CMD Increment patch component Z of version number X.Y.Z,\nincl. git commit and tag
+bump-patch: ${_INSTALL_DEV}
+	@echo -e "${ECHO_PREFIX}bumping version number: increment patch component\n"
+	@${PREFIX}bumpversion patch --verbose --no-commit --no-tag && echo
+	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
+	@git commit -m "new version v$$(cat VERSION) (patch bump)" --no-verify && echo
+	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION) -a  -m "$${msg}"
+	@echo -e "\ngit tag -n v$$(cat VERSION)" && git tag -n v$$(cat VERSION)
+	@echo -e "\ngit log -n1" && git log -n1
 
-bump-major: ${_INSTALL_DEV} #CMD Bump minor component of version number (X.y.z), incl. git commit and tag
-	@echo -e "${ECHO_PREFIX}bumping version number: increment major component"
-	${PREFIX}bumpversion major
+.PHONY: bump-minor #CMD Increment minor component Y of version number X.Y.Z,\nincl. git commit and tag
+bump-minor: ${_INSTALL_DEV}
+	@echo -e "${ECHO_PREFIX}bumping version number: increment minor component\n"
+	@${PREFIX}bumpversion minor --verbose --no-commit --no-tag && echo
+	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
+	@git commit -m "new version v$$(cat VERSION) (minor bump)" --no-verify && echo
+	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION) -a  -m "$${msg}"
+	@echo -e "\ngit tag -n v$$(cat VERSION)" && git tag -n v$$(cat VERSION)
+	@echo -e "\ngit log -n1" && git log -n1
 
-bump-patch-dry: ${_INSTALL_DEV} #CMD Bump patch component of version number (x.y.Z), without git commit and tag
-	@echo -e "${ECHO_PREFIX}bumping version number: increment patch component (dry run)"
-	${PREFIX}bumpversion patch --no-commit --no-tag
-
-bump-minor-dry: ${_INSTALL_DEV} #CMD Bump minor component of version number (x.Y.z), without git commit and tag
-	@echo -e "${ECHO_PREFIX}bumping version number: increment minor component (dry run)"
-	${PREFIX}bumpversion minor --no-commit --no-tag
-
-bump-major-dry: ${_INSTALL_DEV} #CMD Bump minor component of version number (X.y.z), without git commit and tag
-	@echo -e "${ECHO_PREFIX}bumping version number: increment major component (dry run)"
-	${PREFIX}bumpversion major --no-commit --no-tag
+.PHONY: bump-major #CMD Increment major component X of version number X.Y.Z,\nincl. git commit and tag
+bump-major: ${_INSTALL_DEV}
+	@echo -e "${ECHO_PREFIX}bumping version number: increment major component\n"
+	@${PREFIX}bumpversion major --verbose --no-commit --no-tag && echo
+	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
+	@git commit -m "new version v$$(cat VERSION) (major bump)" --no-verify && echo
+	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION) -a  -m "$${msg}"
+	@echo -e "\ngit tag -n v$$(cat VERSION)" && git tag -n v$$(cat VERSION)
+	@echo -e "\ngit log -n1" && git log -n1
 
 #==============================================================================
-# Formatting and linting
+# Format and check the code
 #==============================================================================
 
-format: ${_INSTALL_DEV} #CMD Reformat the code to conform with standards like PEP 8.
-	@echo -e "${ECHO_PREFIX}reformatting the code"
-	${PREFIX}black src tests
+.PHONY: format #CMD Check and fix the code formatting
+format: ${_INSTALL_DEV}
+	@echo -e "${ECHO_PREFIX}checking and fixing code formatting"
+	${PREFIX}pre-commit run --all-files
 
-lint: ${_INSTALL_DEV} #CMD Check the code style.
-	@echo -e "${ECHO_PREFIX}checking the code style (linting)"
-	${PREFIX}flake8 src tests
+.PHONY: check #CMD Check the code for correctness and best practices
+check: ${_INSTALL_DEV}
+	@echo -e "${ECHO_PREFIX}checking code correctness and best practices"
+	${PREFIX}tox --parallel -e mypy -e flake8 -e pylint
+
+.PHONY: spellcheck #CMD Check for spelling errors
+spellcheck: ${_INSTALL_DEV}
+	@echo -e "${ECHO_PREFIX}checking for spelling errors
+	${PREFIX}codespell *.rst src tests docs
 
 #==============================================================================
-# Testing
+# Run the tests
 #==============================================================================
 
-test: ${_INSTALL_TEST} #CMD Run all tests with the default Python version.
-	@echo -e "${ECHO_PREFIX}running tests"
-	${PREFIX}pytest
+.PHONY: test-fast #CMD Run only fast tests in the development environment
+test-fast: ${_INSTALL_TEST}
+	@echo -e "${ECHO_PREFIX}running fast tests locally"
+	# ${PREFIX}tox -e py37 -- tests/fast
+	${PREFIX}pytest tests/fast
 
-test-cov: ${_INSTALL_TEST} #CMD Check code coverage of tests.
-	@echo -e "${ECHO_PREFIX}running tests with coverage check"
-	${PREFIX}pytest --cov=src
+.PHONY: test-slow #CMD Run only slow tests in the development environment
+test-slow: ${_INSTALL_TEST}
+	@echo -e "${ECHO_PREFIX}running slow tests locally"
+	# ${PREFIX}tox -e py37 -- tests/slow
+	${PREFIX}pytest tests/slow
 
-test-cov-html: ${_INSTALL_TEST} #CMD Check code coverage of tests and show results in browser.
-	@echo -e "${ECHO_PREFIX}running tests with coverage check and browser report"
-	${PREFIX}pytest --cov=src --cov-report=html
-	${browser} htmlcov/index.html
+.PHONY: test #CMD Run all tests in the development environment
+test: ${_INSTALL_TEST}
+	@echo -e "${ECHO_PREFIX}running all tests locally"
+	# ${PREFIX}tox -e py37
+	${PREFIX}pytest tests
 
-test-all: ${_INSTALL_TEST} #CMD Run tests on all specified Python versions with tox.
-	@echo -e "${ECHO_PREFIX}running tests in isolated environments"
-	${PREFIX}tox
+.PHONY: test-iso #CMD Run all tests in an isolated environment
+test-iso: ${_INSTALL_TEST}
+	@echo -e "${ECHO_PREFIX}running all tests in isolation"
+	${PREFIX}tox -e py37
 
+.PHONY: test-check #CMD Run tests and checks in an isolated environment
+test-check: ${_INSTALL_TEST}
+	@echo -e "${ECHO_PREFIX}running tests and checks in isolated environments"
+	${PREFIX}tox --parallel
 #==============================================================================
 # Documentation
 #==============================================================================
 
-# docs: ${_INSTALL_DEV} #CMD Generate HTML documentation, including API docs.
-#	@echo -e "${ECHO_PREFIX}generating HTML documentation"
+# .PHONY: docs #CMD Generate HTML documentation, including API docs.
+# docs: ${_INSTALL_DEV}
+# 	@echo -e "${ECHO_PREFIX}generating HTML documentation"
 # 	\rm -f docs/{{ cookiecutter.project_slug }}.rst
 # 	\rm -f docs/modules.rst
 # 	${PREFIX}sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
@@ -323,8 +383,9 @@ test-all: ${_INSTALL_TEST} #CMD Run tests on all specified Python versions with 
 # 	$(MAKE) -C docs html
 # 	${browser} docs/_build/html/index.html
 
-# servedocs: docs #CMD Compile the docs watching for changes.
-#	@echo -e "${ECHO_PREFIX}continuously regenerating HTML documentation"
+# .PHONY: servedocs #CMD Compile the docs watching for changes.
+# servedocs: docs
+# 	@echo -e "${ECHO_PREFIX}continuously regenerating HTML documentation"
 # 	${PREFIX}watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 #==============================================================================

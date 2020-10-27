@@ -1,15 +1,14 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-The setup script.
-"""
-
-from setuptools import setup
+"""Set up the project."""
+# Third-party
 from setuptools import find_packages
+from setuptools import setup
+
 
 def read_file(path):
     with open(path, "r") as f:
         return "\n".join([l.strip() for l in f.readlines()])
+
 
 description_files = ["README.rst", "HISTORY.rst"]
 
@@ -31,11 +30,19 @@ metadata = {
     ],
 }
 
-python = ">=3.7"
+python = ">= 3.7"
 
-dependencies = [
-    "Click >= 6.0",
+# Unpinned runtime dependencies
+unpinned_dependencies = [
+    "click >= 6.0",
 ]
+
+# If available, use pinned dependencies instead
+try:
+    with open("requirements.txt") as fi:
+        dependencies = [line.strip() for line in fi.readlines()]
+except Exception:
+    dependencies = unpinned_dependencies
 
 scripts = [
     "{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main",
@@ -48,5 +55,6 @@ setup(
     packages=find_packages("src"),
     package_dir={"": "src"},
     include_package_data=True,
+    zip_save=False,
     **metadata,
 )
