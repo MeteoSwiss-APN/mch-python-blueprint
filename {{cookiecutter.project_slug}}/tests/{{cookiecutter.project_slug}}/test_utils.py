@@ -1,17 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""Tests for `{{ cookiecutter.project_slug }}/utils.py` package."""
+"""Test module ``{{ cookiecutter.project_slug }}/utils.py``."""
+# Standard library
 import logging
 
+# Third-party
 import pytest
 from click.testing import CliRunner
 
+# First-party
 from {{ cookiecutter.project_slug }} import utils
-
-
-# dummy lines to avoid flake8 error F401 (imported but unused); remove!
-pytest
-CliRunner
 
 
 def test_count_to_log_level():

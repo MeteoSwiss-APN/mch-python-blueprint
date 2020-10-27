@@ -1,10 +1,12 @@
-# -*- coding: utf-8 -*-
 """Console script for {{cookiecutter.project_slug}}."""
+# Standard library
 import logging
 import sys
 
+# Third-party
 import click
 
+# Local
 from . import __version__
 from .utils import count_to_log_level
 

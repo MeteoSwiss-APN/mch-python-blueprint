@@ -1,14 +1,10 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""Tests for package `{{ cookiecutter.project_slug }}`."""
+"""Test module ``{{ cookiecutter.project_slug }}``."""
+# Third-party
 import pytest
 from click.testing import CliRunner
 
+# First-party
 from {{ cookiecutter.project_slug }} import cli
-
-
-# dummy lines to avoid flake8 error F401 (imported but unused); remove!
-pytest
 
 
 class TestCLI:

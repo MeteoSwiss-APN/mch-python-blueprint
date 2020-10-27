@@ -1,13 +1,9 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""Tests for `{{ cookiecutter.project_slug }}` package."""
+"""Test module ``{{ cookiecutter.project_slug }}``."""
+# Third-party
 import pytest
 
+# First-party
 from {{ cookiecutter.project_slug }} import {{ cookiecutter.project_slug }}
-
-
-# dummy line to avoid flake8 error F401 (imported but unused); remove!
-{{ cookiecutter.project_slug }}
 
 
 @pytest.fixture
