@@ -786,25 +786,10 @@ In addition to running tools like the linters flake8, mypy or pylint that check 
 
 TODO
 
-*************
-Testing Tools
-*************
+What about TODO?
+----------------
 
-In short, what testing tools come with the blueprint?
------------------------------------------------------
-
-The blueprint comes with several tools that assist with testing the code to ensure that it works correctly:
-
-*   ``pytest``: Framework to write and run tests for your code, be it unit or integration tests.
-    Run with ``make test``, as well as by ``tox`` and ``coverage``.
-
-*   ``coverage``: Tool that quantifies how much of your code is covered (i.e., executed) by tests when running ``pytest``.
-    Run with ``make coverage`` (and ``make coverage-html``), as well as by ``tox``.
-
-*   ``tox``: Tool to run ``pytest`` with various different Python versions.
-    Because it installs the package into temporary virtual environments, this also serves as a test whether package installation works.
-    Also runs ``flake8`` and ``coverage`` tests.
-    Run by ``make-all``.
+TODO Introduce other tools!
 
 *********************
 Recommended Libraries
@@ -813,14 +798,12 @@ Recommended Libraries
 How do I add a command line interface to my application?
 --------------------------------------------------------
 
-Your project might want to provide a command line interface.
-The MCH Blueprint makes use of `Click`_, a Python package for creating beautiful command line interfaces in a composable way with as little code as necessary.
-It’s the “Command Line Interface Creation Kit”. It’s highly configurable but comes with sensible defaults out of the box.
+If you develop an application (rather than a library), chances are you want to provide a command line interface.
+The Blueprint uses `click <https://click.palletsprojects.com>`_ (“Command Line Interface Creation Kit”), a library for creating command line interfaces in a composable way with as little code as necessary.
+It is highly configurable but comes with sensible defaults out of the box.
 
-The command line interface is provided in the file src/great_tool/cli.py.
-There, you can specify, what command line arguments your project should provide, a few sensible ones are already pre-defined (--version, --help, --verbose, --dry-run).
-There, you also provide the entry point to your code defined in src/great_tool/great_tool.py (this file is empty in a newly set up project) or other source files of your package in src/great_tool.
+The command line interface is defined in the file ``src/great_tool/cli.py``.
+There, you can specify command line arguments and options, as well as the entry point(s) as specified in ``setup.py``.
+A few sensible ones are already pre-defined (--version, --help, --verbose, --dry-run).
 
 For a somewhat more sophisticated command line interface than that provided by default by the blueprint, see the sample application `chain_calc`_.
-
-.. _`Click`: https://click.palletsprojects.com
