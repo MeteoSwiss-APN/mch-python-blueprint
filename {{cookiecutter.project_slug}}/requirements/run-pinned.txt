@@ -1,3 +1,3 @@
-{%- if cookiecutter.sample_code != 'no' %}
+{%- if cookiecutter.sample_code != 'no' -%}
 click==7.1.2
-{%- endif %}
+{% endif %}

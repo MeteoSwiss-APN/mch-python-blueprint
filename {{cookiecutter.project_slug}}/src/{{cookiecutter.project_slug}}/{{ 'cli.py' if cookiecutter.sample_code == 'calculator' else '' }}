@@ -8,7 +8,7 @@ from .mutable_number import MutableNumber
 
 
 # pylint: disable=W0613  # unused-argument (param)
-def print_version(ctx, param, value) -> None:
+def print_version(ctx, param, value: bool) -> None:
     """Print the version number and exit."""
     if value:
         click.echo(__version__)
@@ -30,7 +30,11 @@ def print_number(ctx, *args, **kwargs) -> None:
     chain=True,
     result_callback=print_number,
 )
-@click.argument("number", type=float, nargs=1)
+@click.argument(
+    "number",
+    type=float,
+    nargs=1,
+)
 @click.option(
     "--version",
     "-V",
@@ -46,7 +50,7 @@ def print_number(ctx, *args, **kwargs) -> None:
     help="Increase verbosity (specify multiple times for more).",
 )
 @click.pass_context
-def main(ctx, number, **kwargs):
+def main(ctx, number: float, **kwargs) -> None:
     """Console script for test_cli_project."""
     if ctx.obj is None:
         ctx.obj = {}

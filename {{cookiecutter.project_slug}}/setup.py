@@ -32,11 +32,13 @@ metadata = {
 python = ">= 3.7"
 
 # Unpinned runtime dependencies
+{%- if cookiecutter.sample_code == 'no' %}
+unpinned_dependencies = []
+{%- elif cookiecutter.sample_code != 'no' %}
 unpinned_dependencies = [
-{%- if cookiecutter.sample_code != 'no' %}
     "click >= 6.0",
-{%- endif %}
 ]
+{%- endif %}
 
 # If available, use pinned dependencies instead
 try:

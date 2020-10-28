@@ -1,9 +1,5 @@
 """Command line interface of {{cookiecutter.project_slug}}."""
 
 
-def main():
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())  # pragma: no cover
+def main() -> None:
+    pass
