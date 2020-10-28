@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Set up the project."""
 # Third-party
 from setuptools import find_packages
@@ -34,9 +33,9 @@ python = ">= 3.7"
 
 # Unpinned runtime dependencies
 unpinned_dependencies = [
-{%- if cookiecutter.include_sample_code == 'y' -%}
+{%- if cookiecutter.sample_code != 'no' %}
     "click >= 6.0",
-{% endif %}
+{%- endif %}
 ]
 
 # If available, use pinned dependencies instead
