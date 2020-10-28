@@ -5,6 +5,42 @@ Tutorial
 
 A step-by-step introduction with examples to the Python blueprint and its components.
 
+**********
+Quickstart
+**********
+
+To create a new project and start developing, run these commands:
+
+    .. code::
+
+        cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
+        cd <project>
+        make format check test CHAIN=1
+
+The cookiecutter command will ask you for some information on you and your project.
+In addition, the parameter "sample_code" allows you to choose the amount of sample code to be included:
+
+-   'no': No sample code is provided beyond an empty `main()` function in the `cli.py` file.
+    This is useful if you are migrating an existing project into a new Blueprint project.
+-   'cli': A basic command line interface based on `click <https://click.palletsprojects.com>`_ is pre-defined, including some basic tests.
+    This is useful if you start from scratch but hit the ground running in terms of command line options.
+-   'calculator': A fully-functional simple program that performs chained calculations, including a class and tests.
+    This is useful to explore the Blueprint and the possibilities offered by `click <https://click.palletsprojects.com>`_.
+
+The three explicit make commands do the following (type `make help` for all commands):
+
+-   `make format`: Run pre-commit hooks over all files, which auto-format the code and perform a few checks.
+-   `make check`: Run some linters (flake8, pylint, mypy) over the code, which check it for correctness and best practices.
+-   `make test`: Run the unit tests.
+
+Thanks to `CHAIN=1`, the following actions are taken in the beginning:
+
+-   Initialize a git repository and commit all files (`make git`).
+-   Create a local virtual environment (`make venv`).
+-   Install the runtime and development dependencies into it (`make install-dev`).
+
+If all goes well, you are ready to work on your code!
+
 *****************************
 On projects and the Blueprint
 *****************************
