@@ -1,6 +1,6 @@
 """Test module ``{{ cookiecutter.project_slug }}``."""
+{%- if cookiecutter.include_sample_code == 'y' -%}
 # Third-party
-import pytest
 from click.testing import CliRunner
 
 # First-party
@@ -33,3 +33,4 @@ class TestCLI:
         result = self.call(["-n"])
         assert result.exit_code == 0
         assert "Is dry run" in result.output
+{% endif %}

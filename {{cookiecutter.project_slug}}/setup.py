@@ -34,7 +34,9 @@ python = ">= 3.7"
 
 # Unpinned runtime dependencies
 unpinned_dependencies = [
+{%- if cookiecutter.include_sample_code == 'y' -%}
     "click >= 6.0",
+{% endif %}
 ]
 
 # If available, use pinned dependencies instead

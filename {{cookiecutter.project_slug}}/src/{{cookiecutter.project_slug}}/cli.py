@@ -1,4 +1,5 @@
-"""Console script for {{cookiecutter.project_slug}}."""
+"""Command line interface of {{cookiecutter.project_slug}}."""
+{%- if cookiecutter.include_sample_code == 'y' -%}
 # Standard library
 import logging
 import sys
@@ -26,9 +27,9 @@ from .utils import count_to_log_level
     help="Increase verbosity (specify multiple times for more)",
 )
 @click.option("--version", "-V", is_flag=True, help="Print version")
+{% endif %}
 def main(*args, **kwargs):
-    """Console script for test_cli_project."""
-
+{%- if  cookiecutter.include_sample_code == 'y' -%}
     logging.basicConfig(level=count_to_log_level(kwargs["verbose"]))
 
     logging.warning("This is a warning.")
@@ -48,6 +49,7 @@ def main(*args, **kwargs):
     )
     click.echo("See click documentation at http://click.pocoo.org/")
 
+{% endif %}
     return 0
 
 
