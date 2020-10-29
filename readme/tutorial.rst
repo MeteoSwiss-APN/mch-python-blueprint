@@ -866,6 +866,47 @@ Tell me about mypy!
 
 See `github page <https://github.com/python/mypy>`_ and `documentation <https://mypy.readthedocs.io/en/stable/>`_.
 
+Why should I want to declare variable types in Python?
+------------------------------------------------------
+
+Python is a dynamically typed language where the types of variables do not need to be declared and can indeed change freely.
+This is in contrast to statically typed languages like C or Fortran, where the variable types must be declared and cannot change freely.
+Dynamic typing makes it very easy to write Python scripts, to reuse functions with custom objects, and so forth.
+However, at least some type information is usually necessary, especially in interfaces, e.g., when an argument is expected to be a number, a string or a list.
+This information is usually provided in docstrings.
+The problem with type information in docstrings is that it cannot be easily verified and is in danger of becoming outdated when an interface changes but the docstring is not adapted accordingly.
+
+To address this issue, Python gradually introduced the concept of type hints, initially as comments but eventually as part of the language.
+The `modern type hint syntax <https://www.python.org/dev/peps/pep-0484/>`_ has been introduced in Python 3.5 and is based on `function annotations <https://www.python.org/dev/peps/pep-3107/>`_
+The hints can be parsed by external tools like `mypy <http://mypy-lang.org/>`_, which use them together type information derived from variable assignments to perform static type analysis.
+This allows them to detect errors such as passing a string to a function that expects a bool, as illustrated in this example (`source <>`_):
+
+    .. code:: python
+
+        # headlines.py
+
+        def headline(text: str, align: bool = True) -> str:
+            if align:
+                return f"{text.title()}\n{'-' * len(text)}"
+            else:
+                return f" {text.title()} ".center(50, "o")
+
+        print(headline("python type checking"))
+        print(headline("use mypy", align="center"))
+
+..
+
+    .. code:: bash
+
+        $ mypy headlines.py
+        headlines.py:10: error: Argument "align" to "headline" has incompatible type "str"; expected "bool"
+
+For more information on type hints, see the `mypy cheat sheet <https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html>`_ and this `RealPython guide <https://realpython.com/python-type-checking/>`_.
+
+    .. note::
+        In contrast to statically typed languages, however, the type information is not used at runtime to increase performance, and also won't be used to that end in the future (at least by CPython, the official Python interpreter).
+        Type hints are therefore best thought of as testable documentation.
+
 *********************
 Recommended Libraries
 *********************
