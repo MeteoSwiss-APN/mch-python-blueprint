@@ -22,10 +22,10 @@ In addition, the parameter "sample_code" allows you to choose the amount of samp
 
 -   'no': No sample code is provided beyond an empty `main()` function in the `cli.py` file.
     This is useful if you are migrating an existing project into a new Blueprint project.
--   'cli': A basic command line interface based on `click <https://click.palletsprojects.com>`_ is pre-defined, including some basic tests.
+-   'cli': A basic command line interface based on `click <https://click.palletsprojects.com>`__ is pre-defined, including some basic tests.
     This is useful if you start from scratch but hit the ground running in terms of command line options.
 -   'calculator': A fully-functional simple program that performs chained calculations, including a class and tests.
-    This is useful to explore the Blueprint and the possibilities offered by `click <https://click.palletsprojects.com>`_.
+    This is useful to explore the Blueprint and the possibilities offered by `click <https://click.palletsprojects.com>`__.
 
 The three explicit make commands do the following (type `make help` for all commands):
 
@@ -73,20 +73,20 @@ These terms describe the organizational hierarchy of Python code:
     To turn a directory containing modules into a package, add a file called ``__init__.py``, which may be empty.
     Packages can be nested arbitrarily to create module hierarchies, as long as each nested directory contains a ``__init__.py``.
     Nested packages are also referred to as *subpackages*.
-    See also `this article <https://realpython.com/python-modules-packages/>`_ for a detailed description of modules and packages.
+    See also `this article <https://realpython.com/python-modules-packages/>`__ for a detailed description of modules and packages.
 -   **Project**: A package together with tests, documentation, an install script, configuration files and development tools.
     A project should contain everything that is necessary to develop and/or install the package and its commands.
 
     .. note::
-        Creating an installable project is called `packaging <https://packaging.python.org/tutorials/packaging-projects/>`_, and the resulting packaged project is often also called a *package* -- not to be confused with a package as defined above!
+        Creating an installable project is called `packaging <https://packaging.python.org/tutorials/packaging-projects/>`__, and the resulting packaged project is often also called a *package* -- not to be confused with a package as defined above!
         Usually, it is clear from context whether *package* refers to a collection of modules or to a packaged project.
         To avoid confusion, we will try to avoid the term *package* for the latter and instead call it a *project* or *packaged project* -- except when referring to *installing packages* with pip, the Python *package installer*.
 
 How do I get started with the Blueprint?
 ----------------------------------------
 
-The Blueprint resides on `Github <https://github.com/MeteoSwiss-APN/mch-python-blueprint>`_.
-To create a new empty project from it, you need to run `Cookiecutter <https://github.com/cookiecutter/cookiecutter>`_ (which is installed on the MeteoSwiss machines at CSCS):
+The Blueprint resides on `Github <https://github.com/MeteoSwiss-APN/mch-python-blueprint>`__.
+To create a new empty project from it, you need to run `Cookiecutter <https://github.com/cookiecutter/cookiecutter>`__ (which is installed on the MeteoSwiss machines at CSCS):
 
     .. code::
 
@@ -170,7 +170,7 @@ For your convenience, the ``Makefile`` defines a command for this:
 
         make git
 
-In order to upload your project to Github, after `creating a new repository <https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-new-repository>`_, run:
+In order to upload your project to Github, after `creating a new repository <https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-new-repository>`__, run:
 
     .. code:: bash
 
@@ -191,11 +191,11 @@ Virtual Environments
 What is a virtual environment?
 ------------------------------
 
-By default, `pip <https://pip.pypa.io/en/stable/>`_ installs Python packages system- or (with ``--user``) user-wide.
+By default, `pip <https://pip.pypa.io/en/stable/>`__ installs Python packages system- or (with ``--user``) user-wide.
 This makes them conveniently available, but can lead to version conflicts and more generally to a non-reproducible environment, as package versions will inevitable differ between machines or over time.
 
     .. note::
-        A situation where multiple packages depend on different versions of a shared dependencies is called `dependency hell <https://en.wikipedia.org/wiki/Dependency_hell>`_.
+        A situation where multiple packages depend on different versions of a shared dependencies is called `dependency hell <https://en.wikipedia.org/wiki/Dependency_hell>`__.
         For example, tool A may require version ``< 2.0`` of dependency D, while tool B requires the same package, version ``>= 3.0``.
         You are then forced to choose between tools A and B because you cannot install both alongside each other!
         And if, god forbid, your system also depends on dependency D, but on version ``2.*``, you are forced to abandon both packages.
@@ -206,8 +206,8 @@ Because the package versions in a virtual environment are independent from those
 
     .. note::
         Virtual environments are tied to an existing Python installation, i.e., Python itself is not part of a virtual environment, but only linked.
-        Multiple versions of Python can be easily installed with `Pyenv <https://github.com/pyenv/pyenv>`_, which allows virtual environments using different Python versions to coexist.
-        Alternatively, `Conda <https://docs.conda.io/en/latest/>`_ provides virtual environment with a wider scope, including the Python installation itself as well as non-Python dependencies such as C libraries.
+        Multiple versions of Python can be easily installed with `Pyenv <https://github.com/pyenv/pyenv>`__, which allows virtual environments using different Python versions to coexist.
+        Alternatively, `Conda <https://docs.conda.io/en/latest/>`__ provides virtual environment with a wider scope, including the Python installation itself as well as non-Python dependencies such as C libraries.
 
 How can I create a virtual environment?
 ---------------------------------------
@@ -226,7 +226,7 @@ Among them, notably, is ``python`` itself:
         $ ls -l venv/bin/python
         lrwxrwxrwx 1 stefan stefan 50 Oct  1 13:05 venv/bin/python -> /home/stefan/local/pyenv/versions/3.7.4/bin/python*
 
-Because the Python installation is not part of the virtual environment, ``venv/bin/python`` is only a symlink to the installation used to create the virtual environment (in this example, one managed by  `Pyenv <https://github.com/pyenv/pyenv>`_).
+Because the Python installation is not part of the virtual environment, ``venv/bin/python`` is only a symlink to the installation used to create the virtual environment (in this example, one managed by  `Pyenv <https://github.com/pyenv/pyenv>`__).
 However, by using ``./venv/bin/python`` instead of plain ``python`` to, e.g., run a script, the packages installed in ``./venv`` will be used.
 
 For convenience, the ``Makefile`` provides the command ``make venv`` (which is automatically invoked by commands like ``make install`` if there is no active or local virtual environment yet).
@@ -326,8 +326,8 @@ Installation and Dependencies
 Recap: How to create a new project with a virtual environment
 -------------------------------------------------------------
 
-Say we want to develop the command line application `chain_calc <https://github.com/MeteoSwiss-APN/chain_calc>`_ that performs sequential calculations.
-First, we create the repository ``chain_calc`` on `Github <https://github.com/MeteoSwiss-APN>`_, and then create an empty package of the same name using the blueprint and upload it:
+Say we want to develop the command line application `chain_calc <https://github.com/MeteoSwiss-APN/chain_calc>`__ that performs sequential calculations.
+First, we create the repository ``chain_calc`` on `Github <https://github.com/MeteoSwiss-APN>`__, and then create an empty package of the same name using the blueprint and upload it:
 
     .. code:: bash
 
@@ -472,8 +472,8 @@ The environment can then easily be updated by temporarily removing the soft-link
 How can I manage my dependencies with Pipenv instead of ``venv+pip``?
 ---------------------------------------------------------------------
 
-`Pipenv <https://github.com/pypa/pipenv>`_ is a tool to manage both virtual environments and package installation via a unified interface.
-Instead of one or more requirements files, Pipenv unifies all dependencies in a single file called `Pipfile <https://github.com/pypa/pipfile>`_, which contains unpinned runtime and development dependencies.
+`Pipenv <https://github.com/pypa/pipenv>`__ is a tool to manage both virtual environments and package installation via a unified interface.
+Instead of one or more requirements files, Pipenv unifies all dependencies in a single file called `Pipfile <https://github.com/pypa/pipfile>`__, which contains unpinned runtime and development dependencies.
 It is managed by Pipenv but can also be edited manually.
 When pinning dependencies (called *locking*), Pipenv creates the file *Pipfile.lock* (which should not be edited manually).
 
@@ -490,13 +490,13 @@ This prevents Pipenv from becoming a setup dependency of the project and allows 
         Even though requirements files and pipfiles can in principle coexist in a project, it is advisable that all developers collaborating on a project use either venv+pip or Pipenv to prevent inconsistencies in dependencies between the two approaches.
 
 Because Pipenv manages virtual environments, it should be installed externally to the project.
-A simple way to install Pipenv user-wide is with `Pipx <https://github.com/pipxproject/pipx>`_:
+A simple way to install Pipenv user-wide is with `Pipx <https://github.com/pipxproject/pipx>`__:
 
     .. code:: bash
 
         pipx install pipenv
 
-This installs Pipenv and its dependencies into a designated virtual environment and makes the command ``pipenv`` available user-wide (see `Deployment <deployment.rst>`_).
+This installs Pipenv and its dependencies into a designated virtual environment and makes the command ``pipenv`` available user-wide (see `Deployment <deployment.rst>`__).
 
 To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
 
@@ -536,7 +536,7 @@ To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
     This will add these packages to the ``[dev-packages]`` section in the Pipfile, install them to the virtual environment, and again pin the dependency tree to Pipfile.lock (whereby the additional development dependencies will be marked as such thanks to ``--dev``).
 
         .. note::
-            You may run into trouble with some packages that do not have a nominally stable release yet, notably the (well-established) auto-formatter `Black <https://github.com/psf/black>`_ that is also a default development dependency of the Blueprint:
+            You may run into trouble with some packages that do not have a nominally stable release yet, notably the (well-established) auto-formatter `Black <https://github.com/psf/black>`__ that is also a default development dependency of the Blueprint:
 
                 .. code::
 
@@ -544,7 +544,7 @@ To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
                     Skipped pre-versions: 18.3a0, 18.3a0, 18.3a1, ...
 
             The problem is that Pipenv by default does not install pre-release versions unless explicitly told to, even if there is no stable version.
-            There is currently `no clean solution to this <https://github.com/pypa/pipenv/issues/1760>`_, only imperfect workarounds:
+            There is currently `no clean solution to this <https://github.com/pypa/pipenv/issues/1760>`__, only imperfect workarounds:
 
             -   The respective package is pinned to a specific version:
 
@@ -607,26 +607,26 @@ The blueprint provides a variety of tools that assist in development:
 
 -   Frameworks:
 
-    -   `pre-commit <https://github.com/pre-commit/pre-commit>`_: Framework for managing git pre-commit hooks.
-    -   `tox <https://github.com/tox-dev/tox>`_: Automation framework to run arbitrary commands -- e.g., pytest, mypy, pylint etc. -- in isolated virtual environments and easily test a Python program against multiple installed Python versions.
-    -   `pytest <https://github.com/pytest-dev/pytest>`_: Unit testing framework suitable for very small, but also bigger tests.
+    -   `pre-commit <https://github.com/pre-commit/pre-commit>`__: Framework for managing git pre-commit hooks.
+    -   `tox <https://github.com/tox-dev/tox>`__: Automation framework to run arbitrary commands -- e.g., pytest, mypy, pylint etc. -- in isolated virtual environments and easily test a Python program against multiple installed Python versions.
+    -   `pytest <https://github.com/pytest-dev/pytest>`__: Unit testing framework suitable for very small, but also bigger tests.
 
 -   Formatters:
 
-    -   `black <https://github.com/psf/black>`_: The "uncompromising" (i.e., minimally configurable) code formatter that auto-formats Python code in accordance with `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_ and best practices with the goal to minimize diffs between code changes.
-    -   `isort <https://github.com/PyCQA/isort>`_: Auto-formatter that that sorts and groups Python import statements.
+    -   `black <https://github.com/psf/black>`__: The "uncompromising" (i.e., minimally configurable) code formatter that auto-formats Python code in accordance with `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`__ and best practices with the goal to minimize diffs between code changes.
+    -   `isort <https://github.com/PyCQA/isort>`__: Auto-formatter that that sorts and groups Python import statements.
 
--   `Linters <https://en.wikipedia.org/wiki/Lint_(software)>`_:
+-   `Linters <https://en.wikipedia.org/wiki/Lint_(software)>`__:
 
-    -   `flake8 <https://github.com/PyCQA/flake8>`_: Wrapper of static code analysis tools checking Python code for `errors <https://github.com/PyCQA/pyflakes>`_, `style <https://github.com/PyCQA/pycodestyle>`_ and `complexity <https://github.com/PyCQA/mccabe>`_.
-    -   `mypy <https://github.com/python/mypy>`_: Static type checker relying on `type hints <https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html>`_ introduced in Python 3.6.
-    -   `pydocstyle <https://github.com/PyCQA/pydocstyle>`_: Static checker for correctness and completeness of docstrings.
-    -   `pylint <https://github.com/PyCQA/pylint>`_: Static code analysis tool (linter) checking for errors, standard compliance, code smells etc.
+    -   `flake8 <https://github.com/PyCQA/flake8>`__: Wrapper of static code analysis tools checking Python code for `errors <https://github.com/PyCQA/pyflakes>`__, `style <https://github.com/PyCQA/pycodestyle>`__ and `complexity <https://github.com/PyCQA/mccabe>`__.
+    -   `mypy <https://github.com/python/mypy>`__: Static type checker relying on `type hints <https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html>`__ introduced in Python 3.6.
+    -   `pydocstyle <https://github.com/PyCQA/pydocstyle>`__: Static checker for correctness and completeness of docstrings.
+    -   `pylint <https://github.com/PyCQA/pylint>`__: Static code analysis tool (linter) checking for errors, standard compliance, code smells etc.
 
 -   Various:
 
-    -   `bumpversion <https://github.com/c4urself/bump2version>`_: Utility to increment the version number across a whole project.
-    -   `codespell <https://github.com/codespell-project/codespell>`_: Spell checker aimed at detecting common misspellings in code.
+    -   `bumpversion <https://github.com/c4urself/bump2version>`__: Utility to increment the version number across a whole project.
+    -   `codespell <https://github.com/codespell-project/codespell>`__: Spell checker aimed at detecting common misspellings in code.
 
 How are these tools supposed to be run?
 ---------------------------------------
@@ -649,17 +649,17 @@ What do I need to know about versioning?
 Version numbers are crucial to identify versions of a software, for instance to determine whether a certain feature or bugfix is present.
 There are different version number schemes suitable for different project complexities, release schedules etc.
 
-A popular approach is `semantic versioning <https://semver.org/>`_ (often *semver*) with version numbers ``X.Y.Z`` composed of three components: *major*, *minor* and *patch*.
+A popular approach is `semantic versioning <https://semver.org/>`__ (often *semver*) with version numbers ``X.Y.Z`` composed of three components: *major*, *minor* and *patch*.
 An increase in a specific component conveys the scope of change from the previous version:
 
 -   *major*: incompatible API changes;
 -   *minor*: backward-compatible additions of functionality;
 -   *patch*: bug fixes.
 
-While the boundaries between these types of changes are `not always clear <https://snarky.ca/why-i-dont-like-semver>`_, this provides a good starting point to versioning a project.
+While the boundaries between these types of changes are `not always clear <https://snarky.ca/why-i-dont-like-semver>`__, this provides a good starting point to versioning a project.
 
-The Blueprint provides the utility `bumpversion <https://github.com/c4urself/bump2version>`_ to easily increment the version number of a project in all files that contain it, and optionally create a git commit and git tag as well.
-Its configuration `currently <https://github.com/c4urself/bump2version/issues/42>`_ resides in the file *.bumpversion.cfg*.
+The Blueprint provides the utility `bumpversion <https://github.com/c4urself/bump2version>`__ to easily increment the version number of a project in all files that contain it, and optionally create a git commit and git tag as well.
+Its configuration `currently <https://github.com/c4urself/bump2version/issues/42>`__ resides in the file *.bumpversion.cfg*.
 By default, it uses semver with three-component version numbers ``X.Y.Z``.
 The Makefile defines commands to increment each component:
 
@@ -681,7 +681,7 @@ I write beautiful code, I don't need an autoformatter!
 No objection -- but, as the saying goes, beauty is in the eye of the beholder!
 This applies to Python code as much as to the world at large.
 
-While its syntax (enforced whitespace) and best practices (`PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_) put some constraints on the formatting of Python code, they leave considerable freedom to the programmer, for example `how to indent long function calls and signatures <https://www.python.org/dev/peps/pep-0008/#indentation>`_:
+While its syntax (enforced whitespace) and best practices (`PEP 8 <https://www.python.org/dev/peps/pep-0008/>`__) put some constraints on the formatting of Python code, they leave considerable freedom to the programmer, for example `how to indent long function calls and signatures <https://www.python.org/dev/peps/pep-0008/#indentation>`__:
 
     .. code:: python
 
@@ -715,10 +715,10 @@ Instead of worrying or arguing about how the code looks, spend your time thinkin
         The benefits of adhering to a clearly defined standard also apply to one-person projects, because over time, even these projects tend to become collaborations -- with your past self, who wrote code that you no longer understand, and who used formatting your eyes can no longer bear.
         If you have ever spent an afternoon reformatting all the function calls or signatures in an old script of yours, only to realize that this was in effect a waste of time that would have been better spent actually fixing the script, then you understand one beneficial aspect of formatting standards and auto-formatters even in the absence of (true) collaborators.
 
-There are several popular Python formatters, among them `Autopep8 <https://github.com/hhatto/autopep8>`_, `Yapf <https://github.com/google/yapf>`_ and `Black <https://github.com/psf/black>`_, all with their `strengths and weaknesses <https://www.kevinpeters.net/auto-formatters-for-python>`_.
+There are several popular Python formatters, among them `Autopep8 <https://github.com/hhatto/autopep8>`__, `Yapf <https://github.com/google/yapf>`__ and `Black <https://github.com/psf/black>`__, all with their `strengths and weaknesses <https://www.kevinpeters.net/auto-formatters-for-python>`__.
 The Blueprint uses Black because it provides the most freedom of mind due to minimal freedom of choice: By design, it is as unconfigurable as possible, which prevents major discussions over minor formatting choices to be simply migrated from the code itself to the formatter configuration.
 Black follows a relatively small number of rules aimed at readability and diff minimization that quickly become intuitive.
-Following are a few examples from the `Black README <https://github.com/psf/black>`_:
+Following are a few examples from the `Black README <https://github.com/psf/black>`__:
 
     .. code:: python
 
@@ -776,9 +776,9 @@ Following are a few examples from the `Black README <https://github.com/psf/blac
 What are pre-commit hooks?
 --------------------------
 
-`Pre-commit hooks <https://github.com/git/git/blob/master/templates/hooks--pre-commit.sample>`_ are one type of `giit hooks <https://githooks.com/>`_ -- scripts that are automatically triggered by certain git events.
+`Pre-commit hooks <https://github.com/git/git/blob/master/templates/hooks--pre-commit.sample>`__ are one type of `giit hooks <https://githooks.com/>`__ -- scripts that are automatically triggered by certain git events.
 As their name suggests, pre-commit hooks are executed ahead of commits, which is an ideal time to ensure that the code meets certain standards of quality and correctness, i.e., to apply formatters and linters to the code.
-Thanks to the popular `framework <https://pre-commit.com/>`_ with the same name, pre-commit hooks are very easy to set up and manage thanks to many `ready-made hooks <https://pre-commit.com/hooks.html>`_ ranging from `small utilities <https://github.com/pre-commit/pre-commit-hooks>`_ that remove trailing whitespace, check symlinks or sort files to full-fledged linters like `mypy <https://github.com/pre-commit/mirrors-mypy>`_ or `pylint <https://github.com/PyCQA/pylint>`_.
+Thanks to the popular `framework <https://pre-commit.com/>`__ with the same name, pre-commit hooks are very easy to set up and manage thanks to many `ready-made hooks <https://pre-commit.com/hooks.html>`__ ranging from `small utilities <https://github.com/pre-commit/pre-commit-hooks>`__ that remove trailing whitespace, check symlinks or sort files to full-fledged linters like `mypy <https://github.com/pre-commit/mirrors-mypy>`__ or `pylint <https://github.com/PyCQA/pylint>`__.
 
 Once pre-commit hooks are active, they are triggered whenever you attempt to commit a change.
 The checkers and formatters are applied to the changed lines or files (depending on the tool), and the commit is only completed if all checks are successful.
@@ -788,14 +788,14 @@ While this may sound cumbersome, that is really not the case if you keep your co
 The Blueprint provides pre-commit set up with several useful tools which are primarily aimed at code formatting.
 In addition to some small checkers and fixers (find debug statements, remove trailing whitespace, check validity of toml/yaml files), these are:
 
-- `black <https://github.com/psf/black>`_ to format the code;
-- `isort <https://github.com/PyCQA/isort>`_ to sort and group imports; and
-- `pydocstyle <https://github.com/PyCQA/pydocstyle>`_ to check doc strings.
+- `black <https://github.com/psf/black>`__ to format the code;
+- `isort <https://github.com/PyCQA/isort>`__ to sort and group imports; and
+- `pydocstyle <https://github.com/PyCQA/pydocstyle>`__ to check doc strings.
 
 ..
 
     .. note::
-        Another good candidate, the spell checker `codespell <https://github.com/codespell-project/codespell>`_, is among the default development dependencies, but is not set up as a pre-commit hook because while it is very useful to find misspellings, it finds too many false positives, which are easy to ignore by eye but not by pre-commit.
+        Another good candidate, the spell checker `codespell <https://github.com/codespell-project/codespell>`__, is among the default development dependencies, but is not set up as a pre-commit hook because while it is very useful to find misspellings, it finds too many false positives, which are easy to ignore by eye but not by pre-commit.
         We strongly recommends to occasionally run codespell manually, though, in order to keep misspellings to a minimum.
 
 After creating a new project and installing the development dependencies, pre-commit must be activated:
@@ -814,7 +814,7 @@ Note that ``pre-commit install`` is run as part of ``make install-dev``, so if y
 What does tox do?
 -----------------
 
-`Tox <https://github.com/tox-dev/tox>`_ is an automation framework to run arbitrary commands in isolated virtual environments.
+`Tox <https://github.com/tox-dev/tox>`__ is an automation framework to run arbitrary commands in isolated virtual environments.
 In addition to running tools like the linters flake8, mypy or pylint that check the correctness of the code, tox can also easily be set up to run unit tests (e.g., with pytest) against multiple installed Python versions (e.g., 3.7, 3.8, 3.9) to ensure broad compatibility.
 
     .. note::
@@ -822,9 +822,9 @@ In addition to running tools like the linters flake8, mypy or pylint that check 
 
 In the Blueprint, tox manages the following tools:
 
--   the unit testing framework `pytest <https://github.com/pytest-dev/pytest>`_,
--   the linters (i.e., static code analysis tools) `flake8 <https://github.com/PyCQA/flake8>`_ and `pylint <https://github.com/PyCQA/pylint>`_, and
--   the static type checker `mypy <https://github.com/python/mypy>`_.
+-   the unit testing framework `pytest <https://github.com/pytest-dev/pytest>`__,
+-   the linters (i.e., static code analysis tools) `flake8 <https://github.com/PyCQA/flake8>`__ and `pylint <https://github.com/PyCQA/pylint>`__, and
+-   the static type checker `mypy <https://github.com/python/mypy>`__.
 
 The fact that tox runs the tools isolated in virtual environments has the advantage that it also tests whether the project is properly installable.
 For instance, if some necessary data files are not listed in MANIFEST.in and thus not copied alongside the code, this won't be detected when tests are run directly in the working directory, but tox will fail because those files will be missing.
@@ -849,22 +849,22 @@ Because the Blueprint only uses a plain setup.py script without an accompanying 
 Tell me about pytest!
 ---------------------
 
-See `github page <https://github.com/pytest-dev/pytest>`_ and `documentation <https://docs.pytest.org/en/stable/contents.html>`_.
+See `github page <https://github.com/pytest-dev/pytest>`__ and `documentation <https://docs.pytest.org/en/stable/contents.html>`__.
 
 Tell me about flake8!
 ---------------------
 
-See `github page <https://github.com/PyCQA/flake8>`_ and `documentation <https://flake8.pycqa.org/en/latest/>`_.
+See `github page <https://github.com/PyCQA/flake8>`__ and `documentation <https://flake8.pycqa.org/en/latest/>`__.
 
 Tell me about pylint!
 ---------------------
 
-See `github page <https://github.com/PyCQA/pylint>`_ and `documentation <http://pylint.pycqa.org/en/latest/>`_.
+See `github page <https://github.com/PyCQA/pylint>`__ and `documentation <http://pylint.pycqa.org/en/latest/>`__.
 
 Tell me about mypy!
 -------------------
 
-See `github page <https://github.com/python/mypy>`_ and `documentation <https://mypy.readthedocs.io/en/stable/>`_.
+See `github page <https://github.com/python/mypy>`__ and `documentation <https://mypy.readthedocs.io/en/stable/>`__.
 
 Why should I want to declare variable types in Python?
 ------------------------------------------------------
@@ -877,9 +877,9 @@ This information is usually provided in docstrings.
 The problem with type information in docstrings is that it cannot be easily verified and is in danger of becoming outdated when an interface changes but the docstring is not adapted accordingly.
 
 To address this issue, Python gradually introduced the concept of type hints, initially as comments but eventually as part of the language.
-The `modern type hint syntax <https://www.python.org/dev/peps/pep-0484/>`_ has been introduced in Python 3.5 and is based on `function annotations <https://www.python.org/dev/peps/pep-3107/>`_
-The hints can be parsed by external tools like `mypy <http://mypy-lang.org/>`_, which use them together type information derived from variable assignments to perform static type analysis.
-This allows them to detect errors such as passing a string to a function that expects a bool, as illustrated in this example (`source <https://realpython.com/python-type-checking/#hello-types>`_):
+The `modern type hint syntax <https://www.python.org/dev/peps/pep-0484/>`__ has been introduced in Python 3.5 and is based on `function annotations <https://www.python.org/dev/peps/pep-3107/>`__
+The hints can be parsed by external tools like `mypy <http://mypy-lang.org/>`__, which use them together type information derived from variable assignments to perform static type analysis.
+This allows them to detect errors such as passing a string to a function that expects a bool, as illustrated in this example (`source <https://realpython.com/python-type-checking/#hello-types>`__):
 
     .. code:: python
 
@@ -901,7 +901,7 @@ This allows them to detect errors such as passing a string to a function that ex
         $ mypy headlines.py
         headlines.py:10: error: Argument "align" to "headline" has incompatible type "str"; expected "bool"
 
-For more information on type hints, see the `mypy cheat sheet <https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html>`_ and this `RealPython guide <https://realpython.com/python-type-checking/>`_.
+For more information on type hints, see the `mypy cheat sheet <https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html>`__ and this `RealPython guide <https://realpython.com/python-type-checking/>`__.
 
     .. note::
         In contrast to statically typed languages, however, the type information is not used at runtime to increase performance, and also won't be used to that end in the future (at least by CPython, the official Python interpreter).
@@ -915,7 +915,7 @@ How do I add a command line interface to my application?
 --------------------------------------------------------
 
 If you develop an application (rather than a library), chances are you want to provide a command line interface.
-The Blueprint uses `click <https://click.palletsprojects.com>`_ (“Command Line Interface Creation Kit”), a library for creating command line interfaces in a composable way with as little code as necessary.
+The Blueprint uses `click <https://click.palletsprojects.com>`__ (“Command Line Interface Creation Kit”), a library for creating command line interfaces in a composable way with as little code as necessary.
 It is highly configurable but comes with sensible defaults out of the box.
 
 The command line interface is defined in the file ``src/great_tool/cli.py``.
