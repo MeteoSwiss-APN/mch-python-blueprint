@@ -879,7 +879,7 @@ The problem with type information in docstrings is that it cannot be easily veri
 To address this issue, Python gradually introduced the concept of type hints, initially as comments but eventually as part of the language.
 The `modern type hint syntax <https://www.python.org/dev/peps/pep-0484/>`_ has been introduced in Python 3.5 and is based on `function annotations <https://www.python.org/dev/peps/pep-3107/>`_
 The hints can be parsed by external tools like `mypy <http://mypy-lang.org/>`_, which use them together type information derived from variable assignments to perform static type analysis.
-This allows them to detect errors such as passing a string to a function that expects a bool, as illustrated in this example (`source <>`_):
+This allows them to detect errors such as passing a string to a function that expects a bool, as illustrated in this example (`source <https://realpython.com/python-type-checking/#hello-types>`_):
 
     .. code:: python
 
