@@ -846,6 +846,26 @@ Because the Blueprint only uses a plain setup.py script without an accompanying 
     .. note::
         The relatively recently introduced pyproject.toml may over time evolve into the central standard place to put tool configurations, but it is not there yet.
 
+Tell me about pytest!
+---------------------
+
+See `github page <https://github.com/pytest-dev/pytest>`_ and `documentation <https://docs.pytest.org/en/stable/contents.html>`_.
+
+Tell me about flake8!
+---------------------
+
+See `github page <https://github.com/PyCQA/flake8>`_ and `documentation <https://flake8.pycqa.org/en/latest/>`_.
+
+Tell me about pylint!
+---------------------
+
+See `github page <https://github.com/PyCQA/pylint>`_ and `documentation <http://pylint.pycqa.org/en/latest/>`_.
+
+Tell me about mypy!
+-------------------
+
+See `github page <https://github.com/python/mypy>`_ and `documentation <https://mypy.readthedocs.io/en/stable/>`_.
+
 *********************
 Recommended Libraries
 *********************
