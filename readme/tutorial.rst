@@ -811,8 +811,8 @@ Note that ``pre-commit install`` is run as part of ``make install-dev``, so if y
         If you have a good reason to make a commit despite failing pre-commit hooks, you can forego the checks with ``--no-verify``.
         However, this should not be done routinely, but only in exceptional circumstances.
 
-What about tox?
----------------
+What does tox do?
+-----------------
 
 `Tox <https://github.com/tox-dev/tox>`_ is an automation framework to run arbitrary commands in isolated virtual environments.
 In addition to running tools like the linters flake8, mypy or pylint that check the correctness of the code, tox can also easily be set up to run unit tests (e.g., with pytest) against multiple installed Python versions (e.g., 3.7, 3.8, 3.9) to ensure broad compatibility.
@@ -820,12 +820,31 @@ In addition to running tools like the linters flake8, mypy or pylint that check 
     .. note::
         While less critical for end-user applications, ensuring compatibility with multiple Python versions is crucial for libraries that are used in other applications.
 
-TODO
+In the Blueprint, tox manages the following tools:
 
-What about TODO?
-----------------
+-   the unit testing framework `pytest <https://github.com/pytest-dev/pytest>`_,
+-   the linters (i.e., static code analysis tools) `flake8 <https://github.com/PyCQA/flake8>`_ and `pylint <https://github.com/PyCQA/pylint>`_, and
+-   the static type checker `mypy <https://github.com/python/mypy>`_.
 
-TODO Introduce other tools!
+The fact that tox runs the tools isolated in virtual environments has the advantage that it also tests whether the project is properly installable.
+For instance, if some necessary data files are not listed in MANIFEST.in and thus not copied alongside the code, this won't be detected when tests are run directly in the working directory, but tox will fail because those files will be missing.
+On the flip side, creating the virtual environment and installing the dependencies (or at least verifying that they are installed) introduces some overhead, which means that running fast unit tests may take significantly longer if run with tox.
+
+The Makefile provided by the Blueprint takes an intermediate approach: The commands ``make test``, ``make test-fast`` and ``make test-slow`` run the tests directly in the working directory without install overhead, while ``make test-iso`` and ``make test-check`` run them through tox.
+The former commands can thus be used during development to frequently test changes, while periodically using the latter commands ensures installability of the project.
+
+What belongs in the file tox.ini?
+---------------------------------
+
+As the name suggests, the file tox.ini is the configuration file of tox.
+However, a look into the file provided by the Blueprint reveals that it also contains configuration of other tools, some of which are not even managed by tox, such as isort, which is managed by pre-commit.
+The reason is that there is no single standard file in which to put configurations of development tools in a Python project.
+
+There are a few files that come close, for instance setup.cfg (which can be used in conjunction with setup.py), but also tox.ini.
+Because the Blueprint only uses a plain setup.py script without an accompanying setup.cfg file, but anyway features a tox.ini file for the configuration of tox itself, we put the configuration of all tools that support tox.ini into that file to avoid having a dozen or so tool-specific configuration files.
+
+    .. note::
+        The relatively recently introduced pyproject.toml may over time evolve into the central standard place to put tool configurations, but it is not there yet.
 
 *********************
 Recommended Libraries
