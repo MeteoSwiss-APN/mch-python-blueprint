@@ -31,21 +31,14 @@ metadata = {
 
 python = ">= 3.7"
 
-# Unpinned runtime dependencies
+# Runtime dependencies (unpinned: only critical version restrictions)
 {%- if cookiecutter.sample_code == 'no' %}
-unpinned_dependencies = []
+requirements = []
 {%- elif cookiecutter.sample_code != 'no' %}
-unpinned_dependencies = [
+requirements = [
     "click >= 6.0",
 ]
 {%- endif %}
-
-# If available, use pinned dependencies instead
-try:
-    with open("requirements.txt") as fi:
-        dependencies = [line.strip() for line in fi.readlines()]
-except Exception:
-    dependencies = unpinned_dependencies
 
 scripts = [
     "{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main",
@@ -53,7 +46,7 @@ scripts = [
 
 setup(
     python_requires=python,
-    install_requires=dependencies,
+    install_requires=requirements,
     entry_points={"console_scripts": scripts},
     packages=find_packages("src"),
     package_dir={"": "src"},
