@@ -1,21 +1,35 @@
 """Set up the project."""
+# Standard library
+from typing import List
+from typing import Optional
+from typing import Sequence
+
 # Third-party
 from setuptools import find_packages
 from setuptools import setup
 
 
-def read_file(path):
-    with open(path, "r") as f:
-        return "\n".join([l.strip() for l in f.readlines()])
+def read_present_files(paths: Sequence[str]) -> str:
+    """Read the content of those files that are present."""
+    contents: List[str] = []
+    for path in paths:
+        try:
+            with open(path, "r") as f:
+                contents += ["\n".join(map(str.strip, f.readlines()))]
+        except FileNotFoundError:
+            continue
+    return "\n\n".join(contents)
 
 
-description_files = ["README.rst", "HISTORY.rst"]
+description_files = [
+    "README", "README.rst", "README.md", "HISTORY", "HISTORY.rst", "HISTORY.md"
+]
 
 metadata = {
     "name": "{{ cookiecutter.project_slug }}",
     "version": "{{ cookiecutter.version }}",
     "description": "{{ cookiecutter.project_short_description }}",
-    "long_description": "\n\n".join([read_file(f) for f in description_files]),
+    "long_description": read_present_files(description_files),
     "author": "{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
     "author_email": "{{ cookiecutter.email }}",
     "url": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}",
