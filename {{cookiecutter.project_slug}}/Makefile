@@ -30,6 +30,11 @@ endif
 endif
 export PREFIX
 
+# Options for all calls to up-do-date pip (i.e., AFTER `pip install -U pip`)
+# Example: `--use-feature=2020-resolver` before the new resolver became the default
+PIP_OPTS = --use-feature=2020-resolver
+export PIP_OPTS
+
 #
 # Targets conditional on ${CHAIN}.
 #
@@ -234,13 +239,14 @@ endif
 .PHONY: install #CMD Install the package with pinned runtime dependencies.
 install: ${_VENV}
 	@echo -e "\n[make install] installing the package"
-	${PREFIX}python -m pip install . --use-feature=2020-resolver
+	${PREFIX}python -m pip install -r requirements/run-pinned.txt ${PIP_OPTS}
+	${PREFIX}python -m pip install . ${PIP_OPTS}
 
 .PHONY: install-dev #CMD Install the package as editable with pinned runtime and\ndevelopment dependencies.
 install-dev: ${_VENV}
 	@echo -e "\n[make install-dev] installing the package as editable with development dependencies"
-	${PREFIX}python -m pip install -r requirements/dev-pinned.txt --use-feature=2020-resolver
-	${PREFIX}python -m pip install -e . --use-feature=2020-resolver
+	${PREFIX}python -m pip install -r requirements/dev-pinned.txt ${PIP_OPTS}
+	${PREFIX}python -m pip install -e . ${PIP_OPTS}
 	${PREFIX}pre-commit install
 
 #==============================================================================
@@ -250,23 +256,23 @@ install-dev: ${_VENV}
 .PHONY: update-run-deps #CMD Update pinned runtime dependencies based on setup.py;\nshould be followed by update-dev-deps (consider update-run-dev-deps)
 update-run-deps: git
 	@echo -e "\n[make update-run-deps] updating pinned runtime dependencies in requirements/run-pinned.txt"
-	rm requirements/run-pinned.txt
+	\rm -f requirements/run-pinned.txt
 	@echo -e "temporary virtual environment: ${_TMP_VENV}-run"
 	python -m venv ${_TMP_VENV}-run
 	${_TMP_VENV}-run/bin/python -m pip install -U pip
-	${_TMP_VENV}-run/bin/python -m pip install . --use-feature=2020-resolver
+	${_TMP_VENV}-run/bin/python -m pip install . ${PIP_OPTS}
 	${_TMP_VENV}-run/bin/python -m pip freeze | \grep -v '\<file:' > requirements/run-pinned.txt
 	\rm -rf ${_TMP_VENV}-run
 
-.PHONY: update-dev-deps #CMD Update pinned development dependencies based on\nrequitements/dev-unpinned.txt; includes runtime dependencies in\nrequirements/run-pinned.txt
+.PHONY: update-dev-deps #CMD Update pinned development dependencies based on\nrequirements/dev-unpinned.txt; includes runtime dependencies in\nrequirements/run-pinned.txt
 update-dev-deps: git
 	@echo -e "\n[make update-dev-deps] updating pinned development dependencies in requirements/dev-pinned.txt"
-	rm requirements/dev-pinned.txt
+	\rm -f requirements/dev-pinned.txt
 	@echo -e "temporary virtual environment: ${_TMP_VENV}-dev"
 	python -m venv ${_TMP_VENV}-dev
 	${_TMP_VENV}-dev/bin/python -m pip install -U pip
-	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/dev-unpinned.txt --use-feature=2020-resolver
-	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/run-pinned.txt --no-deps --use-feature=2020-resolver
+	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/dev-unpinned.txt ${PIP_OPTS}
+	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/run-pinned.txt --no-deps ${PIP_OPTS}
 	${_TMP_VENV}-dev/bin/python -m pip freeze > requirements/dev-pinned.txt
 	\rm -rf ${_TMP_VENV}-dev
 
@@ -278,12 +284,12 @@ update-run-dev-deps: git
 
 .PHONY: update-tox-deps #CMD Update pinned tox testing dependencies based on\nrequirements/tox-unpinned.txt
 update-tox-deps: git
-	rm requirements/tox-pinned.txt
+	\rm -f requirements/tox-pinned.txt
 	@echo -e "\n[make update-tox-deps] updating pinned tox testing dependencies in requirements/tox-pinned.txt"
 	@echo -e "temporary virtual environment: ${_TMP_VENV}-tox"
 	python -m venv ${_TMP_VENV}-tox
 	${_TMP_VENV}-tox/bin/python -m pip install -U pip
-	${_TMP_VENV}-tox/bin/python -m pip install -r requirements/tox-unpinned.txt --use-feature=2020-resolver
+	${_TMP_VENV}-tox/bin/python -m pip install -r requirements/tox-unpinned.txt ${PIP_OPTS}
 	${_TMP_VENV}-tox/bin/python -m pip freeze > requirements/tox-pinned.txt
 	\rm -rf ${_TMP_VENV}-tox
 
