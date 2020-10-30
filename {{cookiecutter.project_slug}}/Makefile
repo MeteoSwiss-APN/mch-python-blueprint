@@ -6,10 +6,11 @@ SHELL := /bin/bash
 # Options
 #==============================================================================
 
-IGNORE_VENV ?= 0#OPT Don't create and/or use a virtual environment.
-CHAIN ?= 0#OPT Whether to chain targets, e.g., let test depend on install-test.
-VENV_DIR ?= venv#OPT Path to virtual environment to be created and/or used.
-VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of virtual environment if one is created.
+IGNORE_VENV ?= 0#OPT Don't create and/or use a virtual environment
+CHAIN ?= 0#OPT Whether to chain targets, e.g., let test depend on install-test
+MSG ?= ""#OPT Message used as, e.g., tag annotation in version bump commands
+VENV_DIR ?= venv#OPT Path to virtual environment to be created and/or used
+VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of virtual environment if one is created
 
 #------------------------------------------------------------------------------
 
@@ -278,7 +279,7 @@ update-dev-deps: git
 
 # Note: Updating run and dev deps MUST be done in sequence
 .PHONY: update-run-dev-deps #CMD Update pinned runtime and development dependencies
-update-run-dev-deps: git
+update-run-dev-deps:
 	$(MAKE) update-run-deps
 	$(MAKE) update-dev-deps
 
@@ -320,36 +321,49 @@ update-deps: update-run-dev-deps update-tox-deps update-precommit-deps
 
 .PHONY: bump-patch #CMD Increment patch component Z of version number X.Y.Z,\nincl. git commit and tag
 bump-patch: ${_INSTALL_DEV}
+ifeq ($(MSG), "")
+	@echo -e "\n[make bump-patch] Error: Please provide a description with MSG='...' (use '"'\\n'"' for multiple lines)"
+else
 	@echo -e "\n[make bump-patch] bumping version number: increment patch component\n"
+	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion patch --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
-	@git commit -m "new version v$$(cat VERSION.txt) (patch bump)" --no-verify && echo
-	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION.txt) -a  -m "$${msg}"
-	@echo -e "\n[make bump-patch] success\n"
-	@echo -e "\ngit tag -n v$$(cat VERSION.txt)" && git tag -n v$$(cat VERSION.txt)
+	@git commit -m "new version v$$(cat VERSION.txt) (patch bump)"$$'\n\n$(subst ',",$(MSG))' --no-verify && echo
+	@git tag -a v$$(cat VERSION.txt) -m $$'$(subst ',",$(MSG))'
+	@echo -e "\ngit tag -n -l v$$(cat VERSION.txt)" && git tag -n -l v$$(cat VERSION.txt)
 	@echo -e "\ngit log -n1" && git log -n1
+endif
+# ' (close quote that vim thinks is still open to get the syntax highlighting back in order)
 
 .PHONY: bump-minor #CMD Increment minor component Y of version number X.Y.Z,\nincl. git commit and tag
 bump-minor: ${_INSTALL_DEV}
-	@echo -e "\n[make bump-minor] bumping version number: increment minor component\n"
+ifeq ($(MSG), "")
+	@echo -e "\n[make bump-minor] Error: Please provide a description with MSG='...' (use '"'\\n'"' for multiple lines)"
+	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion minor --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
-	@git commit -m "new version v$$(cat VERSION.txt) (minor bump)" --no-verify && echo
-	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION.txt) -a  -m "$${msg}"
-	@echo -e "\n[make bump-minor] success\n"
-	@echo -e "\ngit tag -n v$$(cat VERSION.txt)" && git tag -n v$$(cat VERSION.txt)
+	@git commit -m "new version v$$(cat VERSION.txt) (minor bump)"$$'\n\n$(subst ',",$(MSG))' --no-verify && echo
+	@git tag -a v$$(cat VERSION.txt) -m $$'$(subst ',",$(MSG))'
+	@echo -e "\ngit tag -n -l v$$(cat VERSION.txt)" && git tag -n -l v$$(cat VERSION.txt)
 	@echo -e "\ngit log -n1" && git log -n1
+else
+endif
+# ' (close quote that vim thinks is still open to get the syntax highlighting back in order)
 
 .PHONY: bump-major #CMD Increment major component X of version number X.Y.Z,\nincl. git commit and tag
 bump-major: ${_INSTALL_DEV}
-	@echo -e "\n[make bump-major] bumping version number: increment major component\n"
+ifeq ($(MSG), "")
+	@echo -e "\n[make bump-major] Error: Please provide a description with MSG='...' (use '"'\\n'"' for multiple lines)"
+	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion major --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
-	@git commit -m "new version v$$(cat VERSION.txt) (major bump)" --no-verify && echo
-	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION.txt) -a  -m "$${msg}"
-	@echo -e "\n[make bump-major] success\n"
-	@echo -e "\ngit tag -n v$$(cat VERSION.txt)" && git tag -n v$$(cat VERSION.txt)
+	@git commit -m "new version v$$(cat VERSION.txt) (major bump)"$$'\n\n$(subst ',",$(MSG))' --no-verify && echo
+	@git tag -a v$$(cat VERSION.txt) -m $$'$(subst ',",$(MSG))'
+	@echo -e "\ngit tag -n -l v$$(cat VERSION.txt)" && git tag -n -l v$$(cat VERSION.txt)
 	@echo -e "\ngit log -n1" && git log -n1
+else
+endif
+# ' (close quote that vim thinks is still open to get the syntax highlighting back in order)
 
 #==============================================================================
 # Format and check the code
