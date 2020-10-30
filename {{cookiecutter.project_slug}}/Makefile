@@ -323,9 +323,10 @@ bump-patch: ${_INSTALL_DEV}
 	@echo -e "\n[make bump-patch] bumping version number: increment patch component\n"
 	@${PREFIX}bumpversion patch --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
-	@git commit -m "new version v$$(cat VERSION) (patch bump)" --no-verify && echo
-	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION) -a  -m "$${msg}"
-	@echo -e "\ngit tag -n v$$(cat VERSION)" && git tag -n v$$(cat VERSION)
+	@git commit -m "new version v$$(cat VERSION.txt) (patch bump)" --no-verify && echo
+	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION.txt) -a  -m "$${msg}"
+	@echo -e "\n[make bump-patch] success\n"
+	@echo -e "\ngit tag -n v$$(cat VERSION.txt)" && git tag -n v$$(cat VERSION.txt)
 	@echo -e "\ngit log -n1" && git log -n1
 
 .PHONY: bump-minor #CMD Increment minor component Y of version number X.Y.Z,\nincl. git commit and tag
@@ -333,9 +334,10 @@ bump-minor: ${_INSTALL_DEV}
 	@echo -e "\n[make bump-minor] bumping version number: increment minor component\n"
 	@${PREFIX}bumpversion minor --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
-	@git commit -m "new version v$$(cat VERSION) (minor bump)" --no-verify && echo
-	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION) -a  -m "$${msg}"
-	@echo -e "\ngit tag -n v$$(cat VERSION)" && git tag -n v$$(cat VERSION)
+	@git commit -m "new version v$$(cat VERSION.txt) (minor bump)" --no-verify && echo
+	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION.txt) -a  -m "$${msg}"
+	@echo -e "\n[make bump-minor] success\n"
+	@echo -e "\ngit tag -n v$$(cat VERSION.txt)" && git tag -n v$$(cat VERSION.txt)
 	@echo -e "\ngit log -n1" && git log -n1
 
 .PHONY: bump-major #CMD Increment major component X of version number X.Y.Z,\nincl. git commit and tag
@@ -343,9 +345,10 @@ bump-major: ${_INSTALL_DEV}
 	@echo -e "\n[make bump-major] bumping version number: increment major component\n"
 	@${PREFIX}bumpversion major --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
-	@git commit -m "new version v$$(cat VERSION) (major bump)" --no-verify && echo
-	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION) -a  -m "$${msg}"
-	@echo -e "\ngit tag -n v$$(cat VERSION)" && git tag -n v$$(cat VERSION)
+	@git commit -m "new version v$$(cat VERSION.txt) (major bump)" --no-verify && echo
+	@read -p "Please annotate new tag: " msg && git tag v$$(cat VERSION.txt) -a  -m "$${msg}"
+	@echo -e "\n[make bump-major] success\n"
+	@echo -e "\ngit tag -n v$$(cat VERSION.txt)" && git tag -n v$$(cat VERSION.txt)
 	@echo -e "\ngit log -n1" && git log -n1
 
 #==============================================================================
