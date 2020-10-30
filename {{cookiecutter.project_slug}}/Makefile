@@ -42,19 +42,16 @@ export PREFIX
 # regardless of ${CHAIN}.
 #
 ifeq (${CHAIN}, 0)
-	_GIT :=
 	_VENV :=
 	_INSTALL :=
 	_INSTALL_EDIT :=
 	_INSTALL_DEV :=
 else
-	_GIT := git
 	_VENV := venv
 	_INSTALL := install
 	_INSTALL_EDIT := install-edit
 	_INSTALL_DEV := install-dev
 endif
-export _GIT
 export _VENV
 export _INSTALL
 export _INSTALL_EDIT
@@ -194,33 +191,32 @@ clean-venv:
 # Version control
 #==============================================================================
 
+# Note: Check if git is initialized by checking error status of git rev-parse
 .PHONY: git #CMD Initialize a git repository and make initial commit.
 git:
-ifeq ($(shell git rev-parse >/dev/null 2>&1 && echo 0 || echo 1), 0)
+	@git rev-parse 2>&1 && $(MAKE) _git_ok || $(MAKE) _git_init
+
+# Hidden target called when git is already initialized
+.PHONY: _git_ok
+_git_ok:
 	@echo -e "\n[make git] git already initialized"
-else
-	make clean-all
+
+# Hidden target called when git is not yet initialized
+.PHONY: _git_init
+_git_init:
+	$(MAKE) clean-all
 	@echo -e "\n[make git] initializing git repository"
 	\git init
 	\git add .
 	\git commit -m 'initial commit'
 	\git --no-pager log -n1 --stat
-endif
 
 #==============================================================================
 # Virtual Environments
 #==============================================================================
 
 .PHONY: venv #CMD Create a virtual environment.
-venv: ${_GIT}
-	@git rev-parse 2>&1 && make _venv_run || make _venv_err
-
-.PHONY: _venv_err
-_venv_err:
-	@echo -e "\n[make venv] error: git not initialized (run 'make git')"
-
-.PHONY: _venv_run
-_venv_run:
+venv: git
 ifeq (${IGNORE_VENV}, 0)
 	$(eval PREFIX = ${PREFIX_VENV})
 	@export PREFIX
@@ -240,7 +236,7 @@ install: ${_VENV}
 	@echo -e "\n[make install] installing the package"
 	${PREFIX}python -m pip install . --use-feature=2020-resolver
 
-.PHONY: install-dev #CMD Install the package as editable with pinned runtime and development dependencies.
+.PHONY: install-dev #CMD Install the package as editable with pinned runtime and\ndevelopment dependencies.
 install-dev: ${_VENV}
 	@echo -e "\n[make install-dev] installing the package as editable with development dependencies"
 	${PREFIX}python -m pip install -r requirements/dev-pinned.txt --use-feature=2020-resolver
@@ -251,21 +247,21 @@ install-dev: ${_VENV}
 # Dependencies
 #==============================================================================
 
-.PHONY: update-run-deps #CMD Update pinned runtime dependencies based on setup.py
-update-run-deps:
+.PHONY: update-run-deps #CMD Update pinned runtime dependencies based on setup.py;\nshould be followed by update-dev-deps (consider update-run-dev-deps)
+update-run-deps: git
 	@echo -e "\n[make update-run-deps] updating pinned runtime dependencies in requirements/run-pinned.txt"
+	rm requirements/run-pinned.txt
 	@echo -e "temporary virtual environment: ${_TMP_VENV}-run"
 	python -m venv ${_TMP_VENV}-run
 	${_TMP_VENV}-run/bin/python -m pip install -U pip
-	\rm -fv requirements.txt
-	${_TMP_VENV}-run/bin/python -m pip install . --use-feature=2020-resolver; \
-		ln -sfv requirements/run-pinned.txt requirements.txt
+	${_TMP_VENV}-run/bin/python -m pip install . --use-feature=2020-resolver
 	${_TMP_VENV}-run/bin/python -m pip freeze | \grep -v '\<file:' > requirements/run-pinned.txt
 	\rm -rf ${_TMP_VENV}-run
 
-.PHONY: update-dev-deps #CMD Update pinned development dependencies based on\nrequirements/run-pinned.txt and requitements/dev-unpinned.txt
-update-dev-deps:
+.PHONY: update-dev-deps #CMD Update pinned development dependencies based on\nrequitements/dev-unpinned.txt; includes runtime dependencies in\nrequirements/run-pinned.txt
+update-dev-deps: git
 	@echo -e "\n[make update-dev-deps] updating pinned development dependencies in requirements/dev-pinned.txt"
+	rm requirements/dev-pinned.txt
 	@echo -e "temporary virtual environment: ${_TMP_VENV}-dev"
 	python -m venv ${_TMP_VENV}-dev
 	${_TMP_VENV}-dev/bin/python -m pip install -U pip
@@ -274,8 +270,15 @@ update-dev-deps:
 	${_TMP_VENV}-dev/bin/python -m pip freeze > requirements/dev-pinned.txt
 	\rm -rf ${_TMP_VENV}-dev
 
+# Note: Updating run and dev deps MUST be done in sequence
+.PHONY: update-run-dev-deps #CMD Update pinned runtime and development dependencies
+update-run-dev-deps: git
+	$(MAKE) update-run-deps
+	$(MAKE) update-dev-deps
+
 .PHONY: update-tox-deps #CMD Update pinned tox testing dependencies based on\nrequirements/tox-unpinned.txt
-update-tox-deps:
+update-tox-deps: git
+	rm requirements/tox-pinned.txt
 	@echo -e "\n[make update-tox-deps] updating pinned tox testing dependencies in requirements/tox-pinned.txt"
 	@echo -e "temporary virtual environment: ${_TMP_VENV}-tox"
 	python -m venv ${_TMP_VENV}-tox
@@ -284,14 +287,17 @@ update-tox-deps:
 	${_TMP_VENV}-tox/bin/python -m pip freeze > requirements/tox-pinned.txt
 	\rm -rf ${_TMP_VENV}-tox
 
-.PHONY: update-precommit-deps #CMD Update pinned pre-commit dependencies\nspecified in .pre-commit-config.yaml
-update-precommit-deps: ${_VENV}
+.PHONY: update-precommit-deps #CMD Update pinned pre-commit dependencies specified in\n.pre-commit-config.yaml
+update-precommit-deps: git
 	@echo -e "\n[make update-precommit-deps] updating pinned tox testing dependencies in .pre-commit-config.yaml"
-	${PREFIX}python -m pip install pre-commit  # ensure pre-commit is installed
-	${PREFIX}pre-commit autoupdate
+	python -m venv ${_TMP_VENV}-precommit
+	${_TMP_VENV}-precommit/bin/python -m pip install -U pip
+	${_TMP_VENV}-precommit/bin/python -m pip install pre-commit
+	${_TMP_VENV}-precommit/bin/pre-commit autoupdate
+	\rm -rf ${_TMP_VENV}-precommit
 
 .PHONY: update-deps #CMD Update all pinned dependencies (run, dev, tox, precommit)
-update-deps: update-run-deps update-dev-deps update-tox-deps update-precommit-deps
+update-deps: update-run-dev-deps update-tox-deps update-precommit-deps
 	@echo -e "\n[make update-deps] updating all pinned dependencies (run, dev, tox, precommit)"
 
 #==============================================================================
