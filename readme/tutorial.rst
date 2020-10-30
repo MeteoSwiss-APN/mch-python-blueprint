@@ -349,59 +349,71 @@ Now that we are in a project-specific, pristine Python environment, we are ready
         The following examples use the virtual environment explicitly (e.g., ``./venv/bin/python -m pip ...``).
         If you prefer to actiate the virtual environment in order to omit the ``./venv/bin/`` paths, you may do so with ``source ./venv/bin/activate``.
 
-Please summarize how I can  install my project and manage its dependencies!
----------------------------------------------------------------------------
+How do I install the project and its dependencies?
+--------------------------------------------------
 
-To install your project along with up-do-date versions of its runtime dependencies, run
+The most basic command to install your local project along with up-do-date versions of its runtime dependencies, run:
+
+    .. code:: bash
+
+        python -m pip install .
+
+x
 
     .. code:: bash
 
         make install
 
-which is short for
+This is short for:
 
-    .. code:: bash
+    .. code:: make
 
-        make venv
-        venv/bin/python -m pip install .
+	    ./venv/bin/python -m pip install -r requirements/run-pinned.txt
+	    ./venv/bin/python -m pip install .
 
-This installs a copy of your project along with its runtime dependencies into the virtual environment
-If you change the code, you have to run ``make install`` again, so this approach is only suitable to install the project for production.
+This your project along with its pinned runtime dependencies specified in ``requirements/run-pinned.txt`` into the virtual environment.
 
-During development, instead run
+    .. note::
+        If you haven't created a virtual environment yet with ``make venv``, you can tell the Make to do to automatically by chaining all necessary commands:
+
+            .. code:: bash
+
+                make install CHAIN=1
+
+        If you neither run ``make venv`` nor pass ``CHAIN=1``, ``make install`` will fail.
+
+The source files are copied into the virtual environment, which is what you want when installing the package for deployment so you can remove the clone of the repository after installation.
+However, this is not suitable for development, when you'd like to see changes to the source files immediately applied without having to rerun ``make venv``.
+Therefore, the Makefile provides a second command that installs the package in editable mode, which means that links to (rather than copies of) the source files are installed into the virtual environment:
 
     .. code:: bash
 
         make install-dev
 
-which is short for
+This is short for:
+
+    .. code:: make
+
+	    ./venv/bin/python -m pip install -r requirements/dev-pinned.txt
+	    ./venv/bin/python -m pip install -e .
+	    ./venv/bin/pre-commit install
+
+In addition, this also installs the pinned development dependencies specified in ``requirements/dev-pinned.txt`` (a superset of the pinned runtime dependencies), and activate the pre-commit hooks (more on those later).
+
+How to I install a project for deployment?
+------------------------------------------
+
+A vary simple way to installing a project for usage only is with `Pipx <https://github.com/pipxproject/pipx>`__:
 
     .. code:: bash
 
-        make venv
-        venv/bin/python -m pip install -e .
-        venv/bin/python -m pip install -r requirements/test-unpinned.txt
-        venv/bin/python -m pip install -r requirements/dev-unpinned.txt
+        pipx install https://github.com/MeteoSwiss-APN/my-cool-project@v0.1.2
 
-This installs your project in editable mode into the virtual environment, along with its runtime, test and development dependencies.
-Changes in the code are immediately reflected in the virtual environment, so this approach is suitable during development.
+With only one line of code, pipx creates a designated virtual environment for the project, installs the project and it's dependencies in there and links the commands provided by the project to a ``bin``-folder that is in ``$PATH`` so the commands are accessible system-wide.
 
-.. TODO clean up requirements files and use pinned dependencies by default
+However, has it's limitations, among them that
 
-To install pre-defined pinned versions of your package and its runtime dependencies:
-
-    .. code:: bash
-
-        python -m pip install -r requirements/setup.txt
-        python -m pip install -r requirements/run-pinned.txt
-
-To install pre-defined pinned versions of your package and its runtime and development dependencies:
-
-    .. code:: bash
-
-        python -m pip install -r requirements/setup.txt
-        python -m pip install -r requirements/dev-pinned.txt
-
+TODO: Finish section!
 
 What types of dependencies are there?
 -------------------------------------
