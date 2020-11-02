@@ -1,6 +1,6 @@
 
 *****************************
-Installation and Dependencies
+Installation and dependencies
 *****************************
 
 Recap: How to create a new project with a virtual environment

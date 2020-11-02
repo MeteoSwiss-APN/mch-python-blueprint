@@ -11,7 +11,7 @@ All development should be conducted in (project-specific) virtual environments, 
 Set Up Environment
 ==================
 
-On arolla/tsa
+On tsa/arolla
 -------------
 
 Add the following commands to your `.bashrc`::
@@ -47,51 +47,3 @@ This changes the environment as follows (as of January 2020)::
      5) zlib/.1.2.11-gcccore-8.3.0    12) gompic/2019b                           19) proj/6.1.1-fosscuda-2019b
      6) binutils/.2.32-gcccore-8.3.0  13) fftw/3.3.8-gompic-2019b
      7) gcc/8.3.0
-
-
-On kesch/escha
---------------
-
-Add the following commands to your `.bashrc`::
-
-    # Load pristine Python environment
-    module use /apps/common/UES/sandbox/kraushm/kesch/modules/all
-    module load python/3.7.2-gmvolf-17.02
-    unset PYTHONPATH  # Not strictly necessary
-
-    # Access pipx etc.
-    export PATH="/users/osm/bin:${PATH}"
-
-This modifies the environment similarly to arolla/tsa as described above.
-
-
-Use Python
-==========
-
-Run cookiecutter
-----------------
-
-To create a new package with cookiecutter, use pipx::
-
-    pipx run cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
-
-This will temporarily install cookiecutter and run it.
-
-(If you prefer to install cookiecutter, you can do so with `pipx install cookiecutter`.)
-
-Develop
--------
-
-While developing a package, you are supposed to work in a project-specific virtual environment, installing all dependencies in there.
-For more information, see `Working in Virtual Environments`_.
-
-.. _`Working in Virtual Environments`: virtual_envs.rst
-
-Deploy
-------
-
-To deploy a tool, the respective package and its dependencies are installed in a designated virtual environment, and its executable(s) linked in a directory which users have to add to their path.
-This can be done either automated with Pipx, or by hand (which, for instance, is necessary if the package depends on Cartopy or Shapely, which must be built from source to guarantee compatibility with C-dependencies).
-For more information, see `Deployment`_.
-
-.. _`Deployment`: deployment.rst
