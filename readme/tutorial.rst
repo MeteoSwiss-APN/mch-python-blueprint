@@ -620,17 +620,17 @@ To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
     .. note::
         If you look into the Pipfile, it is possible that the package name will be wrongly diagnosed, for example as:
 
-            .. code::
+        .. code::
 
-                [packages]
-                virtualenv = {editable = true, path = "."}
+            [packages]
+            virtualenv = {editable = true, path = "."}
 
         instead of:
 
-            .. code::
+        .. code::
 
-                [packages]
-                random_star_wars = {editable = true, path = "."}
+            [packages]
+            random_star_wars = {editable = true, path = "."}
 
         You can either fix this manually by editing the Pipfile, or just ignore it.
 
@@ -770,17 +770,17 @@ Its configuration `currently <https://github.com/c4urself/bump2version/issues/42
 By default, it uses semver with three-component version numbers ``X.Y.Z``.
 The Makefile defines commands to increment each component:
 
-    .. code:: bash
+.. code:: bash
 
-        make bump-patch
-        make bump-minor
-        make bump-major
+    make bump-patch
+    make bump-minor
+    make bump-major
 
 The make commands will ask you for a message to annotate the git tag with.
 
-    .. note::
-        For relatively simple projects, two components ``X.Y`` may be enough, with the major component indicating non-compatible (or otherwise major) changes and the minor component indicating backward-compatible feature additions and bug fixes.
-        Bumpversion can easily be set up to support this scheme by adapting the regular expression used to parse version numbers and the format template used to write them.
+.. note::
+    For relatively simple projects, two components ``X.Y`` may be enough, with the major component indicating non-compatible (or otherwise major) changes and the minor component indicating backward-compatible feature additions and bug fixes.
+    Bumpversion can easily be set up to support this scheme by adapting the regular expression used to parse version numbers and the format template used to write them.
 
 I write beautiful code, I don't need an autoformatter!
 ------------------------------------------------------
@@ -790,24 +790,24 @@ This applies to Python code as much as to the world at large.
 
 While its syntax (enforced whitespace) and best practices (`PEP 8 <https://www.python.org/dev/peps/pep-0008/>`__) put some constraints on the formatting of Python code, they leave considerable freedom to the programmer, for example `how to indent long function calls and signatures <https://www.python.org/dev/peps/pep-0008/#indentation>`__:
 
-    .. code:: python
+.. code:: python
 
-        # Correct:
+    # Correct:
 
-        # Aligned with opening delimiter.
-        foo = long_function_name(var_one, var_two,
-                                 var_three, var_four)
+    # Aligned with opening delimiter.
+    foo = long_function_name(var_one, var_two,
+                             var_three, var_four)
 
-        # Add 4 spaces (an extra level of indentation) to distinguish arguments from the rest.
-        def long_function_name(
-                var_one, var_two, var_three,
-                var_four):
-            print(var_one)
+    # Add 4 spaces (an extra level of indentation) to distinguish arguments from the rest.
+    def long_function_name(
+            var_one, var_two, var_three,
+            var_four):
+        print(var_one)
 
-        # Hanging indents should add a level.
-        foo = long_function_name(
-            var_one, var_two,
-            var_three, var_four)
+    # Hanging indents should add a level.
+    foo = long_function_name(
+        var_one, var_two,
+        var_three, var_four)
 
 These examples are not exhaustive, as there are many "standard-compatible" ways how to format such expressions -- plus, in the end, the standard is merely a recommendation.
 
@@ -818,67 +818,61 @@ So why not take these decisions out of all the programmers' hands at once and de
 This is where auto-formatters enter the stage: Tools that feed on your inconsistently formatted eyesore of a code and, without complaining, turn it into consistently formatted code following a set of rules that can be customized to a given project to varying degrees (depending on the tool).
 Instead of worrying or arguing about how the code looks, spend your time thinking about what it does!
 
-    .. note::
-        The benefits of adhering to a clearly defined standard also apply to one-person projects, because over time, even these projects tend to become collaborations -- with your past self, who wrote code that you no longer understand, and who used formatting your eyes can no longer bear.
-        If you have ever spent an afternoon reformatting all the function calls or signatures in an old script of yours, only to realize that this was in effect a waste of time that would have been better spent actually fixing the script, then you understand one beneficial aspect of formatting standards and auto-formatters even in the absence of (true) collaborators.
+.. note::
+    The benefits of adhering to a clearly defined standard also apply to one-person projects, because over time, even these projects tend to become collaborations -- with your past self, who wrote code that you no longer understand, and who used formatting your eyes can no longer bear.
+    If you have ever spent an afternoon reformatting all the function calls or signatures in an old script of yours, only to realize that this was in effect a waste of time that would have been better spent actually fixing the script, then you understand one beneficial aspect of formatting standards and auto-formatters even in the absence of (true) collaborators.
 
 There are several popular Python formatters, among them `Autopep8 <https://github.com/hhatto/autopep8>`__, `Yapf <https://github.com/google/yapf>`__ and `Black <https://github.com/psf/black>`__, all with their `strengths and weaknesses <https://www.kevinpeters.net/auto-formatters-for-python>`__.
 The Blueprint uses Black because it provides the most freedom of mind due to minimal freedom of choice: By design, it is as unconfigurable as possible, which prevents major discussions over minor formatting choices to be simply migrated from the code itself to the formatter configuration.
 Black follows a relatively small number of rules aimed at readability and diff minimization that quickly become intuitive.
 Following are a few examples from the `Black README <https://github.com/psf/black>`__:
 
-    .. code:: python
+.. code:: python
 
-        # in:
-        j = [1,
-             2,
-             3
-        ]
+    # in:
+    j = [1,
+         2,
+         3
+    ]
 
-        # out:
-        j = [1, 2, 3]
+    # out:
+    j = [1, 2, 3]
 
-..
+.. code:: python
 
-    .. code:: python
+    # in:
+    ImportantClass.important_method(exc, limit, lookup_lines, capture_locals, extra_argument)
 
-        # in:
-        ImportantClass.important_method(exc, limit, lookup_lines, capture_locals, extra_argument)
+    # out:
+    ImportantClass.important_method(
+        exc, limit, lookup_lines, capture_locals, extra_argument
+    )
 
-        # out:
-        ImportantClass.important_method(
-            exc, limit, lookup_lines, capture_locals, extra_argument
-        )
+.. code:: python
 
-..
+    # in:
+    def very_important_function(template: str, *variables, file: os.PathLike, engine: str, header: bool = True, debug: bool = False):
+        """Applies `variables` to the `template` and writes to `file`."""
+        with open(file, 'w') as f:
+            ...
 
-    .. code:: python
+    # out:
+    def very_important_function(
+        template: str,
+        *variables,
+        file: os.PathLike,
+        engine: str,
+        header: bool = True,
+        debug: bool = False,
+    ):
+        """Applies `variables` to the `template` and writes to `file`."""
+        with open(file, "w") as f:
+            ...
 
-        # in:
-        def very_important_function(template: str, *variables, file: os.PathLike, engine: str, header: bool = True, debug: bool = False):
-            """Applies `variables` to the `template` and writes to `file`."""
-            with open(file, 'w') as f:
-                ...
-
-        # out:
-        def very_important_function(
-            template: str,
-            *variables,
-            file: os.PathLike,
-            engine: str,
-            header: bool = True,
-            debug: bool = False,
-        ):
-            """Applies `variables` to the `template` and writes to `file`."""
-            with open(file, "w") as f:
-                ...
-
-..
-
-    .. note::
-        If you're still sceptical about auto-formatters in general or Black's formatting choices in particular, just try it out for some time.
-        Chances are you will get used to the specific formatting choices and come to enjoy the freedom of focusing on what the code does.
-        Also, the next time you unearth some script from your distant past, you won't spend an afternoon reformatting it but a mere couple of seconds!
+.. note::
+    If you're still sceptical about auto-formatters in general or Black's formatting choices in particular, just try it out for some time.
+    Chances are you will get used to the specific formatting choices and come to enjoy the freedom of focusing on what the code does.
+    Also, the next time you unearth some script from your distant past, you won't spend an afternoon reformatting it but a mere couple of seconds!
 
 What are pre-commit hooks?
 --------------------------
@@ -899,24 +893,22 @@ In addition to some small checkers and fixers (find debug statements, remove tra
 - `isort <https://github.com/PyCQA/isort>`__ to sort and group imports; and
 - `pydocstyle <https://github.com/PyCQA/pydocstyle>`__ to check doc strings.
 
-..
-
-    .. note::
-        Another good candidate, the spell checker `codespell <https://github.com/codespell-project/codespell>`__, is among the default development dependencies, but is not set up as a pre-commit hook because while it is very useful to find misspellings, it finds too many false positives, which are easy to ignore by eye but not by pre-commit.
-        We strongly recommends to occasionally run codespell manually, though, in order to keep misspellings to a minimum.
+.. note::
+    Another good candidate, the spell checker `codespell <https://github.com/codespell-project/codespell>`__, is among the default development dependencies, but is not set up as a pre-commit hook because while it is very useful to find misspellings, it finds too many false positives, which are easy to ignore by eye but not by pre-commit.
+    We strongly recommends to occasionally run codespell manually, though, in order to keep misspellings to a minimum.
 
 After creating a new project and installing the development dependencies, pre-commit must be activated:
 
-    .. code:: bash
+.. code:: bash
 
-        ./venv/bin/pre-commit install           # hook into git
-        ./venv/bin/pre-commit run --all-files   # run hooks the first time
+    ./venv/bin/pre-commit install           # hook into git
+    ./venv/bin/pre-commit run --all-files   # run hooks the first time
 
 Note that ``pre-commit install`` is run as part of ``make install-dev``, so if you stick to the Makefile commands, you won't have to activate pre-commit explicitly.
 
-    .. note::
-        If you have a good reason to make a commit despite failing pre-commit hooks, you can forego the checks with ``--no-verify``.
-        However, this should not be done routinely, but only in exceptional circumstances.
+.. note::
+    If you have a good reason to make a commit despite failing pre-commit hooks, you can forego the checks with ``--no-verify``.
+    However, this should not be done routinely, but only in exceptional circumstances.
 
 What does tox do?
 -----------------
@@ -924,8 +916,8 @@ What does tox do?
 `Tox <https://github.com/tox-dev/tox>`__ is an automation framework to run arbitrary commands in isolated virtual environments.
 In addition to running tools like the linters flake8, mypy or pylint that check the correctness of the code, tox can also easily be set up to run unit tests (e.g., with pytest) against multiple installed Python versions (e.g., 3.7, 3.8, 3.9) to ensure broad compatibility.
 
-    .. note::
-        While less critical for end-user applications, ensuring compatibility with multiple Python versions is crucial for libraries that are used in other applications.
+.. note::
+    While less critical for end-user applications, ensuring compatibility with multiple Python versions is crucial for libraries that are used in other applications.
 
 In the Blueprint, tox manages the following tools:
 
@@ -950,8 +942,8 @@ The reason is that there is no single standard file in which to put configuratio
 There are a few files that come close, for instance setup.cfg (which can be used in conjunction with setup.py), but also tox.ini.
 Because the Blueprint only uses a plain setup.py script without an accompanying setup.cfg file, but anyway features a tox.ini file for the configuration of tox itself, we put the configuration of all tools that support tox.ini into that file to avoid having a dozen or so tool-specific configuration files.
 
-    .. note::
-        The relatively recently introduced pyproject.toml may over time evolve into the central standard place to put tool configurations, but it is not there yet.
+.. note::
+    The relatively recently introduced pyproject.toml may over time evolve into the central standard place to put tool configurations, but it is not there yet.
 
 Tell me about pytest!
 ---------------------
@@ -988,31 +980,29 @@ The `modern type hint syntax <https://www.python.org/dev/peps/pep-0484/>`__ has 
 The hints can be parsed by external tools like `mypy <http://mypy-lang.org/>`__, which use them together type information derived from variable assignments to perform static type analysis.
 This allows them to detect errors such as passing a string to a function that expects a bool, as illustrated in this example (`source <https://realpython.com/python-type-checking/#hello-types>`__):
 
-    .. code:: python
+.. code:: python
 
-        # headlines.py
+    # headlines.py
 
-        def headline(text: str, align: bool = True) -> str:
-            if align:
-                return f"{text.title()}\n{'-' * len(text)}"
-            else:
-                return f" {text.title()} ".center(50, "o")
+    def headline(text: str, align: bool = True) -> str:
+        if align:
+            return f"{text.title()}\n{'-' * len(text)}"
+        else:
+            return f" {text.title()} ".center(50, "o")
 
-        print(headline("python type checking"))
-        print(headline("use mypy", align="center"))
+    print(headline("python type checking"))
+    print(headline("use mypy", align="center"))
 
-..
+.. code:: bash
 
-    .. code:: bash
-
-        $ mypy headlines.py
-        headlines.py:10: error: Argument "align" to "headline" has incompatible type "str"; expected "bool"
+    $ mypy headlines.py
+    headlines.py:10: error: Argument "align" to "headline" has incompatible type "str"; expected "bool"
 
 For more information on type hints, see the `mypy cheat sheet <https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html>`__ and this `RealPython guide <https://realpython.com/python-type-checking/>`__.
 
-    .. note::
-        In contrast to statically typed languages, however, the type information is not used at runtime to increase performance, and also won't be used to that end in the future (at least by CPython, the official Python interpreter).
-        Type hints are therefore best thought of as testable documentation.
+.. note::
+    In contrast to statically typed languages, however, the type information is not used at runtime to increase performance, and also won't be used to that end in the future (at least by CPython, the official Python interpreter).
+    Type hints are therefore best thought of as testable documentation.
 
 *********************
 Recommended Libraries
@@ -1029,4 +1019,4 @@ The command line interface is defined in the file ``src/great_tool/cli.py``.
 There, you can specify command line arguments and options, as well as the entry point(s) as specified in ``setup.py``.
 A few sensible ones are already pre-defined (--version, --help, --verbose, --dry-run).
 
-For a somewhat more sophisticated command line interface than that provided by default by the blueprint, see the sample application `chain_calc`_.
+For a somewhat more sophisticated command line interface than that provided by default by the blueprint, see the sample calculator application (``sample_code=3`` during Blueprint setup).
