@@ -9,16 +9,19 @@ A step-by-step introduction with examples to the Python blueprint and its compon
 Quickstart
 **********
 
+Create a new project
+--------------------
+
 To create a new project and start developing, run these commands:
 
-    .. code::
+.. code::
 
-        cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
-        cd <project>
-        make format check test CHAIN=1
+    cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
+    cd <project>
+    make format check test CHAIN=1
 
 The cookiecutter command will ask you for some information on you and your project.
-In addition, the parameter "sample_code" allows you to choose the amount of sample code to be included:
+The parameter "sample_code" allows you to choose the amount of sample code to be included:
 
 -   'no': No sample code is provided beyond an empty `main()` function in the `cli.py` file.
     This is useful if you are migrating an existing project into a new Blueprint project.
@@ -41,14 +44,48 @@ Thanks to `CHAIN=1`, the following actions are taken in the beginning:
 
 If all goes well, you are ready to work on your code!
 
+Install a project
+-----------------
+
+To install a certain version of a project, follow these steps:
+
+.. code:: bash
+
+    git_dir=...  # e.g., ~/.local/git
+    venvs_dir=...  # e.g., ~/.local/venvs
+    bin_dir=...  # e.g., ~/.local/bin
+    project=...  # e.g., apepi
+    version=...  # e.g., v0.2.1
+    command1=...  # e.g.,
+
+    # Clone the git repository
+    git clone git@github.com:MeteoSwiss-APN/${project} ${git_dir}/${project}
+    cd ${git_dir}/${project}
+
+    # Check out target version and test it
+    git checkout ${version}
+    make test-check clean-all CHAIN=1
+
+    # Install the project
+    venv_dir=${install_root}/venvs/${project}/${version}
+    make install CHAIN=1 VENV_DIR=${venv_dir}
+
+    # Make the command available system-wide
+    cd ${bin_dir}
+    ln -s ${venv_dir}/bin/${command1} ${command1}
+
+    # Test the command
+    cd
+    ${command1} --version
+
 *****************************
 On projects and the Blueprint
 *****************************
 
-What is the *Python Blueprint*?
--------------------------------
+The Python Blueprint
+--------------------
 
-The *Python Blueprint* is a template for Python projects.
+The Python Blueprint is a template for Python projects.
 Using `cookiecutter`_, a new project can be set up in a minute, including many necessary and useful components to develop proper installable Python tools.
 It provides:
 
@@ -61,8 +98,8 @@ It provides:
 
 In short, it provides all the boilerplate that we know deep down is necessary, but that we hardly ever bother with when we start writing a Python script!
 
-What is the difference between scripts, modules, packages and projects?
------------------------------------------------------------------------
+Scripts vs. modules vs. packages vs. projects
+---------------------------------------------
 
 These terms describe the organizational hierarchy of Python code:
 
@@ -77,112 +114,120 @@ These terms describe the organizational hierarchy of Python code:
 -   **Project**: A package together with tests, documentation, an install script, configuration files and development tools.
     A project should contain everything that is necessary to develop and/or install the package and its commands.
 
-    .. note::
-        Creating an installable project is called `packaging <https://packaging.python.org/tutorials/packaging-projects/>`__, and the resulting packaged project is often also called a *package* -- not to be confused with a package as defined above!
-        Usually, it is clear from context whether *package* refers to a collection of modules or to a packaged project.
-        To avoid confusion, we will try to avoid the term *package* for the latter and instead call it a *project* or *packaged project* -- except when referring to *installing packages* with pip, the Python *package installer*.
+.. note::
+    Creating an installable project is called `packaging <https://packaging.python.org/tutorials/packaging-projects/>`__, and the resulting packaged project is often also called a *package* -- not to be confused with a package as defined above!
+    Usually, it is clear from context whether *package* refers to a collection of modules or to a packaged project.
+    To avoid confusion, we will try to avoid the term *package* for the latter and instead call it a *project* or *packaged project* -- except when referring to *installing packages* with pip, the Python *package installer*.
 
-How do I get started with the Blueprint?
-----------------------------------------
+How to get started with the Blueprint
+-------------------------------------
 
 The Blueprint resides on `Github <https://github.com/MeteoSwiss-APN/mch-python-blueprint>`__.
 To create a new empty project from it, you need to run `Cookiecutter <https://github.com/cookiecutter/cookiecutter>`__ (which is installed on the MeteoSwiss machines at CSCS):
 
-    .. code::
+.. code::
 
-        $ cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
-        full_name [Donald Duck]: Mickey Mouse
-        email [mickey.mouse@meteoswiss.ch]:
-        github_username [mickeymouse]: mmouse
-        project_name [Mickey's Tool]: Random Star Wars Generator
-        project_slug [random_star_wars_generator]: random_star_wars
-        project_short_description [Mickey Mouse's shiny new tool.]: A tool to randomly combine existing story elements to create new Star Wars movies.
-        version [0.1.0]:
+    $ cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
+    Select sample_code:
+    1 - no
+    2 - cli
+    3 - calculator
+    Choose from 1, 2, 3 [1]: 3
+    full_name [Monty Python]: Tim the Enchanter
+    email [tim.the.enchanter@meteoswiss.ch]: tim.enchanter@meteoswiss.ch
+    github_username [tim_the_enchanter]: ttenchanter
+    project_name [Flying Circus]: Calculator
+    project_slug [calculator]:
+    project_short_description [Tim the Enchanter's Calculator]:
+    version [0.1.0]:
+
+.. note::
+    When working on the Blueprint itself, instead you can point cookiecutter to your local clone of the ``mch-python-blueprint`` repository by passing the path instead of the github URL.
 
 You will be asked a few questions about your project.
 Based on the answers, cookiecutter creates an empty project:
 
-    .. code::
+.. code::
 
-        $ ls -F random_star_wars
-        AUTHORS.rst       MANIFEST.in  VERSION.txt     setup.py
-        CONTRIBUTING.rst  Makefile     docs/           src/
-        HISTORY.rst       README.rst   pyproject.toml  tests/
-        LICENSE.txt       USAGE.rst    requirements/   tox.ini
+    $ ls -F calculator/
+    AUTHORS.rst       MANIFEST.in  VERSION.txt     requirements.txt@  tox.ini
+    CONTRIBUTING.rst  Makefile     docs/           setup.py
+    HISTORY.rst       README.rst   pyproject.toml  src/
+    LICENSE.txt       USAGE.rst    requirements/   tests/
 
 It is not entirely empty, though, but contains some sample code and test files:
 
-    .. code::
+.. code::
 
-        $ tree random_star_wars/{src,tests}
-        random_star_wars/src
-        └── random_star_wars
-            ├── __init__.py
-            ├── cli.py
-            ├── random_star_wars.py
-            └── utils.py
-        random_star_wars/tests
-        └── random_star_wars
-            ├── test_cli.py
-            ├── test_random_star_wars.py
-            └── test_utils.py
+    $ tree calculator/{src,tests}
+    calculator/src
+    └── calculator
+        ├── __init__.py
+        ├── cli.py
+        ├── mutable_number.py
+        ├── py.typed
+        └── utils.py
+    calculator/tests
+    └── calculator
+        ├── test_cli.py
+        ├── test_mutable_number.py
+        └── test_utils.py
+
+    2 directories, 8 files
 
 Your answers have even been turned into meta data for the package, which may, for instance, eventually help others find your package on PyPI:
 
-    .. code::
+.. code::
 
-        $ \grep -A16 '^metadata' random_star_wars/setup.py
-        metadata = {
-            "name": "random_star_wars",
-            "version": "0.1.0",
-            "description": "A tool to randomly combine existing story elements to create new Star Wars movies.",
-            "long_description": "\n\n".join([read_file(f) for f in description_files]),
-            "author": "Mickey Mouse",
-            "author_email": "mickey.mouse@meteoswiss.ch",
-            "url": "https://github.com/mmouse/random_star_wars",
-            "keywords": "random_star_wars",
-            "classifiers": [
-                "Development Status :: 2 - Pre-Alpha",
-                "Intended Audience :: Developers",
-                "Natural Language :: English",
-                "Programming Language :: Python :: 3",
-                "Programming Language :: Python :: 3.7",
-            ],
-        }
+    $ \grep -A16 '^metadata' calculator/setup.py
+    metadata = {
+        "name": "calculator",
+        "version": "0.1.0",
+        "description": "Tim the Enchanter's Calculator",
+        "long_description": read_present_files(description_files),
+        "author": "Tim the Enchanter",
+        "author_email": "tim.enchanter@meteoswiss.ch",
+        "url": "https://github.com/ttenchanter/calculator",
+        "keywords": "calculator",
+        "classifiers": [
+            "Development Status :: 2 - Pre-Alpha",
+            "Intended Audience :: Developers",
+            "Natural Language :: English",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.7",
+        ],
+    }
 
 Cookiecutter and the Blueprint have now served their purpose and will no longer be needed.
 
-How can I upload my new project to Github?
-------------------------------------------
+Upload your new project to Github
+---------------------------------
 
 While a project already contains some git-related files like ``.gitignore``, it is not yet a git repository.
 So first, you need to activate git in your project directory:
 
-    .. code:: bash
+.. code:: bash
 
-        git init
-        git add .
-        git commit -m 'initial commit'
+    make git
 
-For your convenience, the ``Makefile`` defines a command for this:
+This is short for:
 
-    .. code:: bash
+.. code:: bash
 
-        make git
+    git init
+    git add .
+    git commit -m 'initial commit'
 
 In order to upload your project to Github, after `creating a new repository <https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-new-repository>`__, run:
 
-    .. code:: bash
+.. code:: bash
 
-        git remote add origin git+ssh://git@github.com/MeteoSwiss-APN/random_star_wars.git
-        git push --set-upstream origin master
+    git remote add origin git@github.com:MeteoSwiss-APN/calculator.git
+    git push --set-upstream origin master
 
 From this point on, your project is installable with Pip:
 
     python -m pip install git+ssh://git@github.com/MeteoSwiss-APN/star_wars_gen.git
-
-    .. note::
-        Read the rest of this guide for best practices and tools to install projects for development and deployment.
 
 ********************
 Virtual Environments
