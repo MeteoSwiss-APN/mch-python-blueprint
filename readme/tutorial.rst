@@ -397,8 +397,8 @@ Now that we are in a project-specific, pristine Python environment, we are ready
     The following examples use the virtual environment explicitly (e.g., ``./venv/bin/python -m pip ...``).
     If you prefer to actiate the virtual environment in order to omit the ``./venv/bin/`` paths, you may do so with ``source ./venv/bin/activate``.
 
-How do I install the project and its dependencies?
---------------------------------------------------
+How to install the project and its dependencies
+-----------------------------------------------
 
 The most basic command to install your local project along with up-do-date versions of its runtime dependencies is:
 
@@ -519,8 +519,8 @@ Finally, to ensure that it worked as planned, test the commands (if only by show
     cd
     ${command1} --version
 
-What types of dependencies are there?
--------------------------------------
+Types of dependencies
+---------------------
 
 There are two main characteristics by which dependencies are grouped: version specificity and purpose.
 In terms of version specificity, we distinguish unpinned and pinned dependencies:
@@ -541,49 +541,43 @@ In terms of their purpose, the following types of dependencies are generally dis
 -   Finally, **setup dependencies** are packages required during installation and therefore must be present beforehand, either by pre-installing them on the target system or by specifying them in *pyproject.toml*, a relatively recent addition to Python packaging that allows for using arbitrary setup frameworks.
     A common setup dependency is Cython, a Python superset that introduces C functionality and code compilation and which is used by, e.g., Cartopy.
 
-How are dependencies specified in Python projects?
---------------------------------------------------
+How to specify dependencies in Python projects
+----------------------------------------------
 
 In Python projects using the standard packaging framework Setuptools, the unpinned runtime dependencies should be specified in the file ``setup.py`` or ``setup.cfg``.
-Other dependency types are commonly specified in so-called requirements files, which are plain text files containing package names with optional version restrictions that can be passed to Pip.
-Conventionally, many projects contain a single file called ``requirements.txt`` that contains the pinned runtime dependencies.
+These are used when installing the package with Pip, and should therefore not be pinned by default in case the environment contains other packages with shared dependencies, which would quickly lead into dependency hell.
+Other dependency types are commonly specified in so-called requirements files, which are plain text files that contain package names with optional version restrictions.
+They can be passed to Pip
+
+.. code:: bash
+
+    ./venv/bin/python -m pip -r requirements.txt
+
+Conventionally, many projects contain a file called ``requirements.txt`` that contains the pinned runtime dependencies.
 However, there are no restrictions regarding the number and names of requirement files, or whether they contain pinned or unpinned dependencies.
-For instance, there may be separate files for pinned and/or unpinned development dependencies.
-Dependencies specified in requirements files are installed with Pip as follows:
 
-    .. code:: bash
-
-        ./venv/bin/python -m pip -r requirements.txt
-
-In the Blueprint, the dependencies are defined in the following files:
+In the Blueprint, the different types of dependencies are defined in the following files:
 
 -   **pyproject.toml**: Setup requirements (preferentially pinned), installed temporarily during the installation of the project with Pip.
--   **setup.py**: Unpinned runtime dependencies, installed when installing the project with Pip, unless a *requirements.txt* file is present (see below).
+-   **setup.py**: Unpinned runtime dependencies, installed when installing the project with Pip.
+-   **requirements.txt**: Symlink to requirements/run-pinned.txt.
+    Supplied because requirements.txt is the de-facto standard for pinned runtime dependencies.
 -   **requirements/dev-unpinned.txt**: Unpinned development dependencies to be explicitly installed with Pip as described below.
 -   **requirements/run-pinned.txt**: Pinned runtime dependencies to be explicitly installed with Pip, or during the installation of the project if soft-linked to *requirements.txt* (see below).
 -   **requirements/dev-pinned.txt**: Pinned development and runtime dependencies, i.e., a superset of **run-pinned.txt** to be explicitly installed with Pip.
 
-The file *setup.py* is a simple Python script that can be adapted to a project as desired.
-That in the Blueprint will try to use dependencies specified in a ``requirements.txt`` file and only default to the unpinned dependencies specified in ``setup.py`` if that fails.
-Pinned runtime dependencies will be used during installation by soft-linking them:
+The file setup.py is a simple Python script that can be adapted to a project as desired.
 
-    .. code:: bash
+.. code:: bash
 
-        ln -s requirements/run_pinned.txt requirements.txt
+    ln -s requirements/run_pinned.txt requirements.txt
 
 This guarantees a working environment.
-The environment can then easily be updated by temporarily removing the soft-link:
 
-    .. code:: bash
-
-        rm requirements.txt
-        ./venv/bin/python -m pip install .
-        ./venv/bin/python -m pip freeze > requirements/run_pinned.txt
-        ln -s requirements/run_pinned.txt requirements.txt
-
-    .. note::
-        Instead of managing dependencies manually with requirements files, many projects use the third-party tool Pipenv, which naturally distinguishes runtime and development dependencies and automatically handles pinning.
-        In addition to dependencies, Pipenv also handles virtual environments, thus rendering direct usage of venv and Pip obsolete.
+.. note::
+    Instead of managing dependencies manually with requirements files during development, many projects use the third-party tool Pipenv, which naturally distinguishes runtime and development dependencies and automatically handles pinning.
+    In addition to dependencies, Pipenv also handles virtual environments, thus rendering direct usage of venv and Pip obsolete.
+    However, even projects using Pipenv should still supply the pinned runtime dependencies in a standard requirements file for deployment in order not to make Pipenv an installation dependency.
 
 How can I manage my dependencies with Pipenv instead of ``venv+pip``?
 ---------------------------------------------------------------------
@@ -591,26 +585,23 @@ How can I manage my dependencies with Pipenv instead of ``venv+pip``?
 `Pipenv <https://github.com/pypa/pipenv>`__ is a tool to manage both virtual environments and package installation via a unified interface.
 Instead of one or more requirements files, Pipenv unifies all dependencies in a single file called `Pipfile <https://github.com/pypa/pipfile>`__, which contains unpinned runtime and development dependencies.
 It is managed by Pipenv but can also be edited manually.
-When pinning dependencies (called *locking*), Pipenv creates the file *Pipfile.lock* (which should not be edited manually).
+When pinning dependencies (called *locking*), Pipenv creates the file Pipfile.lock (which should not be edited manually).
 
 Pipfile contains separate sections for development and runtime dependencies.
-It is advantageous, however, not to specify the unpinned runtime dependencies in Pipfile, but instead to leave them in *setup.py* and specifying the project itself in editable form as the sole runtime dependency with
+It is advantageous, however, not to specify the unpinned runtime dependencies in Pipfile, but instead to leave them in setup.py and specifying the project itself in editable form as the sole runtime dependency with
 
-    .. code:: bash
+.. code:: bash
 
-        pipenv install -e .
+    pipenv install -e .
 
 This prevents Pipenv from becoming a setup dependency of the project and allows developers to switch between Pipenv and venv+pip with minimal effort.
-
-    .. note::
-        Even though requirements files and pipfiles can in principle coexist in a project, it is advisable that all developers collaborating on a project use either venv+pip or Pipenv to prevent inconsistencies in dependencies between the two approaches.
 
 Because Pipenv manages virtual environments, it should be installed externally to the project.
 A simple way to install Pipenv user-wide is with `Pipx <https://github.com/pipxproject/pipx>`__:
 
-    .. code:: bash
+.. code:: bash
 
-        pipx install pipenv
+    pipx install pipenv
 
 This installs Pipenv and its dependencies into a designated virtual environment and makes the command ``pipenv`` available user-wide (see `Deployment <deployment.rst>`__).
 
@@ -620,76 +611,76 @@ To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
 
 #.  Install the local project in editable form:
 
-        .. code:: bash
+    .. code:: bash
 
-            pipenv install -e .
+        pipenv install -e .
 
     This will create a virtual environment and a Pipfile with the local project as the sole top-level runtime dependency listed in the ``[packages]`` section, install the local project and all dependencies specified in the file setup.py into the virtual environment, and then pin (or *lock*) the dependencies by writing the whole package tree in the virtual environment to the file Pipfile.lock.
 
-        .. note::
-            If you look into the Pipfile, it is possible that the package name will be wrongly diagnosed, for example as:
+    .. note::
+        If you look into the Pipfile, it is possible that the package name will be wrongly diagnosed, for example as:
 
-                .. code::
+            .. code::
 
-                    [packages]
-                    virtualenv = {editable = true, path = "."}
+                [packages]
+                virtualenv = {editable = true, path = "."}
 
-            instead of:
+        instead of:
 
-                .. code::
+            .. code::
 
-                    [packages]
-                    random_star_wars = {editable = true, path = "."}
+                [packages]
+                random_star_wars = {editable = true, path = "."}
 
-            You can either fix this manually by editing the Pipfile, or just ignore it.
+        You can either fix this manually by editing the Pipfile, or just ignore it.
 
 #.  Install the development dependencies:
 
-        .. code:: bash
+    .. code:: bash
 
-            pipenv install --dev -r requirements/dev-unpinned.txt
+        pipenv install --dev -r requirements/dev-unpinned.txt
 
     This will add these packages to the ``[dev-packages]`` section in the Pipfile, install them to the virtual environment, and again pin the dependency tree to Pipfile.lock (whereby the additional development dependencies will be marked as such thanks to ``--dev``).
 
-        .. note::
-            You may run into trouble with some packages that do not have a nominally stable release yet, notably the (well-established) auto-formatter `Black <https://github.com/psf/black>`__ that is also a default development dependency of the Blueprint:
-
-                .. code::
-
-                    ERROR: Could not find a version that matches black ...
-                    Skipped pre-versions: 18.3a0, 18.3a0, 18.3a1, ...
-
-            The problem is that Pipenv by default does not install pre-release versions unless explicitly told to, even if there is no stable version.
-            There is currently `no clean solution to this <https://github.com/pypa/pipenv/issues/1760>`__, only imperfect workarounds:
-
-            -   The respective package is pinned to a specific version:
-
-                .. code::
-                    black = "==20.8b1"
-
-                However, this will prevent the package from being updated with ``pipenv update``, and -- more problematically -- will still fail if the package is a sub-dependency of another dependency (e.g., flaks8-black).
-
-            -   Pipenv can be told to globally pre-release versions for all packages with:
-
-                .. code::
-
-                    [pipenv]
-                    allow_prereleases = true
-
-                However, this may cause problems with packages with pre-release versions that are not as stable as the Black pre-releases.
-
-            For some projects, this issue is reason enough not to use Pipenv.
-
-Even if you use Pipenv during development, you should still provide a requirements.txt file containing the pinned runtime dependencies to allow for reproducible builds.
-It can be produced with:
-
-    .. code:: bash
-
-        pipenv lock --keep-outdated -r > requirements.txt
-
     .. note::
+        You may run into trouble with some packages that do not have a nominally stable release yet, notably the (well-established) auto-formatter `Black <https://github.com/psf/black>`__ that is also a default development dependency of the Blueprint:
 
-        The flag ``keep-outdated`` is crucial for reproducible builds because without it, ``pipenv lock`` updates the dependencies to the newest versions.
+        .. code::
+
+            ERROR: Could not find a version that matches black ...
+            Skipped pre-versions: 18.3a0, 18.3a0, 18.3a1, ...
+
+        The problem is that Pipenv by default does not install pre-release versions unless explicitly told to, even if there is no stable version.
+        There is currently `no clean solution to this <https://github.com/pypa/pipenv/issues/1760>`__, only imperfect workarounds:
+
+        -   The respective package is pinned to a specific version:
+
+            .. code::
+                black = "==20.8b1"
+
+            However, this will prevent the package from being updated with ``pipenv update``, and -- more problematically -- will still fail if the package is a sub-dependency of another dependency (e.g., flaks8-black).
+
+        -   Pipenv can be told to globally pre-release versions for all packages with:
+
+            .. code::
+
+                [pipenv]
+                allow_prereleases = true
+
+            However, this may cause problems with packages with pre-release versions that are not as stable as the Black pre-releases.
+
+        For some projects, this issue is reason enough not to use Pipenv.
+
+Even if you use Pipenv during development, you should still supply the pinned runtime dependencies in a standard requirements file for deployment in order not to make Pipenv an installation dependency.
+They can be produced as follows:
+
+.. code:: bash
+
+    pipenv lock --keep-outdated -r > requirements.txt
+
+.. note::
+
+    The flag ``keep-outdated`` is crucial for reproducible builds because without it, ``pipenv lock`` updates the dependencies to the newest versions before they are written to the requirements file.
 
 To switch the project back from Pipenv to venv+pip, follow these steps:
 
@@ -700,10 +691,10 @@ To switch the project back from Pipenv to venv+pip, follow these steps:
 
 #.  Unless you want to update your pinned dependencies, transfer those locked by Pipenv into requirements files:
 
-        .. code:: bash
+    .. code:: bash
 
-            pipenv lock --keep-outdated -r > requirements/run-pinned.txt
-            pipenv lock --keep-outdated -r -d > requirements/dev-pinned.txt
+        pipenv lock --keep-outdated -r > requirements/run-pinned.txt
+        pipenv lock --keep-outdated -r -d > requirements/dev-pinned.txt
 
 #. Remove the virtual environment and the Pipfiles:
 
