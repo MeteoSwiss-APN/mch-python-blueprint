@@ -1,0 +1,7 @@
+flake8
+mypy
+numpy
+pre-commit
+pylint
+pytest
+# pytest-cov
