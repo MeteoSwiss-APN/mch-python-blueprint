@@ -58,25 +58,27 @@ To install a certain version of a project, follow these steps:
     version=...  # e.g., v0.2.1
     command1=...  # e.g.,
 
-    # Clone the git repository
+    # Clone the git repository and check out the target version
     git clone git@github.com:MeteoSwiss-APN/${project} ${git_dir}/${project}
     cd ${git_dir}/${project}
-
-    # Check out target version and test it
     git checkout ${version}
+
+    # Run the tests and checks (and clean up after them)
     make test-check clean-all CHAIN=1
 
-    # Install the project
+    # Install the package and its (pinned) dependencies into a virtual env
     venv_dir=${install_root}/venvs/${project}/${version}
     make install CHAIN=1 VENV_DIR=${venv_dir}
 
-    # Make the command available system-wide
+    # Make the project's command(s) available system-wide
     cd ${bin_dir}
     ln -s ${venv_dir}/bin/${command1} ${command1}
+    # repeat for all commands
 
-    # Test the command
+    # Test the commands
     cd
     ${command1} --version
+    # ...
 
 *****************************
 On projects and the Blueprint
@@ -233,95 +235,95 @@ From this point on, your project is installable with Pip:
 Virtual Environments
 ********************
 
-What is a virtual environment?
-------------------------------
+On virtual environments
+-----------------------
 
 By default, `pip <https://pip.pypa.io/en/stable/>`__ installs Python packages system- or (with ``--user``) user-wide.
 This makes them conveniently available, but can lead to version conflicts and more generally to a non-reproducible environment, as package versions will inevitable differ between machines or over time.
 
-    .. note::
-        A situation where multiple packages depend on different versions of a shared dependencies is called `dependency hell <https://en.wikipedia.org/wiki/Dependency_hell>`__.
-        For example, tool A may require version ``< 2.0`` of dependency D, while tool B requires the same package, version ``>= 3.0``.
-        You are then forced to choose between tools A and B because you cannot install both alongside each other!
-        And if, god forbid, your system also depends on dependency D, but on version ``2.*``, you are forced to abandon both packages.
+.. note::
+    A situation where multiple packages depend on different versions of a shared dependencies is called `dependency hell <https://en.wikipedia.org/wiki/Dependency_hell>`__.
+    For example, tool A may require version ``< 2.0`` of dependency D, while tool B requires the same package, version ``>= 3.0``.
+    You are then forced to choose between tools A and B because you cannot install both alongside each other!
+    And if, god forbid, your system also depends on dependency D, but on version ``2.*``, you are forced to abandon both packages.
 
 To avoid dependency hell, packages can instead be installed into self-contained containers called *virtual environments* which are isolated from the system installation.
 Multiple virtual environments can easily coexists, which allows one to create designated environments for individual projects that contain all its Python dependencies, both during development and deployment.
 Because the package versions in a virtual environment are independent from those required by the system, identical, reproducible environments can be maintained over time and on different machines.
 
-    .. note::
-        Virtual environments are tied to an existing Python installation, i.e., Python itself is not part of a virtual environment, but only linked.
-        Multiple versions of Python can be easily installed with `Pyenv <https://github.com/pyenv/pyenv>`__, which allows virtual environments using different Python versions to coexist.
-        Alternatively, `Conda <https://docs.conda.io/en/latest/>`__ provides virtual environment with a wider scope, including the Python installation itself as well as non-Python dependencies such as C libraries.
+.. note::
+    Virtual environments are tied to an existing Python installation, i.e., Python itself is not part of a virtual environment, but only linked.
+    Multiple versions of Python can be easily installed with `Pyenv <https://github.com/pyenv/pyenv>`__, which allows virtual environments using different Python versions to coexist.
+    Alternatively, `Conda <https://docs.conda.io/en/latest/>`__ provides virtual environment with a wider scope, including the Python installation itself as well as non-Python dependencies such as C libraries.
 
-How can I create a virtual environment?
----------------------------------------
+Create a virtual environment
+----------------------------
 
 A Python virtual environment is created like this:
 
-    .. code:: bash
+.. code:: bash
 
-        python -m venv ./venv --prompt=my-tool
+    python -m venv ./venv --prompt=my-tool
 
 This will create the directory ``./venv`` (any valid path can be passed), into which directories like ``bin`` and ``lib`` are placed.
 Tools installed into the virtual environment that can be executed on the command line are found in ``./venv/bin/``.
 Among them, notably, is ``python`` itself:
 
-    .. code::
-        $ ls -l venv/bin/python
-        lrwxrwxrwx 1 stefan stefan 50 Oct  1 13:05 venv/bin/python -> /home/stefan/local/pyenv/versions/3.7.4/bin/python*
+.. code::
+    $ ls -l venv/bin/python
+    lrwxrwxrwx 1 stefan stefan 50 Oct  1 13:05 venv/bin/python -> /home/stefan/local/pyenv/versions/3.7.4/bin/python*
 
 Because the Python installation is not part of the virtual environment, ``venv/bin/python`` is only a symlink to the installation used to create the virtual environment (in this example, one managed by  `Pyenv <https://github.com/pyenv/pyenv>`__).
 However, by using ``./venv/bin/python`` instead of plain ``python`` to, e.g., run a script, the packages installed in ``./venv`` will be used.
 
 For convenience, the ``Makefile`` provides the command ``make venv`` (which is automatically invoked by commands like ``make install`` if there is no active or local virtual environment yet).
 
-How do I work in a virtual environment?
----------------------------------------
+How to work in a virtual environment
+------------------------------------
 
 As mentioned, all command line tools installed in a virtual environment can be found in ``./venv/bin/``, including ``python`` itself.
 Thus, you can simply call those executables explicitly:
 
-    .. code:: bash
+.. code:: bash
 
-        ./venv/bin/python -m pip install black
-        ./venv/bin/black my_script.py
-        ./venv/bin/python my_script.py
+    ./venv/bin/python -m pip install black
+    ./venv/bin/black my_script.py
+    ./venv/bin/python my_script.py
 
 This explicit approach ensures that never accidentally use the system installation, but it can be cumbersome to always type the path, especially outside of the project root.
 To make matters easier, you can activate the virtual environment, which adds ``./venv/bin`` to your ``$PATH``, which makes its contents available wherever you are:
 
-    .. code::
+.. code::
 
-        $ which python
-        /home/stefan/local/pyenv/shims/python
-        $ source ./venv/bin/activate
-        (my-tool)$ which python
-        /home/stefan/work/git/meteoswiss-apn/mch-python-blueprint/venv/bin/python
+    $ which python
+    /home/stefan/local/pyenv/shims/python
+    $ source ./venv/bin/activate
+    (my-tool)$ which python
+    /home/stefan/work/git/meteoswiss-apn/mch-python-blueprint/venv/bin/python
 
 As long as the virtual environment is active, your prompt will be preceded by its name, e.g., ``(my_tool)`` as a reminder.
 
-    .. note::
-        If you customize your bash prompt by defining ``$PS1`` in ``~/.bashrc``, make sure not to re-source the latter from inside a virtual environment, because this will remove the indicator ahead of the prompt.
-        Your virtual environment will then still be active, but you may will no longer be aware of it.
+.. note::
+    If you customize your bash prompt by defining ``$PS1`` in ``~/.bashrc``, make sure not to re-source the latter from inside a virtual environment, because this will remove the indicator ahead of the prompt.
+    Your virtual environment will then still be active, but you may will no longer be aware of it.
 
 All your actions, like installing or upgrading packages, will now be confined to the virtual environment.
 
 Once you're done working on the project, you can deactivate the virtual environment by typing:
 
-    .. code:: bash
+.. code:: bash
 
-        deactivate
+    deactivate
 
-(This will run ``./venv/bin/deactivate``, the equivalent of ``./venv/bin/activate``.)
+(This will run ``./venv/bin/deactivate``, the complement of ``./venv/bin/activate``.)
 
 Your bash prompt will no longer be preceded by ``(my-tool)``, and ``which python`` will again point you to the system installation.
 
-Where shall I put my virtual environments?
-------------------------------------------
+Where to put your virtual environments
+--------------------------------------
 
-That's up to you!
-The virtual environments are self-contained, so there is no reason to put them inside the project you're working on, you only need to remember where you put it.
+From a technical perspective, it's totally up to you where to put your virtual environments.
+They are self-contained, so there is no reason to put them inside the project you're working on, you only need to remember where you put it.
 
 Because each project should have its own virtual environment, it is customary during development to put the respective virtual environment into the project root in a directory with a generic name like ``venv`` (as in the examples above) which is also added to ``.gitignore``.
 This layout is used both in this document and in the projects created with the Blueprint (e.g., by the ``make venv*`` commands defined in ``Makefile``).
@@ -331,8 +333,8 @@ While small by today's standards, this size may still become a problem on system
 In that case, you may want to either work on ``$SCRATCH`` entirely, or at least move the virtual environments there.
 They can easily be created on ``$SCRATCH`` and symlinked to the respective project in ``$HOME`` so the workflow does not change.
 
-Are there alternatives to ``venv+pip``?
----------------------------------------
+Alternatives to ``venv+pip``
+----------------------------
 
 Venv is the built-in virtual environment tool in Python 3, and in combination with the Python package installer Pip -- thus ``venv+pip`` -- provides all the functionality to work with virtual environments.
 However, there is a range of alternative thid-party tools which provide different approaches, interfaces and/or additional functionality:
@@ -371,94 +373,151 @@ Installation and Dependencies
 Recap: How to create a new project with a virtual environment
 -------------------------------------------------------------
 
-Say we want to develop the command line application `chain_calc <https://github.com/MeteoSwiss-APN/chain_calc>`__ that performs sequential calculations.
-First, we create the repository ``chain_calc`` on `Github <https://github.com/MeteoSwiss-APN>`__, and then create an empty package of the same name using the blueprint and upload it:
+Say we want to create a calculator, starting from the sample code in the Blueprint (``sample_code=3``).
+First, we create the repository ``calculator`` on `Github <https://github.com/MeteoSwiss-APN>`__, and then create an empty package of the same name using the blueprint and upload it:
 
-    .. code:: bash
+.. code:: bash
 
-        cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
-        cd chain_calc
-        make git
-        git remote add origin git+ssh://git@github.com/MeteoSwiss-APN/chain_calc.git
-        git push --set-upstream origin master
+    cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
+    # project_slug=calculator
+    cd calculator
+    make git
+    git remote add origin git@github.com:MeteoSwiss-APN/calculator.git
+    git push --set-upstream origin master
 
 Then, we create and activate a virtual environment for development:
 
-    .. code:: bash
+.. code:: bash
 
-        python -m venv ./venv --prompt=chain_calc
+    make install-dev CHAIN=1
 
 Now that we are in a project-specific, pristine Python environment, we are ready to go!
 
-    .. note::
-        The following examples use the virtual environment explicitly (e.g., ``./venv/bin/python -m pip ...``).
-        If you prefer to actiate the virtual environment in order to omit the ``./venv/bin/`` paths, you may do so with ``source ./venv/bin/activate``.
+.. note::
+    The following examples use the virtual environment explicitly (e.g., ``./venv/bin/python -m pip ...``).
+    If you prefer to actiate the virtual environment in order to omit the ``./venv/bin/`` paths, you may do so with ``source ./venv/bin/activate``.
 
 How do I install the project and its dependencies?
 --------------------------------------------------
 
-The most basic command to install your local project along with up-do-date versions of its runtime dependencies, run:
+The most basic command to install your local project along with up-do-date versions of its runtime dependencies is:
 
-    .. code:: bash
+.. code:: bash
 
-        python -m pip install .
+    python -m pip install .
 
-x
+However, for all the reasons already mentioned you want to run this in a virtual environment.
+Furthermore, to ensure reproducibility, you want to use pinned dependencies (if provided by the project).
+Those are conventionally provided in the file requirements.txt (which in the Blueprint is a symlink to requirements/run-pinned.txt).
+Let's put it all together:
 
-    .. code:: bash
+   .. code:: make
 
-        make install
+    python -m venv venv
+    ./venv/bin/python -m pip install -U pip
+    ./venv/bin/python -m pip install -r requirements/run-pinned.txt
+    ./venv/bin/python -m pip install .
 
-This is short for:
+In Blueprint projects, this can be achieved with a single command:
 
-    .. code:: make
+.. code:: bash
 
-	    ./venv/bin/python -m pip install -r requirements/run-pinned.txt
-	    ./venv/bin/python -m pip install .
-
-This your project along with its pinned runtime dependencies specified in ``requirements/run-pinned.txt`` into the virtual environment.
-
-    .. note::
-        If you haven't created a virtual environment yet with ``make venv``, you can tell the Make to do to automatically by chaining all necessary commands:
-
-            .. code:: bash
-
-                make install CHAIN=1
-
-        If you neither run ``make venv`` nor pass ``CHAIN=1``, ``make install`` will fail.
+    make venv install
+    # or
+    make install CHAIN=1
 
 The source files are copied into the virtual environment, which is what you want when installing the package for deployment so you can remove the clone of the repository after installation.
 However, this is not suitable for development, when you'd like to see changes to the source files immediately applied without having to rerun ``make venv``.
 Therefore, the Makefile provides a second command that installs the package in editable mode, which means that links to (rather than copies of) the source files are installed into the virtual environment:
 
-    .. code:: bash
+.. code:: bash
 
-        make install-dev
+    make install-dev
+
+.. note::
+    Add ``CHAIN=1`` to also create the virtual environment if necessary.
 
 This is short for:
 
-    .. code:: make
+   .. code:: make
 
-	    ./venv/bin/python -m pip install -r requirements/dev-pinned.txt
-	    ./venv/bin/python -m pip install -e .
-	    ./venv/bin/pre-commit install
+    ./venv/bin/python -m pip install -r requirements/dev-pinned.txt
+    ./venv/bin/python -m pip install -e .
+    ./venv/bin/pre-commit install
 
 In addition, this also installs the pinned development dependencies specified in ``requirements/dev-pinned.txt`` (a superset of the pinned runtime dependencies), and activate the pre-commit hooks (more on those later).
 
-How to I install a project for deployment?
-------------------------------------------
+How to install a project for deployment
+---------------------------------------
 
 A vary simple way to installing a project for usage only is with `Pipx <https://github.com/pipxproject/pipx>`__:
 
-    .. code:: bash
+.. code:: bash
 
-        pipx install https://github.com/MeteoSwiss-APN/my-cool-project@v0.1.2
+    pipx install https://github.com/MeteoSwiss-APN/apepi@v0.2.1
 
 With only one line of code, pipx creates a designated virtual environment for the project, installs the project and it's dependencies in there and links the commands provided by the project to a ``bin``-folder that is in ``$PATH`` so the commands are accessible system-wide.
+It is a great, handy tool to quickly install and/or test some tools.
 
-However, has it's limitations, among them that
+However, does have its limitations, among them that it doesn't automatically use pinned dependencies.
+While there are ways around that, given that Pipx only replaces a handful of commands during package installation, manual installation is the ultimately more suitable and transparent approach to deploy specific versions of tools.
 
-TODO: Finish section!
+Let's demonstrate manual installation step-by-step.
+First, let's define some temporary variables to make the code examples below better readable:
+
+.. code:: bash
+
+    git_dir=...  # e.g., ~/.local/git
+    venvs_dir=...  # e.g., ~/.local/venvs
+    bin_dir=...  # e.g., ~/.local/bin
+    project=...  # e.g., apepi
+    version=...  # e.g., v0.2.1
+    command1=...  # e.g.,
+
+First, clone the repository of the project and check out the version to be installed:
+
+.. code:: bash
+
+    git clone git@github.com:MeteoSwiss-APN/${project} ${git_dir}/${project}
+    cd ${git_dir}/${project}
+    git checkout ${version}
+
+To make sure that everything works as expected, you may want to run the tests and checks (and clean up after them):
+
+.. code:: bash
+
+    make test-check clean-all CHAIN=1
+
+Next, install the package and its (pinned) dependencies into a virtual environment:
+
+.. code:: bash
+
+    venv_dir=${install_root}/venvs/${project}/${version}
+    make install CHAIN=1 VENV_DIR=${venv_dir}
+
+If you prefer, you can now remove the clone of the repository (e.g., if it adds too much to your file quota).
+However, it may be handy to keep the repositories of installed projects around to more easily update to new versions later.
+
+Now, the project and it's commands are installed, but we still don't have global access to them.
+For this, we symlink them to a location that is in the system path (``${PATH}``):
+
+.. code:: bash
+
+    cd ${bin_dir}
+    ln -s ${venv_dir}/bin/${command1} ${command1}
+
+In case you install multiple versions of the same commands, just add the version number:
+
+.. code:: bash
+    ln -s ${venv_dir}/bin/${command1} ${command1}-${version}
+
+Finally, to ensure that it worked as planned, test the commands (if only by showing their version):
+
+.. code:: bash
+
+    # Test the command
+    cd
+    ${command1} --version
 
 What types of dependencies are there?
 -------------------------------------
