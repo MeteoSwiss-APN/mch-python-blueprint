@@ -83,7 +83,7 @@ In addition, this also installs the pinned development dependencies specified in
 How to install a project for deployment
 ---------------------------------------
 
-A vary simple way to installing a project for usage only is with `Pipx <https://github.com/pipxproject/pipx>`__:
+A very simple way to installing a project for usage only is with `Pipx <https://github.com/pipxproject/pipx>`__:
 
 .. code:: bash
 
@@ -218,21 +218,21 @@ How can use my project in another project?
 
 You may want to add your project as a dependency in another project. There are several ways to accomplish this:
 
-#.  install your project with pip in a virtual environment
+1  install your project with pip in a virtual environment
 
 .. code:: bash
 
     ./venv/bin/python -m pip install git+ssh://git@github.com/MeteoSwiss-APN/yourproject
     
-#.  add your project to the dependencies of another project
+2  add your project to the dependencies of another project
 
-- in the setup.py file of another project (for runtime dependencies):
+   - in the setup.py file of another project (for runtime dependencies):
 
 .. code:: bash
 
     "yourproject@git+ssh://git@github.com/MeteoSwiss-APN/yourproject>=v1.0.0"
 
-- in a requirements file of another project, e.g. requirements/dev-unpinned.txt (for unpinned development dependencies):
+   - in a requirements file of another project, e.g. requirements/dev-unpinned.txt (for unpinned development dependencies):
 
 .. code:: bash
 
