@@ -187,6 +187,7 @@ clean-test:
 	\rm -f ".coverage"
 	\rm -rf "htmlcov/"
 	\rm -rf ".pytest_cache"
+	\rm -rf ".mypy_cache"
 
 .PHONY: clean-venv #CMD Remove virtual environment.
 clean-venv:
