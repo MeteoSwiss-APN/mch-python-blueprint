@@ -213,6 +213,15 @@ This guarantees a working environment.
     In addition to dependencies, Pipenv also handles virtual environments, thus rendering direct usage of venv and Pip obsolete.
     However, even projects using Pipenv should still supply the pinned runtime dependencies in a standard requirements file for deployment in order not to make Pipenv an installation dependency.
 
+How can use my project in another project?
+------------------------------------------
+
+You may want to add your project as a dependency in another project. There are several ways to accomplish this:
+
+- first way
+- second way
+
+
 How can I manage my dependencies with Pipenv instead of ``venv+pip``?
 ---------------------------------------------------------------------
 
