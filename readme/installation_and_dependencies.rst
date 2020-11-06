@@ -218,8 +218,21 @@ How can use my project in another project?
 
 You may want to add your project as a dependency in another project. There are several ways to accomplish this:
 
-- first way
-- second way
+#. install your project with pip in a virtual environment
+.. code:: bash
+
+    ./venv/bin/python -m pip install git+ssh://git@github.com/MeteoSwiss-APN/yourproject
+    
+#. add your project to the dependencies of another project
+- in the setup.py file of another project (for runtime dependencies):
+.. code:: bash
+
+    "yourproject@git+ssh://git@github.com/MeteoSwiss-APN/yourproject>=v1.0.0"
+
+- in a requirements file of another project, e.g. requirements/dev-unpinned.txt (for unpinned development dependencies):
+.. code:: bash
+
+    yourproject@git+ssh://git@github.com/MeteoSwiss-APN/yourproject
 
 
 How can I manage my dependencies with Pipenv instead of ``venv+pip``?
