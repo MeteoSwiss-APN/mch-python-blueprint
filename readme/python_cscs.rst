@@ -14,36 +14,59 @@ Set Up Environment
 On tsa/arolla
 -------------
 
-Add the following commands to your `.bashrc`::
+Add the following commands to your `.bashrc`:
+
+.. code:: bash
 
     # Load pristine Python environment
     source "/users/osm/.opr_setup_dir"
     source "${OPR_SETUP_DIR}/.python_base"
-    unset PYTHONPATH  # Not strictly necessary
+    unset PYTHONPATH
 
-    # Access pipx etc.
-    export PATH="/users/osm/bin:${PATH}"
+    # Access installed tools like pipx
+    export PYTHONUSERBASE="/apps/mch/msopr/osm/python/"
+    export PATH="${PYTHONUSERBASE}/bin:${PATH}"
 
-This changes the environment as follows (as of January 2020)::
+.. note::
+    Unsetting `${PYTHONPATH}` is not strictly necessary, but good practice to ensure that virtual environments are isolated from the system environment.
+
+This changes the environment as follows (as of late November 2020):
+
+.. code::
 
     $ module list
     Currently Loaded Modulefiles:
-     1) craype-x86-skylake   2) craype-network-infiniband   3) slurm/19.05.04
+      1) slurm/20.02.5
 
-    $ cat "${OPR_SETUP_DIR}/.python_base"
-    module load PrgEnv-gnu/19.2
-    module load python/3.7.4
-    module load geos/3.7.2-fosscuda-2019b
-    module load proj/6.1.1-fosscuda-2019b
+    $ source "/users/osm/.opr_setup_dir"
 
     $ source "${OPR_SETUP_DIR}/.python_base"
 
     $ module list
     Currently Loaded Modulefiles:
-     1) craype-x86-skylake             8) cuda/10.1.243                          15) fosscuda/.2019b
-     2) craype-network-infiniband      9) gcccuda/2019b                          16) PrgEnv-gnu/19.2(default)
-     3) slurm/19.05.04                10) openmpi/4.0.2-gcccuda-2019b-cuda-10.1  17) python/3.7.4
-     4) gcccore/.8.3.0                11) openblas/0.3.7-gcc-8.3.0               18) geos/3.7.2-fosscuda-2019b(default)
-     5) zlib/.1.2.11-gcccore-8.3.0    12) gompic/2019b                           19) proj/6.1.1-fosscuda-2019b
-     6) binutils/.2.32-gcccore-8.3.0  13) fftw/3.3.8-gompic-2019b
-     7) gcc/8.3.0
+      1) slurm/20.02.5                 10) scalapack/2.0.2-gompi-2019b
+      2) gcccore/.8.3.0                11) foss/.2019b
+      3) zlib/.1.2.11-gcccore-8.3.0    12) PrgEnv-gnu/19.2-nocuda
+      4) binutils/.2.32-gcccore-8.3.0  13) bzip2/.1.0.8
+      5) gcc/8.3.0                     14) ncurses/.6.1
+      6) openmpi/4.0.2-gcc-8.3.0       15) libreadline/.8.0
+      7) openblas/0.3.7-gcc-8.3.0      16) python/3.7.4
+      8) gompi/.2019b                  17) geos/3.7.2-foss-2019b
+      9) fftw/3.3.8-gompi-2019b        18) proj/6.1.1-foss-2019b
+
+.. note::
+    If cookiecutter is not available after setting up this environment, install it with pipx, which should now be available:
+
+    .. code:: bash
+
+        pipx install cookiecutter
+        cookiecutter -V
+
+    If pipx is not available either, get in touch with `OSM <mailto:osm@meteoswiss.ch>`__ and, in the meantime, install it manually into a temporary virtual environment:
+
+    .. code:: bash
+
+        python -m venv venvs/cookiecutter
+        venvs/cookiecutter/bin/python -m pip install cookiecutter
+        venv/cookiecutter/bin/cookiecutter -V
+
