@@ -23,12 +23,20 @@ Add the following commands to your `.bashrc`:
     source "${OPR_SETUP_DIR}/.python_base"
     unset PYTHONPATH
 
-    # Access installed tools like pipx
+    # Access installed Python tools
     export PYTHONUSERBASE="/apps/mch/msopr/osm/python/"
     export PATH="${PYTHONUSERBASE}/bin:${PATH}"
 
+    # Access installed tools (Python and others)
+    export PATH="/users/osm/bin:${PATH}"
+
 .. note::
     Unsetting `${PYTHONPATH}` is not strictly necessary, but good practice to ensure that virtual environments are isolated from the system environment.
+
+.. note::
+    The Python tools are installed in `/apps/mch/msopr/osm/python/bin/`.
+    A wider range of standard tools is installed in `/users/osm/bin/`, including links to the Python tools in the former path.
+    So depending on your needs (whether you only need the Python tools or other tools as well) you may use either of both paths.
 
 This changes the environment as follows (as of late November 2020):
 
