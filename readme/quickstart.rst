@@ -3,6 +3,19 @@
 Quickstart
 **********
 
+Prepare your environment
+------------------------
+
+Ensure that your active Python version is 3.7 or higher.
+On your private computer, the recommended way to manage Python versions is with `Pyenv <https://github.com/pyenv/pyenv>`__ or alternatively `Conda <https://docs.conda.io/en/latest/>`__.
+At CSCS, follow the instructions in `Python at CSCS <python_cscs.rst>`__.
+
+Next, install `Cookiecutter <https://github.com/cookiecutter/cookiecutter>`__.
+At CSCS, if it is not available after properly setting up the environment, you can install it yourself with `Pipx <https://github.com/pipxproject/pipx>`__, which should be available, or temporarily into a virtual environment (you won't need it anymore once your project is created).
+
+.. note::
+    Because you only need the `cookiecutter` shell command, on your own computer you may even install it with your system package manager -- something you should never to for packages you need as dependencies, as explained in detail in `Virtual Environments <virtual_environments.rst>`__.
+
 Create a new project
 --------------------
 
