@@ -71,10 +71,10 @@ Based on the answers, cookiecutter creates an empty project:
 .. code::
 
     $ ls -F calculator/
-    AUTHORS.rst       MANIFEST.in  VERSION.txt     requirements.txt@  tox.ini
-    CONTRIBUTING.rst  Makefile     docs/           setup.py
-    HISTORY.rst       README.rst   pyproject.toml  src/
-    LICENSE.txt       USAGE.rst    requirements/   tests/
+    AUTHORS.rst       MANIFEST.in  VERSION.txt     setup.py
+    CONTRIBUTING.rst  Makefile     docs/           src/
+    HISTORY.rst       README.rst   pyproject.toml  tests/
+    LICENSE.txt       USAGE.rst    requirements/   tox.ini
 
 It is not entirely empty, though, but contains some sample code and test files:
 

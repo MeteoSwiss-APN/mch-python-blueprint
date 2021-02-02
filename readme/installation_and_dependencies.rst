@@ -41,7 +41,7 @@ The most basic command to install your local project along with up-do-date versi
 
 However, for all the reasons already mentioned you want to run this in a virtual environment.
 Furthermore, to ensure reproducibility, you want to use pinned dependencies (if provided by the project).
-Those are conventionally provided in the file requirements.txt (which in the Blueprint is a symlink to requirements/run-pinned.txt).
+Those are conventionally provided in the file requirements.txt (which is requirements/run-pinned.txt in the Blueprint).
 Let's put it all together:
 
    .. code:: make
@@ -194,19 +194,14 @@ In the Blueprint, the different types of dependencies are defined in the followi
 
 -   **pyproject.toml**: Setup requirements (preferentially pinned), installed temporarily during the installation of the project with Pip.
 -   **setup.py**: Unpinned runtime dependencies, installed when installing the project with Pip.
--   **requirements.txt**: Symlink to requirements/run-pinned.txt.
-    Supplied because requirements.txt is the de-facto standard for pinned runtime dependencies.
 -   **requirements/dev-unpinned.txt**: Unpinned development dependencies to be explicitly installed with Pip as described below.
--   **requirements/run-pinned.txt**: Pinned runtime dependencies to be explicitly installed with Pip, or during the installation of the project if soft-linked to *requirements.txt* (see below).
+-   **requirements/run-pinned.txt**: Pinned runtime dependencies to be explicitly installed with Pip.
 -   **requirements/dev-pinned.txt**: Pinned development and runtime dependencies, i.e., a superset of **run-pinned.txt** to be explicitly installed with Pip.
 
 The file setup.py is a simple Python script that can be adapted to a project as desired.
 
-.. code:: bash
-
-    ln -s requirements/run_pinned.txt requirements.txt
-
-This guarantees a working environment.
+.. note::
+    To guarantee a working environment, manually clone the repository, install the pinned runtime dependencies in your (virtual) environment, and only then install the tool itself.
 
 .. note::
     Instead of managing dependencies manually with requirements files during development, many projects use the third-party tool Pipenv, which naturally distinguishes runtime and development dependencies and automatically handles pinning.
@@ -220,23 +215,23 @@ You may want to add your project as a dependency in another project. There are s
 
 1.  install your project with pip in a virtual environment
 
-.. code:: bash
+    .. code:: bash
 
-    ./venv/bin/python -m pip install git+ssh://git@github.com/MeteoSwiss-APN/yourproject
-    
+        ./venv/bin/python -m pip install git+ssh://git@github.com/MeteoSwiss-APN/yourproject
+
 2.  add your project to the dependencies of another project
 
    - in the ``setup.py`` file of another project (for runtime dependencies):
 
-   .. code:: bash
+        .. code:: bash
 
-    "yourproject@git+ssh://git@github.com/MeteoSwiss-APN/yourproject>=v1.0.0"
+            "yourproject@git+ssh://git@github.com/MeteoSwiss-APN/yourproject>=v1.0.0"
 
    - in a requirements file of another project, e.g. ``requirements/dev-unpinned.txt`` (for unpinned development dependencies):
 
-   .. code:: bash
+        .. code:: bash
 
-    yourproject@git+ssh://git@github.com/MeteoSwiss-APN/yourproject
+            yourproject@git+ssh://git@github.com/MeteoSwiss-APN/yourproject
 
 
 How can I manage my dependencies with Pipenv instead of ``venv+pip``?
@@ -336,7 +331,7 @@ They can be produced as follows:
 
 .. code:: bash
 
-    pipenv lock --keep-outdated -r > requirements.txt
+    pipenv lock --keep-outdated -r > requirements/run-pinned.txt
 
 .. note::
 

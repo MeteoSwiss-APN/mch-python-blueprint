@@ -13,11 +13,5 @@ def remove_file(filepath):
         shutil.rmtree(filepath)
 
 
-# Create symlink requirements.txt to requirements/run-pinned.txt
-link = "requirements.txt"
-target = "requirements/run_pinned.txt"
-os.symlink(target, link)
-
-
 if __name__ == '__main__':
     pass
