@@ -101,7 +101,7 @@ First, let's define some temporary variables to make the code examples below bet
 .. code:: bash
 
     git_dir=...  # e.g., ~/.local/git
-    venvs_dir=...  # e.g., ~/.local/venvs
+    install_root=...  # e.g., ~/.local/venvs
     bin_dir=...  # e.g., ~/.local/bin
     project=...  # e.g., apepi
     version=...  # e.g., v0.2.1
