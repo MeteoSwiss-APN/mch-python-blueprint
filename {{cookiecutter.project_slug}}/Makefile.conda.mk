@@ -10,7 +10,7 @@ CHAIN ?= 0#OPT Whether to chain targets, e.g., let test depend on install-test
 IGNORE_VENV ?= 0#OPT Don't create and/or use a virtual environment
 MSG ?= ""#OPT Message used as, e.g., tag annotation in version bump commands
 PYTHON ?= 3.8#OPT Python version used to create conda virtual environment
-VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of conde virtual environment
+VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of conda virtual environment
 
 #------------------------------------------------------------------------------
 
