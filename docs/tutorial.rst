@@ -12,7 +12,6 @@ To start with, you will need a `GitHub account`_ and an account on `PyPI`_. Crea
 .. _`PyPI`: https://pypi.python.org/pypi
 .. _`GitHub Help`: https://help.github.com/
 
-
 Step 1: Install Cookiecutter
 ----------------------------
 
@@ -166,7 +165,6 @@ See `PyPI Help`_ for more information about submitting a package.
 
 Here's a release checklist you can use: https://gist.github.com/audreyr/5990987
 
-.. _`PyPI`: https://pypi.python.org/pypi
 .. _`PyPI Help`: http://peterdowns.com/posts/first-time-with-pypi.html
 
 

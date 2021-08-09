@@ -15,10 +15,9 @@ To use the installed commands, add ``${PIPX_BIN_DIR}`` to your ``${PATH}``.
 .. _`Pipx`: https://github.com/pipxproject/pipx
 
 
+:ref:TLDR
 `TL;DR`_
 ========
-
-.. _`TL;DR`: https://en.wikipedia.org/wiki/Wikipedia:Too_long;_didn%27t_read
 
 In gereal, the simplest way of installing a package is with `Pipx`_.
 To install the package ``great_tool`` to the virtual environment ``${PIPX_HOME}/venvs/great_tool``::
@@ -38,8 +37,8 @@ In cases in which it is not possible to use `Pipx`_ (at CSCS for instance if you
     popd
     rm -rf tmp/great_tool
 
+.. _`TL;DR`: <https://en.wikipedia.org/wiki/Wikipedia:Too_long;_didn%27t_read>`_
 .. _`Cartopy`: https://github.com/SciTools/cartopy
-.. _`Pipx`: https://github.com/pipxproject/pipx
 .. _`Shapely`: https://github.com/Toblerity/Shapely
 
 
@@ -67,8 +66,6 @@ Therefore, on systems with a small ``${HOME}`` quota like at CSCS, ``${PIPX_HOME
 On systems where ``${HOME}`` is shared between different machines -- again, like at CSCS -- there is an additional reason to move ``${PIPX_HOME}``: Non-Python dependencies (e.g., the C-dependencies ``geos`` and ``proj`` of ``cartopy``) may differ in version between machines, and those are outside the control by regular virtual environments.
 
 (This is analogous to regular local Python packages, as described in `Installing Python Packages at CSCS`_.)
-
-.. _`Installing Python Packages at CSCS`: install_packages_cscs.rst
 
 
 PIPX_BIN_DIR
@@ -101,11 +98,11 @@ In cases in which it is not possible to use `Pipx`_ (at CSCS for instance if you
     # Go to the parent directory of `pipx`
     cd ${PIPX_HOME}/..  # e.g., /scratch/<user>/<machine>/local
 
-    # Temporarily clone the package respository and enter it
+    # Temporarily clone the package repository and enter it
     mkdir pv tmp
     git clone git+https://github.com/MeteoSwiss-APN/great_tool.git tmp/great_tool
     pushd tmp/great_tool # eventually, go back with popdir
-    
+
     # Install the package and its dependencies in a virtualenv
     # Location: parallel to pipx's virtualenvs
     venv_path="${PIPX_HOME}../pkgs/venvs/great_tool"
@@ -115,8 +112,7 @@ In cases in which it is not possible to use `Pipx`_ (at CSCS for instance if you
     # Make the installed command globally available
     cd ${PIPX_BIN_DIR}
     ln -s ${venv_path}/bin/great_tool
-    
+
     # Clean up
     popd # go back where we started
     rm -rf tmp/great_tool
-    

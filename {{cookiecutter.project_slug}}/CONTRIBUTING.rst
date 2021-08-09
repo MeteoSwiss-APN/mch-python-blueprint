@@ -244,7 +244,7 @@ For instance, the runtime dependencies can be pinned as follows::
     $ make install
     $ ./venv/bin/python -m pip freeze >requirements/run-pinned.txt
 
-Note that the quasi-standard `pip requirements file`_ ``requirements.txt`` corresponds to ``requirements/run-pinned.txt``.
+Note that the quasi-standard `pip requirements file`_ ``requirements.txt`` is called ``requirements/run-pinned.txt``.
 The dependencies specified in a requirements file are installed with ``pip install -r <requirements file>``.
 
 Unpinned and pinned dependencies have specific characteristics, advantages, and drawbacks:

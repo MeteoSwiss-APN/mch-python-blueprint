@@ -48,6 +48,8 @@ venv/
 *.egg-info/
 .installed.cfg
 *.egg
+venv/
+venvs/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -97,8 +99,8 @@ target/
 output/
 python_boilerplate/
 
-# Pyenv
+# Local python version used by pyenv
 .python-version
 
-# VSCode
-.vscode/
+# Visual Studio Code workspace settings
+.vscode

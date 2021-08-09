@@ -1,0 +1,13 @@
+alabaster
+black
+cookiecutter>=1.4.0
+flake8
+mypy
+pre-commit
+pytest
+pytest-cookies
+rope
+sphinx
+sphinx-autobuild
+tox
+watchdog

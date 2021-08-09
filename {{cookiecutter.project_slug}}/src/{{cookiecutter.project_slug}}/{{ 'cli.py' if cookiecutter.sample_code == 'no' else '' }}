@@ -1,0 +1,5 @@
+"""Command line interface of {{cookiecutter.project_slug}}."""
+
+
+def main() -> None:
+    pass
