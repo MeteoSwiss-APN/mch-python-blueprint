@@ -1,7 +1,6 @@
 """Set up the project."""
 # Standard library
 from typing import List
-from typing import Optional
 from typing import Sequence
 
 # Third-party
@@ -22,7 +21,12 @@ def read_present_files(paths: Sequence[str]) -> str:
 
 
 description_files = [
-    "README", "README.rst", "README.md", "HISTORY", "HISTORY.rst", "HISTORY.md"
+    "README",
+    "README.rst",
+    "README.md",
+    "HISTORY",
+    "HISTORY.rst",
+    "HISTORY.md",
 ]
 
 metadata = {
