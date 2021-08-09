@@ -44,6 +44,7 @@ lib64/
 parts/
 sdist/
 var/
+venv/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -95,3 +96,9 @@ target/
 # Cookiecutter
 output/
 python_boilerplate/
+
+# Pyenv
+.python-version
+
+# VSCode
+.vscode/
