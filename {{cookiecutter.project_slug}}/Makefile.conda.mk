@@ -458,12 +458,6 @@ test-fast: ${_INSTALL_DEV}
 	# ${PREFIX}tox -e py37 -- tests/fast
 	${PREFIX}pytest tests/fast
 
-.PHONY: test-medium #CMD Run only medium-fast tests in the development environment
-test-medium: ${_INSTALL_TEST}
-	@echo -e "\n[make test-medium] running medium-fast tests locally"
-	# ${PREFIX}tox -e py37 -- tests/medium
-	${PREFIX}pytest tests/medium
-
 .PHONY: test-slow #CMD Run only slow tests in the development environment
 test-slow: ${_INSTALL_DEV}
 	@echo -e "\n[make test-slow] running slow tests locally"
