@@ -6,8 +6,8 @@ SHELL := /bin/bash
 # Options
 #==============================================================================
 
-IGNORE_VENV ?= 0#OPT Don't create and/or use a virtual environment
 CHAIN ?= 0#OPT Whether to chain targets, e.g., let test depend on install-test
+IGNORE_VENV ?= 0#OPT Don't create and/or use a virtual environment
 MSG ?= ""#OPT Message used as, e.g., tag annotation in version bump commands
 VENV_DIR ?= venv#OPT Path to virtual environment to be created and/or used
 VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of virtual environment if one is created
@@ -15,7 +15,7 @@ VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of virtual environment if 
 #------------------------------------------------------------------------------
 
 PREFIX_VENV = ${VENV_DIR}/bin/#
-export PREVIX_VENV
+export PREFIX_VENV
 
 ifneq (${IGNORE_VENV}, 0)
 # Ignore virtual env
@@ -33,7 +33,7 @@ export PREFIX
 
 # Options for all calls to up-do-date pip (i.e., AFTER `pip install -U pip`)
 # Example: `--use-feature=2020-resolver` before the new resolver became the default
-PIP_OPTS = --use-feature=2020-resolver
+PIP_OPTS = --use-feature=in-tree-build
 export PIP_OPTS
 
 #
@@ -48,17 +48,14 @@ export PIP_OPTS
 # regardless of ${CHAIN}.
 #
 ifeq (${CHAIN}, 0)
-	_VENV :=
 	_INSTALL :=
 	_INSTALL_EDIT :=
 	_INSTALL_DEV :=
 else
-	_VENV := venv
 	_INSTALL := install
 	_INSTALL_EDIT := install-edit
 	_INSTALL_DEV := install-dev
 endif
-export _VENV
 export _INSTALL
 export _INSTALL_EDIT
 export _INSTALL_DEV
@@ -239,15 +236,16 @@ endif
 #==============================================================================
 
 .PHONY: install #CMD Install the package with pinned runtime dependencies.
-install: ${_VENV}
+install: venv
 	@echo -e "\n[make install] installing the package"
-	${PREFIX}python -m pip install -r requirements/run-pinned.txt ${PIP_OPTS}
+	${PREFIX}python -m pip install -r requirements/requirements.txt ${PIP_OPTS}
 	${PREFIX}python -m pip install . ${PIP_OPTS}
 
 .PHONY: install-dev #CMD Install the package as editable with pinned runtime and\ndevelopment dependencies.
-install-dev: ${_VENV}
+install-dev: venv
 	@echo -e "\n[make install-dev] installing the package as editable with development dependencies"
-	${PREFIX}python -m pip install -r requirements/dev-pinned.txt ${PIP_OPTS}
+	${PREFIX}python -m pip install -r requirements/dev-requirements.txt ${PIP_OPTS}
+	${PREFIX}python -m pip install -r requirements/dev-requirements.in ${PIP_OPTS}
 	${PREFIX}python -m pip install -e . ${PIP_OPTS}
 	${PREFIX}pre-commit install
 
@@ -257,25 +255,25 @@ install-dev: ${_VENV}
 
 .PHONY: update-run-deps #CMD Update pinned runtime dependencies based on setup.py;\nshould be followed by update-dev-deps (consider update-run-dev-deps)
 update-run-deps: git
-	@echo -e "\n[make update-run-deps] updating pinned runtime dependencies in requirements/run-pinned.txt"
-	\rm -f requirements/run-pinned.txt
+	@echo -e "\n[make update-run-deps] updating pinned runtime dependencies in requirements/requirements.txt"
+	\rm -f requirements/requirements.txt
 	@echo -e "temporary virtual environment: ${_TMP_VENV}-run"
 	python -m venv ${_TMP_VENV}-run
 	${_TMP_VENV}-run/bin/python -m pip install -U pip
 	${_TMP_VENV}-run/bin/python -m pip install . ${PIP_OPTS}
-	${_TMP_VENV}-run/bin/python -m pip freeze | \grep -v '\<file:' > requirements/run-pinned.txt
+	${_TMP_VENV}-run/bin/python -m pip freeze | \grep -v '\<file:' > requirements/requirements.txt
 	\rm -rf ${_TMP_VENV}-run
 
-.PHONY: update-dev-deps #CMD Update pinned development dependencies based on\nrequirements/dev-unpinned.txt; includes runtime dependencies in\nrequirements/run-pinned.txt
+.PHONY: update-dev-deps #CMD Update pinned development dependencies based on\nrequirements/dev-requirements.in; includes runtime dependencies in\nrequirements/requirements.txt
 update-dev-deps: git
-	@echo -e "\n[make update-dev-deps] updating pinned development dependencies in requirements/dev-pinned.txt"
-	\rm -f requirements/dev-pinned.txt
+	@echo -e "\n[make update-dev-deps] updating pinned development dependencies in requirements/requirements.txt"
+	\rm -f requirements/dev-requirements.txt
 	@echo -e "temporary virtual environment: ${_TMP_VENV}-dev"
 	python -m venv ${_TMP_VENV}-dev
 	${_TMP_VENV}-dev/bin/python -m pip install -U pip
-	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/dev-unpinned.txt ${PIP_OPTS}
-	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/run-pinned.txt --no-deps ${PIP_OPTS}
-	${_TMP_VENV}-dev/bin/python -m pip freeze > requirements/dev-pinned.txt
+	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/dev-requirements.in ${PIP_OPTS}
+	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/requirements.txt --no-deps ${PIP_OPTS}
+	${_TMP_VENV}-dev/bin/python -m pip freeze > requirements/dev-requirements.txt
 	\rm -rf ${_TMP_VENV}-dev
 
 # Note: Updating run and dev deps MUST be done in sequence
@@ -284,15 +282,15 @@ update-run-dev-deps:
 	$(MAKE) update-run-deps
 	$(MAKE) update-dev-deps
 
-.PHONY: update-tox-deps #CMD Update pinned tox testing dependencies based on\nrequirements/tox-unpinned.txt
+.PHONY: update-tox-deps #CMD Update pinned tox testing dependencies based on\nrequirements/tox-requirements.in
 update-tox-deps: git
-	\rm -f requirements/tox-pinned.txt
-	@echo -e "\n[make update-tox-deps] updating pinned tox testing dependencies in requirements/tox-pinned.txt"
+	\rm -f requirements/tox-requirements.txt
+	@echo -e "\n[make update-tox-deps] updating pinned tox testing dependencies in requirements/tox-requirements.txt"
 	@echo -e "temporary virtual environment: ${_TMP_VENV}-tox"
 	python -m venv ${_TMP_VENV}-tox
 	${_TMP_VENV}-tox/bin/python -m pip install -U pip
-	${_TMP_VENV}-tox/bin/python -m pip install -r requirements/tox-unpinned.txt ${PIP_OPTS}
-	${_TMP_VENV}-tox/bin/python -m pip freeze > requirements/tox-pinned.txt
+	${_TMP_VENV}-tox/bin/python -m pip install -r requirements/tox-requirements.in ${PIP_OPTS}
+	${_TMP_VENV}-tox/bin/python -m pip freeze > requirements/tox-requirements.txt
 	\rm -rf ${_TMP_VENV}-tox
 
 .PHONY: update-precommit-deps #CMD Update pinned pre-commit dependencies specified in\n.pre-commit-config.yaml
@@ -329,9 +327,9 @@ else
 	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion patch --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
-	@git commit -m "new version v$$(cat VERSION.txt) (patch bump)"$$'\n\n$(subst ',",$(MSG))' --no-verify && echo
-	@git tag -a v$$(cat VERSION.txt) -m $$'$(subst ',",$(MSG))'
-	@echo -e "\ngit tag -n -l v$$(cat VERSION.txt)" && git tag -n -l v$$(cat VERSION.txt)
+	@git commit -m "new version v$$(cat VERSION) (patch bump)"$$'\n\n$(subst ',",$(MSG))' --no-verify && echo
+	@git tag -a v$$(cat VERSION) -m $$'$(subst ',",$(MSG))'
+	@echo -e "\ngit tag -n -l v$$(cat VERSION)" && git tag -n -l v$$(cat VERSION)
 	@echo -e "\ngit log -n1" && git log -n1
 endif
 # ' (close quote that vim thinks is still open to get the syntax highlighting back in order)
@@ -343,9 +341,9 @@ ifeq ($(MSG), "")
 	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion minor --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
-	@git commit -m "new version v$$(cat VERSION.txt) (minor bump)"$$'\n\n$(subst ',",$(MSG))' --no-verify && echo
-	@git tag -a v$$(cat VERSION.txt) -m $$'$(subst ',",$(MSG))'
-	@echo -e "\ngit tag -n -l v$$(cat VERSION.txt)" && git tag -n -l v$$(cat VERSION.txt)
+	@git commit -m "new version v$$(cat VERSION) (minor bump)"$$'\n\n$(subst ',",$(MSG))' --no-verify && echo
+	@git tag -a v$$(cat VERSION) -m $$'$(subst ',",$(MSG))'
+	@echo -e "\ngit tag -n -l v$$(cat VERSION)" && git tag -n -l v$$(cat VERSION)
 	@echo -e "\ngit log -n1" && git log -n1
 else
 endif
@@ -358,9 +356,9 @@ ifeq ($(MSG), "")
 	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion major --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
-	@git commit -m "new version v$$(cat VERSION.txt) (major bump)"$$'\n\n$(subst ',",$(MSG))' --no-verify && echo
-	@git tag -a v$$(cat VERSION.txt) -m $$'$(subst ',",$(MSG))'
-	@echo -e "\ngit tag -n -l v$$(cat VERSION.txt)" && git tag -n -l v$$(cat VERSION.txt)
+	@git commit -m "new version v$$(cat VERSION) (major bump)"$$'\n\n$(subst ',",$(MSG))' --no-verify && echo
+	@git tag -a v$$(cat VERSION) -m $$'$(subst ',",$(MSG))'
+	@echo -e "\ngit tag -n -l v$$(cat VERSION)" && git tag -n -l v$$(cat VERSION)
 	@echo -e "\ngit log -n1" && git log -n1
 else
 endif
@@ -426,19 +424,19 @@ test-check: ${_INSTALL_DEV}
 # Documentation
 #==============================================================================
 
-# .PHONY: docs #CMD Generate HTML documentation, including API docs.
-# docs: ${_INSTALL_DEV}
-# 	@echo -e "\n[make docs] generating HTML documentation"
-# 	\rm -f docs/{{ cookiecutter.project_slug }}.rst
-# 	\rm -f docs/modules.rst
-# 	${PREFIX}sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
-# 	$(MAKE) -C docs clean
-# 	$(MAKE) -C docs html
-# 	${browser} docs/_build/html/index.html
+#.PHONY: docs #CMD Generate HTML documentation, including API docs.
+#docs: ${_INSTALL_DEV}
+#	@echo -e "\n[make docs] generating HTML documentation"
+#	\rm -f docs/{{ cookiecutter.project_slug }}.rst
+#	\rm -f docs/modules.rst
+#	${PREFIX}sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
+#	$(MAKE) -C docs clean
+#	$(MAKE) -C docs html
+#	${browser} docs/_build/html/index.html
 
-# .PHONY: servedocs #CMD Compile the docs watching for changes.
-# servedocs: docs
-# 	@echo -e "\n[make servedocs] continuously regenerating HTML documentation"
-# 	${PREFIX}watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+#.PHONY: servedocs #CMD Compile the docs watching for changes.
+#servedocs: docs
+#	@echo -e "\n[make servedocs] continuously regenerating HTML documentation"
+#	${PREFIX}watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 #==============================================================================

@@ -41,14 +41,14 @@ The most basic command to install your local project along with up-do-date versi
 
 However, for all the reasons already mentioned you want to run this in a virtual environment.
 Furthermore, to ensure reproducibility, you want to use pinned dependencies (if provided by the project).
-Those are conventionally provided in the file requirements.txt (which is requirements/run-pinned.txt in the Blueprint).
+Those are conventionally provided in the file requirements.txt (which is requirements/requirements.txt in the Blueprint).
 Let's put it all together:
 
    .. code:: make
 
     python -m venv venv
     ./venv/bin/python -m pip install -U pip
-    ./venv/bin/python -m pip install -r requirements/run-pinned.txt
+    ./venv/bin/python -m pip install -r requirements/requirements.txt
     ./venv/bin/python -m pip install .
 
 In Blueprint projects, this can be achieved with a single command:
@@ -74,11 +74,11 @@ This is short for:
 
    .. code:: make
 
-    ./venv/bin/python -m pip install -r requirements/dev-pinned.txt
+    ./venv/bin/python -m pip install -r requirements/dev-requirements.txt
     ./venv/bin/python -m pip install -e .
     ./venv/bin/pre-commit install
 
-In addition, this also installs the pinned development dependencies specified in ``requirements/dev-pinned.txt`` (a superset of the pinned runtime dependencies), and activate the pre-commit hooks (more on those later).
+In addition, this also installs the pinned development dependencies specified in ``requirements/dev-requirements.txt`` (a superset of the pinned runtime dependencies), and activate the pre-commit hooks (more on those later).
 
 How to install a project for deployment
 ---------------------------------------
@@ -194,9 +194,9 @@ In the Blueprint, the different types of dependencies are defined in the followi
 
 -   **pyproject.toml**: Setup requirements (preferentially pinned), installed temporarily during the installation of the project with Pip.
 -   **setup.py**: Unpinned runtime dependencies, installed when installing the project with Pip.
--   **requirements/dev-unpinned.txt**: Unpinned development dependencies to be explicitly installed with Pip as described below.
--   **requirements/run-pinned.txt**: Pinned runtime dependencies to be explicitly installed with Pip.
--   **requirements/dev-pinned.txt**: Pinned development and runtime dependencies, i.e., a superset of **run-pinned.txt** to be explicitly installed with Pip.
+-   **requirements/dev-requirements.in**: Unpinned development dependencies to be explicitly installed with Pip as described below.
+-   **requirements/requirements.txt**: Pinned runtime dependencies to be explicitly installed with Pip.
+-   **requirements/dev-requirements.txt**: Pinned development and runtime dependencies, i.e., a superset of **requirements.txt** to be explicitly installed with Pip.
 
 The file setup.py is a simple Python script that can be adapted to a project as desired.
 
@@ -227,7 +227,7 @@ You may want to add your project as a dependency in another project. There are s
 
             "yourproject@git+ssh://git@github.com/MeteoSwiss-APN/yourproject>=v1.0.0"
 
-   - in a requirements file of another project, e.g. ``requirements/dev-unpinned.txt`` (for unpinned development dependencies):
+   - in a requirements file of another project, e.g. ``requirements/dev-requirements.in`` (for unpinned development dependencies):
 
         .. code:: bash
 
@@ -293,7 +293,7 @@ To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
 
     .. code:: bash
 
-        pipenv install --dev -r requirements/dev-unpinned.txt
+        pipenv install --dev -r requirements/dev-requirements.in
 
     This will add these packages to the ``[dev-packages]`` section in the Pipfile, install them to the virtual environment, and again pin the dependency tree to Pipfile.lock (whereby the additional development dependencies will be marked as such thanks to ``--dev``).
 
@@ -331,7 +331,7 @@ They can be produced as follows:
 
 .. code:: bash
 
-    pipenv lock --keep-outdated -r > requirements/run-pinned.txt
+    pipenv lock --keep-outdated -r > requirements/requirements.txt
 
 .. note::
 
@@ -342,14 +342,14 @@ To switch the project back from Pipenv to venv+pip, follow these steps:
 #.  Assuming you have kept the unpinned runtime dependencies in setup.py, nothing needs to be done about them.
     Otherwise, move them back from the Pipfile section ``[packages]`` into setup.py.
 
-#.  Move the unpinned development dependencies back from the Pipfile section ``[dev-packages]`` into requirements/dev-unpinned.txt.
+#.  Move the unpinned development dependencies back from the Pipfile section ``[dev-packages]`` into requirements/dev-requirements.in.
 
 #.  Unless you want to update your pinned dependencies, transfer those locked by Pipenv into requirements files:
 
     .. code:: bash
 
-        pipenv lock --keep-outdated -r > requirements/run-pinned.txt
-        pipenv lock --keep-outdated -r -d > requirements/dev-pinned.txt
+        pipenv lock --keep-outdated -r > requirements/requirements.txt
+        pipenv lock --keep-outdated -r -d > requirements/dev-requirements.txt
 
 #. Remove the virtual environment and the Pipfiles:
 
