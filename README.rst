@@ -30,6 +30,6 @@ More Information
 -   `On projects and the Blueprint <readme/projects_and_blueprint.rst>`__
 -   `Virtual environments <readme/virtual_environments.rst>`__
 -   `Installation and dependencies <readme/installation_and_dependencies.rst>`__
--   `Development tools <readme/development_tools>`__
--   `Recommended libraries <readme/recommended_libraries>`__
--   `Python at CSCS <python_cscs.rst>`__
+-   `Development tools <readme/development_tools.rst>`__
+-   `Recommended libraries <readme/recommended_libraries.rst>`__
+-   `Python at CSCS <python_cscs.rst.rst>`__
