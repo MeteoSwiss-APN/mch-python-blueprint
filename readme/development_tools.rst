@@ -17,7 +17,7 @@ The blueprint provides a variety of tools that assist in development:
 -   Formatters:
 
     -   `black <https://github.com/psf/black>`__: The "uncompromising" (i.e., minimally configurable) code formatter that auto-formats Python code in accordance with `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`__ and best practices with the goal to minimize diffs between code changes.
-    -   `isort <https://github.com/PyCQA/isort>`__: Auto-formatter that that sorts and groups Python import statements.
+    -   `isort <https://github.com/PyCQA/isort>`__: Auto-formatter that sorts and groups Python import statements.
 
 -   `Linters <https://en.wikipedia.org/wiki/Lint_(software)>`__:
 
