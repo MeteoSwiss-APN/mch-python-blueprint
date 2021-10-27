@@ -262,6 +262,7 @@ _create_conda_venv: git
 ifeq (${IGNORE_VENV}, 0)
 	@# Do not ignore existing venv
 ifneq (${CONDA_DEFAULT_ENV},)
+ifneq (${CONDA_DEFAULT_ENV},base)
 	@# There already is an active conda environment, so use it (regardless of its name and path)
 	@echo -e "\n[make venv] found active conda environment '${CONDA_DEFAULT_ENV}' at '{CONDA_PREFIX}'"
 ifneq (${CONDA_DEFAULT_ENV}, ${VENV_NAME})
@@ -301,7 +302,8 @@ else  # shell conda ...
 	conda create -y --prefix "${VENV_DIR}" python==${PYTHON}
 endif  # shell conda ...
 endif  # VENV_DIR
-endif  # CONDA_DEFAULT_ENV
+endif  # CONDA_DEFAULT_ENV not base
+endif  # CONDA_DEFAULT_ENV non-zero
 endif  # IGNORE_VENV
 
 #==============================================================================
@@ -423,6 +425,7 @@ endif
 bump-minor: ${_INSTALL_DEV}
 ifeq ($(MSG), "")
 	@echo -e "\n[make bump-minor] Error: Please provide a description with MSG='...' (use '"'\\n'"' for multiple lines)"
+else
 	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion minor --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
@@ -430,7 +433,6 @@ ifeq ($(MSG), "")
 	@git tag -a v$$(cat VERSION) -m $$'$(subst ',",$(MSG))'
 	@echo -e "\ngit tag -n -l v$$(cat VERSION)" && git tag -n -l v$$(cat VERSION)
 	@echo -e "\ngit log -n1" && git log -n1
-else
 endif
 # ' (close quote that vim thinks is still open to get the syntax highlighting back in order)
 
@@ -438,6 +440,7 @@ endif
 bump-major: ${_INSTALL_DEV}
 ifeq ($(MSG), "")
 	@echo -e "\n[make bump-major] Error: Please provide a description with MSG='...' (use '"'\\n'"' for multiple lines)"
+else
 	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion major --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
@@ -445,7 +448,6 @@ ifeq ($(MSG), "")
 	@git tag -a v$$(cat VERSION) -m $$'$(subst ',",$(MSG))'
 	@echo -e "\ngit tag -n -l v$$(cat VERSION)" && git tag -n -l v$$(cat VERSION)
 	@echo -e "\ngit log -n1" && git log -n1
-else
 endif
 # ' (close quote that vim thinks is still open to get the syntax highlighting back in order)
 
@@ -509,19 +511,19 @@ test-check: ${_INSTALL_DEV}
 # Documentation
 #==============================================================================
 
-# .PHONY: docs #CMD Generate HTML documentation, including API docs.
-# docs: ${_INSTALL_DEV}
-# 	@echo -e "\n[make docs] generating HTML documentation"
-# 	\rm -f docs/{{ cookiecutter.project_slug }}.rst
-# 	\rm -f docs/modules.rst
-# 	${PREFIX}sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
-# 	$(MAKE) -C docs clean
-# 	$(MAKE) -C docs html
-# 	${browser} docs/_build/html/index.html
-  
-# .PHONY: servedocs #CMD Compile the docs watching for changes.
-# servedocs: docs
-# 	@echo -e "\n[make servedocs] continuously regenerating HTML documentation"
-# 	${PREFIX}watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+#.PHONY: docs #CMD Generate HTML documentation, including API docs.
+#docs: ${_INSTALL_DEV}
+#	@echo -e "\n[make docs] generating HTML documentation"
+#	\rm -f docs/{{ cookiecutter.project_slug }}.rst
+#	\rm -f docs/modules.rst
+#	${PREFIX}sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
+#	$(MAKE) -C docs clean
+#	$(MAKE) -C docs html
+#	${browser} docs/_build/html/index.html
+
+#.PHONY: servedocs #CMD Compile the docs watching for changes.
+#servedocs: docs
+#	@echo -e "\n[make servedocs] continuously regenerating HTML documentation"
+#	${PREFIX}watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 #==============================================================================
