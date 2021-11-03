@@ -9,15 +9,27 @@ SHELL := /bin/bash
 CHAIN ?= 0#OPT Whether to chain targets, e.g., let test depend on install-test
 IGNORE_VENV ?= 0#OPT Don't create and/or use a virtual environment
 MSG ?= ""#OPT Message used as, e.g., tag annotation in version bump commands
-PYTHON ?= 3.8#OPT Python version used to create conda virtual environment
-VENV_DIR ?= ""#OPT Path to existing or new conda virtual environment (overrides VENV_NAME)
-VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of conda virtual environment (overridden by VENV_DIR)
-
-# Default values used below (caution: keep values in sync with above)
-DEFAULT_VENV_NAME = {{ cookiecutter.project_slug }}#
-export DEFAULT_VENV_NAME
+VENV_DIR ?= venv#OPT Path to virtual environment to be created and/or used
+VENV_NAME ?= {{ cookiecutter.project_slug }}#OPT Name of virtual environment if one is created
 
 #------------------------------------------------------------------------------
+
+PREFIX_VENV = ${VENV_DIR}/bin/#
+export PREFIX_VENV
+
+ifneq (${IGNORE_VENV}, 0)
+# Ignore virtual env
+PREFIX ?=#
+else
+ifneq (${VIRTUAL_ENV},)
+# Virtual env is active
+PREFIX =#
+else
+# Virtual env is not active
+PREFIX = ${PREFIX_VENV}
+endif
+endif
+export PREFIX
 
 # Options for all calls to up-do-date pip (i.e., AFTER `pip install -U pip`)
 # Example: `--use-feature=2020-resolver` before the new resolver became the default
@@ -176,26 +188,8 @@ clean-test:
 
 .PHONY: clean-venv #CMD Remove virtual environment.
 clean-venv:
-ifeq (${IGNORE_VENV}, 0)
-	@# Do not ignore existing venv
-ifeq (${VENV_DIR},"")
-	@# Path to conda venv has not been passed
-ifneq ($(shell conda list --name $(VENV_NAME) 2>/dev/null 1>&2; echo $$?),0)
-	@echo -e "\n[make clean-venv] no conda virtual environment '${VENV_NAME}' to remove"
-else
-	@echo -e "\n[make clean-venv] removing conda virtual environment '${VENV_NAME}'"
-	conda env remove --yes --name ${VENV_NAME}
-endif
-else
-	@# Path to conda venv has been passed
-ifneq ($(shell conda list --prefix $(VENV_DIR) 2>/dev/null 1>&2; echo $$?),0)
-	@echo -e "\n[make clean-venv] no conda virtual environment at '${VENV_DIR}' to remove"
-else
-	@echo -e "\n[make clean-venv] removing conda virtual environment at '${VENV_DIR}'"
-	conda env remove --yes --prefix ${VENV_DIR}
-endif
-endif
-endif
+	@echo -e "\n[make clean-venv] removing virtual environment at '${VENV_DIR}'"
+	\rm -rf "${VENV_DIR}"
 
 #==============================================================================
 # Version control
@@ -222,89 +216,20 @@ _git_init:
 	\git --no-pager log -n1 --stat
 
 #==============================================================================
-# Conda Virtual Environment
+# Virtual Environments
 #==============================================================================
 
-.PHONY: venv #CMD Create/locate conda virtual environment.
-venv: _create_conda_venv
-	@# Use an active or existing conda env if possible, otherwise create new one
-ifneq (${VIRTUAL_ENV},)
-	@# An active Python virtual environment has been found, so abort this mission!
-	@echo -e "[make venv] error: active non-conda virtual environment found: ${VIRTUAL_ENV}"
-	exit 1
-endif  # VIRTUAL_ENV
+.PHONY: venv #CMD Create a virtual environment.
+venv: git
 ifeq (${IGNORE_VENV}, 0)
-	@# Don't ignore an existing conda env, and if there is none, create one
-ifeq (${VENV_DIR},"")
-	@# Path VENV_DIR to conda env has NOT been passed
-	$(eval VENV_DIR = $(shell conda run --name $(VENV_NAME) python -c 'import pathlib, sys; print(pathlib.Path(sys.executable).parent.parent)'))
-	@export VENV_DIR
-else  # VENV_DIR
-	@# Path VENV_DIR to conda venv has been passed
-	$(eval VENV_DIR = $(shell conda run --prefix $(VENV_DIR) python -c 'import pathlib, sys; print(pathlib.Path(sys.executable).parent.parent)'))
-	@ export VENV_DIR
-ifneq (${VENV_NAME},${DEFAULT_VENV_NAME})
-	@# Name VENV_NAME of conda env has been passed alongside path VENV_DIR
-	@echo -e "[make venv] warning: VENV_DIR=${VENV_DIR} overrides VENV_NAME=${VENV_NAME}"
-endif  # VENV_NAME
-endif  # VENV_DIR
-	$(eval PREFIX = ${VENV_DIR}/bin/)
+	$(eval PREFIX = ${PREFIX_VENV})
 	@export PREFIX
+ifeq (${VIRTUAL_ENV},)
+	@echo -e "\n[make venv] creating virtual environment '${VENV_NAME}' at '${VENV_DIR}'"
+	python -m venv ${VENV_DIR} --prompt='${VENV_NAME}'
 	${PREFIX}python -m pip install -U pip
-endif  # IGNORE_VENV
-	${PREFIX}python -V
-
-.PHONY: _create_conda_venv
-_create_conda_venv: git
-	@# If there is an active conda environment, use it, regardless of VENV_NAME and VENV_DIR;
-	@# if there is an existing env matching VENV_NAME and (if set) VENV_DIR, use that;
-	@# otherwise create a new one based on VENV_NAME and (if set) VENV_DIR.
-ifeq (${IGNORE_VENV}, 0)
-	@# Do not ignore existing venv
-ifneq (${CONDA_DEFAULT_ENV},)
-ifneq (${CONDA_DEFAULT_ENV},base)
-	@# There already is an active conda environment, so use it (regardless of its name and path)
-	@echo -e "\n[make venv] found active conda environment '${CONDA_DEFAULT_ENV}' at '{CONDA_PREFIX}'"
-ifneq (${CONDA_DEFAULT_ENV}, ${VENV_NAME})
-	@# The name of the active env does not match VENV_NAME, but we assume that's OK over override it
-	@echo -e "[make venv] warning: name of active venv '${CONDA_DEFAULT_ENV}' overrides VENV_NAME='${VENV_NAME}'"
-	$(eval VENV_NAME = ${CONDA_DEFAULT_ENV})
-	@export VENV_NAME
-endif  # CONDA_DEFAULT_ENV
-ifneq (${CONDA_PREFIX}, ${VENV_DIR})
-	@# The path to the active env does not match VENV_DIR (if set), but we assume that's OK and override it
-ifneq (${VENV_DIR},"")
-	@echo -e "[make venv] warning: path to active venv '${CONDA_PREFIX}' overrides VENV_DIR='${VENV_DIR}'"
-endif  # VENV_DIR
-	$(eval VENV_DIR = ${CONDA_PREFIX})
-	@export VENV_DIR
-endif  # CONDA_PREFIX
-else  # CONDA_DEFAULT_ENV
-	@# The is no active conda environment
-ifeq (${VENV_DIR},"")
-	@# Path VENV_DIR to conda env has NOT been passed
-ifeq ($(shell conda list --name $(VENV_NAME) 2>/dev/null 1>&2; echo $$?),0)
-	@# Conda venv with name VENV_NAME already exists, so use it
-	@echo -e "\n[make venv] conda virtual environment '${VENV_NAME}' already exists"
-else  # shell conda ...
-	@# Conda env with name VENV_NAME doesn't exist yet, so create it
-	@echo -e "\n[make venv] creating conda virtual environment '${VENV_NAME}'"
-	conda create -y --name "${VENV_NAME}" python==${PYTHON}
-endif  # shell conda ...
-else  # VENV_DIR
-	@# Path to conda env VENV_DIR has been passed
-ifeq ($(shell conda list --prefix $(VENV_DIR) 2>/dev/null 1>&2; echo $$?),0)
-	@# Conda env at path VENV_DIR already exists, so use it
-	@echo -e "\n[make venv] conda virtual environment at '${VENV_DIR}'"
-else  # shell conda ...
-	@# Conda env at path VENV_DIR does NOT yet exist, so create it
-	@echo -e "\n[make venv] creating conda virtual environment at '${VENV_DIR}'"
-	conda create -y --prefix "${VENV_DIR}" python==${PYTHON}
-endif  # shell conda ...
-endif  # VENV_DIR
-endif  # CONDA_DEFAULT_ENV not base
-endif  # CONDA_DEFAULT_ENV non-zero
-endif  # IGNORE_VENV
+endif
+endif
 
 #==============================================================================
 # Installation
@@ -313,20 +238,16 @@ endif  # IGNORE_VENV
 .PHONY: install #CMD Install the package with pinned runtime dependencies.
 install: venv
 	@echo -e "\n[make install] installing the package"
-	# conda install --yes --prefix "${VENV_DIR}" --file requirements/requirements.txt  # pinned
-	conda install --yes --prefix "${VENV_DIR}" --file requirements/requirements.in  # unpinned
+	${PREFIX}python -m pip install -r requirements/requirements.txt ${PIP_OPTS}
 	${PREFIX}python -m pip install . ${PIP_OPTS}
-	${PREFIX}{{ cookiecutter.project_slug }} -V
 
 .PHONY: install-dev #CMD Install the package as editable with pinned runtime and\ndevelopment dependencies.
 install-dev: venv
 	@echo -e "\n[make install-dev] installing the package as editable with development dependencies"
-	# conda install --yes --prefix "${VENV_DIR}" --file requirements/dev-requirements.txt  # pinned
-	conda install --yes --prefix "${VENV_DIR}" --file requirements/requirements.in  # unpinned
-	conda install --yes --prefix "${VENV_DIR}" --file requirements/dev-requirements.in  # unpinned
+	${PREFIX}python -m pip install -r requirements/dev-requirements.txt ${PIP_OPTS}
+	${PREFIX}python -m pip install -r requirements/dev-requirements.in ${PIP_OPTS}
 	${PREFIX}python -m pip install -e . ${PIP_OPTS}
 	${PREFIX}pre-commit install
-	${PREFIX}{{ cookiecutter.project_slug }} -V
 
 #==============================================================================
 # Dependencies
@@ -334,30 +255,26 @@ install-dev: venv
 
 .PHONY: update-run-deps #CMD Update pinned runtime dependencies based on setup.py;\nshould be followed by update-dev-deps (consider update-run-dev-deps)
 update-run-deps: git
-	@echo -e "\n[make update-run-deps] not yet implemented for conda"
-	exit 1
-	# @echo -e "\n[make update-run-deps] updating pinned runtime dependencies in requirements/requirements.txt"
-	# \rm -f requirements/requirements.txt
-	# @echo -e "temporary virtual environment: ${_TMP_VENV}-run"
-	# python -m venv ${_TMP_VENV}-run
-	# ${_TMP_VENV}-run/bin/python -m pip install -U pip
-	# ${_TMP_VENV}-run/bin/python -m pip install . ${PIP_OPTS}
-	# ${_TMP_VENV}-run/bin/python -m pip freeze | \grep -v '\<file:' > requirements/requirements.txt
-	# \rm -rf ${_TMP_VENV}-run
+	@echo -e "\n[make update-run-deps] updating pinned runtime dependencies in requirements/requirements.txt"
+	\rm -f requirements/requirements.txt
+	@echo -e "temporary virtual environment: ${_TMP_VENV}-run"
+	python -m venv ${_TMP_VENV}-run
+	${_TMP_VENV}-run/bin/python -m pip install -U pip
+	${_TMP_VENV}-run/bin/python -m pip install . ${PIP_OPTS}
+	${_TMP_VENV}-run/bin/python -m pip freeze | \grep -v '\<file:' > requirements/requirements.txt
+	\rm -rf ${_TMP_VENV}-run
 
 .PHONY: update-dev-deps #CMD Update pinned development dependencies based on\nrequirements/dev-requirements.in; includes runtime dependencies in\nrequirements/requirements.txt
 update-dev-deps: git
-	@echo -e "\n[make update-dev-deps] not yet implemented for conda"
-	exit 1
-	# @echo -e "\n[make update-dev-deps] updating pinned development dependencies in requirements/requirements.txt"
-	# \rm -f requirements/dev-requirements.txt
-	# @echo -e "temporary virtual environment: ${_TMP_VENV}-dev"
-	# python -m venv ${_TMP_VENV}-dev
-	# ${_TMP_VENV}-dev/bin/python -m pip install -U pip
-	# ${_TMP_VENV}-dev/bin/python -m pip install -r requirements/dev-requirements.in ${PIP_OPTS}
-	# ${_TMP_VENV}-dev/bin/python -m pip install -r requirements/requirements.txt --no-deps ${PIP_OPTS}
-	# ${_TMP_VENV}-dev/bin/python -m pip freeze > requirements/dev-requirements.txt
-	# \rm -rf ${_TMP_VENV}-dev
+	@echo -e "\n[make update-dev-deps] updating pinned development dependencies in requirements/requirements.txt"
+	\rm -f requirements/dev-requirements.txt
+	@echo -e "temporary virtual environment: ${_TMP_VENV}-dev"
+	python -m venv ${_TMP_VENV}-dev
+	${_TMP_VENV}-dev/bin/python -m pip install -U pip
+	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/dev-requirements.in ${PIP_OPTS}
+	${_TMP_VENV}-dev/bin/python -m pip install -r requirements/requirements.txt --no-deps ${PIP_OPTS}
+	${_TMP_VENV}-dev/bin/python -m pip freeze > requirements/dev-requirements.txt
+	\rm -rf ${_TMP_VENV}-dev
 
 # Note: Updating run and dev deps MUST be done in sequence
 .PHONY: update-run-dev-deps #CMD Update pinned runtime and development dependencies
@@ -367,27 +284,23 @@ update-run-dev-deps:
 
 .PHONY: update-tox-deps #CMD Update pinned tox testing dependencies based on\nrequirements/tox-requirements.in
 update-tox-deps: git
-	@echo -e "\n[make update-tox-deps] not yet implemented for conda"
-	exit 1
-	# \rm -f requirements/tox-requirements.txt
-	# @echo -e "\n[make update-tox-deps] updating pinned tox testing dependencies in requirements/tox-requirements.txt"
-	# @echo -e "temporary virtual environment: ${_TMP_VENV}-tox"
-	# python -m venv ${_TMP_VENV}-tox
-	# ${_TMP_VENV}-tox/bin/python -m pip install -U pip
-	# ${_TMP_VENV}-tox/bin/python -m pip install -r requirements/tox-requirements.in ${PIP_OPTS}
-	# ${_TMP_VENV}-tox/bin/python -m pip freeze > requirements/tox-requirements.txt
-	# \rm -rf ${_TMP_VENV}-tox
+	\rm -f requirements/tox-requirements.txt
+	@echo -e "\n[make update-tox-deps] updating pinned tox testing dependencies in requirements/tox-requirements.txt"
+	@echo -e "temporary virtual environment: ${_TMP_VENV}-tox"
+	python -m venv ${_TMP_VENV}-tox
+	${_TMP_VENV}-tox/bin/python -m pip install -U pip
+	${_TMP_VENV}-tox/bin/python -m pip install -r requirements/tox-requirements.in ${PIP_OPTS}
+	${_TMP_VENV}-tox/bin/python -m pip freeze > requirements/tox-requirements.txt
+	\rm -rf ${_TMP_VENV}-tox
 
 .PHONY: update-precommit-deps #CMD Update pinned pre-commit dependencies specified in\n.pre-commit-config.yaml
 update-precommit-deps: git
-	@echo -e "\n[make update-precommit-deps] not yet implemented for conda"
-	exit 1
-	# @echo -e "\n[make update-precommit-deps] updating pinned tox testing dependencies in .pre-commit-config.yaml"
-	# python -m venv ${_TMP_VENV}-precommit
-	# ${_TMP_VENV}-precommit/bin/python -m pip install -U pip
-	# ${_TMP_VENV}-precommit/bin/python -m pip install pre-commit
-	# ${_TMP_VENV}-precommit/bin/pre-commit autoupdate
-	# \rm -rf ${_TMP_VENV}-precommit
+	@echo -e "\n[make update-precommit-deps] updating pinned tox testing dependencies in .pre-commit-config.yaml"
+	python -m venv ${_TMP_VENV}-precommit
+	${_TMP_VENV}-precommit/bin/python -m pip install -U pip
+	${_TMP_VENV}-precommit/bin/python -m pip install pre-commit
+	${_TMP_VENV}-precommit/bin/pre-commit autoupdate
+	\rm -rf ${_TMP_VENV}-precommit
 
 .PHONY: update-deps #CMD Update all pinned dependencies (run, dev, tox, precommit)
 update-deps: update-run-dev-deps update-tox-deps update-precommit-deps
@@ -425,7 +338,6 @@ endif
 bump-minor: ${_INSTALL_DEV}
 ifeq ($(MSG), "")
 	@echo -e "\n[make bump-minor] Error: Please provide a description with MSG='...' (use '"'\\n'"' for multiple lines)"
-else
 	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion minor --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
@@ -433,6 +345,7 @@ else
 	@git tag -a v$$(cat VERSION) -m $$'$(subst ',",$(MSG))'
 	@echo -e "\ngit tag -n -l v$$(cat VERSION)" && git tag -n -l v$$(cat VERSION)
 	@echo -e "\ngit log -n1" && git log -n1
+else
 endif
 # ' (close quote that vim thinks is still open to get the syntax highlighting back in order)
 
@@ -440,7 +353,6 @@ endif
 bump-major: ${_INSTALL_DEV}
 ifeq ($(MSG), "")
 	@echo -e "\n[make bump-major] Error: Please provide a description with MSG='...' (use '"'\\n'"' for multiple lines)"
-else
 	@echo -e '\nTag annotation:\n\n$(subst ',",$(MSG))\n'
 	@${PREFIX}bumpversion major --verbose --no-commit --no-tag && echo
 	@${PREFIX}pre-commit run --files $$(git diff --name-only) && git add -u
@@ -448,6 +360,7 @@ else
 	@git tag -a v$$(cat VERSION) -m $$'$(subst ',",$(MSG))'
 	@echo -e "\ngit tag -n -l v$$(cat VERSION)" && git tag -n -l v$$(cat VERSION)
 	@echo -e "\ngit log -n1" && git log -n1
+else
 endif
 # ' (close quote that vim thinks is still open to get the syntax highlighting back in order)
 

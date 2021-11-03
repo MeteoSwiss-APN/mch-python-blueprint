@@ -105,7 +105,7 @@ htmlhelp_basename = "{{ cookiecutter.project_slug }}doc"
 
 # -- Options for LaTeX output ------------------------------------------
 
-latex_elements = {
+latex_elements: Dict[str, str] = {
     # The paper size ("letterpaper" or "a4paper").
     # "papersize": "letterpaper",
     #

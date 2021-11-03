@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+env-dev/
 build/
 develop-eggs/
 dist/
@@ -88,6 +89,7 @@ celerybeat-schedule
 .venvs
 venv/
 venvs/
+venv_*/
 
 # Spyder project settings
 .spyderproject
@@ -101,6 +103,9 @@ venvs/
 
 # mypy
 .mypy_cache/
+
+# Eclipse
+.project
 
 # VS Code
 .vscode

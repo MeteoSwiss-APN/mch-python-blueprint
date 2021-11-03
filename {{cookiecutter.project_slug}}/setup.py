@@ -4,6 +4,7 @@ from typing import List
 from typing import Sequence
 
 # Third-party
+from pkg_resources import parse_requirements
 from setuptools import find_packages
 from setuptools import setup
 
@@ -50,13 +51,8 @@ metadata = {
 python = ">= 3.7"
 
 # Runtime dependencies (unpinned: only critical version restrictions)
-{%- if cookiecutter.sample_code == 'no' %}
-requirements = []
-{%- elif cookiecutter.sample_code != 'no' %}
-requirements = [
-    "click >= 6.0",
-]
-{%- endif %}
+with open("requirements/requirements.in") as f:
+    requirements = list(map(str, parse_requirements(f.readlines())))
 
 scripts = [
     "{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main",
