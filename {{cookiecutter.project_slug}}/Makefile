@@ -141,7 +141,7 @@ browser = ${PREFIX}python -c "$$BROWSER_PY"
 
 .PHONY: help #CMD Print this help page.
 help:
-	@python -c "$$PRINT_HELP_PY" < $(MAKEFILE_LIST)
+	@python -c "$$PRINT_HELP_PY" < $(lastword $(MAKEFILE_LIST))
 
 #==============================================================================
 # Cleanup
@@ -207,7 +207,7 @@ endif
 # Note: Check if git is initialized by checking error status of git rev-parse
 .PHONY: git #CMD Initialize a git repository and make initial commit.
 git:
-	@git rev-parse 2>&1 && $(MAKE) _git_ok || $(MAKE) _git_init
+	@git rev-parse 2>&1 && $(MAKE) -f $(lastword $(MAKEFILE_LIST)) _git_ok || $(MAKE) -f $(lastword $(MAKEFILE_LIST)) _git_init
 
 # Hidden target called when git is already initialized
 .PHONY: _git_ok
@@ -217,7 +217,7 @@ _git_ok:
 # Hidden target called when git is not yet initialized
 .PHONY: _git_init
 _git_init:
-	$(MAKE) clean-all
+	$(MAKE) -f $(lastword $(MAKEFILE_LIST)) clean-all
 	@echo -e "\n[make git] initializing git repository"
 	\git init
 	\git add .
@@ -364,8 +364,8 @@ update-dev-deps: git
 # Note: Updating run and dev deps MUST be done in sequence
 .PHONY: update-run-dev-deps #CMD Update pinned runtime and development dependencies
 update-run-dev-deps:
-	$(MAKE) update-run-deps
-	$(MAKE) update-dev-deps
+	$(MAKE) -f $(lastword $(MAKEFILE_LIST)) update-run-deps
+	$(MAKE) -f $(lastword $(MAKEFILE_LIST)) update-dev-deps
 
 .PHONY: update-tox-deps #CMD Update pinned tox testing dependencies based on\nrequirements/tox-requirements.in
 update-tox-deps: git
@@ -519,13 +519,13 @@ test-check: ${_INSTALL_DEV}
 #	\rm -f docs/{{ cookiecutter.project_slug }}.rst
 #	\rm -f docs/modules.rst
 #	${PREFIX}sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
-#	$(MAKE) -C docs clean
-#	$(MAKE) -C docs html
+# 	$(MAKE) -f $(lastword $(MAKEFILE_LIST)) -C docs clean
+# 	$(MAKE) -f $(lastword $(MAKEFILE_LIST)) -C docs html
 #	${browser} docs/_build/html/index.html
 
 #.PHONY: servedocs #CMD Compile the docs watching for changes.
 #servedocs: docs
 #	@echo -e "\n[make servedocs] continuously regenerating HTML documentation"
-#	${PREFIX}watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+# 	${PREFIX}watchmedo shell-command -p '*.rst' -c '$(MAKE) -f $(lastword $(MAKEFILE_LIST)) -C docs html' -R -D .
 
 #==============================================================================
