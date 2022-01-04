@@ -32,4 +32,4 @@ More Information
 -   `Installation and dependencies <readme/installation_and_dependencies.rst>`__
 -   `Development tools <readme/development_tools.rst>`__
 -   `Recommended libraries <readme/recommended_libraries.rst>`__
--   `Python at CSCS <python_cscs.rst.rst>`__
+-   `Python at CSCS <readme/python_cscs.rst>`__
