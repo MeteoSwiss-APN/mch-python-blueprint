@@ -1,5 +1,4 @@
 {
-  "sample_code": ["no", "cli", "calculator"],
   "full_name": "Monty Python",
   "email": "{{ cookiecutter.full_name.lower().replace(' ', '.') }}@meteoswiss.ch",
   "github_username": "{{ cookiecutter.full_name.lower().replace(' ', '_') }}",
