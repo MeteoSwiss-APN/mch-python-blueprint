@@ -38,11 +38,12 @@ pipeline {
         stage('environment') {
             steps {
                 sh '''#!/usr/bin/env bash
+                set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 ls
                 ls ${WORKSPACE}
                 cd flying_circus
-                conda env create -n blueprint requirements/environment.yml
+                conda env create -n flying_circus requirements/environment.yml
                 '''
             }
         }
