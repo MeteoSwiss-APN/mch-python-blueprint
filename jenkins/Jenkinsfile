@@ -9,7 +9,7 @@ pipeline {
     post {
         always{
             echo 'Cleaning up workspace'
-            deleteDir()
+            #deleteDir()
         }
     }
     stages {
@@ -33,6 +33,8 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                ls
+                ls ${WORKSPACE}
                 cd flying_circus
                 conda env create -n blueprint requirements/environment.yml
                 '''
