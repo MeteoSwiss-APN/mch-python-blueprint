@@ -25,6 +25,7 @@ pipeline {
                 '''
                 sh '''#!/usr/bin/env bash
                 set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda create -n cookiecutter
                 conda activate cookiecutter
                 conda install -c conda-forge cookiecutter
