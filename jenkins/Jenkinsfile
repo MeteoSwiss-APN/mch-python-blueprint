@@ -15,21 +15,25 @@ pipeline {
     stages {
         stage('setup miniconda') {
             steps {
-                sh 'wget -O ${WORKSPACE}/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh'
-                sh 'bash miniconda.sh -b -p $WORKSPACE/miniconda'
-                sh 'conda config --set always_yes yes --set changeps1 no'
-                sh 'conda config --add channels conda-forge'
-                sh 'conda env create -f {{cookiecutter.project_slug}}/requirements/environment.yml'
-                sh 'conda install cookiecutter'
-                sh 'rm miniconda.sh'
+                sh '''wget -O ${WORKSPACE}/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+                bash miniconda.sh -b -p $WORKSPACE/miniconda
+                conda config --set always_yes yes --set changeps1 no
+                conda config --add channels conda-forge
+                conda create -n cookiecutter
+                conda activate cookiecutter
+                conda install -c conda-forge cookecutter
+                cookiecutter --no-input .
+                conda env create -n blueprint -f {{cookiecutter.project_slug}}/requirements/environment.yml
+                rm miniconda.sh
+                '''
             }        
         }
-        stage('cookiecutter') {
+        stage('environment') {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda install cookiecutter
-                cookiecutter --no-input . 
+                cd flying_circus
+                conda env create -n blueprint requirements/environment.yml
                 '''
             }
         }
