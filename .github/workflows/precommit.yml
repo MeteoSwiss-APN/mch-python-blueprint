@@ -17,10 +17,12 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9.7
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: blueprint
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install $(cat \{\{cookiecutter.project_slug\}\}/requirements/environment.yml | grep pre-commit | awk '{print $(NF)}')
+        conda install -f requirements/environment.yml
         #        pre-commit install-hooks
         #    - name: Run checks
         #run: |-
