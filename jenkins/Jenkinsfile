@@ -43,7 +43,7 @@ pipeline {
                 ls
                 cd flying_circus
                 cat requirements/environment.yml
-                conda env create -n flying_circus requirements/environment.yml
+                conda env create -n flying_circus -f requirements/environment.yml
                 '''
             }
         }
@@ -51,7 +51,9 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate blueprint
+                conda activate flying_circus
+                python -m pip install -U pip
+                python -m pip install {{cookiecutter.project_slug}}
                 #cd blueprint/test
                 #source setup.sh
                 #pytest -s
