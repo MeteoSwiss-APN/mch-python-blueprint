@@ -43,7 +43,6 @@ pipeline {
                 ls
                 cd flying_circus
                 cat requirements/environment.yml
-                cd flying_circus
                 conda env create -n flying_circus requirements/environment.yml
                 '''
             }
