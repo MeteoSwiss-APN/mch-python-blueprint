@@ -53,7 +53,8 @@ pipeline {
                 conda activate a_flying_circus
                 conda install --yes -c conda-forge attrs>=19.2.0
                 python -m pip install -U pip
-                python -m pip install a_flying_circus
+                cd a_flying_circus
+                python -m pip install .
                 pytest a_flying_circus/tests 
                 '''
             }
