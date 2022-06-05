@@ -41,7 +41,8 @@ pipeline {
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 ls
-                ls ${WORKSPACE}
+                ls ${WORKSPACE}/requirements/
+                cat requirements/environment.yml
                 cd flying_circus
                 conda env create -n flying_circus requirements/environment.yml
                 '''
