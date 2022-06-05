@@ -30,7 +30,7 @@ pipeline {
                 conda activate cookiecutter
                 conda install -c conda-forge cookiecutter
                 cookiecutter --no-input .
-                conda env create -n blueprint -f {{cookiecutter.project_slug}}/requirements/environment.yml
+                conda deactivate
                 rm miniconda.sh
                 '''
             }        
@@ -40,10 +40,9 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                ls
-                cd flying_circus
-                cat requirements/environment.yml
-                conda env create -n flying_circus -f requirements/environment.yml
+                conda create --yes -n flying_circus
+                conda activate flying_circus
+                conda install --yes --file flying_circus/requirements/requirements.in
                 '''
             }
         }
@@ -52,7 +51,7 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate flying_circus
-                python -m pip install -U pip
+                python -m pip install -U pip attrs
                 python -m pip install flying_circus
                 pytest flying_circus/tests 
                 '''
