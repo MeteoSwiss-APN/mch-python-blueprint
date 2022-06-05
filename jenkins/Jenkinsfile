@@ -19,7 +19,7 @@ pipeline {
                 sh 'bash miniconda.sh -b -p $WORKSPACE/miniconda'
                 sh 'conda config --set always_yes yes --set changeps1 no'
                 sh 'conda config --add channels conda-forge'
-                sh 'conda env create -f \{\{cookiecutter.project_slug\}\}/requirements/environment.yml'
+                sh 'conda env create -f {{cookiecutter.project_slug}}/requirements/environment.yml'
                 sh 'conda install cookiecutter'
                 sh 'rm miniconda.sh'
             }        
