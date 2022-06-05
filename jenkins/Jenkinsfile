@@ -55,7 +55,7 @@ pipeline {
                 python -m pip install -U pip
                 cd a_flying_circus
                 python -m pip install .
-                pytest a_flying_circus/tests 
+                pytest tests 
                 '''
             }
         }
