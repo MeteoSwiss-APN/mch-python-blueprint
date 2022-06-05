@@ -53,10 +53,8 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate flying_circus
                 python -m pip install -U pip
-                python -m pip install {{cookiecutter.project_slug}}
-                #cd blueprint/test
-                #source setup.sh
-                #pytest -s
+                python -m pip install flying_circus
+                pytest flying_circus/tests 
                 '''
             }
         }
