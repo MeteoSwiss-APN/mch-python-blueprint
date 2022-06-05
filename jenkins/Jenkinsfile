@@ -21,12 +21,13 @@ pipeline {
                 bash miniconda.sh -b -p $WORKSPACE/miniconda
                 conda config --set always_yes yes --set changeps1 no
                 conda config --add channels conda-forge
+                conda init bash
                 '''
                 sh '''#!/usr/bin/env bash
                 set -e
                 conda create -n cookiecutter
                 conda activate cookiecutter
-                conda install -c conda-forge cookecutter
+                conda install -c conda-forge cookiecutter
                 cookiecutter --no-input .
                 conda env create -n blueprint -f {{cookiecutter.project_slug}}/requirements/environment.yml
                 rm miniconda.sh
