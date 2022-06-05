@@ -51,7 +51,7 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate flying_circus
-                conda install --yes -c conda-forge attrs
+                conda install --yes -c conda-forge attrs>=19.2.0
                 python -m pip install -U pip
                 python -m pip install flying_circus
                 pytest flying_circus/tests 
