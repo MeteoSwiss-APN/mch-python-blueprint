@@ -2,7 +2,7 @@
   "full_name": "Monty Python",
   "email": "{{ cookiecutter.full_name.lower().replace(' ', '.') }}@meteoswiss.ch",
   "github_username": "{{ cookiecutter.full_name.lower().replace(' ', '_') }}",
-  "project_name": "Flying Circus",
+  "project_name": "A Flying Circus",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(\"'\", '').replace(' ', '_').replace('-', '_') }}",
   "project_short_description": "{{ cookiecutter.full_name }}'s {{ cookiecutter.project_name }}",
   "version": "0.1.0"
