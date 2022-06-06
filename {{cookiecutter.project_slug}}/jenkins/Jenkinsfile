@@ -1,0 +1,63 @@
+pipeline {
+    environment {
+       PATH = "$WORKSPACE/miniconda/bin:$PATH"
+    }
+    agent {
+        label 'tsa'
+    }
+
+    post {
+        always{
+            echo 'Cleaning up workspace'
+            deleteDir()
+        }
+    }
+    stages {
+        stage('setup miniconda') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                wget -O ${WORKSPACE}/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+                bash miniconda.sh -b -p $WORKSPACE/miniconda
+                conda config --set always_yes yes --set changeps1 no
+                conda config --add channels conda-forge
+                conda init bash
+                '''
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda create -n cookiecutter
+                conda activate cookiecutter
+                conda install -c conda-forge cookiecutter
+                cookiecutter --no-input .
+                conda deactivate
+                rm miniconda.sh
+                '''
+            }        
+        }
+        stage('environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda create --yes -n flying_circus
+                conda activate flying_circus
+                conda install --yes --file flying_circus/requirements/requirements.in
+                '''
+            }
+        }
+        stage('test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda activate flying_circus
+                conda install --yes -c conda-forge attrs>=19.2.0
+                python -m pip install -U pip
+                cd flying_circus
+                python -m pip install .
+                pytest tests 
+                '''
+            }
+        }
+    }
+}
