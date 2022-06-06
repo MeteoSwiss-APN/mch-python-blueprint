@@ -11,6 +11,9 @@ on:
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -20,8 +23,8 @@ jobs:
     - uses: conda-incubator/setup-miniconda@v2
       with:
         miniconda-version: "latest"
+        channels: conda-forge
     - name: Install dependencies
-      shell: bash -l {0}
       run: |
               #        CONDA_BASE=$(conda info --base)
         #        source $CONDA_BASE/etc/profile.d/conda.sh
