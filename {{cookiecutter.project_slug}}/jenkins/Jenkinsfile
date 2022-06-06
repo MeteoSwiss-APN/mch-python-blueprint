@@ -33,7 +33,7 @@ pipeline {
                 conda deactivate
                 rm miniconda.sh
                 '''
-            }        
+            }
         }
         stage('environment') {
             steps {
@@ -55,7 +55,7 @@ pipeline {
                 python -m pip install -U pip
                 cd flying_circus
                 python -m pip install .
-                pytest tests 
+                pytest tests
                 '''
             }
         }
