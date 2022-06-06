@@ -39,8 +39,11 @@ jobs:
         conda install --yes --file \{\{cookiecutter.project_slug\}\}/requirements/dev-requirements.in
         conda deactivate
 
-        #        pre-commit install-hooks
-        #    - name: Run checks
-        #run: |-
-        #python -m pip list
-        #pre-commit run --all-files
+    - name: pre-commit install-hooks
+      run: |
+        conda activate dev_blueprint
+        pre-commit install-hooks
+    - name: pre-commit run checks
+      run: |
+        conda activate dev_blueprint
+        pre-commit run --all-files
