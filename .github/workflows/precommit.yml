@@ -26,7 +26,7 @@ jobs:
         source $CONDA_BASE/etc/profile.d/conda.sh
         conda create -n blueprint
         conda activate blueprint
-        conda install -f \{\{cookiecutter.project_slug\}\}/requirements/requirements.in
+        conda install --yes --file \{\{cookiecutter.project_slug\}\}/requirements/requirements.in
         conda deactivate
         #        pre-commit install-hooks
         #    - name: Run checks
