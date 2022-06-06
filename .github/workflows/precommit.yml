@@ -21,9 +21,10 @@ jobs:
       with:
         miniconda-version: "latest"
     - name: Install dependencies
+      shell: bash -l {0}
       run: |
-        CONDA_BASE=$(conda info --base)
-        source $CONDA_BASE/etc/profile.d/conda.sh
+              #        CONDA_BASE=$(conda info --base)
+        #        source $CONDA_BASE/etc/profile.d/conda.sh
         conda create -n blueprint
         conda activate blueprint
         conda install --yes --file \{\{cookiecutter.project_slug\}\}/requirements/requirements.in
