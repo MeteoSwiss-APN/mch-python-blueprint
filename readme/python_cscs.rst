@@ -40,7 +40,7 @@ Add the following commands to your `.bashrc`:
 
 This changes the environment as follows (as of late November 2020):
 
-.. code::
+.. code:: bash
 
     $ module list
     Currently Loaded Modulefiles:
