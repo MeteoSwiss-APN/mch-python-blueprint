@@ -40,9 +40,9 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n aflyingcircus
-                conda activate aflyingcircus
-                conda install --yes --file aflyingcircus/requirements/requirements.in
+                conda create --yes -n flying_circus
+                conda activate flying_circus
+                conda install --yes --file flying_circus/requirements/requirements.in
                 '''
             }
         }
@@ -50,10 +50,10 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate aflyingcircus
+                conda activate flying_circus
                 conda install --yes -c conda-forge attrs>=19.2.0
                 python -m pip install -U pip
-                cd aflyingcircus
+                cd flying_circus
                 python -m pip install .
                 pytest tests 
                 '''
