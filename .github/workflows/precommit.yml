@@ -24,6 +24,8 @@ jobs:
       with:
         miniconda-version: "latest"
         channels: conda-forge
+        channel-priority: flexible
+        show-channel-urls: true
     - name: Install dependencies
       run: |
               #        CONDA_BASE=$(conda info --base)
