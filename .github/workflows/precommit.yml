@@ -22,7 +22,10 @@ jobs:
         miniconda-version: "latest"
     - name: Install dependencies
       run: |
-        conda env create -n blueprint -f \{\{cookiecutter.project_slug\}\}/requirements/environment.yml
+        conda create -n blueprint
+        conda activate blueprint
+        conda install -f \{\{cookiecutter.project_slug\}\}/requirements/environment.in
+        conda deactivate
         #        pre-commit install-hooks
         #    - name: Run checks
         #run: |-
