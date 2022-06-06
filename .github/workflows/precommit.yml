@@ -32,7 +32,7 @@ jobs:
       run: |
         CONDA_BASE=$(conda info --base)
         source $CONDA_BASE/etc/profile.d/conda.sh
-        conda create -n blueprint
+        conda create -n dev_blueprint
         conda activate dev_blueprint
         conda install --yes --file \{\{cookiecutter.project_slug\}\}/requirements/dev-requirements.in
         conda deactivate
