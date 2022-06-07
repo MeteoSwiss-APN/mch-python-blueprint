@@ -7,7 +7,7 @@ The Python Blueprint
 --------------------
 
 The Python Blueprint is a template for Python projects.
-Using `cookiecutter`__, a new project can be set up in a minute, including many necessary and useful components to develop proper installable Python tools.
+Using `cookiecutter <https://github.com/cookiecutter/cookiecutter>`__, a new project can be set up in a minute, including many necessary and useful components to develop proper installable Python tools.
 It provides:
 
 -   Separate directories for the source code, tests and documentation.
