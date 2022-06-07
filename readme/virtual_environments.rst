@@ -37,7 +37,7 @@ This will create the directory ``./venv`` (any valid path can be passed), into w
 Tools installed into the virtual environment that can be executed on the command line are found in ``./venv/bin/``.
 Among them, notably, is ``python`` itself:
 
-.. code:: bash
+.. code:: shell
 
     $ ls -l venv/bin/python
     lrwxrwxrwx 1 stefan stefan 50 Oct  1 13:05 venv/bin/python -> /home/stefan/local/pyenv/versions/3.7.4/bin/python*
@@ -62,7 +62,7 @@ Thus, you can simply call those executables explicitly:
 This explicit approach ensures that never accidentally use the system installation, but it can be cumbersome to always type the path, especially outside of the project root.
 To make matters easier, you can activate the virtual environment, which adds ``./venv/bin`` to your ``$PATH``, which makes its contents available wherever you are:
 
-.. code:: bash
+.. code:: shell
 
     $ which python
     /home/stefan/local/pyenv/shims/python

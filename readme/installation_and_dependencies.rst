@@ -44,7 +44,7 @@ Furthermore, to ensure reproducibility, you want to use pinned dependencies (if 
 Those are conventionally provided in the file requirements.txt (which is requirements/requirements.txt in the Blueprint).
 Let's put it all together:
 
-   .. code:: bash
+   .. code:: shell
 
     python -m venv venv
     ./venv/bin/python -m pip install -U pip
@@ -53,7 +53,7 @@ Let's put it all together:
 
 In Blueprint projects, this can be achieved with a single command:
 
-.. code:: bash
+.. code:: shell
 
     make venv install
     # or
@@ -275,14 +275,14 @@ To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
     .. note::
         If you look into the Pipfile, it is possible that the package name will be wrongly diagnosed, for example as:
 
-        .. code:: bash
+        .. code:: toml
 
             [packages]
             virtualenv = {editable = true, path = "."}
 
         instead of:
 
-        .. code:: python
+        .. code:: toml
 
             [packages]
             random_star_wars = {editable = true, path = "."}
@@ -300,7 +300,7 @@ To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
     .. note::
         You may run into trouble with some packages that do not have a nominally stable release yet, notably the (well-established) auto-formatter `Black <https://github.com/psf/black>`__ that is also a default development dependency of the Blueprint:
 
-        .. code:: bash
+        .. code:: shell
 
             ERROR: Could not find a version that matches black ...
             Skipped pre-versions: 18.3a0, 18.3a0, 18.3a1, ...
@@ -310,14 +310,15 @@ To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
 
         -   The respective package is pinned to a specific version:
 
-            .. code:: bash
+            .. code:: toml
+
                 black = "==20.8b1"
 
             However, this will prevent the package from being updated with ``pipenv update``, and -- more problematically -- will still fail if the package is a sub-dependency of another dependency (e.g., flaks8-black).
 
         -   Pipenv can be told to globally pre-release versions for all packages with:
 
-            .. code:: python
+            .. code:: toml
 
                 [pipenv]
                 allow_prereleases = true

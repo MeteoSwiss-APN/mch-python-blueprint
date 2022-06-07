@@ -4,13 +4,13 @@ repos:
     hooks:
     -   id: check-yaml
     -   id: trailing-whitespace
-      #-   repo: https://github.com/myint/rstcheck
-      #    rev: v6.0.0
-      #    hooks:
-      #    -   id: rstcheck
-      #        additional_dependencies:
-      #        -   sphinx==5.0.1
-      #        exclude: \{\{cookiecutter.project_slug\}\}/
+-   repo: https://github.com/myint/rstcheck
+    rev: v6.0.0
+    hooks:
+    -   id: rstcheck
+        additional_dependencies:
+        -   sphinx==5.0.1
+        exclude: \{\{cookiecutter.project_slug\}\}/
 -   repo: https://github.com/codespell-project/codespell
     rev: v2.1.0
     hooks:

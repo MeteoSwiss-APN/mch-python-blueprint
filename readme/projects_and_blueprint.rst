@@ -7,7 +7,7 @@ The Python Blueprint
 --------------------
 
 The Python Blueprint is a template for Python projects.
-Using `cookiecutter`_, a new project can be set up in a minute, including many necessary and useful components to develop proper installable Python tools.
+Using `cookiecutter`__, a new project can be set up in a minute, including many necessary and useful components to develop proper installable Python tools.
 It provides:
 
 -   Separate directories for the source code, tests and documentation.
@@ -46,7 +46,7 @@ How to get started with the Blueprint
 The Blueprint resides on `Github <https://github.com/MeteoSwiss-APN/mch-python-blueprint>`__.
 To create a new empty project from it, you need to run `Cookiecutter <https://github.com/cookiecutter/cookiecutter>`__ (which is installed on the MeteoSwiss machines at CSCS):
 
-.. code:: bash
+.. code:: shell
 
     $ cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
     Select sample_code:
@@ -68,7 +68,7 @@ To create a new empty project from it, you need to run `Cookiecutter <https://gi
 You will be asked a few questions about your project.
 Based on the answers, cookiecutter creates an empty project:
 
-.. code:: bash
+.. code:: shell
 
     $ ls -F calculator/
     AUTHORS.rst       MANIFEST.in  VERSION.txt     setup.py
@@ -78,7 +78,7 @@ Based on the answers, cookiecutter creates an empty project:
 
 It is not entirely empty, though, but contains some sample code and test files:
 
-.. code:: bash
+.. code:: shell
 
     $ tree calculator/{src,tests}
     calculator/src
@@ -98,7 +98,7 @@ It is not entirely empty, though, but contains some sample code and test files:
 
 Your answers have even been turned into meta data for the package, which may, for instance, eventually help others find your package on PyPI:
 
-.. code:: bash
+.. code:: shell
 
     $ \grep -A16 '^metadata' calculator/setup.py
     metadata = {
