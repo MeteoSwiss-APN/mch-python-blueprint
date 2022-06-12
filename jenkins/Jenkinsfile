@@ -59,5 +59,77 @@ pipeline {
                 '''
             }
         }
+        stage('dev-environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda create --yes -n dev-flying_circus
+                conda activate flying_circus
+                conda install --yes --file flying_circus/requirements/dev-requirements.in
+                '''
+            }
+        }
+        stage('dev-test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda activate dev-flying_circus
+                conda install --yes -c conda-forge attrs>=19.2.0
+                python -m pip install -U pip
+                cd flying_circus
+                python -m pip install .
+                pytest tests
+                '''
+            }
+        }
+        stage('pinned-environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda create --yes -n pinned-flying_circus
+                conda activate flying_circus
+                conda install --yes --file flying_circus/requirements/requirements.txt
+                '''
+            }
+        }
+        stage('pinned-test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda activate pinned-flying_circus
+                conda install --yes -c conda-forge attrs>=19.2.0
+                python -m pip install -U pip
+                cd flying_circus
+                python -m pip install .
+                pytest tests
+                '''
+            }
+        }
+        stage('pinned-dev-environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda create --yes -n pinned-dev-flying_circus
+                conda activate flying_circus
+                conda install --yes --file flying_circus/requirements/dev-requirements.txt
+                '''
+            }
+        }
+        stage('pinned-dev-test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda activate pinned-dev-flying_circus
+                conda install --yes -c conda-forge attrs>=19.2.0
+                python -m pip install -U pip
+                cd flying_circus
+                python -m pip install .
+                pytest tests
+                '''
+            }
+        }
     }
 }
