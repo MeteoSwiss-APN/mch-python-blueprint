@@ -42,7 +42,74 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate {{ cookiecutter.project_slug }}
-                conda install --yes -c conda-forge attrs>=19.2.0
+                python -m pip install -U pip
+                python -m pip install .
+                pytest tests
+                '''
+            }
+        }
+        stage('dev-environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda create --yes -n dev-{{ cookiecutter.project_slug }}
+                conda activate {{ cookiecutter.project_slug }}
+                conda install --yes --file requirements/requirements.in
+                conda install --yes --file requirements/dev-requirements.in
+                '''
+            }
+        }
+        stage('dev-test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda activate dev-{{ cookiecutter.project_slug }}
+                python -m pip install -U pip
+                python -m pip install .
+                pytest tests
+                '''
+            }
+        }
+        stage('pinned-environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda create --yes -n pinned-{{ cookiecutter.project_slug }}
+                conda activate {{ cookiecutter.project_slug }}
+                conda install --yes --file requirements/requirements.txt
+                '''
+            }
+        }
+        stage('pinned-test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda activate pinned-{{ cookiecutter.project_slug }}
+                python -m pip install -U pip
+                python -m pip install .
+                pytest tests
+                '''
+            }
+        }
+        stage('pinned-dev-environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda create --yes -n pinned-dev-{{ cookiecutter.project_slug }}
+                conda activate {{ cookiecutter.project_slug }}
+                conda install --yes --file requirements/requirements.txt
+                conda install --yes --file requirements/dev-requirements.txt
+                '''
+            }
+        }
+        stage('pinned-dev-test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda activate pinned-dev-{{ cookiecutter.project_slug }}
                 python -m pip install -U pip
                 python -m pip install .
                 pytest tests
