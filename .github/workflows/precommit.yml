@@ -36,6 +36,7 @@ jobs:
       run: |
         conda create -n dev_blueprint
         conda activate dev_blueprint
+        conda install --yes --file \{\{cookiecutter.project_slug\}\}/requirements/requirements.in
         conda install --yes --file \{\{cookiecutter.project_slug\}\}/requirements/dev-requirements.in
         conda deactivate
 

@@ -51,7 +51,6 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate flying_circus
-                conda install --yes -c conda-forge attrs>=19.2.0
                 python -m pip install -U pip
                 cd flying_circus
                 python -m pip install .
@@ -66,6 +65,7 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda create --yes -n dev-flying_circus
                 conda activate flying_circus
+                conda install --yes --file flying_circus/requirements/requirements.in
                 conda install --yes --file flying_circus/requirements/dev-requirements.in
                 '''
             }
@@ -75,7 +75,6 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate dev-flying_circus
-                conda install --yes -c conda-forge attrs>=19.2.0
                 python -m pip install -U pip
                 cd flying_circus
                 python -m pip install .
@@ -99,7 +98,6 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate pinned-flying_circus
-                conda install --yes -c conda-forge attrs>=19.2.0
                 python -m pip install -U pip
                 cd flying_circus
                 python -m pip install .
@@ -114,6 +112,7 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda create --yes -n pinned-dev-flying_circus
                 conda activate flying_circus
+                conda install --yes --file flying_circus/requirements/requirements.txt
                 conda install --yes --file flying_circus/requirements/dev-requirements.txt
                 '''
             }
@@ -123,7 +122,6 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate pinned-dev-flying_circus
-                conda install --yes -c conda-forge attrs>=19.2.0
                 python -m pip install -U pip
                 cd flying_circus
                 python -m pip install .
