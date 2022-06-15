@@ -4,29 +4,25 @@ import subprocess as sp
 from argparse import ArgumentParser, BooleanOptionalAction
 
 
-def condacmd(cmd : str):
-    '''Wrapper for conda shell commands.
+def shellcmd(cmd : str):
+    '''Wrapper fo shell commands.
+       Just to save some copy pasting.
     
     '''
-    proc =  sp.run(f"conda {cmd}", shell=True, stdout=sp.PIPE, stderr=sp.STDOUT)
-    outstream = ''
-    if not proc.stdout is None:
-        outstream += proc.stdout.decode('utf-8')
-    if not proc.stderr is None:
-        outstream += proc.stderr.decode('utf-8')
-    print(outstream)
-    return(outstream)
+    proc = sp.run(cmd, shell=True, stdout=sp.PIPE, encoding='utf-8', check=True)
+    print(proc.stdout)
+    return(proc.stdout)
 
 
 def install_env(env_name : str, pinned : bool = False, dev : bool =False,
             pyversion : str = 3.9, clean_install : bool = False):
 
-    present_envs = condacmd('env list')
+    present_envs = shellcmd('conda env list')
     if clean_install and env_name in present_envs:
-        condacmd(f'env remove -n {env_name} -y')
-        out = condacmd(f'create -n {env_name} python={pyversion} -y')
+        shellcmd(f'conda env remove -n {env_name} -y')
+        out = shellcmd(f'conda create -n {env_name} python={pyversion} -y')
     if not env_name in present_envs:
-        out = condacmd(f'create -n {env_name} python={pyversion} -y')
+        out = shellcmd(f'conda create -n {env_name} python={pyversion} -y')
     if pinned:
         requirements = ['requirements/environment.yml']
     else:
@@ -34,7 +30,7 @@ def install_env(env_name : str, pinned : bool = False, dev : bool =False,
         if dev:
             requirements.append('requirements/dev-requirements.in')
     for rfile in requirements:
-        out = condacmd(f'install -y --name {env_name} --file {rfile}')
+        out = shellcmd(f'conda install -y --name {env_name} --file {rfile}')
 
 
 
