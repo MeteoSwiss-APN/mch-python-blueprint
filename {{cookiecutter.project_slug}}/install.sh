@@ -7,9 +7,9 @@ PINNED=false
 DEV=false
 CLEAN=false
 #GET OPTIONS FROM COMMAND LINE ARGS
-while getopts n:v:p:d:c flag
+while getopts n:v:pdc flag
 do
-    case "${flag}" in
+    case ${flag} in
         n) ENV_NAME=${OPTARG};;
         v) PYVERSION=${OPTARG};;
         p) PINNED=true;;
