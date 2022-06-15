@@ -50,20 +50,6 @@ fi
 CONDA_EXEDIR="$(dirname "$CONDA_EXE")"
 source ${CONDA_EXEDIR}/../etc/profile.d/conda.sh
 conda activate
-# install conda environment
+# install conda environment, pip dependencies and package
 echo Installing conda environment with options $INSTALL_ARGS
 python installer.py $INSTALL_ARGS
-# install pip only packages
-PREFIX=${CONDA_PREFIX}/envs/${ENV_NAME}/bin
-if [[ -f requirements/pip-requirements.in ]]; then
-    $PREFIX/pip install -r requirements/pip-requirements.in
-fi
-
-# INSTALL PACKAGE
-# editable if dev installation.
-if [ dev = true ]
-then
-    $PREFIX/pip install -e .
-else
-    $PREFIX/pip install .
-fi
