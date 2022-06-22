@@ -151,7 +151,7 @@ Project Structure
      -  Source folder, with the main package in ``src/{{ cookiecutter.project_slug }}``.
    * -  tests/
      -  Directory containing the tests.
-     -  The directory structure in this folder follows that in the source folder (src).
+        The directory structure in this folder follows that in the source folder (src).
         For each file in the source folder, there is a file with the same name, but with the prefix ``text_``.
         Pytest collects all tests in files named ``test_*.py``.
 

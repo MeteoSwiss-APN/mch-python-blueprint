@@ -156,7 +156,7 @@ The subshell provides isolation, i.e., does not pollute the original shell in an
 However, the subshell has also some effects that are drawbacks to some users, notably that on exiting it, the current directory is reset to that before entering the shell, and the bash history is lost (or at least messed up).
 
 For some, this is reason enough to want to forego the subshell.
-Luckily, this is relatively easy, as the virtual environment that is created under the hood by pipenv can be activated the usual virtualenv-way by sourcing the `<venv>/bin/activate` script. The path to the virtual environment, in turn, can be optained from inside the project directory with `pipenv --venv`.
+Luckily, this is relatively easy, as the virtual environment that is created under the hood by pipenv can be activated the usual virtualenv-way by sourcing the `<venv>/bin/activate` script. The path to the virtual environment, in turn, can be obtained from inside the project directory with `pipenv --venv`.
 
 So you can forego the subshell like this::
 
