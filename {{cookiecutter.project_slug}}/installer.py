@@ -65,6 +65,7 @@ if __name__ == "__main__":
 
     install_env(args.env_name, pinned=args.pinned, dev=args.dev,
             pyversion=args.pyversion, clean_install=args.clean)
+    shellcmd(f"conda activate {args.env_name}")
 
     pipdep_path = "requirements/pip-requirements.in"
     if path.isfile(pipdep_path):
