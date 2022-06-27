@@ -10,7 +10,7 @@ do
     esac
 done
 
-# INSTALL CONDA EXCECUTABLE IF NOT AVAILABLE
+# INSTALL CONDA EXECUTABLE IF NOT AVAILABLE
 if [[ -v CONDA_EXE ]]
 then
     echo "Found a conda executable at: ${CONDA_EXE}"
