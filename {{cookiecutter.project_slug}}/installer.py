@@ -52,6 +52,7 @@ if __name__ == "__main__":
                     help="Set true for editable installation including dev requirements.")
     parser.add_argument("-v", "--pyversion",
                     dest="pyversion",
+                    default=3.9,
                     type=str,
                     help="Specify python version")
     parser.add_argument("-c", "--clean",
