@@ -38,6 +38,7 @@ pipeline {
                 cp {{cookiecutter.project_slug}}/installer.py ${WORKSPACE}/
                 cp -r {{cookiecutter.project_slug}}/requirements ${WORKSPACE}/
                 source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
+                conda init bash
                 conda activate
                 cd ${WORKSPACE}
                 ${CONDA_PREFIX}/bin/python installer.py --name flying_circus
@@ -48,6 +49,7 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda init bash
                 conda activate flying_circus
                 cd ${WORKSPACE}/flying_circus
                 pytest tests
@@ -59,6 +61,7 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda init bash
                 conda activate
                 cd ${WORKSPACE}
                 ${CONDA_PREFIX}/bin/python installer.py --name flying_circus --dev
@@ -69,6 +72,7 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda init bash
                 conda activate dev-flying_circus
                 cd ${WORKSPACE}/flying_circus
                 pytest tests
