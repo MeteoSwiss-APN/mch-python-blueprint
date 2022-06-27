@@ -46,10 +46,8 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n dev-{{ cookiecutter.project_slug }}
-                conda activate {{ cookiecutter.project_slug }}
-                conda install --yes --file requirements/requirements.in
-                conda install --yes --file requirements/dev-requirements.in
+                conda activate
+                ${CONDA_PREFIX}/bin/python ${WORKSPACE}/installer.py --name flying_circus --dev
                 '''
             }
         }
@@ -58,8 +56,6 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate dev-{{ cookiecutter.project_slug }}
-                python -m pip install -U pip
-                python -m pip install .
                 pytest tests
                 '''
             }

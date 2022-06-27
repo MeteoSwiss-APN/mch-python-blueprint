@@ -47,7 +47,7 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate flying_circus
-                cd flying_circus
+                cd ${WORKSPACE}/flying_circus
                 pytest tests
                 '''
             }
@@ -57,10 +57,8 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n dev-flying_circus
-                conda activate flying_circus
-                conda install --yes --file flying_circus/requirements/requirements.in
-                conda install --yes --file flying_circus/requirements/dev-requirements.in
+                conda activate
+                ${CONDA_PREFIX}/bin/python ${WORKSPACE}/installer.py --name flying_circus --dev
                 '''
             }
         }
@@ -69,9 +67,7 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate dev-flying_circus
-                python -m pip install -U pip
-                cd flying_circus
-                python -m pip install .
+                cd ${WORKSPACE}/flying_circus
                 pytest tests
                 '''
             }
