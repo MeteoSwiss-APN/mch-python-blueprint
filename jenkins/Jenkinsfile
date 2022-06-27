@@ -28,7 +28,6 @@ pipeline {
                 conda install -c conda-forge cookiecutter
                 cookiecutter --no-input .
                 conda deactivate
-                rm miniconda.sh
                 '''
             }
         }
