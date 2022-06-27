@@ -8,7 +8,7 @@ from os import path
 def shellcmd(cmd : str):
     '''Wrapper for shell commands.
        Just to save some copy pasting.
-    
+
     '''
     proc = sp.run(cmd, shell=True, stdout=sp.PIPE, encoding="utf-8", check=True)
     print(proc.stdout)
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         print("Installing pip dependencies")
         shellcmd(f"pip install --requirement {pipdep_path}")
     else:
-        print("No pip dependencies found, continue ...")    
+        print("No pip dependencies found, continue ...")
 
     if args.dev:
         print("Installing package editable.")
