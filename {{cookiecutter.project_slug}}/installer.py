@@ -6,7 +6,7 @@ from os import path
 
 
 def shellcmd(cmd : str):
-    '''Wrapper fo shell commands.
+    '''Wrapper for shell commands.
        Just to save some copy pasting.
     
     '''

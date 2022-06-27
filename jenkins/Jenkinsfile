@@ -17,7 +17,7 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                cp \{\{cookiecutter.project_slug\}\}/install.sh .
+                cp {{cookiecutter.project_slug}}/install.sh .
                 bash install.sh -p ${WORKSPACE}
                 '''
                 sh '''#!/usr/bin/env bash
