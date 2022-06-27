@@ -38,7 +38,8 @@ pipeline {
                 cp {{cookiecutter.project_slug}}/installer.py ${WORKSPACE}/
                 source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
                 conda activate
-                ${CONDA_PREFIX}/bin/python ${WORKSPACE}/installer.py --name flying_circus
+                cd ${WORKSPACE}
+                ${CONDA_PREFIX}/bin/python installer.py --name flying_circus
                 '''
             }
         }
@@ -58,7 +59,8 @@ pipeline {
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate
-                ${CONDA_PREFIX}/bin/python ${WORKSPACE}/installer.py --name flying_circus --dev
+                cd ${WORKSPACE}
+                ${CONDA_PREFIX}/bin/python installer.py --name flying_circus --dev
                 '''
             }
         }
