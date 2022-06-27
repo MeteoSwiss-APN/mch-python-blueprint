@@ -36,6 +36,7 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 cp {{cookiecutter.project_slug}}/installer.py ${WORKSPACE}/
+                cp -r {{cookiecutter.project_slug}}/requirements ${WORKSPACE}/
                 source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
                 conda activate
                 cd ${WORKSPACE}
