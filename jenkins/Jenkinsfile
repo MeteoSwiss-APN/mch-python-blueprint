@@ -17,11 +17,8 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                wget -O ${WORKSPACE}/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-                bash miniconda.sh -b -p $WORKSPACE/miniconda
-                conda config --set always_yes yes --set changeps1 no
-                conda config --add channels conda-forge
-                conda init bash
+                cp \{\{cookiecutter.project_slug\}\}/install.sh .
+                bash install.sh -p ${WORKSPACE}
                 '''
                 sh '''#!/usr/bin/env bash
                 set -e
@@ -35,14 +32,13 @@ pipeline {
                 '''
             }
         }
-        stage('environment') {
+        stage('build package') {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n flying_circus
-                conda activate flying_circus
-                conda install --yes --file flying_circus/requirements/requirements.in
+                conda activate
+                $CONDA_PREFIX/bin/python installer.py --name flying_circus
                 '''
             }
         }
@@ -51,9 +47,7 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate flying_circus
-                python -m pip install -U pip
                 cd flying_circus
-                python -m pip install .
                 pytest tests
                 '''
             }
