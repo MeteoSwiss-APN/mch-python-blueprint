@@ -2,7 +2,7 @@
 
 import subprocess as sp
 from argparse import ArgumentParser, BooleanOptionalAction
-from os import path
+from os import path, environ
 
 
 def shellcmd(cmd : str):
@@ -10,7 +10,14 @@ def shellcmd(cmd : str):
        Just to save some copy pasting.
 
     '''
-    proc = sp.run(cmd, shell=True, stdout=sp.PIPE, encoding="utf-8", check=True)
+    proc = sp.run(
+                cmd,
+                shell=True,
+                stdout=sp.PIPE,
+                encoding="utf-8",
+                check=True,
+                env=environ
+                )
     print(proc.stdout)
     return(proc.stdout)
 
@@ -66,7 +73,6 @@ if __name__ == "__main__":
 
     install_env(args.env_name, pinned=args.pinned, dev=args.dev,
             pyversion=args.pyversion, clean_install=args.clean)
-    shellcmd(f"conda activate {args.env_name}")
 
     pipdep_path = "requirements/pip-requirements.in"
     if path.isfile(pipdep_path):
