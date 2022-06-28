@@ -69,21 +69,25 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    print(args)
-
     install_env(args.env_name, pinned=args.pinned, dev=args.dev,
             pyversion=args.pyversion, clean_install=args.clean)
 
     pipdep_path = "requirements/pip-requirements.in"
     if path.isfile(pipdep_path):
         print("Installing pip dependencies")
-        shellcmd(f"${CONDA_PREFIX}/bin/python -m pip install --requirement {pipdep_path}")
+        cmd = f"conda activate {args.env_name};" + \
+            f"${CONDA_PREFIX}/bin/python -m pip install --requirement {pipdep_path}"
+        shellcmd(cmd)
     else:
         print("No pip dependencies found, continue ...")
 
     if args.dev:
         print("Installing package editable.")
-        shellcmd("${CONDA_PREFIX}/bin/python - m pip install --editable .")
+        cmd = f"conda activate {args.env_name};" + \
+            "${CONDA_PREFIX}/bin/python - m pip install --editable ."
+        shellcmd(cmd)
     else:
         print("Installing package not editable.")
-        shellcmd("${CONDA_PREFIX}/bin/python -m pip install .")
+        cmd = f"conda activate {args.env_name};" + \
+            "${CONDA_PREFIX}/bin/python -m pip install ."
+        shellcmd(cmd)
