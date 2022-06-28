@@ -77,13 +77,13 @@ if __name__ == "__main__":
     pipdep_path = "requirements/pip-requirements.in"
     if path.isfile(pipdep_path):
         print("Installing pip dependencies")
-        shellcmd(f"${CONDA_PREFIX}/bin/pip install --requirement {pipdep_path}")
+        shellcmd(f"${CONDA_PREFIX}/bin/python -m pip install --requirement {pipdep_path}")
     else:
         print("No pip dependencies found, continue ...")
 
     if args.dev:
         print("Installing package editable.")
-        shellcmd("${CONDA_PREFIX}/bin/pip install --editable .")
+        shellcmd("${CONDA_PREFIX}/bin/python - m pip install --editable .")
     else:
         print("Installing package not editable.")
-        shellcmd("${CONDA_PREFIX}/bin/pip install .")
+        shellcmd("${CONDA_PREFIX}/bin/python -m pip install .")
