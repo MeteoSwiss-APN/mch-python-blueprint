@@ -59,10 +59,10 @@ if [ "$PINNED" = true ]; then
     fi
 else
     echo "unpinned installation"
-    conda install -y --name ${ENV_NAME} --file requirements/requirements.in
+    conda install -y --name ${ENV_NAME} --file requirements/requirements.yml
     if [ "$DEV" = true ]; then
         echo "Dev installation"
-        conda install -y --name ${ENV_NAME} --file requirements/dev-requirements.in
+        conda install -y --name ${ENV_NAME} --file requirements/dev-requirements.yml
     else
         echo "WARNING: Unpinned prod installation!!!"
     fi

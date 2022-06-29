@@ -1,0 +1,5 @@
+name : {{cookiecutter.project_slug}}
+
+dependencies :
+  - click
+  - pytest
