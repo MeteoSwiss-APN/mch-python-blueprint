@@ -30,14 +30,14 @@ jobs:
       run: |
         conda create -n blueprint
         conda activate blueprint
-        conda install --yes --file \{\{cookiecutter.project_slug\}\}/requirements/requirements.in
+        conda env update --file \{\{cookiecutter.project_slug\}\}/requirements/requirements.yml
         conda deactivate
     - name: Install dev dependencies
       run: |
         conda create -n dev_blueprint
         conda activate dev_blueprint
-        conda install --yes --file \{\{cookiecutter.project_slug\}\}/requirements/requirements.in
-        conda install --yes --file \{\{cookiecutter.project_slug\}\}/requirements/dev-requirements.in
+        conda env update --file \{\{cookiecutter.project_slug\}\}/requirements/requirements.yml
+        conda env update --file \{\{cookiecutter.project_slug\}\}/requirements/dev-requirements.yml
         conda deactivate
 
     - name: pre-commit install-hooks
