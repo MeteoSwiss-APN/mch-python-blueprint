@@ -1,5 +1,3 @@
-name : dev-{{cookiecutter.project_slug}}
-
 dependencies :
   - black
   - bump2version
