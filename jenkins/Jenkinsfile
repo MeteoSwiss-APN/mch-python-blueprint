@@ -62,7 +62,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/flying_circus
-                bash installer.sh -n flying_circus -d -c
+                bash installer.sh -n dev-flying_circus -d -c
                 '''
             }
         }
