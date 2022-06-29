@@ -61,8 +61,8 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash
                 conda activate
-                cd ${WORKSPACE}
-                bash installer.sh -n flying_circus -d
+                cd ${WORKSPACE}/flying_circus
+                bash installer.sh -n flying_circus -d -c
                 '''
             }
         }
