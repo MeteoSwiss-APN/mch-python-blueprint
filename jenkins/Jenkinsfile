@@ -39,7 +39,7 @@ pipeline {
                 source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
                 conda init bash
                 conda activate
-                ${CONDA_PREFIX}/bin/python installer.py --name flying_circus
+                bash installer.sh -n flying_circus
                 '''
             }
         }
@@ -62,7 +62,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}
-                ${CONDA_PREFIX}/bin/python installer.py --name flying_circus --dev
+                bash installer.sh -n flying_circus -d
                 '''
             }
         }
