@@ -82,9 +82,10 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n pinned-flying_circus
-                conda activate flying_circus
-                conda install --yes --file flying_circus/requirements/requirements.txt
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/flying_circus
+                bash installer.sh -n dev-flying_circus -p -c
                 '''
             }
         }
@@ -93,9 +94,7 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate pinned-flying_circus
-                python -m pip install -U pip
-                cd flying_circus
-                python -m pip install .
+                cd ${WORKSPACE}/flying_circus
                 pytest tests
                 '''
             }
@@ -105,10 +104,10 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n pinned-dev-flying_circus
-                conda activate flying_circus
-                conda install --yes --file flying_circus/requirements/requirements.txt
-                conda install --yes --file flying_circus/requirements/dev-requirements.txt
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/flying_circus
+                bash installer.sh -n dev-flying_circus -p -d -c
                 '''
             }
         }
@@ -117,9 +116,7 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate pinned-dev-flying_circus
-                python -m pip install -U pip
-                cd flying_circus
-                python -m pip install .
+                cd ${WORKSPACE}/flying_circus
                 pytest tests
                 '''
             }

@@ -72,9 +72,10 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n pinned-{{ cookiecutter.project_slug }}
-                conda activate {{ cookiecutter.project_slug }}
-                conda install --yes --file requirements/requirements.txt
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
+                bash installer.sh -n dev-{{cookiecutter.project_slug}} -p -c
                 '''
             }
         }
@@ -82,9 +83,8 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate pinned-{{ cookiecutter.project_slug }}
-                python -m pip install -U pip
-                python -m pip install .
+                conda activate pinned-{{cookiecutter.project_slug}}
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
                 pytest tests
                 '''
             }
@@ -94,10 +94,10 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n pinned-dev-{{ cookiecutter.project_slug }}
-                conda activate {{ cookiecutter.project_slug }}
-                conda install --yes --file requirements/requirements.txt
-                conda install --yes --file requirements/dev-requirements.txt
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
+                bash installer.sh -n dev-{{cookiecutter.project_slug}} -p -d -c
                 '''
             }
         }
@@ -105,9 +105,8 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate pinned-dev-{{ cookiecutter.project_slug }}
-                python -m pip install -U pip
-                python -m pip install .
+                conda activate pinned-dev-{{cookiecutter.project_slug}}
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
                 pytest tests
                 '''
             }
