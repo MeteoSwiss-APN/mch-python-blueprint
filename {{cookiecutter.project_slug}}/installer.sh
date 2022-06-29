@@ -52,17 +52,17 @@ if [ "$PINNED" = true ]; then
     echo "Pinned installation."
     if [ "$DEV" = true ]; then
         echo "Dev installation."
-        conda install -y --name ${ENV_NAME} --file requirements/dev-environment.yml
+        conda env update --name ${ENV_NAME} --file requirements/dev-environment.yml
     else
         echo "Prod installation"
-        conda install -y --name ${ENV_NAME} --file requirements/environment.yml
+        conda env update --name ${ENV_NAME} --file requirements/environment.yml
     fi
 else
     echo "unpinned installation"
-    conda install -y --name ${ENV_NAME} --file requirements/requirements.yml
+    conda env update --name ${ENV_NAME} --file requirements/requirements.yml
     if [ "$DEV" = true ]; then
         echo "Dev installation"
-        conda install -y --name ${ENV_NAME} --file requirements/dev-requirements.yml
+        conda env update--name ${ENV_NAME} --file requirements/dev-requirements.yml
     else
         echo "WARNING: Unpinned prod installation!!!"
     fi
@@ -70,13 +70,12 @@ fi
 
 conda activate ${ENV_NAME}
 #PIP DEPENDENCIES
-echo "pip dependencies"
 ${CONDA_PREFIX}/bin/python -m pip install -U pip
 PIP_REQUIREMENTS=requirements/pip-requirements.in
 if [ -f $PIP_REQUIREMENTS ]; then
+    echo "pip dependencies"
     ${CONDA_PREFIX}/bin/python -m pip install --requirement ${PIP_REQUIREMENTS}
 fi
-
 #INSTALL PACKAGE
 echo "Installing package ..."
 if [ "$DEV" = true ]; then
