@@ -1,3 +1,6 @@
 dependencies :
   - click
   - pytest
+  - pip
+  - pip:
+    - --install-option="--no-deps"

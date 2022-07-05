@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ### OPTION DEFAULTS ###
 ENV_NAME={{cookiecutter.project_slug}}
@@ -58,20 +59,4 @@ else
     else
         echo "WARNING: Unpinned prod installation!!!"
     fi
-fi
-
-conda activate ${ENV_NAME}
-#PIP DEPENDENCIES
-${CONDA_PREFIX}/bin/python -m pip install -U pip
-PIP_REQUIREMENTS=requirements/pip-requirements.in
-if [ -f $PIP_REQUIREMENTS ]; then
-    echo "pip dependencies"
-    ${CONDA_PREFIX}/bin/python -m pip install --requirement ${PIP_REQUIREMENTS}
-fi
-#INSTALL PACKAGE
-echo "Installing package ..."
-if [ "$DEV" = true ]; then
-    ${CONDA_PREFIX}/bin/python -m pip install --editable .
-else
-    ${CONDA_PREFIX}/bin/python -m pip install .
 fi

@@ -8,6 +8,7 @@ dependencies :
   - ipython
   - isort >= 5
   - mypy
+  . pip
   - pre-commit
   - pydocstyle
   - pylint >= 2.6.0
@@ -18,3 +19,5 @@ dependencies :
   - sphinx-autobuild
   - tox
   - tox-conda
+  - pip:
+    - --install-option="--no-deps --editable"
