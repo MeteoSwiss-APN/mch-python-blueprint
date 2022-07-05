@@ -62,7 +62,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/flying_circus
-                bash installer.sh -n dev-flying_circus -d -c
+                bash installer.sh -n dev-flying_circus -d
                 '''
             }
         }
@@ -85,7 +85,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/flying_circus
-                bash installer.sh -n pinned-flying_circus -p -c
+                bash installer.sh -n pinned-flying_circus -p
                 '''
             }
         }
@@ -107,7 +107,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/flying_circus
-                bash installer.sh -n pinned-dev-flying_circus -p -d -c
+                bash installer.sh -n pinned-dev-flying_circus -p -d
                 '''
             }
         }

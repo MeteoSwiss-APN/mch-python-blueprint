@@ -52,7 +52,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{cookiecutter.project_slug}}
-                bash installer.sh -n dev-{{cookiecutter.project_slug}} -d -c
+                bash installer.sh -n dev-{{cookiecutter.project_slug}} -d
                 '''
             }
         }
@@ -75,7 +75,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{cookiecutter.project_slug}}
-                bash installer.sh -n pinned-{{cookiecutter.project_slug}} -p -c
+                bash installer.sh -n pinned-{{cookiecutter.project_slug}} -p
                 '''
             }
         }
@@ -97,7 +97,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{cookiecutter.project_slug}}
-                bash installer.sh -n pinned-dev-{{cookiecutter.project_slug}} -p -d -c
+                bash installer.sh -n pinned-dev-{{cookiecutter.project_slug}} -p -d
                 '''
             }
         }
