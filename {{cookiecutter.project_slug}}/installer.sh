@@ -5,16 +5,14 @@ ENV_NAME={{cookiecutter.project_slug}}
 PYVERSION=3.10
 DEV=false
 PINNED=false
-CLEAN=false
 #GET OPTIONS FROM COMMAND LINE ARGS
-while getopts n:v:dpch flag
+while getopts n:v:dph flag
 do
     case ${flag} in
         n) ENV_NAME=${OPTARG};;
         v) PYVERSION=${OPTARG};;
         d) DEV=true;;
         p) PINNED=true;;
-        c) CLEAN=true;;
         h) HELP=true;;
     esac
 done
@@ -27,7 +25,6 @@ if [ "$HELP" = true ]; then
     -v Desired Python version
     -d Dev (editable) installation with additional dependencies.
     -p Pinned installation with fully fixed dependencies.
-    -c clean, remove conda environment with target name first.
     -h Print this help message and exit.
     "
     exit 0
@@ -35,15 +32,10 @@ fi
 
 echo "Setting up environment for installation"
 #SOME PREPARATIONS
-#source ${CONDA_EXE}/../etc/profile.d/conda.sh
 eval "$(conda shell.bash hook)"
 conda activate
 
 #CREATE ENV
-if [ "$CLEAN" ]; then
-    echo "Removing old environment ${ENV_NAME}"
-    conda env remove -n ${ENV_NAME} -y
-fi
 echo "Creating conda environment."
 conda create -n ${ENV_NAME} python=${PYVERSION} -y
 
