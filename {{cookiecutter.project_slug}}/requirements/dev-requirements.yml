@@ -8,7 +8,7 @@ dependencies :
   - ipython
   - isort >= 5
   - mypy
-  . pip
+  - pip
   - pre-commit
   - pydocstyle
   - pylint >= 2.6.0
