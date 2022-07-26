@@ -1,3 +1,6 @@
+channels:
+  - conda-forge
+  - defaults
 dependencies :
   - black
   - bump2version
@@ -19,5 +22,3 @@ dependencies :
   - sphinx-autobuild
   - tox
   - tox-conda
-  - pip:
-    - --install-option="--no-deps --editable"

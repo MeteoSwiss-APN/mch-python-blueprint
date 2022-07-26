@@ -1,0 +1,3 @@
+# Put your pip requirements into the requirements.yml
+# file. This is just a template needed for the
+# installation process.

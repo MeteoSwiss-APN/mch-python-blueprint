@@ -1,6 +1,9 @@
+channels:
+  - conda-forge
+  - defaults
 dependencies :
   - click
   - pytest
   - pip
   - pip:
-    - --install-option="--no-deps"
+    - -r requirements.txt
