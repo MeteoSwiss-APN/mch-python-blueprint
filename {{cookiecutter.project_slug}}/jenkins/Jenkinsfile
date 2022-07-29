@@ -30,6 +30,8 @@ pipeline {
                 conda init bash
                 conda activate
                 bash installer.sh -n {{cookiecutter.project_slug}}
+                conda activate {{cookiecutter.project_slug}}
+                pip install .
                 '''
             }
         }
@@ -53,6 +55,8 @@ pipeline {
                 conda activate
                 cd ${WORKSPACE}/{{cookiecutter.project_slug}}
                 bash installer.sh -n dev-{{cookiecutter.project_slug}} -d
+                conda activate dev-{{cookiecutter.project_slug}}
+                pip install --editable .
                 '''
             }
         }
@@ -76,6 +80,8 @@ pipeline {
                 conda activate
                 cd ${WORKSPACE}/{{cookiecutter.project_slug}}
                 bash installer.sh -n pinned-{{cookiecutter.project_slug}} -p
+                conda activate pinned-{{cookiecutter.project_slug}}
+                pip install .
                 '''
             }
         }
@@ -98,6 +104,8 @@ pipeline {
                 conda activate
                 cd ${WORKSPACE}/{{cookiecutter.project_slug}}
                 bash installer.sh -n pinned-dev-{{cookiecutter.project_slug}} -p -d
+                conda activate pinned-dev-{{cookiecutter.project_slug}}
+                pip install --editable .
                 '''
             }
         }

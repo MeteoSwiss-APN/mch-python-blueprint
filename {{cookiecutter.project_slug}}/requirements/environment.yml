@@ -36,4 +36,4 @@ dependencies:
   - xz=5.2.5=h516909a_1
   - zlib=1.2.12=h166bdaf_0
   - pip:
-    - -r requirements.txt
+    # add pip requirements here if needed.

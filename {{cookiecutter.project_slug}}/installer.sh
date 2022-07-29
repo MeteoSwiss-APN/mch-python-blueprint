@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 ### OPTION DEFAULTS ###
 ENV_NAME={{cookiecutter.project_slug}}
@@ -32,18 +31,9 @@ if [ "$HELP" = true ]; then
 fi
 
 echo "Setting up environment for installation"
-#SOME CONDA PREPARATIONS
+#SOME PREPARATIONS
 eval "$(conda shell.bash hook)"
 conda activate
-#PREPARE PIP INSTALLATION, DEV (EDITABLE) OR PROD
-cp requirements/pip-requirements.txt requirements/requirements.txt
-if [ "$DEV" = true ]; then
-    echo "Dev installation"
-    echo -e "\n --editable "$(dirname "$(realpath $0)")"" >> requirements/requirements.txt
-else
-    echo "WARNING: Unpinned prod installation!!!"
-    echo -e "\n --editable "$(dirname "$(realpath $0)")"">> requirements/requirements.txt
-fi
 
 #CREATE ENV
 echo "Creating conda environment."
@@ -54,16 +44,18 @@ if [ "$PINNED" = true ]; then
     echo "Pinned installation."
     if [ "$DEV" = true ]; then
         echo "Dev installation."
-        conda env update --name ${ENV_NAME} --file requirements/dev-environment.yml
+        conda env update --name ${ENV_NAME} --file requirements/dev-requirements.txt
     else
         echo "Prod installation"
-        conda env update --name ${ENV_NAME} --file requirements/environment.yml
+        conda env update --name ${ENV_NAME} --file requirements/requirements.txt
     fi
 else
     echo "unpinned installation"
     conda env update --name ${ENV_NAME} --file requirements/requirements.yml
     if [ "$DEV" = true ]; then
-        conda env update --name ${ENV_NAME} --file requirements/dev-requirements.yml
+        echo "Dev installation"
+        conda env update--name ${ENV_NAME} --file requirements/dev-requirements.yml
+    else
+        echo "WARNING: Unpinned prod installation!!!"
     fi
 fi
-rm requirements/requirements.txt
