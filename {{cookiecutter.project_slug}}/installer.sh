@@ -54,7 +54,7 @@ else
     conda env update --name ${ENV_NAME} --file requirements/requirements.yml
     if [ "$DEV" = true ]; then
         echo "Dev installation"
-        conda env update--name ${ENV_NAME} --file requirements/dev-requirements.yml
+        conda env update --name ${ENV_NAME} --file requirements/dev-requirements.yml
     else
         echo "WARNING: Unpinned prod installation!!!"
     fi
