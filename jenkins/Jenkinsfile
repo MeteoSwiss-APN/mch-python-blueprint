@@ -114,7 +114,7 @@ pipeline {
                 conda activate
                 cd ${WORKSPACE}/flying_circus
                 bash installer.sh -n pinned-dev-flying_circus -p -d
-                conda activate pinned-dev flying_circus
+                conda activate pinned-dev-flying_circus
                 pip install --editable .
                 '''
             }

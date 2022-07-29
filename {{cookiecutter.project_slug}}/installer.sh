@@ -44,10 +44,10 @@ if [ "$PINNED" = true ]; then
     echo "Pinned installation."
     if [ "$DEV" = true ]; then
         echo "Dev installation."
-        conda env update --name ${ENV_NAME} --file requirements/dev-requirements.txt
+        conda env update --name ${ENV_NAME} --file requirements/dev-environment.yml
     else
         echo "Prod installation"
-        conda env update --name ${ENV_NAME} --file requirements/requirements.txt
+        conda env update --name ${ENV_NAME} --file requirements/environment.yml
     fi
 else
     echo "unpinned installation"
