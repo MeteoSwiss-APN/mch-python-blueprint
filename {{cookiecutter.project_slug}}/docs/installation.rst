@@ -49,7 +49,7 @@ If you need to add new first-level dependencies to your package, make sure to in
 
     $ conda env export {{ cookiecutter.project_name }} requirements/environment.yml
     
- or
+or
   
 .. code-block:: console
 
