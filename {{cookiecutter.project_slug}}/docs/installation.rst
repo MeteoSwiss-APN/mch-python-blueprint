@@ -13,7 +13,7 @@ To install {{ cookiecutter.project_name }} you need a miniconda installation. Yo
 
 Installation of dependencies
 ----------------------------
-Dependencies are handled by the conda package manager. The goal of this step is to set up a conda environment according to the requirements of {{ cookiecutter.project_name }}. Note that the development installation has some additional dependencies as it includes linters and other development tools. The dependencies are handled in requirement files. Free installations are based on the `requirements/requirements.yml` and `requirements/dev-requirements.yml` files, where the first-level dependencies of the package are listed. Pinned installations are based on exported environments and stored in the files `requirements/environment.yml` and `requirements/dev-environment.yml`. In total, four posssible installation options are possible pinned/unpinned x dev/prod. These options are covered in the script `installer.sh`. The optional flags `-d` and `-p` stand for dev and pinned installation respectively. E.g. for a pinned dev installation type:
+Dependencies are handled by the conda package manager. The goal of this step is to set up a conda environment according to the requirements of {{ cookiecutter.project_name }}. Note that the development installation has some additional dependencies as it includes linters and other development tools. The dependencies are handled in requirement files. Free installations are based on the `requirements/requirements.yml` and `requirements/dev-requirements.yml` files, where the first-level dependencies of the package are listed. Pinned installations are based on exported environments and stored in the files `requirements/environment.yml` and `requirements/dev-environment.yml`. In total, four possible installation options are possible pinned/unpinned x dev/prod. These options are covered in the script `installer.sh`. The optional flags `-d` and `-p` stand for dev and pinned installation respectively. E.g. for a pinned dev installation type:
 
 .. code-block:: console
 
@@ -56,3 +56,9 @@ If you need to add new first-level dependencies to your package, make sure to in
     $ conda env export dev-{{ cookiecutter.project_name }} requirements/dev-environment.yml
     
 Note that this requires you to distinguish the name of the dev environment.
+
+
+Interaction with Jenkins
+------------------------
+
+All four possible installation options (prod/dev) x (free/pinned) are tested by jenkins on regular builds and upon merging pull requests to the master branch.
