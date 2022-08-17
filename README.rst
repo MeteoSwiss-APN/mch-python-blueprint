@@ -17,7 +17,7 @@ Features
 -   Catch type errors early with `mypy <https://github.com/python/mypy>`__.
 -   Comprehensively test your code with `pytest <https://github.com/pytest-dev/pytest>`__.
 -   Ensure compatibility with multiple Python versions with `tox <https://github.com/tox-dev/tox>`__.
--   Develop in a reproducible environment with `venv <https://docs.python.org/3/library/venv.html>`__ + `pip <https://github.com/pypa/pip>`__.
+-   Develop in a reproducible environment with `conda <https://docs.conda.io/en/latest>`__ + `pip <https://github.com/pypa/pip>`__.
 -   Properly package your code with `setuptools <https://github.com/pypa/setuptools>`__.
 -   Increment the package version number with `bumpversion <https://docs.python.org/3/library/venv.html>`__.
 -   Create a documentation with `sphinx <https://github.com/sphinx-doc/sphinx>`__
