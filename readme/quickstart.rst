@@ -47,13 +47,3 @@ Create the repository on MeteoSwiss-APN github. **Attention**: the name here mus
     git commit -m “initial commit”
 
 Then follow the steps on GitHub under the headline “”…or push an existing repository from the command line“ to connect your repository to the remote on GitHub. To install your package, follow the instructions given in `docs/installation.rst` in your project repository.
-
-
-.. code:: bash
-
-    git_dir=...  # e.g., ~/.local/git
-    venvs_dir=...  # e.g., ~/.local/venvs
-    bin_dir=...  # e.g., ~/.local/bin
-    project=...  # e.g., apepi
-    version=...  # e.g., v0.2.1
-    command1=...  # e.g.,
