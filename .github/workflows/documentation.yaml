@@ -1,6 +1,13 @@
 name: Docs
-on: [push, pull_request]
-  branches: dev-refactor
+
+on:
+  push:
+    branches:
+    - dev_refactor
+  pull_request:
+    branches:
+    - dev_refactor
+    
 jobs:
   docs:
     runs-on: ubuntu-latest
