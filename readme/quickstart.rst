@@ -23,8 +23,6 @@ To create a new project and start developing, run these commands:
 .. code:: shell
 
     cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
-    cd <project>
-    make format check test CHAIN=1
 
 The cookiecutter command will ask you for some information on you and your project.
 The parameter "sample_code" allows you to choose the amount of sample code to be included:
@@ -40,7 +38,16 @@ The parameter "sample_code" allows you to choose the amount of sample code to be
 Set up your project
 -------------------
 
-To install a certain version of a project, follow these steps:
+Create the repository on MeteoSwiss-APN github. **Attention**: the name here must correspond to the information given to cookiecutter. A .gitignore template is not needed as there is one provided in the blueprint. Go to the repository created by cookiecutter, i.e. your project repository and initialize git with the following sequence of commands:
+
+.. code:: bash
+
+    git init
+    git add .
+    git commit -m “initial commit”
+
+Then follow the steps on GitHub under the headline “”…or push an existing repository from the command line“ to connect your repository to the remote on GitHub. To install your package, follow the instructions given in `docs/installation.rst` in your project repository.
+
 
 .. code:: bash
 
@@ -50,25 +57,3 @@ To install a certain version of a project, follow these steps:
     project=...  # e.g., apepi
     version=...  # e.g., v0.2.1
     command1=...  # e.g.,
-
-    # Clone the git repository and check out the target version
-    git clone git@github.com:MeteoSwiss-APN/${project} ${git_dir}/${project}
-    cd ${git_dir}/${project}
-    git checkout ${version}
-
-    # Run the tests and checks (and clean up after them)
-    make test-check clean-all CHAIN=1
-
-    # Install the package and its (pinned) dependencies into a virtual env
-    venv_dir=${install_root}/venvs/${project}/${version}
-    make install CHAIN=1 VENV_DIR=${venv_dir}
-
-    # Make the project's command(s) available system-wide
-    cd ${bin_dir}
-    ln -s ${venv_dir}/bin/${command1} ${command1}
-    # repeat for all commands
-
-    # Test the commands
-    cd
-    ${command1} --version
-    # ...
