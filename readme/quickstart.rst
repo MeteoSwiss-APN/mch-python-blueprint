@@ -7,14 +7,13 @@ Prepare your environment
 ------------------------
 
 Ensure that your active Python version is 3.7 or higher.
-On your private computer, the recommended way to manage Python versions is with `Pyenv <https://github.com/pyenv/pyenv>`__ or alternatively `Conda <https://docs.conda.io/en/latest/>`__.
-At CSCS, follow the instructions in `Python at CSCS <python_cscs.rst>`__.
+The recommended way to manage Python versions is with `Conda <https://docs.conda.io/en/latest/>`__. On CSCS machines it is recommended to install the leaner `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`__, which offers enough functionality for most of our use cases. 
 
 Next, install `Cookiecutter <https://github.com/cookiecutter/cookiecutter>`__.
-At CSCS, if it is not available after properly setting up the environment, you can install it yourself with `Pipx <https://github.com/pipxproject/pipx>`__, which should be available, or temporarily into a virtual environment (you won't need it anymore once your project is created).
+The recommended way is to set up a conda environment and install it there. Once your package is created you do not need cookiecutter anymore and you can safely delete the generated environment.
 
 .. note::
-    Because you only need the `cookiecutter` shell command, on your own computer you may even install it with your system package manager -- something you should never to for packages you need as dependencies, as explained in detail in `Virtual Environments <virtual_environments.rst>`__.
+    Because you only need the `cookiecutter` shell command, on your own computer you may even install it with your system package manager -- something you should never do for packages you need as dependencies, as explained in detail in `Virtual Environments <virtual_environments.rst>`__.
 
 Create a new project
 --------------------
@@ -37,22 +36,9 @@ The parameter "sample_code" allows you to choose the amount of sample code to be
 -   'calculator': A fully-functional simple program that performs chained calculations, including a class and tests.
     This is useful to explore the Blueprint and the possibilities offered by `click <https://click.palletsprojects.com>`__.
 
-The three explicit make commands do the following (type `make help` for all commands):
 
--   `make format`: Run pre-commit hooks over all files, which auto-format the code and perform a few checks.
--   `make check`: Run some linters (flake8, pylint, mypy) over the code, which check it for correctness and best practices.
--   `make test`: Run the unit tests.
-
-Thanks to `CHAIN=1`, the following actions are taken in the beginning:
-
--   Initialize a git repository and commit all files (`make git`).
--   Create a local virtual environment (`make venv`).
--   Install the runtime and development dependencies into it (`make install-dev`).
-
-If all goes well, you are ready to work on your code!
-
-Install a project
------------------
+Set up your project
+-------------------
 
 To install a certain version of a project, follow these steps:
 
