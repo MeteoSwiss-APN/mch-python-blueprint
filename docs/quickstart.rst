@@ -7,7 +7,7 @@ Prepare your environment
 ------------------------
 
 Ensure that your active Python version is 3.7 or higher.
-The recommended way to manage Python versions is with `Conda <https://docs.conda.io/en/latest/>`__. On CSCS machines it is recommended to install the leaner `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`__, which offers enough functionality for most of our use cases. 
+The recommended way to manage Python versions is with `Conda <https://docs.conda.io/en/latest/>`__. On CSCS machines it is recommended to install the leaner `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`__, which offers enough functionality for most of our use cases.
 
 Next, install `Cookiecutter <https://github.com/cookiecutter/cookiecutter>`__.
 The recommended way is to set up a conda environment and install it there. Once your package is created you do not need cookiecutter anymore and you can safely delete the generated environment.
