@@ -46,4 +46,4 @@ Create the repository on MeteoSwiss-APN github. **Attention**: the name here mus
     git add .
     git commit -m “initial commit”
 
-Then follow the steps on GitHub under the headline “”…or push an existing repository from the command line“ to connect your repository to the remote on GitHub. To install your package, follow the instructions given in `docs/installation.rst` in your project repository.
+Go back to the GitHub page of your project. Then follow the steps on GitHub under the headline “”…or push an existing repository from the command line“ to connect your repository to the remote on GitHub. **Attention**: It's recommended to use the ssh URL and not https as recommended in the given instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_package To install your package, follow the instructions given in `docs/installation.rst` in your project repository.
