@@ -29,12 +29,14 @@ Again, there are two options for installation, binary production installations a
 
 .. code-block:: console
 
+    $ conda activate {{ cookiecutter.project_name }}
     $ pip install .
 
 For a production installation and
 
 .. code-block:: console
 
+    $ conda activate {{ cookiecutter.project_name }}
     $ pip install . --editable
 
 for a development installation.
