@@ -23,13 +23,14 @@ Features
 -   Create a documentation with `sphinx <https://github.com/sphinx-doc/sphinx>`__
 -   Get started with a basic command line interface based on `click <https://docs.python.org/3/library/venv.html>`__.
 
-More Information
-----------------
+..
+    More Information
+    ----------------
 
--   `Quickstart <readme/quickstart.rst>`__
--   `On projects and the Blueprint <readme/projects_and_blueprint.rst>`__
--   `Virtual environments <readme/virtual_environments.rst>`__
--   `Installation and dependencies <readme/installation_and_dependencies.rst>`__
--   `Development tools <readme/development_tools.rst>`__
--   `Recommended libraries <readme/recommended_libraries.rst>`__
--   `Python at CSCS <readme/python_cscs.rst>`__
+    -   `Quickstart <readme/quickstart.rst>`__
+    -   `On projects and the Blueprint <readme/projects_and_blueprint.rst>`__
+    -   `Virtual environments <readme/virtual_environments.rst>`__
+    -   `Installation and dependencies <readme/installation_and_dependencies.rst>`__
+    -   `Development tools <readme/development_tools.rst>`__
+    -   `Recommended libraries <readme/recommended_libraries.rst>`__
+    -   `Python at CSCS <readme/python_cscs.rst>`__
