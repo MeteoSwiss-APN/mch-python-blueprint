@@ -5,6 +5,8 @@ on:
     branches:
     - dev_refactor
     pull_request:
+      branches:
+        - dev_refactor
 
 jobs:
   build:
