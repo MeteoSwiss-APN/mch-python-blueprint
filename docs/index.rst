@@ -15,6 +15,8 @@ Getting Started
    readme
    quickstart
    tutorial
+   development_tools
+   projects_and_blueprint
    pypi_release_checklist
    troubleshooting
 
