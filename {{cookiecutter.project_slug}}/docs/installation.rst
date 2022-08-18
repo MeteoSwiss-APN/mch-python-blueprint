@@ -30,13 +30,13 @@ Again, there are two options for installation, binary production installations a
 .. code-block:: console
 
     $ pip install .
-    
+
 For a production installation and
 
 .. code-block:: console
 
     $ pip install . --editable
-    
+
 for a development installation.
 
 
@@ -48,13 +48,13 @@ If you need to add new first-level dependencies to your package, make sure to in
 .. code-block:: console
 
     $ conda env export {{ cookiecutter.project_name }} requirements/environment.yml
-    
+
 or
-  
+
 .. code-block:: console
 
     $ conda env export dev-{{ cookiecutter.project_name }} requirements/dev-environment.yml
-    
+
 Note that this requires you to distinguish the name of the dev environment.
 
 
