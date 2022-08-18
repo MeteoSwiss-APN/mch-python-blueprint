@@ -11,6 +11,7 @@ The blueprint provides a variety of tools that assist in development:
 -   Frameworks:
 
     -   `pre-commit <https://github.com/pre-commit/pre-commit>`__: Framework for managing git pre-commit hooks.
+    -   `Github Actions <https://github.com/features/actions>`__: Automated triggering of actions upon Github events (like push, merge, etc.)
     -   `tox <https://github.com/tox-dev/tox>`__: Automation framework to run arbitrary commands -- e.g., pytest, mypy, pylint etc. -- in isolated virtual environments and easily test a Python program against multiple installed Python versions.
     -   `pytest <https://github.com/pytest-dev/pytest>`__: Unit testing framework suitable for very small, but also bigger tests.
 

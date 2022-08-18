@@ -5,6 +5,8 @@ MeteoSwiss Python Blueprint
 
 `Cookiecutter <https://github.com/audreyr/cookiecutter>`__ template for a Python package.
 
+Get started here: `Quickstart <docs/quickstart.rst>`__
+
 -   GitHub repo: https://github.com/MeteoSwiss-APN/mch-python-blueprint/
 -   Free software: BSD license
 
@@ -27,7 +29,6 @@ Features
     More Information
     ----------------
 
-    -   `Quickstart <readme/quickstart.rst>`__
     -   `On projects and the Blueprint <readme/projects_and_blueprint.rst>`__
     -   `Virtual environments <readme/virtual_environments.rst>`__
     -   `Installation and dependencies <readme/installation_and_dependencies.rst>`__

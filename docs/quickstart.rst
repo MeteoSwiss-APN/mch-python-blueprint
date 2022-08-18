@@ -24,7 +24,7 @@ To create a new project and start developing, run these commands:
 
     cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
 
-The cookiecutter command will ask you for some information on you and your project.
+The cookiecutter command will ask you for some information on you and your project (details here <prompts.rst>).
 The parameter "sample_code" allows you to choose the amount of sample code to be included:
 
 -   'no': No sample code is provided beyond an empty `main()` function in the `cli.py` file.
@@ -46,4 +46,4 @@ Create the repository on MeteoSwiss-APN github. **Attention**: the name here mus
     git add .
     git commit -m “initial commit”
 
-Go back to the GitHub page of your project. Then follow the steps on GitHub under the headline “”…or push an existing repository from the command line“ to connect your repository to the remote on GitHub. **Attention**: It's recommended to use the ssh URL and not https as recommended in the given instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_package To install your package, follow the instructions given in `docs/installation.rst` in your project repository.
+Go back to the GitHub page of your project. Then follow the steps on GitHub under the headline “”…or push an existing repository from the command line“ to connect your repository to the remote on GitHub. **Attention**: It's recommended to use the ssh URL and not https as recommended in the given instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_package To install your package, follow the instructions given in `docs/installation.rst` in your project repository. Or better yet, set up your own documentation on GitHubPages.

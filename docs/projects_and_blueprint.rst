@@ -62,7 +62,7 @@ To create a new empty project from it, you need to run `Cookiecutter <https://gi
     version [0.1.0]:
 
 .. note::
-    When working on the Blueprint itself, instead you can point cookiecutter to your local clone of the ``mch-python-blueprint`` repository by passing the path instead of the github URL.
+    When working on the Blueprint itself, instead you can point cookiecutter to your local clone of the ``mch-python-blueprint`` repository by passing the path instead of the github URL (or of cause any commit hash).
 
 You will be asked a few questions about your project.
 Based on the answers, cookiecutter creates an empty project:
@@ -118,4 +118,4 @@ Your answers have even been turned into meta data for the package, which may, fo
         ],
     }
 
-Cookiecutter and the Blueprint have now served their purpose and will no longer be needed. You can proceed with the instroctions given in docs/installation.
+Cookiecutter and the Blueprint have now served their purpose and will no longer be needed. You can proceed with the instructions given in docs/installation.
