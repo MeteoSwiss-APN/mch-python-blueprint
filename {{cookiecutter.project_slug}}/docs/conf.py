@@ -120,17 +120,32 @@ latex_elements: Dict[str, str] = {
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title, author, documentclass
-# [howto, manual, or own class]).
-latex_documents = [
-    (
-        master_doc,
-        "{{ cookiecutter.project_slug }}.tex",
-        u"{{ cookiecutter.project_name }} Documentation",
-        u"{{ cookiecutter.full_name }}",
-        "manual",
-    ),
-]
+# (source start file, target name, title,
+#  author, documentclass [howto, manual, or own class]).
+#latex_documents = [
+#  (master_doc, 'cookiecutter-pypackage.tex', 'cookiecutter-pypackage Documentation',
+#   'Audrey Roy Greenfeld', 'manual'),
+#]
+
+# The name of an image file (relative to this directory) to place at the top of
+# the title page.
+#latex_logo = None
+
+# For "manual" documents, if this is true, then toplevel headings are parts,
+# not chapters.
+#latex_use_parts = False
+
+# If true, show page references after internal links.
+#latex_show_pagerefs = False
+
+# If true, show URL addresses after external links.
+#latex_show_urls = False
+
+# Documents to append as an appendix to all manuals.
+#latex_appendices = []
+
+# If false, no module index is generated.
+#latex_domain_indices = True
 
 
 # -- Options for manual page output ------------------------------------
@@ -164,3 +179,15 @@ texinfo_documents = [
         "Miscellaneous",
     ),
 ]
+
+# Documents to append as an appendix to all manuals.
+#texinfo_appendices = []
+
+# If false, no module index is generated.
+#texinfo_domain_indices = True
+
+# How to display URL addresses: 'footnote', 'no', or 'inline'.
+#texinfo_show_urls = 'footnote'
+
+# If true, do not generate a @detailmenu in the "Top" node's menu.
+#texinfo_no_detailmenu = False
