@@ -22,7 +22,14 @@ in the settings of your repository following the example given in the following 
 
 .. image:: static/github_pages_setiings.png
 
-Then move the file describing the necessary GitHub action for the automatic deployment:
+In the docs folder, there is a file (documentation.inactive), which manages the corresponding Github action. To use it,
+uncomment the last line:
+
+.. code::
+
+    #github_token: ${{ secrets.GITHUB_TOKEN }}
+
+and then move it to the other GH action workflow file
 
 .. code::
 
