@@ -13,11 +13,11 @@ To install {{ cookiecutter.project_name }} you need a miniconda installation. Yo
 
 Installation of dependencies
 ----------------------------
-Dependencies are handled by the conda package manager. The goal of this step is to set up a conda environment according to the requirements of {{ cookiecutter.project_name }}. Note that the development installation has some additional dependencies as it includes linters and other development tools. The dependencies are handled in requirement files. Free installations are based on the `requirements/requirements.yml` and `requirements/dev-requirements.yml` files, where the first-level dependencies of the package are listed. Pinned installations are based on exported environments and stored in the files `requirements/environment.yml` and `requirements/dev-environment.yml`. In total, four possible installation options are possible pinned/unpinned x dev/prod. These options are covered in the script `installer.sh`. The optional flags `-d` and `-p` stand for dev and pinned installation respectively. E.g. for a dev installation type:
+Dependencies are handled by the conda package manager. The goal of this step is to set up a conda environment according to the requirements of {{ cookiecutter.project_name }}. Note that the development installation has some additional dependencies as it includes linters and other development tools. The dependencies are handled in requirement files. Free installations are based on the `requirements/requirements.yml` and `requirements/dev-requirements.yml` files, where the first-level dependencies of the package are listed. Pinned installations are based on exported environments and stored in the files `requirements/environment.yml` and `requirements/dev-environment.yml`. In total, four possible installation options are possible pinned/unpinned x dev/prod. These options are covered in the script `setup_env.sh`. The optional flags `-d` and `-p` stand for dev and pinned installation respectively. E.g. for a dev installation type:
 
 .. code-block:: console
 
-    $ bash installer.sh -d
+    $ bash setup_env.sh -d
 
 You can control the environment name with the flag `-n` and the python version with `-v`. As defaults the script will use {{ cookiecutter.project_slug }} and Python 3.10.
 
