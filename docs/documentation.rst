@@ -17,10 +17,16 @@ Additionally to a initial README.rst file, the blueprint will automatically gene
     make.bat
     Makefile
 
-This folder is set up to build static html pages with sphinx. The deployment to GitHub-Pages should happen automatically
-after you enable the feature in the settings of your repository following the example given in the following figure:
+This folder is set up to build static html pages with sphinx. To deploy your docs to GitHub-Pages, enable the feature
+in the settings of your repository following the example given in the following figure:
 
 .. image:: static/github_pages_setiings.png
+
+Then move the file describing the necessary GitHub action for the automatic deployment:
+
+.. code::
+
+    mv documentation.yaml ../.github/workflows/
 
 Note that this is an optional feature. If you repository is private, you should probably not push the documentation to
 Github-Pages. Likewise, if you work on a small project, you might not necessarily need this feature. If you do not need
