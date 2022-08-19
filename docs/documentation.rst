@@ -26,6 +26,7 @@ In the docs folder, there is a file (documentation.inactive), which manages the 
 add the last line of this block at the very bottom of the file:
 
 .. code::
+
     with:
         force: true
         branch: gh-pages
