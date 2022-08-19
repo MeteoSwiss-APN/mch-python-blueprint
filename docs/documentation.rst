@@ -8,7 +8,7 @@ What is already here?
 
 Additionally to a initial README.rst file, the blueprint will automatically generate a folder with the following content
 
-..code:: shell
+.. code:: shell
 
     docs/
     conf.py
@@ -20,7 +20,7 @@ Additionally to a initial README.rst file, the blueprint will automatically gene
 This folder is set up to build static html pages with sphinx. The deployment to GitHub-Pages should happen automatically
 after you enable the feature in the settings of you repository following the example given in the following figure:
 
-image:: static/github_pages_setiings.png
+.. image:: static/github_pages_setiings.png
 
 Note that this is an optional feature. If you repository is private, you should probably not push the documentation to
 Github-Pages. Likewise, if you work on a small project, you might not necessarily need this feature. If you do not need
