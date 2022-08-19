@@ -15,6 +15,7 @@ Getting Started
    readme
    quickstart
    documentation
+   ci_cd
    development_tools
    projects_and_blueprint
    pypi_release_checklist

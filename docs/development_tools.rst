@@ -35,17 +35,9 @@ The blueprint provides a variety of tools that assist in development:
 How are these tools supposed to be run?
 ---------------------------------------
 
--   All tools can be invoked via commands defined in the Makefile, but may also be run manually, either via a framework (*pre-commit* or *tox*) they are embedded in, or directly.
-
--   **Pre-commit**, once active, is run before every commit, and may also be run manually with ``make format``.
-    The following tools are set up as pre-commit hooks: **black**, **isort**, and **pydocstryle**.
-
--   **Tox** is invoked by the commands ``make check`` and ``make test``.
-    The following tools are set up as tox environments: **pytest**, **flake8**, **mypy**, and **pylint**.
-
--   **Bumpversion** is invoked by the commands ``make bump-{patch,minor,major}``.
-
--   **Codespell** is invoked by the command ``make spellcheck``.
+All tools can be invoked via the command line, either via a framework (*pre-commit* or *tox*) they are embedded in, or directly. A minimal set of tools is run through GitHub actions and pre-commit on every single commit and some more
+extensive linting with flake8 is run upon pushes to the master branch. You can of course customize the corresponding plan (*.github/workflows/precommit.yml*), but you should of course not remove checks excessively.
+Additionally, builds and tests are run through the Jenkins CI/CD framework.
 
 What do I need to know about versioning?
 ----------------------------------------
@@ -65,15 +57,6 @@ While the boundaries between these types of changes are `not always clear <https
 The Blueprint provides the utility `bumpversion <https://github.com/c4urself/bump2version>`__ to easily increment the version number of a project in all files that contain it, and optionally create a git commit and git tag as well.
 Its configuration `currently <https://github.com/c4urself/bump2version/issues/42>`__ resides in the file *.bumpversion.cfg*.
 By default, it uses semver with three-component version numbers ``X.Y.Z``.
-The Makefile defines commands to increment each component:
-
-.. code:: bash
-
-    make bump-patch
-    make bump-minor
-    make bump-major
-
-The make commands will ask you for a message to annotate the git tag with.
 
 .. note::
     For relatively simple projects, two components ``X.Y`` may be enough, with the major component indicating non-compatible (or otherwise major) changes and the minor component indicating backward-compatible feature additions and bug fixes.

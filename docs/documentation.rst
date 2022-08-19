@@ -18,7 +18,7 @@ Additionally to a initial README.rst file, the blueprint will automatically gene
     Makefile
 
 This folder is set up to build static html pages with sphinx. The deployment to GitHub-Pages should happen automatically
-after you enable the feature in the settings of you repository following the example given in the following figure:
+after you enable the feature in the settings of your repository following the example given in the following figure:
 
 .. image:: static/github_pages_setiings.png
 
