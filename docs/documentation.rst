@@ -26,7 +26,7 @@ Then move the file describing the necessary GitHub action for the automatic depl
 
 .. code::
 
-    mv documentation.yaml ../.github/workflows/
+    mv documentation.inactive ../.github/workflows/documentation.yaml
 
 Note that this is an optional feature. If you repository is private, you should probably not push the documentation to
 Github-Pages. Likewise, if you work on a small project, you might not necessarily need this feature. If you do not need
