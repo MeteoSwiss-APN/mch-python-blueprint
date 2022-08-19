@@ -23,11 +23,14 @@ in the settings of your repository following the example given in the following 
 .. image:: static/github_pages_setiings.png
 
 In the docs folder, there is a file (documentation.inactive), which manages the corresponding Github action. To use it,
-uncomment the last line:
+add the last line of this block at the very bottom of the file:
 
 .. code::
-
-    #github_token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+        force: true
+        branch: gh-pages
+        directory: gh-pages
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
 and then move it to the other GH action workflow file
 
