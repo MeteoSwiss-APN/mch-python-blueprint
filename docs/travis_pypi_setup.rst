@@ -22,7 +22,7 @@ We recommend the Homebrew travis package:
 
 Follow the official Travis CLI installationinstructions for your operating system:
 
-https://github.com/travis-ci/travis.rb#installation
+https://github.com/travis-ci/
 
 How It Works
 ------------

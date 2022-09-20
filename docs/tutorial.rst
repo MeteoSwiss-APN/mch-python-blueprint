@@ -116,7 +116,7 @@ This will:
 * Encrypt your PyPI password in your Travis config.
 * Activate automated deployment on PyPI when you push a new tag to master branch.
 
-See :ref:`travis-pypi-setup` for more information.
+See travis-pypi-setup for more information.
 
 .. [*] For private projects go to `Travis CI com`_
 
@@ -161,16 +161,9 @@ The Python Package Index or `PyPI`_ is the official third-party software reposit
 
 When you are ready, release your package the standard Python way.
 
-See `PyPI Help`_ for more information about submitting a package.
-
-Here's a release checklist you can use: https://gist.github.com/audreyr/5990987
-
-.. _`PyPI Help`: http://peterdowns.com/posts/first-time-with-pypi.html
-
-
 Having problems?
 ----------------
 
-Visit our :ref:`troubleshooting` page for help. If that doesn't help, go to our `Issues`_ page and create a new Issue. Be sure to give as much information as possible.
+Visit our troubleshooting page for help. If that doesn't help, go to our `Issues`_ page and create a new Issue. Be sure to give as much information as possible.
 
 .. _`Issues`: https://github.com/audreyr/cookiecutter-pypackage/issues

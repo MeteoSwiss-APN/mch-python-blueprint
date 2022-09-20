@@ -17,23 +17,21 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                wget -O ${WORKSPACE}/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-                bash miniconda.sh -b -p $WORKSPACE/miniconda
-                conda config --set always_yes yes --set changeps1 no
-                conda config --add channels conda-forge
-                conda init bash
-                rm miniconda.sh
+                bash setup_miniconda.sh -p ${WORKSPACE}
                 '''
             }
         }
-        stage('environment') {
+        stage('build package') {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n {{ cookiecutter.project_slug }}
-                conda activate {{ cookiecutter.project_slug }}
-                conda install --yes --file requirements/requirements.in
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
+                source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
+                conda init bash
+                conda activate
+                bash installer.sh -n {{cookiecutter.project_slug}}
+                conda activate {{cookiecutter.project_slug}}
+                pip install .
                 '''
             }
         }
@@ -41,9 +39,9 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda init bash
                 conda activate {{ cookiecutter.project_slug }}
-                python -m pip install -U pip
-                python -m pip install .
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
                 pytest tests
                 '''
             }
@@ -53,10 +51,12 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n dev-{{ cookiecutter.project_slug }}
-                conda activate {{ cookiecutter.project_slug }}
-                conda install --yes --file requirements/requirements.in
-                conda install --yes --file requirements/dev-requirements.in
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
+                bash installer.sh -n dev-{{cookiecutter.project_slug}} -d
+                conda activate dev-{{cookiecutter.project_slug}}
+                pip install --editable .
                 '''
             }
         }
@@ -64,9 +64,9 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate dev-{{ cookiecutter.project_slug }}
-                python -m pip install -U pip
-                python -m pip install .
+                conda init bash
+                conda activate dev-{{cookiecutter.project_slug}}
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
                 pytest tests
                 '''
             }
@@ -76,9 +76,12 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n pinned-{{ cookiecutter.project_slug }}
-                conda activate {{ cookiecutter.project_slug }}
-                conda install --yes --file requirements/requirements.txt
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
+                bash installer.sh -n pinned-{{cookiecutter.project_slug}} -p
+                conda activate pinned-{{cookiecutter.project_slug}}
+                pip install .
                 '''
             }
         }
@@ -86,9 +89,8 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate pinned-{{ cookiecutter.project_slug }}
-                python -m pip install -U pip
-                python -m pip install .
+                conda activate pinned-{{cookiecutter.project_slug}}
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
                 pytest tests
                 '''
             }
@@ -98,10 +100,12 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 set -e
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create --yes -n pinned-dev-{{ cookiecutter.project_slug }}
-                conda activate {{ cookiecutter.project_slug }}
-                conda install --yes --file requirements/requirements.txt
-                conda install --yes --file requirements/dev-requirements.txt
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
+                bash installer.sh -n pinned-dev-{{cookiecutter.project_slug}} -p -d
+                conda activate pinned-dev-{{cookiecutter.project_slug}}
+                pip install --editable .
                 '''
             }
         }
@@ -109,9 +113,8 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate pinned-dev-{{ cookiecutter.project_slug }}
-                python -m pip install -U pip
-                python -m pip install .
+                conda activate pinned-dev-{{cookiecutter.project_slug}}
+                cd ${WORKSPACE}/{{cookiecutter.project_slug}}
                 pytest tests
                 '''
             }

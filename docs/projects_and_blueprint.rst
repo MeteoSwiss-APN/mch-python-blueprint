@@ -12,7 +12,6 @@ It provides:
 
 -   Separate directories for the source code, tests and documentation.
 -   A setup script to properly install the project and the commands it provides, including all its dependencies.
--   A Makefile that provides a range commands to easily set up and install the project for development or production, to run various types of tests, etc.
 -   Clean separation of the various types of dependencies (runtime, development, setup; pinned and unpinned).
 -   Many pre-configured tools that facilitate the development of clean, well-tested Python code following best practices.
 -   Simple management of package version numbers.
@@ -63,7 +62,7 @@ To create a new empty project from it, you need to run `Cookiecutter <https://gi
     version [0.1.0]:
 
 .. note::
-    When working on the Blueprint itself, instead you can point cookiecutter to your local clone of the ``mch-python-blueprint`` repository by passing the path instead of the github URL.
+    When working on the Blueprint itself, instead you can point cookiecutter to your local clone of the ``mch-python-blueprint`` repository by passing the path instead of the github URL (or of cause any commit hash).
 
 You will be asked a few questions about your project.
 Based on the answers, cookiecutter creates an empty project:
@@ -119,33 +118,4 @@ Your answers have even been turned into meta data for the package, which may, fo
         ],
     }
 
-Cookiecutter and the Blueprint have now served their purpose and will no longer be needed.
-
-Upload your new project to Github
----------------------------------
-
-While a project already contains some git-related files like ``.gitignore``, it is not yet a git repository.
-So first, you need to activate git in your project directory:
-
-.. code:: bash
-
-    make git
-
-This is short for:
-
-.. code:: bash
-
-    git init
-    git add .
-    git commit -m 'initial commit'
-
-In order to upload your project to Github, after `creating a new repository <https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-new-repository>`__, run:
-
-.. code:: bash
-
-    git remote add origin git@github.com:MeteoSwiss-APN/calculator.git
-    git push --set-upstream origin master
-
-From this point on, your project is installable with Pip:
-
-    python -m pip install git+ssh://git@github.com/MeteoSwiss-APN/star_wars_gen.git
+Cookiecutter and the Blueprint have now served their purpose and will no longer be needed. You can proceed with the instructions given in docs/installation.

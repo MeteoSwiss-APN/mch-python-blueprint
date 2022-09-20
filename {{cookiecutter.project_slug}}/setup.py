@@ -50,17 +50,12 @@ metadata = {
 
 python = ">= 3.7"
 
-# Runtime dependencies (unpinned: only critical version restrictions)
-with open("requirements/requirements.in") as f:
-    requirements = list(map(str, parse_requirements(f.readlines())))
-
 scripts = [
     "{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main",
 ]
 
 setup(
     python_requires=python,
-    install_requires=requirements,
     entry_points={"console_scripts": scripts},
     packages=find_packages("src"),
     package_dir={"": "src"},

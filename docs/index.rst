@@ -13,8 +13,13 @@ Getting Started
    :maxdepth: 2
 
    readme
-   tutorial
+   quickstart
+   documentation
+   ci_cd
+   development_tools
+   projects_and_blueprint
    pypi_release_checklist
+   troubleshooting
 
 Basics
 ------
