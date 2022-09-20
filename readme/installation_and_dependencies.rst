@@ -44,7 +44,7 @@ Furthermore, to ensure reproducibility, you want to use pinned dependencies (if 
 Those are conventionally provided in the file requirements.txt (which is requirements/requirements.txt in the Blueprint).
 Let's put it all together:
 
-   .. code:: shell
+   .. code:: bash
 
     python -m venv venv
     ./venv/bin/python -m pip install -U pip
@@ -53,7 +53,7 @@ Let's put it all together:
 
 In Blueprint projects, this can be achieved with a single command:
 
-.. code:: shell
+.. code:: bash
 
     make venv install
     # or
@@ -300,7 +300,7 @@ To switch from venv+pip to Pipenv in a Blueprint project, follow these steps:
     .. note::
         You may run into trouble with some packages that do not have a nominally stable release yet, notably the (well-established) auto-formatter `Black <https://github.com/psf/black>`__ that is also a default development dependency of the Blueprint:
 
-        .. code:: shell
+        .. code:: console
 
             ERROR: Could not find a version that matches black ...
             Skipped pre-versions: 18.3a0, 18.3a0, 18.3a1, ...

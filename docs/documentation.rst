@@ -8,7 +8,7 @@ What is already here?
 
 Additionally to a initial README.rst file, the blueprint will automatically generate a folder with the following content
 
-.. code:: shell
+.. code:: console
 
     docs/
     conf.py
@@ -25,7 +25,7 @@ in the settings of your repository following the example given in the following 
 In the docs folder, there is a file (documentation.inactive), which manages the corresponding Github action. To use it,
 add the last line of this block at the very bottom of the file:
 
-.. code::
+.. code:: yaml
 
     with:
         force: true
@@ -35,7 +35,7 @@ add the last line of this block at the very bottom of the file:
 
 and then move it to the other GH action workflow file
 
-.. code::
+.. code:: bash
 
     mv documentation.inactive ../.github/workflows/documentation.yaml
 

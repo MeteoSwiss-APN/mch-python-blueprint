@@ -20,7 +20,7 @@ Create a new project
 
 To create a new project and start developing, run these commands:
 
-.. code:: shell
+.. code:: bash
 
     cookiecutter https://github.com/MeteoSwiss-APN/mch-python-blueprint
 
