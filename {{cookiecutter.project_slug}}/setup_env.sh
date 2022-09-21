@@ -11,6 +11,7 @@ ENV_NAME="{{ cookiecutter.project_slug.replace("_", "-") }}"
 PYVERSION=3.10
 DEV=false
 PINNED=false
+EXPORT=false
 INSTALL=false
 FORCE=false
 CONDA=conda
@@ -23,6 +24,7 @@ Options:
  -P VER     Python version [default: ${PYVERSION}]
  -d         Install additional dev requirements
  -p         Use pinned requirements (fixed versions)
+ -e         Export environment files (unless -p)
  -i         Install package itself (editable with -d)
  -f         Force overwrite of existing env
  -m         Use mamba instead of conda
@@ -30,11 +32,12 @@ Options:
 "
 
 # Eval command line options
-while getopts n:P:dfhimp flag; do
+while getopts n:P:defhimp flag; do
     case ${flag} in
         n) ENV_NAME=${OPTARG};;
         P) PYVERSION=${OPTARG};;
         d) DEV=true;;
+        e) EXPORT=true;;
         f) FORCE=true;;
         h) HELP=true;;
         i) INSTALL=true;;
@@ -46,6 +49,7 @@ done
 
 # Add -dev to env name if -d is passed
 ${DEV} && ENV_NAME+="-dev"
+
 
 if ${HELP}; then
     echo "${help}"
@@ -74,11 +78,19 @@ if ${PINNED}; then
 else
     echo "Unpinned installation"
     ${CONDA} env update --name ${ENV_NAME} --file requirements/requirements.yml || exit
+    if ${EXPORT}; then
+        echo "Export pinned prod environment"
+        ${CONDA} env export --name ${ENV_NAME} --no-builds > requirements/environment.yml || exit
+    fi
     if ! ${DEV}; then
         echo "WARNING: Unpinned prod installation!!!" >&2
     else
         echo "Dev installation"
         ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-requirements.yml || exit
+        if ${EXPORT}; then
+            echo "Export pinned dev environment"
+            ${CONDA} env export --name ${ENV_NAME} --no-builds > requirements/dev-environment.yml || exit
+        fi
     fi
 fi
 
