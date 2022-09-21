@@ -27,6 +27,16 @@ known_first_party = [
     "{{ cookiecutter.project_slug }}",
 ]
 
+[tool.flake8]
+exclude = "docs"
+max-line-length = 88
+ignore = [
+    "E203", # Allow whitespace before ':' (https://github.com/PyCQA/pycodestyle/issues/373)
+    "F811", # Allow redefinition of unused name (necessary for typing.overload)
+    "I002", # Don't check for isort configuration
+    "W503", # Allow line break before binary operator (PEP 8-compatible)
+]
+
 [tool.pylint]
 ignore-imports = true
 max-line-length = 88
