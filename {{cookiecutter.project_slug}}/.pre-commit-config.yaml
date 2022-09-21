@@ -2,7 +2,14 @@ repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.2.0
     hooks:
+    -   id: check-ast
+    -   id: check-case-conflict
+    -   id: check-docstring-first
+    -   id: check-symlinks
+    -   id: check-toml
     -   id: check-yaml
+    -   id: debug-statements
+    -   id: end-of-file-fixer
     -   id: trailing-whitespace
 -   repo: https://github.com/myint/rstcheck
     rev: v6.0.0
@@ -10,7 +17,6 @@ repos:
     -   id: rstcheck
         additional_dependencies:
         -   sphinx==5.0.1
-        exclude: \{\{cookiecutter.project_slug\}\}/
 -   repo: https://github.com/codespell-project/codespell
     rev: v2.1.0
     hooks:
@@ -19,15 +25,19 @@ repos:
     rev: 22.3.0
     hooks:
     -   id: black
-        files: ^tests/([^/]+/)*\w+.py$
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: https://github.com/PyCQA/isort/
     rev: 5.10.1
     hooks:
     -   id: isort
-        files: ^tests/([^/]+/)*\w+.py$
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: https://github.com/pycqa/flake8
     rev: 4.0.1
     hooks:
     -   id: flake8
-        files: ^tests/([^/]+/)*\w+.py$
-        args: [--max-line-length=88]
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
+-   repo: https://github.com/PyCQA/pydocstyle
+    rev: 6.1.1
+    hooks:
+    -   id: pydocstyle
+        files: ^src/(.*/)*.*\.py$
