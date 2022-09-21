@@ -3,7 +3,7 @@
 # Create conda environment with pinned or unpinned run and/or dev requirements
 #
 # - 2022-08 (D. Regenass) Write original script
-# - 2022-09 (S. Ruedisuehli) Refactor; add -f
+# - 2022-09 (S. Ruedisuehli) Refactor; add some options
 #
 
 # Default options
@@ -17,7 +17,7 @@ FORCE=false
 while getopts n:v:dph flag; do
     case ${flag} in
         n) ENV_NAME=${OPTARG};;
-        v) PYVERSION=${OPTARG};;
+        p) PYVERSION=${OPTARG};;
         d) DEV=true;;
         p) PINNED=true;;
         f) FORCE=true;;
