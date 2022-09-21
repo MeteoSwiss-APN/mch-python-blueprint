@@ -20,7 +20,7 @@ dependencies :
   - rstcheck
   - sphinx
   - sphinx-autobuild
-  - tox
-  - tox-conda
+  # - tox
+  # - tox-conda
   - pip:
     - flake8-pyproject
