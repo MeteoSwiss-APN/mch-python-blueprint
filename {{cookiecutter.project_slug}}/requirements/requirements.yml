@@ -2,6 +2,8 @@ channels:
   - conda-forge
   - defaults
 dependencies :
+  - python>={{ cookiecutter.python_version }}
+  - pip
   - click
   - pytest
   - pip
