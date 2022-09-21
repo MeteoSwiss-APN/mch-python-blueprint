@@ -33,6 +33,7 @@ if ${HELP}; then
     -v Desired Python version
     -d Dev (editable) installation with additional dependencies.
     -p Pinned installation with fully fixed dependencies.
+    -f Force overwrite of existing env (otherwise interactive)
     -h Print this help message and exit.
     "
     exit 0
@@ -44,7 +45,8 @@ conda activate
 
 # Create new env; pass -f to overwriting any existing one
 echo "Creating conda environment"
-conda create -n ${ENV_NAME} python=${PYVERSION} $(${FORCE} && echo --yes)
+conda create -n ${ENV_NAME} $(${FORCE} && echo --yes)
+conda install -n ${ENV_NAME} python=${PYVERSION} --yes
 
 # Install requirements in new env
 if ${PINNED}; then
