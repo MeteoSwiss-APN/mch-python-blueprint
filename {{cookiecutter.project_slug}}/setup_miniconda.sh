@@ -7,7 +7,7 @@
 #
 
 # Default options
-INSTALL_PREFIX=$PWD
+INSTALL_PREFIX=${PWD}
 
 # Eval command line options
 while getopts p: flag; do
