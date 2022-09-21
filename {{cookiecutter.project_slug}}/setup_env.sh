@@ -11,6 +11,7 @@ ENV_NAME={{cookiecutter.project_slug}}
 PYVERSION=3.10
 DEV=false
 PINNED=false
+INSTALL=false
 FORCE=false
 CONDA=conda
 
@@ -21,6 +22,7 @@ Options:
  -p VER     Desired Python version [default: ${PYVERSION}]
  -d         Install additional dev requirements
  -p         Use pinned requirements (fixed versions)
+ -i         Install package (editable with -d)
  -f         Force overwrite of existing env
  -c CMD     Conda command [default: ${CONDA}]
  -h         Print this help message and exit
@@ -33,6 +35,7 @@ while getopts n:v:dph flag; do
         p) PYVERSION=${OPTARG};;
         d) DEV=true;;
         p) PINNED=true;;
+        i) INSTALL=true;;
         f) FORCE=true;;
         c) CONDA=${OPTARG};;
         h) HELP=true;;
@@ -71,5 +74,16 @@ else
     else
         echo "Dev installation"
         ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-requirements.yml
+    fi
+fi
+
+# Install package itself if requested
+if ${INSTALL}; then
+    if ! ${DEV}; then
+        echo "Regular package installation"
+        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps .
+    else
+        echo "Editable package installation"
+        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e .
     fi
 fi
