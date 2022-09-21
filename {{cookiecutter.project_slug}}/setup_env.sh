@@ -7,7 +7,7 @@
 #
 
 # Default options
-ENV_NAME={{ cookiecutter.project_slug.replace("_", "-") }}
+ENV_NAME="{{ cookiecutter.project_slug.replace("_", "-") }}"
 PYVERSION=3.10
 DEV=false
 PINNED=false
@@ -40,6 +40,7 @@ while getopts n:P:dfhimp flag; do
         i) INSTALL=true;;
         m) CONDA=mamba;;
         p) PINNED=true;;
+        ?) echo -e "\n${help}" >&2; exit 1;;
     esac
 done
 
