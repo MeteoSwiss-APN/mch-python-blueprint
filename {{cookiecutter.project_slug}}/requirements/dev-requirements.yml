@@ -22,3 +22,5 @@ dependencies :
   - sphinx-autobuild
   - tox
   - tox-conda
+  - pip:
+    - flake8-pyproject
