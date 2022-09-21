@@ -28,13 +28,13 @@ done
 if ${HELP}; then
     echo "Usage: $(basename "${0}") [-n <env_name>] [-v <python_version>] [-d] [-p] [-c] [-h]
 
-    With:
-    -n Name of the environment
-    -v Desired Python version
-    -d Dev (editable) installation with additional dependencies.
-    -p Pinned installation with fully fixed dependencies.
-    -f Force overwrite of existing env (otherwise interactive)
-    -h Print this help message and exit.
+    Options:
+     -n Name of the environment
+     -v Desired Python version
+     -d Dev (editable) installation with additional dependencies
+     -p Pinned installation with fully fixed dependencies
+     -f Force overwrite of existing env (otherwise interactive)
+     -h Print this help message and exit
     "
     exit 0
 fi
