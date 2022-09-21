@@ -1,21 +1,20 @@
 #!/bin/bash
 
-### OPTION DEFAULTS ###
+# Default options
 INSTALL_PREFIX=$PWD
-#GET OPTIONS FROM COMMAND LINE ARGS
-while getopts p: flag
-do
+
+# Eval command line options
+while getopts p: flag; do
     case ${flag} in
         p) INSTALL_PREFIX=${OPTARG};;
     esac
 done
 
-# INSTALL CONDA EXECUTABLE IF NOT AVAILABLE
-if [[ -v CONDA_EXE ]]
-then
+# Install conda executable if not yet available
+if [[ -v CONDA_EXE ]]; then
     echo "Found a conda executable at: ${CONDA_EXE}"
 else
-    echo "No conda executable available, fetching Miniconda install script."
+    echo "No conda executable available, fetching Miniconda install script"
     wget -O ${INSTALL_PREFIX}/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     bash ${INSTALL_PREFIX}/miniconda.sh -b -p ${INSTALL_PREFIX}/miniconda
     source ${INSTALL_PREFIX}/miniconda/etc/profile.d/conda.sh
