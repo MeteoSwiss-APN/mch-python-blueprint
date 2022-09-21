@@ -19,10 +19,10 @@ help="Usage: $(basename "${0}") [-n NAME] [-p VER] [-d] [-p] [-c] [-f] [-c CMD] 
 
 Options:
  -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
- -p VER     Desired Python version [default: ${PYVERSION}]
+ -p VER     Python version [default: ${PYVERSION}]
  -d         Install additional dev requirements
  -p         Use pinned requirements (fixed versions)
- -i         Install package (editable with -d)
+ -i         Install package itself (editable with -d)
  -f         Force overwrite of existing env
  -c CMD     Conda command [default: ${CONDA}]
  -h         Print this help message and exit
