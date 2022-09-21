@@ -7,7 +7,7 @@
 #
 
 # Default options
-ENV_NAME={{cookiecutter.project_slug}}
+ENV_NAME={{ cookiecutter.project_slug.replace("_", "-") }}
 PYVERSION=3.10
 DEV=false
 PINNED=false
