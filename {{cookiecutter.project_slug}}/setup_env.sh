@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# Create conda environment with pinned or unpinned run and/or dev requirements
+#
+# - 2022-08 (D. Regenass) Write original script
+# - 2022-09 (S. Ruedisuehli) Refactor
+#
 
 # Default options
 ENV_NAME={{cookiecutter.project_slug}}

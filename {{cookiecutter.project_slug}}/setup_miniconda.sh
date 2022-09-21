@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# Install miniconda if necessary
+#
+# - 2022-08 (D. Regenass) Write original script
+# - 2022-09 (S. Ruedisuehli) Refactor
+#
 
 # Default options
 INSTALL_PREFIX=$PWD
