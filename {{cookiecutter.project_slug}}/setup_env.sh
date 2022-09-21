@@ -53,32 +53,32 @@ if ${HELP}; then
 fi
 
 echo "Setting up environment for installation"
-eval "$(conda shell.bash hook)"  # NOT ${CONDA} (doesn't work with mamba)
-conda activate  # NOT ${CONDA} (doesn't work with mamba)
+eval "$(conda shell.bash hook)" || exit  # NOT ${CONDA} (doesn't work with mamba)
+conda activate || exit # NOT ${CONDA} (doesn't work with mamba)
 
 # Create new env; pass -f to overwriting any existing one
 echo "Creating ${CONDA} environment"
-${CONDA} create -n ${ENV_NAME} $(${FORCE} && echo --yes)
-${CONDA} install -n ${ENV_NAME} python=${PYVERSION} --yes
+${CONDA} create -n ${ENV_NAME} $(${FORCE} && echo --yes) || exit
+${CONDA} install -n ${ENV_NAME} python=${PYVERSION} --yes || exit
 
 # Install requirements in new env
 if ${PINNED}; then
     echo "Pinned installation"
     if ! ${DEV}; then
         echo "Prod installation"
-        ${CONDA} env update --name ${ENV_NAME} --file requirements/environment.yml
+        ${CONDA} env update --name ${ENV_NAME} --file requirements/environment.yml || exit
     else
         echo "Dev installation"
-        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-environment.yml
+        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-environment.yml || exit
     fi
 else
     echo "Unpinned installation"
-    ${CONDA} env update --name ${ENV_NAME} --file requirements/requirements.yml
+    ${CONDA} env update --name ${ENV_NAME} --file requirements/requirements.yml || exit
     if ! ${DEV}; then
         echo "WARNING: Unpinned prod installation!!!" >&2
     else
         echo "Dev installation"
-        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-requirements.yml
+        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-requirements.yml || exit
     fi
 fi
 
@@ -86,9 +86,9 @@ fi
 if ${INSTALL}; then
     if ! ${DEV}; then
         echo "Regular package installation"
-        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps .
+        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps . || exit
     else
         echo "Editable package installation"
-        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e .
+        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e . || exit
     fi
 fi
