@@ -9,22 +9,22 @@
 # Default options
 ENV_NAME="{{ cookiecutter.project_slug.replace("_", "-") }}"
 PYVERSION=3.10
+PINNED=true
 DEV=false
-PINNED=false
 EXPORT=false
 INSTALL=false
 FORCE=false
 CONDA=conda
 HELP=false
 
-help="Usage: $(basename "${0}") [-n NAME] [-P VER] [-d] [-p] [-c] [-f] [-m] [-h]
+help="Usage: $(basename "${0}") [-n NAME] [-P VER] [-u] [-e] [-d] [-i] [-f] [-m] [-h]
 
 Options:
  -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
  -P VER     Python version [default: ${PYVERSION}]
+ -u         Use unpinned requirements (minimal version restrictions)
+ -e         Export environment files (requires -u)
  -d         Install additional dev requirements
- -p         Use pinned requirements (fixed versions)
- -e         Export environment files (unless -p)
  -i         Install package itself (editable with -d)
  -f         Force overwrite of existing env
  -m         Use mamba instead of conda
@@ -32,7 +32,7 @@ Options:
 "
 
 # Eval command line options
-while getopts n:P:defhimp flag; do
+while getopts n:P:defhimu flag; do
     case ${flag} in
         n) ENV_NAME=${OPTARG};;
         P) PYVERSION=${OPTARG};;
@@ -42,7 +42,7 @@ while getopts n:P:defhimp flag; do
         h) HELP=true;;
         i) INSTALL=true;;
         m) CONDA=mamba;;
-        p) PINNED=true;;
+        u) PINNED=false;;
         ?) echo -e "\n${help}" >&2; exit 1;;
     esac
 done
