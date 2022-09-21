@@ -3,7 +3,6 @@ channels:
   - defaults
 dependencies :
   - black
-  - bump2version
   - codespell
   - flake8
   - flake8-black
