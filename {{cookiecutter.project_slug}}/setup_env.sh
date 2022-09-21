@@ -3,7 +3,7 @@
 # Create conda environment with pinned or unpinned run and/or dev requirements
 #
 # - 2022-08 (D. Regenass) Write original script
-# - 2022-09 (S. Ruedisuehli) Refactor
+# - 2022-09 (S. Ruedisuehli) Refactor; add -f
 #
 
 # Default options
@@ -11,6 +11,7 @@ ENV_NAME={{cookiecutter.project_slug}}
 PYVERSION=3.10
 DEV=false
 PINNED=false
+FORCE=false
 
 # Eval command line options
 while getopts n:v:dph flag; do
@@ -19,6 +20,7 @@ while getopts n:v:dph flag; do
         v) PYVERSION=${OPTARG};;
         d) DEV=true;;
         p) PINNED=true;;
+        f) FORCE=true;;
         h) HELP=true;;
     esac
 done
@@ -40,9 +42,9 @@ echo "Setting up environment for installation"
 eval "$(conda shell.bash hook)"
 conda activate
 
-# Create new env, overwriting any existing one
+# Create new env; pass -f to overwriting any existing one
 echo "Creating conda environment"
-conda create -n ${ENV_NAME} python=${PYVERSION} -y
+conda create -n ${ENV_NAME} python=${PYVERSION} $(${FORCE} && echo --yes)
 
 # Install requirements in new env
 if ${PINNED}; then
