@@ -1,13 +1,13 @@
 #!/bin/bash
 
-### OPTION DEFAULTS ###
+# Default options
 ENV_NAME={{cookiecutter.project_slug}}
 PYVERSION=3.10
 DEV=false
 PINNED=false
-#GET OPTIONS FROM COMMAND LINE ARGS
-while getopts n:v:dph flag
-do
+
+# Eval command line options
+while getopts n:v:dph flag; do
     case ${flag} in
         n) ENV_NAME=${OPTARG};;
         v) PYVERSION=${OPTARG};;
@@ -31,26 +31,25 @@ if [ "$HELP" = true ]; then
 fi
 
 echo "Setting up environment for installation"
-#SOME PREPARATIONS
 eval "$(conda shell.bash hook)"
 conda activate
 
-#CREATE ENV
-echo "Creating conda environment."
+# Create new env, overwriting any existing one
+echo "Creating conda environment"
 conda create -n ${ENV_NAME} python=${PYVERSION} -y
 
-#INSTALL, FOUR OPTIONS: PINNED/ UNPINNED * DEV/ PROD
+# Install requirements in new env
 if [ "$PINNED" = true ]; then
-    echo "Pinned installation."
+    echo "Pinned installation"
     if [ "$DEV" = true ]; then
-        echo "Dev installation."
+        echo "Dev installation"
         conda env update --name ${ENV_NAME} --file requirements/dev-environment.yml
     else
         echo "Prod installation"
         conda env update --name ${ENV_NAME} --file requirements/environment.yml
     fi
 else
-    echo "unpinned installation"
+    echo "Unpinned installation"
     conda env update --name ${ENV_NAME} --file requirements/requirements.yml
     if [ "$DEV" = true ]; then
         echo "Dev installation"
