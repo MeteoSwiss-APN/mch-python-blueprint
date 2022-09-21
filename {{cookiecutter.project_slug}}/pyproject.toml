@@ -3,6 +3,17 @@
 requires = ["setuptools >= 35.0.2", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "-s",
+    "-ra",
+    "--pdbcls=IPython.terminal.debugger:TerminalPdb",
+	"--tb=short",
+    # "--cov={{ cookiecutter.project_slug }}",
+    # "--mypy",
+]
+
 [tool.isort]
 default_section = "THIRDPARTY"
 force_grid_wrap = false
