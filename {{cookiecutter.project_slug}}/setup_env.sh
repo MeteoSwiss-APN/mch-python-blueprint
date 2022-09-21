@@ -18,7 +18,7 @@ CONDA=conda
 help="Usage: $(basename "${0}") [-n NAME] [-p VER] [-d] [-p] [-c] [-f] [-c CMD] [-h]
 
 Options:
- -n NAME    Name of the environment [default: ${ENV_NAME}]
+ -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
  -p VER     Desired Python version [default: ${PYVERSION}]
  -d         Install additional dev requirements
  -p         Use pinned requirements (fixed versions)
@@ -41,6 +41,9 @@ while getopts n:v:dph flag; do
         h) HELP=true;;
     esac
 done
+
+# Add -dev to env name if -d is passed
+${DEV} && ENV_NAME+="-dev"
 
 if ${HELP}; then
     echo "${help}"
