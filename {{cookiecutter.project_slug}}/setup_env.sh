@@ -14,12 +14,13 @@ PINNED=false
 INSTALL=false
 FORCE=false
 CONDA=conda
+HELP=false
 
-help="Usage: $(basename "${0}") [-n NAME] [-p VER] [-d] [-p] [-c] [-f] [-c CMD] [-h]
+help="Usage: $(basename "${0}") [-n NAME] [-P VER] [-d] [-p] [-c] [-f] [-c CMD] [-h]
 
 Options:
  -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
- -p VER     Python version [default: ${PYVERSION}]
+ -P VER     Python version [default: ${PYVERSION}]
  -d         Install additional dev requirements
  -p         Use pinned requirements (fixed versions)
  -i         Install package itself (editable with -d)
@@ -29,16 +30,16 @@ Options:
 "
 
 # Eval command line options
-while getopts n:v:dph flag; do
+while getopts c:n:P:dfhip flag; do
     case ${flag} in
-        n) ENV_NAME=${OPTARG};;
-        p) PYVERSION=${OPTARG};;
-        d) DEV=true;;
-        p) PINNED=true;;
-        i) INSTALL=true;;
-        f) FORCE=true;;
         c) CONDA=${OPTARG};;
+        n) ENV_NAME=${OPTARG};;
+        P) PYVERSION=${OPTARG};;
+        d) DEV=true;;
+        f) FORCE=true;;
         h) HELP=true;;
+        i) INSTALL=true;;
+        p) PINNED=true;;
     esac
 done
 
