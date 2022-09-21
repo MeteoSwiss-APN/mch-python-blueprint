@@ -23,7 +23,7 @@ while getopts n:v:dph flag; do
     esac
 done
 
-if [ "${HELP}" = true ]; then
+if ${HELP}; then
     echo "Usage: $(basename "${0}") [-n <env_name>] [-v <python_version>] [-d] [-p] [-c] [-h]
 
     With:
@@ -45,22 +45,22 @@ echo "Creating conda environment"
 conda create -n ${ENV_NAME} python=${PYVERSION} -y
 
 # Install requirements in new env
-if [ "${PINNED}" = true ]; then
+if ${PINNED}; then
     echo "Pinned installation"
-    if [ "${DEV}" = true ]; then
-        echo "Dev installation"
-        conda env update --name ${ENV_NAME} --file requirements/dev-environment.yml
-    else
+    if ! ${DEV}; then
         echo "Prod installation"
         conda env update --name ${ENV_NAME} --file requirements/environment.yml
+    else
+        echo "Dev installation"
+        conda env update --name ${ENV_NAME} --file requirements/dev-environment.yml
     fi
 else
     echo "Unpinned installation"
     conda env update --name ${ENV_NAME} --file requirements/requirements.yml
-    if [ "${DEV}" = true ]; then
+    if ! ${DEV}; then
+        echo "WARNING: Unpinned prod installation!!!" >&2
+    else
         echo "Dev installation"
         conda env update --name ${ENV_NAME} --file requirements/dev-requirements.yml
-    else
-        echo "WARNING: Unpinned prod installation!!!"
     fi
 fi
