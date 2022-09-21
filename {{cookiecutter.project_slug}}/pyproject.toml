@@ -40,6 +40,14 @@ known_first_party = [
     "{{ cookiecutter.project_slug }}",
 ]
 
+[tool.mypy]
+
+[[tool.mypy.overrides]]
+module = [
+    # Add external modules w/o type hints here
+]
+ignore_missing_imports = true
+
 [tool.flake8]
 exclude = "docs"
 max-line-length = 88
