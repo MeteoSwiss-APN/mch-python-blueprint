@@ -16,7 +16,7 @@ FORCE=false
 CONDA=conda
 HELP=false
 
-help="Usage: $(basename "${0}") [-n NAME] [-P VER] [-d] [-p] [-c] [-f] [-c CMD] [-h]
+help="Usage: $(basename "${0}") [-n NAME] [-P VER] [-d] [-p] [-c] [-f] [-m] [-h]
 
 Options:
  -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
@@ -25,20 +25,20 @@ Options:
  -p         Use pinned requirements (fixed versions)
  -i         Install package itself (editable with -d)
  -f         Force overwrite of existing env
- -c CMD     Conda command [default: ${CONDA}]
+ -m         Use mamba instead of conda
  -h         Print this help message and exit
 "
 
 # Eval command line options
-while getopts c:n:P:dfhip flag; do
+while getopts n:P:dfhimp flag; do
     case ${flag} in
-        c) CONDA=${OPTARG};;
         n) ENV_NAME=${OPTARG};;
         P) PYVERSION=${OPTARG};;
         d) DEV=true;;
         f) FORCE=true;;
         h) HELP=true;;
         i) INSTALL=true;;
+        m) CONDA=mamba;;
         p) PINNED=true;;
     esac
 done
@@ -53,7 +53,7 @@ fi
 
 echo "Setting up environment for installation"
 eval "$(conda shell.bash hook)"  # NOT ${CONDA} (doesn't work with mamba)
-conda activate  # NOT ${CONDA}
+conda activate  # NOT ${CONDA} (doesn't work with mamba)
 
 # Create new env; pass -f to overwriting any existing one
 echo "Creating ${CONDA} environment"
