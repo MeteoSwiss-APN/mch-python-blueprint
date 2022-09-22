@@ -3,10 +3,12 @@ repos:
     rev: v4.2.0
     hooks:
     -   id: check-symlinks
-    -   id: check-toml
-    -   id: check-yaml
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
+    -   id: check-toml
+        exclude: \{\{cookiecutter.project_slug\}\}/
+    -   id: check-yaml
+        exclude: \{\{cookiecutter.project_slug\}\}/
 -   repo: https://github.com/myint/rstcheck
     rev: v6.1.0
     hooks:
