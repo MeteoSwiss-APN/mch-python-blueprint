@@ -1,0 +1,38 @@
+name: Run pre-commit in blueprint
+
+on:
+  push:
+    branches:
+    - dev_refactor
+  pull_request:
+    branches:
+    - dev_refactor
+
+jobs:
+  blueprint-pre-commit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9.7
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniconda-version: "latest"
+        channels: conda-forge
+        channel-priority: flexible
+        show-channel-urls: true
+    - name: Create dev env from unpinned reqs
+      run: |
+        conda env create --name dev_blueprint --file requirements/requirements.yml
+        conda env update --name dev_blueprint --file requirements/dev-requirements.yml
+    - name: Install pre-commit hooks
+      run: |
+        conda run --name dev_blueprint pre-commit install-hooks
+    - name: Run pre-commit hooks
+      run: |
+        conda run --name dev_blueprint pre-commit run --all-files
