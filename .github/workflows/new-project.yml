@@ -57,18 +57,18 @@ jobs:
     - name: Run formatters
       working-directory: ./flying_circus
       run: |
-        conda run --name flying-circus black .
-        conda run --name flying-circus isort .
+        conda run --name flying-circus-dev black .
+        conda run --name flying-circus-dev isort .
     - name: Run type checker
       working-directory: ./flying_circus
       run: |
-        conda run --name flying-circus mypy .
+        conda run --name flying-circus-dev mypy .
     - name: Run linters
       working-directory: ./flying_circus
       run: |
-        conda run --name flying-circus pydocstyle
-        conda run --name flying-circus flake8
-        conda run --name flying-circus pylint .
+        conda run --name flying-circus-dev pydocstyle
+        conda run --name flying-circus-dev flake8
+        conda run --name flying-circus-dev pylint .
     - name: Run unit tests
       working-directory: ./flying_circus
       run: |
