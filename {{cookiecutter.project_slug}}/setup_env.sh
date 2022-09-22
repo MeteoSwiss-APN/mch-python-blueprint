@@ -1,61 +1,109 @@
 #!/bin/bash
+#
+# Create conda environment with pinned or unpinned run and/or dev requirements
+#
+# - 2022-08 (D. Regenass) Write original script
+# - 2022-09 (S. Ruedisuehli) Refactor; add some options
+#
 
-### OPTION DEFAULTS ###
-ENV_NAME={{cookiecutter.project_slug}}
+# Default options
+ENV_NAME="{{ cookiecutter.project_slug.replace("_", "-") }}"
 PYVERSION=3.10
+PINNED=true
 DEV=false
-PINNED=false
-#GET OPTIONS FROM COMMAND LINE ARGS
-while getopts n:v:dph flag
-do
+EXPORT=false
+INSTALL=false
+FORCE=false
+CONDA=conda
+HELP=false
+
+help="Usage: $(basename "${0}") [-n NAME] [-P VER] [-u] [-e] [-d] [-i] [-f] [-m] [-h]
+
+Options:
+ -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
+ -P VER     Python version [default: ${PYVERSION}]
+ -u         Use unpinned requirements (minimal version restrictions)
+ -e         Export environment files (requires -u)
+ -d         Install additional dev requirements
+ -i         Install package itself (editable with -d)
+ -f         Force overwrite of existing env
+ -m         Use mamba instead of conda
+ -h         Print this help message and exit
+"
+
+# Eval command line options
+while getopts n:P:defhimu flag; do
     case ${flag} in
         n) ENV_NAME=${OPTARG};;
-        v) PYVERSION=${OPTARG};;
+        P) PYVERSION=${OPTARG};;
         d) DEV=true;;
-        p) PINNED=true;;
+        e) EXPORT=true;;
+        f) FORCE=true;;
         h) HELP=true;;
+        i) INSTALL=true;;
+        m) CONDA=mamba;;
+        u) PINNED=false;;
+        ?) echo -e "\n${help}" >&2; exit 1;;
     esac
 done
 
-if [ "$HELP" = true ]; then
-    echo "Usage: $(basename "$0") [-n <env_name>] [-v <python_version>] [-d] [-p] [-c] [-h]
+# Add -dev to env name if -d is passed
+${DEV} && ENV_NAME+="-dev"
 
-    With:
-    -n Name of the environment
-    -v Desired Python version
-    -d Dev (editable) installation with additional dependencies.
-    -p Pinned installation with fully fixed dependencies.
-    -h Print this help message and exit.
-    "
+
+if ${HELP}; then
+    echo "${help}"
     exit 0
 fi
 
 echo "Setting up environment for installation"
-#SOME PREPARATIONS
-eval "$(conda shell.bash hook)"
-conda activate
+eval "$(conda shell.bash hook)" || exit  # NOT ${CONDA} (doesn't work with mamba)
+conda activate || exit # NOT ${CONDA} (doesn't work with mamba)
 
-#CREATE ENV
-echo "Creating conda environment."
-conda create -n ${ENV_NAME} python=${PYVERSION} -y
+# Create new env; pass -f to overwriting any existing one
+echo "Creating ${CONDA} environment"
+if ! ${FORCE} && $(eval ${CONDA} info --env | \grep -q "^\<${ENV_NAME}\>"); then
+    echo "Conda env already exists: ${ENV_NAME} (overwrite with -f)" >&2
+    exit 1
+fi
+${CONDA} create -n ${ENV_NAME} python=${PYVERSION} --yes || exit
 
-#INSTALL, FOUR OPTIONS: PINNED/ UNPINNED * DEV/ PROD
-if [ "$PINNED" = true ]; then
-    echo "Pinned installation."
-    if [ "$DEV" = true ]; then
-        echo "Dev installation."
-        conda env update --name ${ENV_NAME} --file requirements/dev-environment.yml
-    else
+# Install requirements in new env
+if ${PINNED}; then
+    echo "Pinned installation"
+    if ! ${DEV}; then
         echo "Prod installation"
-        conda env update --name ${ENV_NAME} --file requirements/environment.yml
+        ${CONDA} env update --name ${ENV_NAME} --file requirements/environment.yml || exit
+    else
+        echo "Dev installation"
+        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-environment.yml || exit
     fi
 else
-    echo "unpinned installation"
-    conda env update --name ${ENV_NAME} --file requirements/requirements.yml
-    if [ "$DEV" = true ]; then
-        echo "Dev installation"
-        conda env update --name ${ENV_NAME} --file requirements/dev-requirements.yml
+    echo "Unpinned installation"
+    ${CONDA} env update --name ${ENV_NAME} --file requirements/requirements.yml || exit
+    if ${EXPORT}; then
+        echo "Export pinned prod environment"
+        ${CONDA} env export --name ${ENV_NAME} --no-builds > requirements/environment.yml || exit
+    fi
+    if ! ${DEV}; then
+        echo "WARNING: Unpinned prod installation!!!" >&2
     else
-        echo "WARNING: Unpinned prod installation!!!"
+        echo "Dev installation"
+        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-requirements.yml || exit
+        if ${EXPORT}; then
+            echo "Export pinned dev environment"
+            ${CONDA} env export --name ${ENV_NAME} --no-builds > requirements/dev-environment.yml || exit
+        fi
+    fi
+fi
+
+# Install package itself if requested
+if ${INSTALL}; then
+    if ! ${DEV}; then
+        echo "Regular package installation"
+        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps . || exit
+    else
+        echo "Editable package installation"
+        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e . || exit
     fi
 fi
