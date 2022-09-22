@@ -28,23 +28,15 @@ jobs:
         show-channel-urls: true
     - name: Install dependencies
       run: |
-        conda create -n blueprint
-        conda activate blueprint
-        conda env update --file \{\{cookiecutter.project_slug\}\}/requirements/requirements.yml
-        conda deactivate
+        conda env create --name blueprint --file requirements/requirements.yml
     - name: Install dev dependencies
       run: |
-        conda create -n dev_blueprint
-        conda activate dev_blueprint
-        conda env update --file \{\{cookiecutter.project_slug\}\}/requirements/requirements.yml
-        conda env update --file \{\{cookiecutter.project_slug\}\}/requirements/dev-requirements.yml
-        conda deactivate
+        conda env create --name dev_blueprint --file requirements/requirements.yml
+        conda env update --name dev_blueprint --file requirements/dev-requirements.yml
 
     - name: pre-commit install-hooks
       run: |
-        conda activate dev_blueprint
-        pre-commit install-hooks
+        conda --name dev_blueprint run pre-commit install-hooks
     - name: pre-commit run checks
       run: |
-        conda activate dev_blueprint
-        pre-commit run --all-files
+        conda --name dev_blueprint run pre-commit run --all-files
