@@ -1,4 +1,4 @@
-name: Formatting & compliance of new project
+name: Pre-commit and pytest in new project
 
 on:
   push:
