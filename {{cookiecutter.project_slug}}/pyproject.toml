@@ -3,6 +3,40 @@
 requires = ["setuptools >= 35.0.2", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "{{ cookiecutter.project_slug }}"
+version = "{{ cookiecutter.version }}"
+description = "{{ cookiecutter.project_short_description }}"
+readme = "README.rst"
+keywords = [
+    "{{ cookiecutter.project_slug }}",
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: {{ cookiecutter.python_version }}",
+]
+requires-python = ">={{ cookiecutter.python_version }}"
+authors = [
+    {name="{{ cookiecutter.full_name.replace('\"', '\\\"') }}", email="{{ cookiecutter.email }}"},
+]
+
+[project.urls]
+source = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+#documentation = "https://github.io/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"  TODO
+
+[project.scripts]
+{{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug }}.cli:main"
+
+# SR Necessary?
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["*"]
+exclude = []
+namespaces = false
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = [
