@@ -26,17 +26,13 @@ jobs:
         channels: conda-forge
         channel-priority: flexible
         show-channel-urls: true
-    - name: Install dependencies
-      run: |
-        conda env create --name blueprint --file requirements/requirements.yml
-    - name: Install dev dependencies
+    - name: Create dev env from unpinned reqs
       run: |
         conda env create --name dev_blueprint --file requirements/requirements.yml
         conda env update --name dev_blueprint --file requirements/dev-requirements.yml
-
-    - name: pre-commit install-hooks
+    - name: Install pre-commit hooks
       run: |
         conda run --name dev_blueprint pre-commit install-hooks
-    - name: pre-commit run checks
+    - name: Run pre-commit checks
       run: |
         conda run --name dev_blueprint pre-commit run --all-files
