@@ -62,8 +62,11 @@ conda activate || exit # NOT ${CONDA} (doesn't work with mamba)
 
 # Create new env; pass -f to overwriting any existing one
 echo "Creating ${CONDA} environment"
-${CONDA} create -n ${ENV_NAME} $(${FORCE} && echo --yes) || exit
-${CONDA} install -n ${ENV_NAME} python=${PYVERSION} --yes || exit
+if ! ${FORCE} && $(eval ${CONDA} info --env | \grep -q "^\<${ENV_NAME}\>"); then
+    echo "Conda env already exists: ${ENV_NAME} (overwrite with -f)" >&2
+    exit 1
+fi
+${CONDA} create -n ${ENV_NAME} python=${PYVERSION} --yes || exit
 
 # Install requirements in new env
 if ${PINNED}; then
