@@ -47,7 +47,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "{{ cookiecutter.project_name }}"
-copyright = "{% now 'local', '%Y' %}, {{ cookiecutter.full_name }}"
+copyright = "{% now 'local', '%Y' %}, {{ cookiecutter.full_name }}"  # pylint: disable=W0622  # redefined-builtin
 author = "{{ cookiecutter.full_name }}"
 
 # The version info for the project you're documenting, acts as replacement

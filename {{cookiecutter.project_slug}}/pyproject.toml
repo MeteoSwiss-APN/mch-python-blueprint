@@ -75,6 +75,7 @@ known_first_party = [
 ]
 
 [tool.mypy]
+files = ["src/**/*.py", "tests/**/*.py"]
 
 [[tool.mypy.overrides]]
 module = [
@@ -92,6 +93,7 @@ ignore = [
 ]
 
 [tool.pylint]
+recursive = true
 ignore-imports = true
 max-line-length = 88
 # Tweak valid name formats
