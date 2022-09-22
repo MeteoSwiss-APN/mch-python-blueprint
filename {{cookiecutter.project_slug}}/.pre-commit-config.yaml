@@ -45,3 +45,12 @@ repos:
         files: ^src/(.*/)*.*\.py$
         additional_dependencies:
         -   toml==0.10.2
+-   repo: local
+    hooks:
+    -   id: mypy
+        name: mypy
+        entry: bash run-mypy.sh
+        language: system
+        types: [python]
+        require_serial: true
+        verbose: true
