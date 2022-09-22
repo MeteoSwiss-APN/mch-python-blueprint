@@ -1,4 +1,4 @@
-name: Formatting & compliance
+name: Formatting & compliance of blueprint
 
 on:
   push:
@@ -33,6 +33,6 @@ jobs:
     - name: Install pre-commit hooks
       run: |
         conda run --name dev_blueprint pre-commit install-hooks
-    - name: Run pre-commit checks
+    - name: Run pre-commit hooks
       run: |
         conda run --name dev_blueprint pre-commit run --all-files
