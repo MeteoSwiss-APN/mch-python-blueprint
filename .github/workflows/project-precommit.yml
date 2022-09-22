@@ -31,9 +31,7 @@ jobs:
         conda env create --name blueprint --file requirements/requirements.yml
     - name: Create new project
       run: |
-        pwd
-        ls
-        conda run --name blueprint cookiecutter --replay --directory . .
+        conda run --name blueprint cookiecutter .
     - name: Create dev env from unpinned reqs
       working-directory: ./flying_circus
       run: |
