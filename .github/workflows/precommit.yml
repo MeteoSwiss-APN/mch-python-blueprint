@@ -1,4 +1,4 @@
-name: Formatting & compliance of blueprint
+name: Pre-commit in blueprint
 
 on:
   push:
