@@ -26,23 +26,23 @@ jobs:
         channels: conda-forge
         channel-priority: flexible
         show-channel-urls: true
-    - name: Create new project
+    - name: Create blueprint run env from unpinned reqs
       run: |
         conda env create --name blueprint --file requirements/requirements.yml
-        mkdir test
-        cd test
-        conda run --name blueprint cookiecutter --replay ..
-    - name: Create dev env from unpinned reqs
+    - name: Create new project
       run: |
-        cd test/flying_circus
+        conda run --name blueprint cookiecutter --replay .
+    - name: Create dev env from unpinned reqs
+      working-directory: ./flying_circus
+      run: |
         conda env create --name flying-circus-dev --file requirements/requirements.yml
         conda env update --name flying-circus-dev --file requirements/dev-requirements.yml
     - name: Run pre-commit hooks
+      working-directory: ./flying_circus
       run: |
-        cd test/flying_circus
         conda run --name flying-circus-dev pre-commit install-hooks
         conda run --name flying-circus-dev pre-commit run --all-files
     - name: Run unit tests
+      working-directory: ./flying_circus
       run: |
-        cd test/flying_circus
         conda run --name flying-circus-dev pytest
