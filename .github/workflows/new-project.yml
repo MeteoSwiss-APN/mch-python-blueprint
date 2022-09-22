@@ -64,7 +64,7 @@ jobs:
       run: |
         conda run --name flying-circus-dev pydocstyle
         conda run --name flying-circus-dev flake8
-        conda run --name flying-circus-dev pylint .
+        conda run --name flying-circus-dev pylint src tests
     - name: Run unit tests
       working-directory: ./flying_circus
       run: |
