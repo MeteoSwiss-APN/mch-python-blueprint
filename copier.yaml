@@ -3,7 +3,7 @@ _templates_suffix: ""
 
 full_name: "Monty Python"
 email: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
-github_username: "{{full_name.lower().replace(' ', '_') }}"
+github_username: "{{ full_name.lower().replace(' ', '_') }}"
 project_name: "Flying Circus"
 project_slug: "{{ project_name.lower().replace(\"'\", '').replace(' ', '_').replace('-', '_') }}"
 project_short_description: "{{ full_name }}'s {{ project_name }}"
