@@ -31,7 +31,7 @@ jobs:
         conda env create --name blueprint --file requirements/requirements.yml
         mkdir test
         cd test
-        conda run --name blueprint run cookiecutter --replay ..
+        conda run --name blueprint cookiecutter --replay ..
     - name: Create dev env from unpinned reqs
       run: |
         cd test/flying_circus
