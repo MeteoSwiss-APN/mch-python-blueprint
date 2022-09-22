@@ -10,14 +10,22 @@ STAT=0
 
 main()
 {
+    # Pre-commit hook
     run pre-commit run -a || return
+
+    # Formatters
     run black . || return
     run isort . || return
-    run pydocstyle || return
+
+    # Type checker
     run mypy . || return
+
+    # Linters
+    run pydocstyle || return
     run flake8 || return
     run pylint . || return
     run pytest || return
+
     return ${STAT}
 }
 
