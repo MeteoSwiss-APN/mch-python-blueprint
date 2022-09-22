@@ -23,7 +23,7 @@ main()
     # Linters
     run pydocstyle || return
     run flake8 || return
-    run pylint . || return
+    run pylint src tests || return
     run pytest || return
 
     return ${STAT}
