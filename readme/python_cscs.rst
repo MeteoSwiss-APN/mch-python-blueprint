@@ -77,4 +77,3 @@ This changes the environment as follows (as of late November 2020):
         python -m venv venvs/cookiecutter
         venvs/cookiecutter/bin/python -m pip install cookiecutter
         venv/cookiecutter/bin/cookiecutter -V
-

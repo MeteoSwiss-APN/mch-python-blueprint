@@ -38,7 +38,7 @@ Then:
 * Create a repo and put it there
 
     * Move to your project folder (``cd you_project``)
-    * Create localy a repository (``git init``)
+    * Create locally a repository (``git init``)
     * Add and commit the current content (``git add .`` and ``git commit``)
     * Create an empty repository with the same name on `Github`_
     * Set the remote repository to Github (``git remote add origin git@github.com:MeteoSwiss-APN/new_repo``)

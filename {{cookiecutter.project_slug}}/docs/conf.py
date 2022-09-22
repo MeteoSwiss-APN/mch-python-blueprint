@@ -46,9 +46,9 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"{{ cookiecutter.project_name }}"
-copyright = u"{% now 'local', '%Y' %}, {{ cookiecutter.full_name }}"
-author = u"{{ cookiecutter.full_name }}"
+project = "{{ cookiecutter.project_name }}"
+copyright = "{% now 'local', '%Y' %}, {{ cookiecutter.full_name }}"
+author = "{{ cookiecutter.full_name }}"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -105,7 +105,7 @@ htmlhelp_basename = "{{ cookiecutter.project_slug }}doc"
 
 # -- Options for LaTeX output ------------------------------------------
 
-latex_elements: Dict[str, str] = {
+latex_elements: dict[str, str] = {
     # The paper size ("letterpaper" or "a4paper").
     # "papersize": "letterpaper",
     #
@@ -156,7 +156,7 @@ man_pages = [
     (
         master_doc,
         "{{ cookiecutter.project_slug }}",
-        u"{{ cookiecutter.project_name }} Documentation",
+        "{{ cookiecutter.project_name }} Documentation",
         [author],
         1,
     )
@@ -172,7 +172,7 @@ texinfo_documents = [
     (
         master_doc,
         "{{ cookiecutter.project_slug }}",
-        u"{{ cookiecutter.project_name }} Documentation",
+        "{{ cookiecutter.project_name }} Documentation",
         author,
         "{{ cookiecutter.project_slug }}",
         "One line description of project.",
