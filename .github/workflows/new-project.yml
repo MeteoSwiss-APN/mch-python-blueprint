@@ -1,4 +1,4 @@
-name: Pre-commit and pytest in new project
+name: Create new project and run pre-commit and pytest
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
     - dev_refactor
 
 jobs:
-  pre-commit:
+  new-project:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,6 +32,14 @@ jobs:
     - name: Create new project
       run: |
         conda run --name blueprint cookiecutter --no-input .
+    - name: Prepare new project
+      working-directory: ./flying_circus
+      run: |
+        git init
+        git config user.name "Monty Python"
+        git config user.email "monty.python@meteoswiss.ch"
+        git add .
+        git commit -m "initial commit"
     - name: Create dev env from unpinned reqs
       working-directory: ./flying_circus
       run: |
