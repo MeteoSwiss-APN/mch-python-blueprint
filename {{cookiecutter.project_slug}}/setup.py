@@ -4,7 +4,6 @@ from typing import List
 from typing import Sequence
 
 # Third-party
-from pkg_resources import parse_requirements
 from setuptools import find_packages
 from setuptools import setup
 
@@ -14,7 +13,7 @@ def read_present_files(paths: Sequence[str]) -> str:
     contents: List[str] = []
     for path in paths:
         try:
-            with open(path, "r") as f:
+            with open(path, "r", encoding="utf8") as f:
                 contents += ["\n".join(map(str.strip, f.readlines()))]
         except FileNotFoundError:
             continue
