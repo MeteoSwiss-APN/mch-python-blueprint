@@ -9,7 +9,7 @@ on:
     - dev_refactor
 
 jobs:
-  pre-commit:
+  precommit:
     runs-on: ubuntu-latest
     defaults:
       run:
