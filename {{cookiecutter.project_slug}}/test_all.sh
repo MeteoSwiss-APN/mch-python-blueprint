@@ -18,7 +18,7 @@ main()
     run isort . || return
 
     # Type checker
-    run mypy . || return
+    run mypy || return
 
     # Linters
     run pydocstyle || return
