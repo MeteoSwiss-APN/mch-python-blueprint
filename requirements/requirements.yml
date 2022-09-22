@@ -3,4 +3,4 @@ channels:
   - defaults
 dependencies:
   - python>=3.10
-  - cookiecutter>=1.7
+  - copier>=6.1

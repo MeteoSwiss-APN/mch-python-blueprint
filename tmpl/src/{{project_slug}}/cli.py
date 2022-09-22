@@ -1,4 +1,4 @@
-"""Command line interface of {{cookiecutter.project_slug}}."""
+"""Command line interface of {{ project_slug }}."""
 # Third-party
 import click
 

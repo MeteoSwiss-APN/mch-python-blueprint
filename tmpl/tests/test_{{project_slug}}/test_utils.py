@@ -1,9 +1,9 @@
-"""Test module ``{{ cookiecutter.project_slug }}/utils.py``."""
+"""Test module ``{{ project_slug }}/utils.py``."""
 # Standard library
 import logging
 
 # First-party
-from {{ cookiecutter.project_slug }}.utils import count_to_log_level
+from {{ project_slug }}.utils import count_to_log_level
 
 
 def test_count_to_log_level():

@@ -1,6 +1,6 @@
-"""Tests for `{{ cookiecutter.project_slug }}` package."""
+"""Tests for `{{ project_slug }}` package."""
 # First-party
-from {{ cookiecutter.project_slug }}.mutable_number import MutableNumber
+from {{ project_slug }}.mutable_number import MutableNumber
 
 
 def test_get():

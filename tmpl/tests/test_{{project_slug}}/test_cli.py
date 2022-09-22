@@ -1,9 +1,9 @@
-"""Test module ``{{ cookiecutter.project_slug }}``."""
+"""Test module ``{{ project_slug }}``."""
 # Third-party
 from click.testing import CliRunner
 
 # First-party
-from {{ cookiecutter.project_slug }} import cli
+from {{ project_slug }} import cli
 
 
 class _TestCLI:

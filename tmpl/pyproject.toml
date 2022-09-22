@@ -4,31 +4,31 @@ requires = ["setuptools >= 35.0.2", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{ cookiecutter.project_slug }}"
-version = "{{ cookiecutter.version }}"
-description = "{{ cookiecutter.project_short_description }}"
+name = "{{ project_slug }}"
+version = "{{ version }}"
+description = "{{ project_short_description }}"
 readme = "README.rst"
 keywords = [
-    "{{ cookiecutter.project_slug }}",
+    "{{ project_slug }}",
 ]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: {{ cookiecutter.python_version }}",
+    "Programming Language :: Python :: {{ python_version }}",
 ]
-requires-python = ">={{ cookiecutter.python_version }}"
+requires-python = ">={{ python_version }}"
 authors = [
-    {name="{{ cookiecutter.full_name.replace('\"', '\\\"') }}", email="{{ cookiecutter.email }}"},
+    {name="{{ full_name.replace('\"', '\\\"') }}", email="{{ email }}"},
 ]
 
 [project.urls]
-source = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
-#documentation = "https://github.io/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"  TODO
+source = "https://github.com/{{ github_username }}/{{ project_slug }}"
+#documentation = "https://github.io/{{ github_username }}/{{ project_slug }}"  TODO
 
 [project.scripts]
-{{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug }}.cli:main"
+{{ project_slug }} = "{{ project_slug }}.cli:main"
 
 # SR Necessary?
 [tool.setuptools.packages.find]
@@ -44,7 +44,7 @@ addopts = [
     "-ra",
     "--pdbcls=IPython.terminal.debugger:TerminalPdb",
 	"--tb=short",
-    # "--cov={{ cookiecutter.project_slug }}",
+    # "--cov={{ project_slug }}",
     # "--mypy",
 ]
 
@@ -71,7 +71,7 @@ known_third_party = [
 ]
 known_first_party = [
     # Add first-party modules that are misclassified by isort
-    "{{ cookiecutter.project_slug }}",
+    "{{ project_slug }}",
 ]
 
 [tool.mypy]

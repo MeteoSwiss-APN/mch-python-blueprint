@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/MeteoSwiss-APN/{{ cookiecutter.project_slug }}/issues.
+Report bugs at https://github.com/MeteoSwiss-APN/{{ project_slug }}/issues.
 
 If you are reporting a bug, please include:
 
@@ -38,12 +38,12 @@ Anything tagged with "enhancement" and "help wanted" is open to whoever wants to
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-{{ cookiecutter.project_name }} could always use more documentation, whether as part of the official {{ cookiecutter.project_name }} docs, in docstrings, or even on the web in blog posts, articles, and such.
+{{ project_name }} could always use more documentation, whether as part of the official {{ project_name }} docs, in docstrings, or even on the web in blog posts, articles, and such.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/MeteoSwiss-APN/{{ cookiecutter.project_slug }}/issues.
+The best way to send feedback is to file an issue at https://github.com/MeteoSwiss-APN/{{ project_slug }}/issues.
 
 If you are proposing a feature:
 
@@ -54,19 +54,19 @@ If you are proposing a feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for local development.
+Ready to contribute? Here's how to set up `{{ project_slug }}` for local development.
 
-1. Fork the `{{ cookiecutter.project_slug }}` repo on GitHub.
+1. Fork the `{{ project_slug }}` repo on GitHub.
 2. Clone your fork locally::
 
-        $ git clone git@github.com:your_name_here/{{ cookiecutter.project_slug }}.git
+        $ git clone git@github.com:your_name_here/{{ project_slug }}.git
 
 3. Create a virtual environment and install the development dependencies::
 
-        $ cd {{ cookiecutter.project_slug }}/
+        $ cd {{ project_slug }}/
         $ make install-dev
 
-    This will create a virtual environment named ``{{ cookiecutter.project_slug }}`` (change with ``VENV_NAME=my_venv``) in ``./venv`` (change with ``VEND_DIR=path/to/venv``) and install the following dependencies:
+    This will create a virtual environment named ``{{ project_slug }}`` (change with ``VENV_NAME=my_venv``) in ``./venv`` (change with ``VEND_DIR=path/to/venv``) and install the following dependencies:
 
     -   Build dependencies in ``pyproject.toml``
     -   Runtime dependencies in ``setup.py``
@@ -122,7 +122,7 @@ Tips
 
 To run a subset of tests::
 
-    $ pytest tests.test_{{ cookiecutter.project_slug }}
+    $ pytest tests.test_{{ project_slug }}
 
 
 Deploying
@@ -148,7 +148,7 @@ Project Structure
      -  Description
 
    * -  src/
-     -  Source folder, with the main package in ``src/{{ cookiecutter.project_slug }}``.
+     -  Source folder, with the main package in ``src/{{ project_slug }}``.
    * -  tests/
      -  Directory containing the tests.
         The directory structure in this folder follows that in the source folder (src).
@@ -169,7 +169,7 @@ Project Structure
    * -  LICENSE
      -  License of this project.
    * -  USAGE.txt
-     -  Instruction on using {{ cookiecutter.project_slug }}
+     -  Instruction on using {{ project_slug }}
    * -  VERSION
      -  Package version number (incremented by ``bumpversion``).
 
@@ -236,9 +236,9 @@ Which libraries -- and any critical restrictions of their versions -- have to be
 How to provide executable scripts
 ---------------------------------
 
-By default, a single executable script called {{ cookiecutter.project_slug }} is provided.
+By default, a single executable script called {{ project_slug }} is provided.
 It is created when the package is installed.
-When you call it, the main function (``cli``) in ``src/{{ cookiecutter.project_slug }}/cli.py`` is called.
+When you call it, the main function (``cli``) in ``src/{{ project_slug }}/cli.py`` is called.
 
 How many scripts that are created, their names and which functions are called can be configured in the
 ``setup.py`` file.
@@ -249,9 +249,9 @@ For Example::
 
     entry_points={
         'console_scripts': [
-            '{{ cookiecutter.project_slug }}={{ cookiecutter.project_slug }}.cli:main',
+            '{{ project_slug }}={{ project_slug }}.cli:main',
     ],
 
-When the package is installed, a executable script is created in the Python's bin folder with the name ``{{ cookiecutter.project_slug }}``.
-If a user calls this script, the function ``main`` in the file ``src/{{ cookiecutter.project_slug }}/cli.py`` is called.
+When the package is installed, a executable script is created in the Python's bin folder with the name ``{{ project_slug }}``.
+If a user calls this script, the function ``main`` in the file ``src/{{ project_slug }}/cli.py`` is called.
 If more scripts should be created, add further entries to array ``console_scripts``.
