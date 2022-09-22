@@ -1,4 +1,4 @@
-name: Pre-commit and pytest in new project
+name: Create new project and run pre-commit and pytest
 
 on:
   push:
@@ -36,10 +36,10 @@ jobs:
       working-directory: ./flying_circus
       run: |
         git init
-        git config user.name 'Monty Python'
-        git config user.email 'monty.python@meteoswiss.ch'
+        git config user.name "Monty Python"
+        git config user.email "monty.python@meteoswiss.ch"
         git add .
-        git commit -m 'initial commit'
+        git commit -m "initial commit"
     - name: Create dev env from unpinned reqs
       working-directory: ./flying_circus
       run: |
