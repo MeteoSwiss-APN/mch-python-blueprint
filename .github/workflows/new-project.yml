@@ -1,4 +1,4 @@
-name: Create new project and run pre-commit and pytest
+name: Create new project and run tests etc.
 
 on:
   push:
@@ -54,6 +54,21 @@ jobs:
       run: |
         conda run --name flying-circus-dev pre-commit install-hooks
         conda run --name flying-circus-dev pre-commit run --all-files
+    - name: Run formatters
+      working-directory: ./flying_circus
+      run: |
+        conda run --name flying-circus black .
+        conda run --name flying-circus isort .
+    - name: Run type checker
+      working-directory: ./flying_circus
+      run: |
+        conda run --name flying-circus mypy .
+    - name: Run linters
+      working-directory: ./flying_circus
+      run: |
+        conda run --name flying-circus pydocstyle
+        conda run --name flying-circus flake8
+        conda run --name flying-circus pylint .
     - name: Run unit tests
       working-directory: ./flying_circus
       run: |
