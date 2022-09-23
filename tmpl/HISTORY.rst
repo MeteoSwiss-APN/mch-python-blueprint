@@ -2,7 +2,7 @@
 History
 =======
 
-{{ version }} ({% now 'local' %})
+{{ version }} ({{ year }}-XX-XX)
 ----------------------------------------------
 
 * First release on PyPI.

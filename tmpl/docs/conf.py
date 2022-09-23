@@ -47,7 +47,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "{{ project_name }}"
-copyright = "{% now 'local', '%Y' %}, {{ full_name }}"  # pylint: disable=W0622  # redefined-builtin
+copyright = "{{ year }}, {{ full_name }}"  # pylint: disable=W0622  # redefined-builtin
 author = "{{ full_name }}"
 
 # The version info for the project you're documenting, acts as replacement
