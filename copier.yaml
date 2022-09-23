@@ -1,5 +1,5 @@
 _subdirectory: "tmpl"
-_templates_suffix: ""
+_templates_suffix: ".j2"
 
 full_name: "Monty Python"
 email: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
