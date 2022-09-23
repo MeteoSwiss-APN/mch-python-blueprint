@@ -1,13 +1,23 @@
 _subdirectory: "tmpl"
 _templates_suffix: ".j2"
 
-full_name: "Monty Python"
-email: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
-github_username: "{{ full_name.lower().replace(' ', '_') }}"
-project_name: "Flying Circus"
-project_slug: "{{ project_name.lower().replace(\"'\", '').replace(' ', '_').replace('-', '_') }}"
-project_short_description: "{{ full_name }}'s {{ project_name }}"
-project_github: "MeteoSwiss-APN/{{ project_slug }}"
-version: "0.1.0"
-python_version: "3.10"
-year: "2022"
+full_name:
+  default: "Monty Python"
+email:
+  default: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
+github_username:
+  default: "{{ full_name.lower().replace(' ', '_') }}"
+project_name:
+  default: "Flying Circus"
+project_slug:
+  default: "{{ project_name.lower().replace(\"'\", '').replace(' ', '_').replace('-', '_') }}"
+project_short_description:
+  default: "{{ full_name }}'s {{ project_name }}"
+project_github:
+  default: "MeteoSwiss-APN/{{ project_slug }}"
+version:
+  default: "0.1.0"
+python_version:
+  default: "3.10"
+year:
+  default: "2022"
