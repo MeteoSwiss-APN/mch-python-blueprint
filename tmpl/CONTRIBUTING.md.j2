@@ -2,47 +2,47 @@
 
 Contributions are welcome, and they are greatly appreciated! Every little bit helps, and credit will always be given.
 
-You can contribute in many ways:
-
 ## Types of Contributions
+
+You can contribute in many ways.
 
 ### Report Bugs
 
-Report bugs at https://github.com/MeteoSwiss-APN/{{ project_slug }}/issues.
+Report bugs as [GitHub issues](https://github.com/MeteoSwiss-APN/{{ project_slug }}/issues).
 
-If you are reporting a bug, please include:
+If you are reporting a bug, please include
 
-- Your operating system name and version.
-- Any details about your local setup that might be helpful in troubleshooting.
-- Detailed steps to reproduce the bug.
+- your operating system name and version,
+- any details about your local setup that might be helpful in troubleshooting, and
+- detailed steps to reproduce the bug.
 
 ### Fix Bugs
 
-Look through the GitHub issues for bugs. Anything tagged with "bug" and "help wanted" is open to whoever wants to implement it.
+Look through the [GitHub issues](https://github.com/MeteoSwiss-APN/{{ project_slug }}/issues) for bugs. Anything tagged with "bug" and "help wanted" is open to whoever wants to implement it.
 
 ### Implement Features
 
-Look through the GitHub issues for features. Anything tagged with "enhancement" and "help wanted" is open to whoever wants to implement it.
+Look through the  [GitHub issues](https://github.com/MeteoSwiss-APN/{{ project_slug }}/issues) for features. Anything tagged with "enhancement" and "help wanted" is open to whoever wants to implement it.
 
 ### Write Documentation
 
-{{ project_name }} could always use more documentation, whether as part of the official {{ project_name }} docs, in docstrings, or even on the web in blog posts, articles, and such.
+{{ project_name }} could always use more documentation, whether as part of the official {{ project_name }} docs, in docstrings --- or even on the web in blog posts, articles, and such.
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at https://github.com/MeteoSwiss-APN/{{ project_slug }}/issues.
+The best way to send feedback is to file a [GitHub issue]( https://github.com/MeteoSwiss-APN/{{ project_slug }}/issues).
 
-If you are proposing a feature:
+If you are proposing a feature,
 
-- Explain in detail how it would work.
-- Keep the scope as narrow as possible, to make it easier to implement.
-- Remember that this is a volunteer-driven project, and that contributions are welcome! :)
+- explain in detail how it would work;
+- keep the scope as narrow as possible, to make it easier to implement; and
+- remember that this is a volunteer-driven project, and that contributions are welcome! :)
 
 ## Get Started!
 
 Ready to contribute? Here's how to set up `{{ project_slug }}` for local development.
 
-1. Fork the `{{ project_slug }}` repo on GitHub.
+1. Fork the [`{{ project_slug }}` repo](https://github.com/{{ github_path }} on GitHub.
 2. Clone your fork locally:
 
     ```bash
@@ -53,56 +53,47 @@ Ready to contribute? Here's how to set up `{{ project_slug }}` for local develop
 
     ```bash
     cd {{ project_slug }}/
-    make install-dev
+    ./setup_env -di
     ```
 
-    This will create a virtual environment named `{{ project_slug }}` (change with `VENV_NAME=my_venv`) in `./venv` (change with `VEND_DIR=path/to/venv`) and install the following dependencies:
+    This will create a conda environment named `{{ project_slug }}-dev` (change with `-n`) and install the following:
 
-    -   Build dependencies in `pyproject.toml`
-    -   Runtime dependencies in `setup.py`
-    -   Testing dependencies in `requirements/test-unpinned.txt`
-    -   Development dependencies in `requirements/dev-unpinned.txt`
+    - Pinned runtime dependencies in `requirements/environment.yml`
+    - Pinned Development dependencies in `requirements/dev-environment.yml`
+    - The `{{ project_slug }}` package itself in editable mode.
 
-    Optionally activate the virtual environment:
+    Activate the environment:
 
     ```bash
-    source ./venv/bin/activate
+    conda activate {{ project_slug }}-dev
     ```
-
-    Note however that this is not required for `make` commands, which automatically detect and use the virtual environment.
+    Use `-u` to get the newest package versions (unpinned dependencies in `requirements/requirements.yml` and `requirements/dev-requirements.yml`), and additionally `-e` to update the environment files.
 
 4. Create a branch for local development:
 
     ```bash
-    git checkout -b name-of-your-bugfix-or-feature
+    git switch -c name-of-your-bugfix-or-feature
     ```
 
     Now you can make your changes locally.
 
-5. When you're done making changes, format the code with black and check that your changes pass the static code analyses with flake8:
+5. When you're done with a change, format and check the code using various installed tools like `black`, `isort`, `mypy`, `flake8` or `pylint`. Those that are set up as pre-commit hooks can be run together with:
 
     ```bash
-    make format
-    make line
+    pre-commit run -a
     ```
 
-    Next, ensure that the code does what it is supposed to by running the tests with pytest:
+    Next, ensure that the code does what it is supposed to do by running the tests with pytest:
 
     ```bash
-    make test
-    ```
-
-    To make sure that your code is compatible with multiple Python version, and that it is properly packageable, run flake8 and pytest within tox:
-
-    ```bash
-    make test-all
+    pytest
     ```
 
 6. Commit your changes and push your branch to GitHub:
 
     ```bash
     git add .
-    git commit -m "Your detailed description of your changes."
+    git commit -m "fixed this and did that"
     git push origin name-of-your-bugfix-or-feature
     ```
 
@@ -118,76 +109,82 @@ Before you submit a pull request, check that it meets these guidelines:
 
 ## Tips
 
-To run a subset of tests:
+For a subset of tests or a specific test, run:
 
 ```bash
 pytest tests.test_{{ module_name }}
+pytest tests.test_{{ module_name }}/test_feature::test_edge_case
 ```
 
+## Versioning
 
-## Deploying
+In order to release a new version of your project, follow these steps:
 
-A reminder for the maintainers on how to deploy. Make sure all your changes are committed (including an entry in `HISTORY.md`).
-
-Then run:
-
-```bash
-make bump-patch # possible: major, minor, patch
-git push
-git push --tags
-```
-
+- Make sure everything is committed, cleaned up and validating (duh!). Don't forget to keep track of the changes in `HISTORY.md`.
+- Increase the version number that is hardcoded in `pyproject.toml` (and only there) and commit.
+- Either create a (preferentially annotated) tag with `git tag`, or directly create a release on GitHub.
 
 ## Project Structure
 
-| File or Directory         | Description
-| :------------------------ |:-----------
-| src/                      | Source folder, with the main package in `src/{{ module_name }}`.
-| tests/                    | Directory containing the tests. The directory structure in this folder follows that in the source folder (src). For each file in the source folder, there is a file with the same name, but with the prefix `text_`. Pytest collects all tests in files named `test_*.py`.
-| docs/                     | Directory containing the documentation.
-| README.md                 | Short documentation of the package, including its features and a quick-start guide.
-| CONTRIBUTION.md           | Contains all the information you need when you contribute to this project.
-| HISTORY.md                | Lists the releases and their new features.
-| AUTHORS.md                | Contains information about the lead developer and contributors.
-| LICENSE                   | License of this project.
-| USAGE.txt                 | Instruction on using {{ project_slug }}
-| MANIFEST.in               | Specifies the files and directories which will be added to the Pip package.
-| requirements/             | Directory containing requirements files with various types of dependencies.
-| requirements/dev-requirements.in | A text file containing top-level unpinned development dependencies (critical version restrictions only). It is managed manually.
-| requirements/dev-requirements.txt | A text file containing recursive pinned development and runtime dependencies (all versions specified), a superset of those in `requirements/requirements.txt`. It is created automatically with `pip freeze` or the pip-tools command `pip-compile`.
-| requirements/requirements.in | A text file containing top-level unpinned runtime dependencies (critical version restrictions only). It is managed manually.
-| requirements/requirements.txt | A text file containing recursive pinned runtime dependencies (all versions specified). It is created automatically with `pip freeze` or the pip-tools command `pip-compile`.
-| requirements/tox-requirements.in | A text file containing top-level unpinned testing dependencies (critical version restrictions only) used by tox as specified in `tox.ini`. It is managed manually.
-| requirements/tox-requirements.txt | A text file containing recursive pinned testing dependencies (critical version restrictions only) used by tox. It is created automatically with `pip freeze` or the pip-tools command `pip-compile`.
-| .gitignore                | Files and directories ignored by git.
-| .pre-commit-config.yaml   | Configuration file of pre-commit, which, among other things, runs the formatters black and isort.
-| pyproject.toml            | Project specification file as defined by PEP 518. File governing the build process. Contains any build dependencies that are installed before the build is started.
+Following is a description of the most important files and folders in the project in alphabetic order.
 
+- `.github/workflows/`: [GitHub Actions](https://docs.github.com/en/actions) workflows, e.g., checks that are run when certain branches are pushed.
+- `docs/`: Documentation.
+- `jenkins/`: Jenkins setup.
+- `requirements/`: Various kinds of dependencies with different degrees of version restrictions.
+    - `dev-environment.yml`: Complete tree of runtime and development dependencies with fully pinned version numbers; created with `conda env export`; (approximately) a superset of those in `environment.yml`.
+    - `dev-requirements.yml`: Top-level development dependencies with only necessary version restrictions (typically a minimum version or a version range); kept manually.
+    - `environment.yml`: Complete tree of runtime dependencies with fully pinned version numbers; created with `conda env export`; (approximately) a subset of those `dev-environment.yml`.
+    - `requirements.yml`: Top-level runtime dependencies with only necessary version restrictions (typically a minimum version or a version range); kept manually.
+- `src/{{module_name}}/`: Source code of the project package.
+- `tests/test_{{module_name}}/`: Unit tests of the project package; run with `pytest`.
+- `.gitignore`: Files and folders ignored by `git`.
+- `.pre-commit-config.yaml`: Configuration of pre-commit hooks, which are formatters and checkers run before a successful commit.
+- `AUTHORS.md`: Project authors.
+- `CONTRIBUTING.md`: Instructions on how to contribute to the project.
+- `HISTORY.md`: List of changes for each version of the project.
+- `LICENSE`: License of the project.
+- `MANIFEST.in`: Files installed alongside the source code.
+- `pyproject.toml`: Main package specification file, including build dependencies, metadata and the configurations of development tools like `black`, `pytest`, `mypy` etc.
+- `README.md`: Description of the project.
+- `run-mypy.sh`: Run script for the static type checker `mypy`.
+- `setup_env.sh`: Script to create new conda environments; see `setup_env.sh -h` for all available options.
+- `setup_miniconda.sh`: Script to install miniconda.
+- `test_all.sh`: Script to run all tests and checkers, including the pre-commit hooks and unit tests.
+- `USAGE.md`: Information on how to use the package.
 
 ## Managing dependencies
 
-Generally, projects make use of other libraries, be it as (production) dependencies (e.g., `import numpy` in source code) Which libraries -- and any critical restrictions of their versions -- have to be listed in different places in the project:
+{{ project_name }} uses [Conda](https://docs.conda.io/en/latest/) to manage dependencies. (Also check out [Mamba](https://mamba.readthedocs.io/en/latest/) if you like your package installations fast.) Dependencies are specified in YAML files, of which there are four:
 
-- Unpinned top-level runtime dependencies, which are required to run the application/library, belong in `requirements/requirements.in` (from which they are read in `setup.py`). The versions of unpinned dependencies are only restricted as necessary, e.g., if a minimum version is required for a certain feature or bugfix.
-- Unpinned top-level development dependencies, which are additional packages required during development, belong in `requirements/dev-requirements.in`.
-- Unpinned top-level testing dependencies, which are packages required by the testing framework `tox` to run unit tests, linters etc. as specified in `tox.ini`, belong in `requirements/tox-requirements.in`.
-- Pinned runtime, development and testing dependencies belong in `requirements/requirements.txt`, `requirements/dev-requirements.txt` and `requirements/tox-requirements.txt`, respectively. Pinned dependencies are recursive, i.e., include all dependencies of dependencies, and restricted to a specific version. This ensures a reproducible environment that is guaranteed to work.
+- `requirements/requirements.yml`: Top-level runtime dependencies with minimal version restrictions (typically a minimum version or a version range). It is kept manually.
+- `requirements/dev-requirements.yml`: Additional top-level development dependencies with minimal version restrictions; also kept manually.
+- `requirements/environment.yml`: Full tree of runtime dependencies with fully specified ('pinned') version numbers. It is created with `conda env export`.
+- `requirements/dev-environment.yml`: Full tree of runtime and development dependencies with fully specified version numbers; also created with `conda env export`. The dependencies are an (approximate) superset of those in `environment.yml`.
+
+Typically, the pinned `*environment.yml` files should be used to create reproducible environments for development or deployment. This ensures reproducible results across machines and users. The unpinned `*requirements.yml` files have two main purposes: (i) keeping track of the top-level dependencies, and (ii) periodically updating the pinned `*environment.yml` files to the latest package versions.
+
+Updating the environment files involves the following steps:
+
+```bash
+conda env create --name my_env --file requirements/requirements.yml
+conda env export --name my_env --no-builds > requirements/environment.yml
+conda env update --name my_env --file requirements/dev-requirements.yml
+conda env export --name my_env --no-builds > requirements/dev-environment.yml
+```
+
+Alternatively, use the provided script
+
+```bash
+setup_env.sh -u -d -e
+```
+
+to create a runtime and a development (`-d`) environment from unpinned (`-u`) dependencies and export (`-e`) them (consider throwing in `-m` for good measure to speed things up with `mamba`).
 
 ## How to provide executable scripts
 
 By default, a single executable script called {{ project_slug }} is provided. It is created when the package is installed. When you call it, the main function (`cli`) in `src/{{ module_name }}/cli.py` is called.
 
-How many scripts that are created, their names and which functions are called can be configured in the
-`setup.py` file. The function `setup` has a named argument called `entry_point` which is a dictionary with an element `console_scripts`. The element is an array of string.
+When the package is installed, a executable script named `{{ project_slug }}` is created in the bin folder of the active conda environment. Upon calling this script in the shell, the `main` function in `src/{{ module_name }}/cli.py` is executed.
 
-For Example:
-
-```python
-entry_points={
-    'console_scripts': [
-        '{{ project_slug }}={{ module_name }}.cli:main',
-],
-```
-
-When the package is installed, a executable script is created in the Python's bin folder with the name `{{ project_slug }}`. If a user calls this script, the function `main` in the file `src/{{ module_name }}/cli.py` is called.
-If more scripts should be created, add further entries to array `console_scripts`.
+The scripts, their names and entry points are specified in `pyproject.toml` in the `[project.scripts]` section. Just add additional entries to provide more scripts to the users of your package.
