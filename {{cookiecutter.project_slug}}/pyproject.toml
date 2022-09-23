@@ -75,8 +75,6 @@ known_first_party = [
 ]
 
 [tool.mypy]
-files = ["src/**/*.py", "tests/**/*.py"]
-exclude = "*"
 
 [[tool.mypy.overrides]]
 module = [
