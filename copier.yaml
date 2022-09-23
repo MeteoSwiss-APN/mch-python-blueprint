@@ -5,42 +5,52 @@ full_name:
   help: "Your full name"
   default: "Monty Python"
   type: str
+
 email:
   help: "Your email address"
   default: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
   type: str
+
 github_username:
   help: "Your user name on github"
   default: "{{ full_name.lower().replace(' ', '_') }}"
   type: str
+
 project_name:
   help: "Human-friendly project name"
   default: "Flying Circus"
   type: str
+
 project_slug:
   help: "URL-friendly project name (no spaces)"
   default: "{{ project_name.lower().replace(\"'\", '').replace(' ', '-') }}"
   type: str
+
 module_name:
   help: "Python module name (no spaces or dashes)"
   default: "{{ project_slug.replace('-', '_') }}"
   type: str
+
 project_short_description:
   help: "Your project in one line"
   default: "{{ full_name }}'s {{ project_name }}"
   type: str
+
 project_github:
   help: "Project path on github"
   default: "MeteoSwiss-APN/{{ project_slug }}"
   type: str
+
 version:
   help: "Initial project version"
   default: "0.1.0"
   type: str
+
 python_version:
   help: "Minimum supported Python version"
   default: "3.10"
   type: str
+
 year:
   help: "This year"
   default: "2022"
