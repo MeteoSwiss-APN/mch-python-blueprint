@@ -2,22 +2,42 @@ _subdirectory: "tmpl"
 _templates_suffix: ".j2"
 
 full_name:
+  help: "Your full name"
   default: "Monty Python"
+  type: str
 email:
+  help: "Your email address"
   default: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
+  type: str
 github_username:
+  help: "Your user name on github"
   default: "{{ full_name.lower().replace(' ', '_') }}"
+  type: str
 project_name:
+  help: "How humans call your project"
   default: "Flying Circus"
+  type: str
 project_slug:
+  help: "How your project is called on github and in Python"
   default: "{{ project_name.lower().replace(\"'\", '').replace(' ', '_').replace('-', '_') }}"
+  type: str
 project_short_description:
+  help: "Describe your project in one line"
   default: "{{ full_name }}'s {{ project_name }}"
+  type: str
 project_github:
+  help: "The address of your project on github"
   default: "MeteoSwiss-APN/{{ project_slug }}"
+  type: str
 version:
+  help: "The initial project version"
   default: "0.1.0"
+  type: str
 python_version:
+  help: "Your Python version of choice"
   default: "3.10"
+  type: str
 year:
+  help: "The current year"
   default: "2022"
+  type: str
