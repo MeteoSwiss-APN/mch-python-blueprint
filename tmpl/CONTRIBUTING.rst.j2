@@ -122,7 +122,7 @@ Tips
 
 To run a subset of tests::
 
-    $ pytest tests.test_{{ project_slug }}
+    $ pytest tests.test_{{ module_name }}
 
 
 Deploying
@@ -148,7 +148,7 @@ Project Structure
      -  Description
 
    * -  src/
-     -  Source folder, with the main package in ``src/{{ project_slug }}``.
+     -  Source folder, with the main package in ``src/{{ module_name }}``.
    * -  tests/
      -  Directory containing the tests.
         The directory structure in this folder follows that in the source folder (src).
@@ -238,7 +238,7 @@ How to provide executable scripts
 
 By default, a single executable script called {{ project_slug }} is provided.
 It is created when the package is installed.
-When you call it, the main function (``cli``) in ``src/{{ project_slug }}/cli.py`` is called.
+When you call it, the main function (``cli``) in ``src/{{ module_name }}/cli.py`` is called.
 
 How many scripts that are created, their names and which functions are called can be configured in the
 ``setup.py`` file.
@@ -249,9 +249,9 @@ For Example::
 
     entry_points={
         'console_scripts': [
-            '{{ project_slug }}={{ project_slug }}.cli:main',
+            '{{ project_slug }}={{ module_name }}.cli:main',
     ],
 
 When the package is installed, a executable script is created in the Python's bin folder with the name ``{{ project_slug }}``.
-If a user calls this script, the function ``main`` in the file ``src/{{ project_slug }}/cli.py`` is called.
+If a user calls this script, the function ``main`` in the file ``src/{{ module_name }}/cli.py`` is called.
 If more scripts should be created, add further entries to array ``console_scripts``.

@@ -18,8 +18,12 @@ project_name:
   default: "Flying Circus"
   type: str
 project_slug:
-  help: "How your project is called on github and in Python"
-  default: "{{ project_name.lower().replace(\"'\", '').replace(' ', '_').replace('-', '_') }}"
+  help: "URL-friendly project name (no spaces)"
+  default: "{{ project_name.lower().replace(\"'\", '').replace(' ', '-') }}"
+  type: str
+module_name:
+  help: "Python module name (no spaces or dashes)"
+  default: "{{ project_slug.replace('-', '_') }}"
   type: str
 project_short_description:
   help: "Describe your project in one line"
