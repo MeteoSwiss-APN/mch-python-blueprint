@@ -36,13 +36,14 @@ repos:
     hooks:
     -   id: flake8
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
--   repo: https://github.com/pycqa/pylint
-    rev: v2.15.4
-    hooks:
-    -   id: pylint
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: https://github.com/PyCQA/pydocstyle
     rev: 6.1.1
     hooks:
     -   id: pydocstyle
         files: ^src/(.*/)*.*\.py$
+-   repo: local
+    # Running pylint locally gives it access to the code and its dependencies
+    rev: v2.15.4
+    hooks:
+    -   id: pylint
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
