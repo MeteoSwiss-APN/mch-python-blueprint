@@ -94,7 +94,7 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
 
         $ make test
 
-    To make sure that your code is compatible with multiple Python version, and that it is properly packageable, run flake8 and pytest within tox::
+    To make sure that your code is compatible with multiple Python version, and that it is properly packageable, run flake8 and pytest::
 
         $ make test-all
 
@@ -196,16 +196,7 @@ Project Structure
    * - requirements/requirements.txt
      - A text file containing recursive pinned runtime dependencies (all versions specified).
        It is created automatically with ``pip freeze`` or the pip-tools command ``pip-compile``.
-   * - requirements/tox-requirements.in
-     - A text file containing top-level unpinned testing dependencies (critical version restrictions only) used by tox as specified in ``tox.ini``.
-       It is managed manually.
-   * - requirements/tox-requirements.txt
-     - A text file containing recursive pinned testing dependencies (critical version restrictions only) used by tox.
-       It is created automatically with ``pip freeze`` or the pip-tools command ``pip-compile``.
 
-   * -  tox.ini
-     - A configuration file for tox carring out the test for different Python versions.
-       The listed versions should be the same as in the file ``setup.py``.
    * -  .bumpversion.cfg
      -  Configuration file of ``bumpversion``.
    * - .gitignore
@@ -228,8 +219,7 @@ Which libraries -- and any critical restrictions of their versions -- have to be
 * Unpinned top-level runtime dependencies, which are required to run the application/library, belong in ``requirements/requirements.in`` (from which they are read in ``setup.py``).
   The versions of unpinned dependencies are only restricted as necessary, e.g., if a minimum version is required for a certain feature or bugfix.
 * Unpinned top-level development dependencies, which are additional packages required during development, belong in ``requirements/dev-requirements.in``.
-* Unpinned top-level testing dependencies, which are packages required by the testing framework ``tox`` to run unit tests, linters etc. as specified in ``tox.ini``, belong in ``requirements/tox-requirements.in``.
-* Pinned runtime, development and testing dependencies belong in ``requirements/requirements.txt``, ``requirements/dev-requirements.txt`` and ``requirements/tox-requirements.txt``, respectively.
+* Pinned runtime and development dependencies belong in ``requirements/requirements.txt`` and ``requirements/dev-requirements.txt``, respectively.
   Pinned dependencies are recursive, i.e., include all dependencies of dependencies, and restricted to a specific version.
   This ensures a reproducible environment that is guaranteed to work.
 
