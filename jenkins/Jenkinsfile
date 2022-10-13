@@ -26,7 +26,7 @@ pipeline {
                 conda create -n copier
                 conda activate copier
                 conda install -c conda-forge copier
-                copier -f copy . .
+                copier --vcs-ref copy . flying_circus
                 conda deactivate
                 '''
             }
