@@ -21,7 +21,7 @@ help="Usage: $(basename "${0}") [-n NAME] [-P VER] [-u] [-e] [-d] [-i] [-f] [-m]
 
 Options:
  -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
- -P VER     Python version [default: ${PYVERSION}]
+ -p VER     Python version [default: ${PYVERSION}]
  -u         Use unpinned requirements (minimal version restrictions)
  -e         Export environment files (requires -u)
  -d         Install additional dev requirements
@@ -32,10 +32,10 @@ Options:
 "
 
 # Eval command line options
-while getopts n:P:defhimu flag; do
+while getopts n:p:defhimu flag; do
     case ${flag} in
         n) ENV_NAME=${OPTARG};;
-        P) PYVERSION=${OPTARG};;
+        p) PYVERSION=${OPTARG};;
         d) DEV=true;;
         e) EXPORT=true;;
         f) FORCE=true;;
