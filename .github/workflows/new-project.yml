@@ -40,15 +40,10 @@ jobs:
         git config user.email "monty.python@meteoswiss.ch"
         git add .
         git commit -m "initial commit"
-    - name: Create dev env from unpinned reqs
+    - name: Create dev env (unpinned) and install package
       working-directory: ./flying_circus
       run: |
-        conda env create --name flying-circus-dev --file requirements/requirements.yml
-        conda env update --name flying-circus-dev --file requirements/dev-requirements.yml
-    - name: Install package into env
-      working-directory: ./flying_circus
-      run: |
-        conda run --name flying-circus-dev python -m pip install . --no-deps
+        ./setup_env.sh -d -u
     - name: Run pre-commit hooks
       working-directory: ./flying_circus
       run: |
