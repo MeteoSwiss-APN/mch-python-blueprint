@@ -13,7 +13,6 @@ PINNED=true
 DEV=false
 EXPORT=false
 INSTALL=false
-FORCE=false
 CONDA=conda
 HELP=false
 
@@ -26,7 +25,6 @@ Options:
  -e         Export environment files (requires -u)
  -d         Install additional dev requirements
  -i         Install package itself (editable with -d)
- -f         Force overwrite of existing env
  -m         Use mamba instead of conda
  -h         Print this help message and exit
 "
@@ -38,7 +36,6 @@ while getopts n:p:defhimu flag; do
         p) PYVERSION=${OPTARG};;
         d) DEV=true;;
         e) EXPORT=true;;
-        f) FORCE=true;;
         h) HELP=true;;
         i) INSTALL=true;;
         m) CONDA=mamba;;
@@ -62,10 +59,6 @@ conda activate || exit # NOT ${CONDA} (doesn't work with mamba)
 
 # Create new env; pass -f to overwriting any existing one
 echo "Creating ${CONDA} environment"
-if ! ${FORCE} && $(eval ${CONDA} info --env | \grep -q "^\<${ENV_NAME}\>"); then
-    echo "Conda env already exists: ${ENV_NAME} (overwrite with -f)" >&2
-    exit 1
-fi
 ${CONDA} create -n ${ENV_NAME} python=${PYVERSION} --yes || exit
 
 # Install requirements in new env
