@@ -15,7 +15,7 @@ EXPORT=false
 CONDA=conda
 HELP=false
 
-help="Usage: $(basename "${0}") [-n NAME] [-P VER] [-u] [-e] [-d] [-i] [-f] [-m] [-h]
+help="Usage: $(basename "${0}") [-n NAME] [-p VER] [-u] [-e] [-d] [-m] [-h]
 
 Options:
  -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
