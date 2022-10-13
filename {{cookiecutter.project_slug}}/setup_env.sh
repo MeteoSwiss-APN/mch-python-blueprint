@@ -15,7 +15,7 @@ EXPORT=false
 CONDA=conda
 HELP=false
 
-help="Usage: $(basename "${0}") [-n NAME] [-p VER] [-u] [-e] [-d] [-m] [-h]
+help_msg="Usage: $(basename "${0}") [-n NAME] [-p VER] [-u] [-e] [-d] [-m] [-h]
 
 Options:
  -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
@@ -37,7 +37,7 @@ while getopts n:p:defhimu flag; do
         h) HELP=true;;
         m) CONDA=mamba;;
         u) PINNED=false;;
-        ?) echo -e "\n${help}" >&2; exit 1;;
+        ?) echo -e "\n${help_msg}" >&2; exit 1;;
     esac
 done
 
@@ -46,7 +46,7 @@ ${DEV} && ENV_NAME+="-dev"
 
 
 if ${HELP}; then
-    echo "${help}"
+    echo "${help_msg}"
     exit 0
 fi
 
