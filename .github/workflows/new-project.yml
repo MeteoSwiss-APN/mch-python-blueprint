@@ -3,10 +3,10 @@ name: Create new project and run tests etc.
 on:
   push:
     branches:
-    - copier3_refine
+    - dev_refactor
   pull_request:
     branches:
-    - copier3_refine
+    - dev_refactor
 
 jobs:
   new-project:
