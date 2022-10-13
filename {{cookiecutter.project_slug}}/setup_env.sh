@@ -12,7 +12,6 @@ PYVERSION=3.10
 PINNED=true
 DEV=false
 EXPORT=false
-INSTALL=false
 CONDA=conda
 HELP=false
 
@@ -24,7 +23,6 @@ Options:
  -u         Use unpinned requirements (minimal version restrictions)
  -e         Export environment files (requires -u)
  -d         Install additional dev requirements
- -i         Install package itself (editable with -d)
  -m         Use mamba instead of conda
  -h         Print this help message and exit
 "
@@ -37,7 +35,6 @@ while getopts n:p:defhimu flag; do
         d) DEV=true;;
         e) EXPORT=true;;
         h) HELP=true;;
-        i) INSTALL=true;;
         m) CONDA=mamba;;
         u) PINNED=false;;
         ?) echo -e "\n${help}" >&2; exit 1;;
@@ -91,12 +88,10 @@ else
 fi
 
 # Install package itself if requested
-if ${INSTALL}; then
-    if ! ${DEV}; then
-        echo "Regular package installation"
-        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps . || exit
-    else
-        echo "Editable package installation"
-        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e . || exit
-    fi
+if ! ${DEV}; then
+    echo "Regular package installation"
+    ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps . || exit
+else
+    echo "Editable package installation"
+    ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e . || exit
 fi
