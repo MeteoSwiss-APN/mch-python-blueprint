@@ -31,7 +31,7 @@ jobs:
         conda env create --name blueprint --file requirements/requirements.yml
     - name: Create new project
       run: |
-        conda run --name blueprint copier -f copy . flying_circus
+        conda run --name blueprint copier -f --defaults copy . flying_circus
     - name: Prepare new project
       working-directory: ./flying_circus
       run: |
