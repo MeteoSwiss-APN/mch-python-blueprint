@@ -43,7 +43,6 @@ repos:
         files: ^src/(.*/)*.*\.py$
 -   repo: local
     # Running pylint locally gives it access to the code and its dependencies
-    rev: v2.15.4
     hooks:
     -   id: pylint
         name: pylint
