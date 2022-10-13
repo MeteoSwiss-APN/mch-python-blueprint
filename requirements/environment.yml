@@ -1,6 +1,5 @@
 name: cookiecutter
 channels:
-  - atmcirc
   - conda-forge
   - defaults
 dependencies:
@@ -54,4 +53,3 @@ dependencies:
   - wheel=0.37.1
   - xz=5.2.6
   - yaml=0.2.5
-prefix: /home/stefan/conda-envs/cookiecutter-dev
