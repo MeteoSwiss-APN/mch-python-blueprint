@@ -12,38 +12,32 @@ PYVERSION=3.10
 PINNED=true
 DEV=false
 EXPORT=false
-INSTALL=false
-FORCE=false
 CONDA=conda
 HELP=false
 
-help="Usage: $(basename "${0}") [-n NAME] [-P VER] [-u] [-e] [-d] [-i] [-f] [-m] [-h]
+help_msg="Usage: $(basename "${0}") [-n NAME] [-p VER] [-u] [-e] [-d] [-m] [-h]
 
 Options:
  -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
- -P VER     Python version [default: ${PYVERSION}]
+ -p VER     Python version [default: ${PYVERSION}]
  -u         Use unpinned requirements (minimal version restrictions)
  -e         Export environment files (requires -u)
  -d         Install additional dev requirements
- -i         Install package itself (editable with -d)
- -f         Force overwrite of existing env
  -m         Use mamba instead of conda
  -h         Print this help message and exit
 "
 
 # Eval command line options
-while getopts n:P:defhimu flag; do
+while getopts n:p:defhimu flag; do
     case ${flag} in
         n) ENV_NAME=${OPTARG};;
-        P) PYVERSION=${OPTARG};;
+        p) PYVERSION=${OPTARG};;
         d) DEV=true;;
         e) EXPORT=true;;
-        f) FORCE=true;;
         h) HELP=true;;
-        i) INSTALL=true;;
         m) CONDA=mamba;;
         u) PINNED=false;;
-        ?) echo -e "\n${help}" >&2; exit 1;;
+        ?) echo -e "\n${help_msg}" >&2; exit 1;;
     esac
 done
 
@@ -52,7 +46,7 @@ ${DEV} && ENV_NAME+="-dev"
 
 
 if ${HELP}; then
-    echo "${help}"
+    echo "${help_msg}"
     exit 0
 fi
 
@@ -62,10 +56,6 @@ conda activate || exit # NOT ${CONDA} (doesn't work with mamba)
 
 # Create new env; pass -f to overwriting any existing one
 echo "Creating ${CONDA} environment"
-if ! ${FORCE} && $(eval ${CONDA} info --env | \grep -q "^\<${ENV_NAME}\>"); then
-    echo "Conda env already exists: ${ENV_NAME} (overwrite with -f)" >&2
-    exit 1
-fi
 ${CONDA} create -n ${ENV_NAME} python=${PYVERSION} --yes || exit
 
 # Install requirements in new env
@@ -98,12 +88,10 @@ else
 fi
 
 # Install package itself if requested
-if ${INSTALL}; then
-    if ! ${DEV}; then
-        echo "Regular package installation"
-        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps . || exit
-    else
-        echo "Editable package installation"
-        ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e . || exit
-    fi
+if ! ${DEV}; then
+    echo "Regular package installation"
+    ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps . || exit
+else
+    echo "Editable package installation"
+    ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e . || exit
 fi

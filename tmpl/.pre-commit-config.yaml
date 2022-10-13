@@ -46,6 +46,7 @@ repos:
         additional_dependencies:
         -   toml==0.10.2
 -   repo: local
+    # Running hooks locally provides them access the dependencies
     hooks:
     -   id: mypy
         name: mypy
@@ -54,3 +55,10 @@ repos:
         types: [python]
         require_serial: true
         verbose: true
+    -   id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+        require_serial: true
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
