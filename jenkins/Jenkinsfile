@@ -17,7 +17,7 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                cp "{{ project_slug }}/setup_miniconda.sh" .
+                cp tmpl/setup_miniconda.sh .
                 bash setup_miniconda.sh -p ${WORKSPACE}
                 '''
                 sh '''#!/usr/bin/env bash
