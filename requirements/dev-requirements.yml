@@ -3,3 +3,7 @@ channels:
   - defaults
 dependencies:
   - pre-commit>=2.20
+  - sphinx
+  - pip
+  - pip:
+    - sphinx-mdinclude
