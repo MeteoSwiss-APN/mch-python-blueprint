@@ -3,14 +3,18 @@
 Template for a simple Python project for [`copier`](https://github.com/copier-org/copier).
 
 ## Quickstart
+
 First you have to install copier and its requirements. Ideally you can do that in a conda environment.
 ```bash
 conda env create --name blueprint --file requirements/requirements.yml
 ```
 Then you can produce your Python package from a copier template by running
 ```
-conda run --name blueprint copier -f copy . .
+conda activate blueprint
+copier --vcs-ref copier3_refine git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
+The flag `--vcs-ref copier3_refine` makes sure the correct branch of the blueprint is checked out. This will be
+changed, once we have a release.
 
 ## Update template
 
