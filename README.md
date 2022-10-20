@@ -12,6 +12,8 @@ First you have to install copier and its requirements. Ideally you can do that i
 ```bash
 conda env create --name blueprint --file requirements/requirements.yml
 ```
+**Warning**
+Copier does not work with older git versions (e.g. the standard one on Tsa). Not having an up-to-date git version will lead to cryptic error messages. On CSCS machines, you can get an up-to-date git version with `module load git`.
 
 ## Create your Python package from our template
 You can now produce your Python package from a copier template by running
