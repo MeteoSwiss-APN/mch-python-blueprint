@@ -3,10 +3,10 @@ name: Run pre-commit in blueprint
 on:
   push:
     branches:
-    - dev_refactor
+    - main
   pull_request:
     branches:
-    - dev_refactor
+    - main
 
 jobs:
   blueprint-pre-commit:
@@ -28,11 +28,12 @@ jobs:
         show-channel-urls: true
     - name: Create dev env from unpinned reqs
       run: |
-        conda env create --name dev_blueprint --file requirements/requirements.yml
-        conda env update --name dev_blueprint --file requirements/dev-requirements.yml
+        conda env create --name dev_env --file requirements/requirements.yml
+        conda env update --name dev_env --file requirements/dev-requirements.yml
+        conda run --name dev_env pip install .
     - name: Install pre-commit hooks
       run: |
-        conda run --name dev_blueprint pre-commit install-hooks
+        conda run --name dev_env pre-commit install-hooks
     - name: Run pre-commit hooks
       run: |
-        conda run --name dev_blueprint pre-commit run --all-files
+        conda run --name dev_env pre-commit run --all-files
