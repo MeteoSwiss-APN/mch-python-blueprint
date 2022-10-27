@@ -53,7 +53,7 @@ instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_p
 To update to the underlying meta template, run:
 
 ```bash
-copier -a .copier-answers.meta-python-project.yml -f update
+copier --vcs-ref copier3_refine -a .copier-answers.yml -f update
 ```
 
 With `-f`, conflicting files are overwritten (which doesn't mean that in the end, the files are changed as those conflicts can be purely internal).
