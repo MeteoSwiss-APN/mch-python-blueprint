@@ -4,7 +4,7 @@ Template for a simple Python project for [`copier`](https://github.com/copier-or
 
 ## Preparation
 Ensure that your active Python version is 3.7 or higher.
-The recommended way to manage Python versions is with [`Conda`] (https://docs.conda.io/en/latest/). On CSCS machines it is recommended to install the leaner [`Miniconda`] (https://docs.conda.io/en/latest/miniconda.html), which offers enough functionality for most of our use cases.
+The recommended way to manage Python versions is with `Conda` (https://docs.conda.io/en/latest/). On CSCS machines it is recommended to install the leaner `Miniconda` (https://docs.conda.io/en/latest/miniconda.html), which offers enough functionality for most of our use cases. If you don't want to do this step manually, you can also use the script that is provided in the copier template `tmpl/setup_miniconda.sh`.
 
 ## Install Copier
 
@@ -12,8 +12,6 @@ First you have to install copier and its requirements. Ideally you can do that i
 ```bash
 conda env create --name blueprint --file requirements/requirements.yml
 ```
-**Warning**
-Copier does not work with older git versions (e.g. the standard one on Tsa). Not having an up-to-date git version will lead to cryptic error messages. On CSCS machines, you can get an up-to-date git version with `module load git`.
 
 ## Create your Python package from our template
 You can now produce your Python package from a copier template by running
@@ -23,6 +21,9 @@ copier --vcs-ref copier3_refine git@github.com:MeteoSwiss-APN/mch-python-bluepri
 ```
 The flag `--vcs-ref copier3_refine` makes sure the correct branch of the blueprint is checked out. This will be
 changed, once we have a release.
+**Warning**
+Copier does not work with older git versions (e.g. the standard one on Tsa). Not having an up-to-date git version will lead to cryptic error messages. On CSCS machines, you can get an up-to-date git version with `module load git`.
+
 
 ## Set up your project on GitHub
 
