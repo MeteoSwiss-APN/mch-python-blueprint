@@ -8,7 +8,14 @@ The recommended way to manage Python versions is with `Conda` (https://docs.cond
 
 ## Install Copier
 
-First you have to install copier and its requirements. Ideally you can do that in a conda environment.
+First you have to install copier and its requirements. Ideally you do it in a conda environment. Either manually
+```bash
+conda env create --name blueprint
+conda activate blueprint
+conda install pip
+pip install copier
+```
+Or (not recommended) you can install it from the requirements file of this repository. To this end clone this repository, navigate to the root directory and then type
 ```bash
 conda env create --name blueprint --file requirements/requirements.yml
 ```
