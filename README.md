@@ -1,6 +1,7 @@
 # python-package
 
-Template for a simple Python project for [`copier`](https://github.com/copier-org/copier).
+Template for a simple Python project for [`copier`](https://github.com/copier-org/copier). This readme will guide you through setting up your package
+with the provided template. More information on the tools, intended workflow, etc. can be found on 
 
 ## Preparation
 Ensure that your active Python version is 3.7 or higher.
