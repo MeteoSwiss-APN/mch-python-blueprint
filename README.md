@@ -1,6 +1,6 @@
 # python-package
-[![Pages](https://github.com/MeteoSwiss-APN/mch-python-blueprint/.github/workflows/blueprint-docs/badge.svg?branch=dev_refactor)](https://meteoswiss-apn.github.io/mch-python-blueprint/)
-[![Pre-Commit](https://github.com/MeteoSwiss-APN/mch-python-blueprint/.github/workflows/blueprint-pre-commit/badge.svg?branch=dev_refactor)](https://meteoswiss-apn.github.io/mch-python-blueprint/)
+[![Pages](https://github.com/MeteoSwiss-APN/mch-python-blueprint/workflows/blueprint-docs/badge.svg?branch=dev_refactor)](https://meteoswiss-apn.github.io/mch-python-blueprint/)
+[![Pre-Commit](https://github.com/MeteoSwiss-APN/mch-python-blueprint/workflows/blueprint-pre-commit/badge.svg?branch=dev_refactor)](https://meteoswiss-apn.github.io/mch-python-blueprint/)
 
 
 Template for a simple Python project for [`copier`](https://github.com/copier-org/copier). This readme will guide you through setting up your package
