@@ -29,20 +29,24 @@ The blueprint provides a variety of tools that assist in development:
 
 -   Various:
 
-    -   `bumpversion <https://github.com/c4urself/bump2version>`__: Utility to increment the version number across a whole project.
     -   `codespell <https://github.com/codespell-project/codespell>`__: Spell checker aimed at detecting common misspellings in code.
 
 How are these tools supposed to be run?
 ---------------------------------------
 
-All tools can be invoked via the command line, either via a framework (*pre-commit* or *tox*) they are embedded in, or directly. A minimal set of tools is run through GitHub actions and pre-commit on every single commit and some more
-extensive linting with flake8 is run upon pushes to the master branch. You can of course customize the corresponding plan (*.github/workflows/precommit.yml*), but you should of course not remove checks excessively.
-Additionally, builds and tests are run through the Jenkins CI/CD framework.
+All tools can be invoked via the command line, either via a framework they are embedded in (we recommend *pre-commit*), or directly.
+All formatters and linters listed above as well as pytest are run through GitHub actions and pre-commit upon pushes to the master branch.
+You can of course customize the corresponding plan (*.github/workflows/precommit.yml*), but you should not remove checks
+excessively. Additionally, builds and tests for production software must be run through the Jenkins CI/CD framework to guarantee
+that the builds are running on CSCS machines. Plans for builds on pull requests to the master as well as for nightly builds are
+included in the `jenkins/` folder. These builds and tests cover exclusively pinned non-editable installations. Contact DevOps for
+the setup of your Jenkins pipeline if you need one (i.e. if your code goes into operation).
+
 
 What do I need to know about versioning?
 ----------------------------------------
 
-Version numbers are crucial to identify versions of a software, for instance to determine whether a certain feature or bugfix is present.
+You can increase the version number in `pyproject.toml`. Version numbers are crucial to identify versions of a software, for instance to determine whether a certain feature or bugfix is present.
 There are different version number schemes suitable for different project complexities, release schedules etc.
 
 A popular approach is `semantic versioning <https://semver.org/>`__ (often *semver*) with version numbers ``X.Y.Z`` composed of three components: *major*, *minor* and *patch*.
