@@ -1,4 +1,6 @@
 # python-package
+[![Pages](https://meteoswiss-apn.github.io/mch-python-blueprint/)](https://github.com/pydata/xarray/actions?query=workflow%3ACI)
+
 
 Template for a simple Python project for [`copier`](https://github.com/copier-org/copier). This readme will guide you through setting up your package
 with the provided template. More information on the tools, intended workflow, etc. can be found on
