@@ -1,7 +1,8 @@
 # python-package
 
 Template for a simple Python project for [`copier`](https://github.com/copier-org/copier). This readme will guide you through setting up your package
-with the provided template. More information on the tools, intended workflow, etc. can be found on 
+with the provided template. More information on the tools, intended workflow, etc. can be found on
+`GH pages of this repository` (https://meteoswiss-apn.github.io/mch-python-blueprint/).
 
 ## Preparation
 Ensure that your active Python version is 3.7 or higher.
@@ -29,7 +30,7 @@ copier --vcs-ref copier3_refine git@github.com:MeteoSwiss-APN/mch-python-bluepri
 ```
 The flag `--vcs-ref copier3_refine` makes sure the correct branch of the blueprint is checked out. This will be
 changed, once we have a release.
-**Warning**
+**Warning:**
 Copier does not work with older git versions (e.g. the standard one on Tsa). Not having an up-to-date git version will lead to cryptic error messages. On CSCS machines, you can get an up-to-date git version with `module load git`.
 
 
