@@ -36,11 +36,19 @@ How are these tools supposed to be run?
 
 All tools can be invoked via the command line, either via a framework they are embedded in (we recommend *pre-commit*), or directly.
 All formatters and linters listed above as well as pytest are run through GitHub actions and pre-commit upon pushes to the master branch.
-You can of course customize the corresponding plan (*.github/workflows/precommit.yml*), but you should not remove checks
+You can of course customize the corresponding plan (*.github/workflows/precommit.yml*) and the configuration of *pre-commit* (*.pre-commit-config.yaml*), but you should not remove checks
 excessively. Additionally, builds and tests for production software must be run through the Jenkins CI/CD framework to guarantee
 that the builds are running on CSCS machines. Plans for builds on pull requests to the master as well as for nightly builds are
 included in the `jenkins/` folder. These builds and tests cover exclusively pinned non-editable installations. Contact DevOps for
 the setup of your Jenkins pipeline if you need one (i.e. if your code goes into operation).
+
+Where do I customize linters, checkers, GH workflows, etc.
+----------------------------------------------------------
+
+First, with great power comes great responsibility. Adapt linter settings carefully. One idea of the blueprint is to enforce coding standards throughout
+APN to make the life of DevOps and OSM easier. Clearly, this idea is sabotaged if everyone uses their favorite linter settings, pre-commit hooks, etc..
+The settings for the linters and checkers are set in *pyproject.toml* in the corresponding tools sections. Pre-commit hooks (what is run through
+pre-commit) is controlled in *.pre-commit-config.yaml*. Finally the jenkins plan and the plans in *.github/workflows* control the CI/CD pipelines.
 
 
 What do I need to know about versioning?
