@@ -21,8 +21,8 @@ Features
    :maxdepth: 2
 
    documentation
-   ci_cd
    development_tools
+   ci_cd
 
 
 Indices and tables
