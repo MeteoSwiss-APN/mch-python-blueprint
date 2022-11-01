@@ -1,5 +1,5 @@
 # python-package
-[![Docs](https://github.com/MeteoSwiss-APN/mch-python-blueprint/actions/workflows/blueprint-docs.yml/badge.svg)](https://meteoswiss-apn.github.io/mch-python-blueprint/)
+[![docs](https://github.com/MeteoSwiss-APN/mch-python-blueprint/actions/workflows/blueprint-docs.yaml/badge.svg)](https://meteoswiss-apn.github.io/mch-python-blueprint/)
 [![Pre-Commit](https://github.com/MeteoSwiss-APN/mch-python-blueprint/actions/workflows/blueprint-pre-commit.yml/badge.svg)](https://github.com/MeteoSwiss-APN/mch-python-blueprint/actions/workflows/blueprint-pre-commit.yml)
 
 
