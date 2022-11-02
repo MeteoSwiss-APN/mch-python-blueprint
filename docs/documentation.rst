@@ -20,7 +20,7 @@ Additionally to a initial README.rst file, the blueprint will automatically gene
 This folder is set up to build static html pages with sphinx. To deploy your docs to GitHub-Pages, enable the feature
 in the settings of your repository following the example given in the following figure:
 
-.. image:: static/github_pages_settings.png
+.. image:: _static/github_pages_settings.png
 
 In the docs folder, there is a file (documentation.inactive), which manages the corresponding Github action. To use it,
 add the last line of this block at the very bottom of the file:
