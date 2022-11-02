@@ -41,9 +41,8 @@ while getopts n:p:defhimu flag; do
     esac
 done
 
-# Add -dev to env name if -d is passed
+# Define dev env name by adding -dev suffix
 DEV_ENV_NAME="${ENV_NAME}-dev"
-${DEV} && ENV_NAME="${DEV_ENV_NAME}"
 
 if ${HELP}; then
     echo "${help_msg}"
@@ -69,6 +68,9 @@ if ${PINNED}; then
         ${CONDA} env update --name ${DEV_ENV_NAME} --file requirements/dev-environment.yml || exit
     fi
 else
+    # First, always create a prod env from unpinned deps
+    # Use the prod env name even if -d has been passed, so the prod env is
+    # exported with its correct name if -e has been passed along with -d
     echo "Unpinned installation"
     ${CONDA} env update --name ${ENV_NAME} --file requirements/requirements.yml || exit
     if ${EXPORT}; then
@@ -78,6 +80,7 @@ else
     if ! ${DEV}; then
         echo "WARNING: Unpinned prod installation!!!" >&2
     else
+        # If -d has been passed, install unpinned dev deps on top of prod deps
         echo "Dev installation"
         ${CONDA} rename --name ${ENV_NAME} ${DEV_ENV_NAME}
         ${CONDA} env update --name ${DEV_ENV_NAME} --file requirements/dev-requirements.yml || exit
