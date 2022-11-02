@@ -42,8 +42,8 @@ while getopts n:p:defhimu flag; do
 done
 
 # Add -dev to env name if -d is passed
-${DEV} && ENV_NAME+="-dev"
-
+DEV_ENV_NAME="${ENV_NAME}-dev"
+${DEV} && ENV_NAME="${DEV_ENV_NAME}"
 
 if ${HELP}; then
     echo "${help_msg}"
@@ -66,7 +66,7 @@ if ${PINNED}; then
         ${CONDA} env update --name ${ENV_NAME} --file requirements/environment.yml || exit
     else
         echo "Dev installation"
-        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-environment.yml || exit
+        ${CONDA} env update --name ${DEV_ENV_NAME} --file requirements/dev-environment.yml || exit
     fi
 else
     echo "Unpinned installation"
@@ -79,19 +79,20 @@ else
         echo "WARNING: Unpinned prod installation!!!" >&2
     else
         echo "Dev installation"
-        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-requirements.yml || exit
+        ${CONDA} rename --name ${ENV_NAME} ${DEV_ENV_NAME}
+        ${CONDA} env update --name ${DEV_ENV_NAME} --file requirements/dev-requirements.yml || exit
         if ${EXPORT}; then
             echo "Export pinned dev environment"
-            ${CONDA} env export --name ${ENV_NAME} --no-builds > requirements/dev-environment.yml || exit
+            ${CONDA} env export --name ${DEV_ENV_NAME} --no-builds > requirements/dev-environment.yml || exit
         fi
     fi
 fi
 
-# Install package itself if requested
+# Install package itself
 if ! ${DEV}; then
     echo "Regular package installation"
     ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps . || exit
 else
     echo "Editable package installation"
-    ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e . || exit
+    ${CONDA} run --name ${DEV_ENV_NAME} python -m pip install --no-deps -e . || exit
 fi
