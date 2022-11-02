@@ -1,7 +1,7 @@
 channels:
   - conda-forge
   - defaults
-dependencies :
+dependencies:
   - black
   - codespell
   - flake8
