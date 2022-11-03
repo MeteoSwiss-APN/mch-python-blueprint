@@ -56,7 +56,7 @@ pipeline {
                 cd ${WORKSPACE}/{{ project_slug }}
                 ./setup_env.sh -n {{ project_slug }} -d -u
                 conda activate dev-{{ project_slug }}
-                pip install --editable --no-deps .
+                pip install --no-deps --editable .
                 '''
             }
         }
@@ -105,7 +105,7 @@ pipeline {
                 cd ${WORKSPACE}/{{ project_slug }}
                 ./setup_env.sh -n pinned-{{ project_slug }} -d
                 conda activate pinned-dev-{{ project_slug }}
-                pip install --editable --no-deps .
+                pip install --no-deps --editable .
                 '''
             }
         }
