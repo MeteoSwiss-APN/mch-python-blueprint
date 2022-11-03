@@ -90,12 +90,3 @@ else
         fi
     fi
 fi
-
-# Install package itself
-if ! ${DEV}; then
-    echo "Regular package installation"
-    ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps . || exit
-else
-    echo "Editable package installation"
-    ${CONDA} run --name ${DEV_ENV_NAME} python -m pip install --no-deps -e . || exit
-fi
