@@ -29,9 +29,9 @@ pipeline {
                 source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
                 conda init bash
                 conda activate
-                bash installer.sh -n {{ project_slug }}
+                ./setup_env.sh -n {{ project_slug }} -u
                 conda activate {{ project_slug }}
-                pip install .
+                pip install --no-deps .
                 '''
             }
         }
@@ -54,9 +54,9 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{ project_slug }}
-                bash installer.sh -n dev-{{ project_slug }} -d
+                ./setup_env.sh -n {{ project_slug }} -d -u
                 conda activate dev-{{ project_slug }}
-                pip install --editable .
+                pip install --editable --no-deps .
                 '''
             }
         }
@@ -79,9 +79,9 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{ project_slug }}
-                bash installer.sh -n pinned-{{ project_slug }} -p
+                ./setup_env.sh -n pinned-{{ project_slug }}
                 conda activate pinned-{{ project_slug }}
-                pip install .
+                pip install --no-deps .
                 '''
             }
         }
@@ -103,9 +103,9 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{ project_slug }}
-                bash installer.sh -n pinned-dev-{{ project_slug }} -p -d
+                ./setup_env.sh -n pinned-{{ project_slug }} -d
                 conda activate pinned-dev-{{ project_slug }}
-                pip install --editable .
+                pip install --editable --no-deps .
                 '''
             }
         }

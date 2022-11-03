@@ -30,7 +30,7 @@ jobs:
       run: |
         conda env create --name dev_env --file requirements/requirements.yml
         conda env update --name dev_env --file requirements/dev-requirements.yml
-        conda run --name dev_env pip install .
+        conda run --name dev_env pip install --no-deps .
     - name: Install pre-commit hooks
       run: |
         conda run --name dev_env pre-commit install-hooks

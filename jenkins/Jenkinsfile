@@ -41,7 +41,7 @@ pipeline {
                 conda activate
                 bash setup_env.sh -n flying_circus -u
                 conda activate flying_circus
-                pip install .
+                pip install --no-deps .
                 '''
             }
         }
@@ -66,7 +66,7 @@ pipeline {
                 cd ${WORKSPACE}/flying_circus
                 bash setup_env.sh -n flying_circus -d -u
                 conda activate flying_circus-dev
-                pip install --editable .
+                pip install --editable --no-deps .
                 '''
             }
         }
@@ -91,7 +91,7 @@ pipeline {
                 cd ${WORKSPACE}/flying_circus
                 bash setup_env.sh -n pinned-flying_circus
                 conda activate pinned-flying_circus
-                pip install .
+                pip install --no-deps .
                 '''
             }
         }
@@ -115,7 +115,7 @@ pipeline {
                 cd ${WORKSPACE}/flying_circus
                 bash setup_env.sh -n pinned-flying_circus -d
                 conda activate pinned-flying_circus-dev
-                pip install --editable .
+                pip install --editable --no-deps .
                 '''
             }
         }
