@@ -13,6 +13,7 @@ Getting Started
    :maxdepth: 2
 
    readme
+   faq
 
 Features
 --------
