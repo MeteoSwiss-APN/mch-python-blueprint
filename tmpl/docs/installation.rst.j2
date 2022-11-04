@@ -19,7 +19,7 @@ Dependencies are handled by the conda package manager. The goal of this step is 
 
     $ bash setup_env.sh -d -u
 
-You can control the environment name with the flag `-n` and the python version with `-v`. As defaults the script will use {{ project_slug }} and Python 3.10.
+You can control the environment name with the flag `-n` and the python version with `-v`. Execute :code:`./setup_env -h` for available options and defaults.
 
 
 Installation of {{ project_name }}
@@ -30,16 +30,16 @@ Again, there are two options for installation, binary production installations a
 .. code-block:: console
 
     $ conda activate {{ project_slug }}
-    $ pip install .
+    $ pip install --no-deps .
 
 For a production installation and
 
 .. code-block:: console
 
     $ conda activate {{ project_slug }}
-    $ pip install . --editable
+    $ pip install --no-deps --editable .
 
-for a development installation.
+for a development (editable) installation.
 
 
 Maintenance of the environment (for developers)
@@ -60,7 +60,9 @@ or
 Note that this requires you to distinguish the name of the dev environment.
 
 
-Interaction with Jenkins
-------------------------
+Interaction with Jenkins and Github actions
+-------------------------------------------
 
-All four possible installation options (prod/dev) x (free/pinned) are tested by jenkins on regular builds and upon merging pull requests to the master branch.
+Your package is always built on a Github actions server upon committing to the main branch. If your code goes into production,
+pinned, non-editable (production) installations must be tested with Jenkins on CSCS machines. Templates may be found in the jenkins/
+folder. Contact DevOps to help you set up your pipeline.
