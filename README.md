@@ -3,9 +3,9 @@
 [![Pre-Commit](https://github.com/MeteoSwiss-APN/mch-python-blueprint/actions/workflows/blueprint-pre-commit.yml/badge.svg)](https://github.com/MeteoSwiss-APN/mch-python-blueprint/actions/workflows/blueprint-pre-commit.yml)
 
 
-Template for a simple Python project for [`copier`](https://github.com/copier-org/copier). This readme will guide you through setting up your package
-with the provided template. More information on the tools, intended workflow, etc. can be found on
-`GH pages of this repository` (https://meteoswiss-apn.github.io/mch-python-blueprint/).
+Template for a simple Python project for [`copier`](https://github.com/copier-org/copier). This readme will guide you through setting up your package (if you are new to packaging in Python, check the Python Packaging User Guide (https://packaging.python.org/en/latest/) with the provided template.
+More information on the tools, intended workflow, etc. can be found on
+GH pages of this repository (https://meteoswiss-apn.github.io/mch-python-blueprint/).
 
 ## Preparation
 Ensure that your active Python version is 3.7 or higher.
@@ -56,7 +56,7 @@ instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_p
 `docs/installation.rst` in your project repository.
 ## Update template
 
-To update to the underlying meta template, run:
+To update your package to the latest version of the underlying meta template, run:
 
 ```bash
 copier --vcs-ref copier3_refine -a .copier-answers.yml -f update

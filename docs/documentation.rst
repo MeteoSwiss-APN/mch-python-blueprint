@@ -3,8 +3,8 @@
 Documentation
 *************
 
-What is already here?
----------------------
+Documentation template in the docs folder
+-----------------------------------------
 
 Additionally to a initial README.rst file, the blueprint will automatically generate a folder with the following content
 

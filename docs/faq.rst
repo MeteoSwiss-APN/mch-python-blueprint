@@ -51,7 +51,7 @@ encourage you to keep the linters and formatters and use ignore or exclude state
 the weaknesses of your code are.
 
 
-**Q:** Linters and formatters behave differently locally and on the GitHub actions server.
+**Q:** Linters and formatters behave differently locally and on the Github actions server.
 
 **A:** First, if possible, update your environment and dev-environment locally. Issues might diverge over time. Then, if you run the
 checkers and linters locally, make sure they use the settings defined in :code:`pyproject.toml`. If this doesn't help or if it is
