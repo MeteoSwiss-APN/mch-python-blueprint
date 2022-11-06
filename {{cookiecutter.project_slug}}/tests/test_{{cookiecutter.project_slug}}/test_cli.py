@@ -9,10 +9,10 @@ from {{ cookiecutter.project_slug }} import cli
 class _TestCLI:
     """Base class to test the command line interface."""
 
-    def call(self, args=None, *, exit=0):
+    def call(self, args=None, *, exit_=0):
         runner = CliRunner()
         result = runner.invoke(cli.main, args)
-        assert result.exit_code == exit
+        assert result.exit_code == exit_
         return result
 
 
@@ -38,7 +38,7 @@ class TestNoCmd(_TestCLI):
         assert result.output.strip() == "4"
 
     def test_two_args(self):
-        result = self.call(["4", "5"], exit=2)
+        result = self.call(["4", "5"], exit_=2)
         assert "Error: No such command '5'." in result.output.split("\n")
 
 

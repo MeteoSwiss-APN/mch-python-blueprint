@@ -3,7 +3,6 @@ channels:
   - defaults
 dependencies :
   - black
-  - bump2version
   - codespell
   - flake8
   - flake8-black
@@ -20,5 +19,5 @@ dependencies :
   - rstcheck
   - sphinx
   - sphinx-autobuild
-  - tox
-  - tox-conda
+  - pip:
+    - flake8-pyproject

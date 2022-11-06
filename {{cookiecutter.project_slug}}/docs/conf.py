@@ -46,9 +46,9 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"{{ cookiecutter.project_name }}"
-copyright = u"{% now 'local', '%Y' %}, {{ cookiecutter.full_name }}"
-author = u"{{ cookiecutter.full_name }}"
+project = "{{ cookiecutter.project_name }}"
+copyright = "{% now 'local', '%Y' %}, {{ cookiecutter.full_name }}"  # pylint: disable=W0622  # redefined-builtin
+author = "{{ cookiecutter.full_name }}"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -105,7 +105,7 @@ htmlhelp_basename = "{{ cookiecutter.project_slug }}doc"
 
 # -- Options for LaTeX output ------------------------------------------
 
-latex_elements: Dict[str, str] = {
+latex_elements: dict[str, str] = {
     # The paper size ("letterpaper" or "a4paper").
     # "papersize": "letterpaper",
     #
@@ -122,30 +122,30 @@ latex_elements: Dict[str, str] = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-#latex_documents = [
-#  (master_doc, 'cookiecutter-pypackage.tex', 'cookiecutter-pypackage Documentation',
-#   'Audrey Roy Greenfeld', 'manual'),
-#]
+# latex_documents = [
+#   (master_doc, 'cookiecutter-pypackage.tex', 'cookiecutter-pypackage Documentation',
+#    'Audrey Roy Greenfeld', 'manual'),
+# ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+# latex_logo = None
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
-#latex_use_parts = False
+# latex_use_parts = False
 
 # If true, show page references after internal links.
-#latex_show_pagerefs = False
+# latex_show_pagerefs = False
 
 # If true, show URL addresses after external links.
-#latex_show_urls = False
+# latex_show_urls = False
 
 # Documents to append as an appendix to all manuals.
-#latex_appendices = []
+# latex_appendices = []
 
 # If false, no module index is generated.
-#latex_domain_indices = True
+# latex_domain_indices = True
 
 
 # -- Options for manual page output ------------------------------------
@@ -156,7 +156,7 @@ man_pages = [
     (
         master_doc,
         "{{ cookiecutter.project_slug }}",
-        u"{{ cookiecutter.project_name }} Documentation",
+        "{{ cookiecutter.project_name }} Documentation",
         [author],
         1,
     )
@@ -172,7 +172,7 @@ texinfo_documents = [
     (
         master_doc,
         "{{ cookiecutter.project_slug }}",
-        u"{{ cookiecutter.project_name }} Documentation",
+        "{{ cookiecutter.project_name }} Documentation",
         author,
         "{{ cookiecutter.project_slug }}",
         "One line description of project.",
@@ -181,13 +181,13 @@ texinfo_documents = [
 ]
 
 # Documents to append as an appendix to all manuals.
-#texinfo_appendices = []
+# texinfo_appendices = []
 
 # If false, no module index is generated.
-#texinfo_domain_indices = True
+# texinfo_domain_indices = True
 
 # How to display URL addresses: 'footnote', 'no', or 'inline'.
-#texinfo_show_urls = 'footnote'
+# texinfo_show_urls = 'footnote'
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
-#texinfo_no_detailmenu = False
+# texinfo_no_detailmenu = False

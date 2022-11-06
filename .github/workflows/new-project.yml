@@ -1,0 +1,70 @@
+name: Create new project and run tests etc.
+
+on:
+  push:
+    branches:
+    - dev_refactor
+  pull_request:
+    branches:
+    - dev_refactor
+
+jobs:
+  new-project:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9.7
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniconda-version: "latest"
+        channels: conda-forge
+        channel-priority: flexible
+        show-channel-urls: true
+    - name: Create blueprint run env from unpinned reqs
+      run: |
+        conda env create --name blueprint --file requirements/requirements.yml
+    - name: Create new project
+      run: |
+        conda run --name blueprint cookiecutter --no-input .
+    - name: Prepare new project
+      working-directory: ./flying_circus
+      run: |
+        git init
+        git config user.name "Monty Python"
+        git config user.email "monty.python@meteoswiss.ch"
+        git add .
+        git commit -m "initial commit"
+    - name: Create dev env (unpinned) and install package
+      working-directory: ./flying_circus
+      run: |
+        ./setup_env.sh -d -u
+    - name: Run pre-commit hooks
+      working-directory: ./flying_circus
+      run: |
+        conda run --name flying-circus-dev pre-commit install-hooks
+        conda run --name flying-circus-dev pre-commit run --all-files
+    - name: Run formatters
+      working-directory: ./flying_circus
+      run: |
+        conda run --name flying-circus-dev black .
+        conda run --name flying-circus-dev isort .
+    - name: Run type checker
+      working-directory: ./flying_circus
+      run: |
+        conda run --name flying-circus-dev ./run-mypy.sh
+    - name: Run linters
+      working-directory: ./flying_circus
+      run: |
+        conda run --name flying-circus-dev pydocstyle
+        conda run --name flying-circus-dev flake8
+        conda run --name flying-circus-dev pylint src tests
+    - name: Run unit tests
+      working-directory: ./flying_circus
+      run: |
+        conda run --name flying-circus-dev pytest
