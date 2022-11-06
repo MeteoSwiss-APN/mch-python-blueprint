@@ -36,7 +36,7 @@ jobs:
       working-directory: ./flying_circus
       run: |
         # Adding empty line so that pre-commit hook end-of-file-fixer does not fails
-        echo -e "" >> .copier-answers.yml 
+        echo -e "" >> .copier-answers.yml
         git init
         git config user.name "Monty Python"
         git config user.email "monty.python@meteoswiss.ch"
