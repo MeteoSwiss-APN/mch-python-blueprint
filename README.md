@@ -22,7 +22,7 @@ pip install copier
 ```
 Or (not recommended) you can install it from the requirements file of this repository. To this end clone this repository, navigate to the root directory and then type
 ```bash
-conda env create --name blueprint --file requirements/requirements.yml
+conda create --name blueprint --file requirements/requirements.yml
 ```
 
 ## Create your Python package from our template
