@@ -92,8 +92,12 @@ else
         # If -d has been passed, install unpinned dev deps on top of prod deps
         echo "Dev installation"
         if [[ "${ENV_NAME}" != "${DEV_ENV_NAME}" ]]; then
-            # Use renamed prod env as basis for dev env (unless they are named the same due to -n)
-            ${CONDA} rename --name ${ENV_NAME} ${DEV_ENV_NAME}
+            # Use prod env as basis for dev env (unless they are named the same due to -n)
+            # Note: Starting with v4.14.0, `conda rename` command is available to rename an env
+            # TODO: Once v4.14.0 is readily available, replace `conda create/remove` by `conda rename`
+            ${CONDA} create --name ${DEV_ENV_NAME} --clone ${ENV_NAME}
+            ${CONDA} remove --name ${ENV_NAME} --all
+            #${CONDA} rename --name ${ENV_NAME} ${DEV_ENV_NAME}
         fi
         ${CONDA} env update --name ${DEV_ENV_NAME} --file requirements/dev-requirements.yml || exit
         if ${EXPORT}; then
