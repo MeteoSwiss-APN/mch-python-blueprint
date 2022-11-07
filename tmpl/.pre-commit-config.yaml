@@ -10,6 +10,7 @@ repos:
     -   id: check-yaml
     -   id: debug-statements
     -   id: end-of-file-fixer
+        exclude: .copier-answers.yml
     -   id: trailing-whitespace
 -   repo: https://github.com/myint/rstcheck
     rev: v6.1.0

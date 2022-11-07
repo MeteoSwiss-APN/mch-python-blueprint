@@ -30,14 +30,14 @@ Again, there are two options for installation, binary production installations a
 .. code-block:: console
 
     $ conda activate {{ project_slug }}
-    $ pip install .
+    $ pip install . --no-deps
 
 For a production installation and
 
 .. code-block:: console
 
     $ conda activate {{ project_slug }}
-    $ pip install . --editable
+    $ pip install . --editable --no-deps
 
 for a development installation.
 
@@ -58,7 +58,6 @@ or
     $ conda env export dev-{{ project_slug }} requirements/dev-environment.yml
 
 Note that this requires you to distinguish the name of the dev environment.
-
 
 Interaction with Jenkins
 ------------------------

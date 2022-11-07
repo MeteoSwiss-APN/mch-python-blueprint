@@ -9,14 +9,31 @@ repos:
         exclude: tmpl/
     -   id: check-yaml
         exclude: tmpl/
--   repo: https://github.com/myint/rstcheck
-    rev: v6.1.0
-    hooks:
-    -   id: rstcheck
-        additional_dependencies:
-        -   sphinx==5.0.1
-        exclude: tmpl/
+#-   repo: https://github.com/myint/rstcheck
+#    rev: v6.1.0
+#    hooks:
+#    -   id: rstcheck
+#        additional_dependencies:
+#        -   sphinx==5.0.1
+#        -   sphinx-mdinclude
+#        exclude: tmpl/
 -   repo: https://github.com/codespell-project/codespell
     rev: v2.2.1
     hooks:
     -   id: codespell
+-   repo: https://github.com/psf/black
+    rev: 22.8.0
+    hooks:
+    -   id: black
+        files: ^tests/([^/]+/)*\w+.py$
+-   repo: https://github.com/PyCQA/isort/
+    rev: 5.10.1
+    hooks:
+    -   id: isort
+        files: ^tests/([^/]+/)*\w+.py$
+-   repo: https://github.com/pycqa/flake8
+    rev: 5.0.4
+    hooks:
+    -   id: flake8
+        files: ^tests/([^/]+/)*\w+.py$
+        args: [--max-line-length=88]
