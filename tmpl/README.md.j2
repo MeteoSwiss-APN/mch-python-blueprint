@@ -6,19 +6,24 @@
 
 ## Development tools
 
-As this package was created with the APN Python blueprint, it comes with a stack of development tools, which are described in more detail in the [documentation](https://meteoswiss-apn.github.io/mch-python-blueprint/). Here, we give a brief overview on what is implemented.
+As this package was created with the APN Python blueprint, it comes with a stack of development tools, which are described in more detail on [`blueprint GitHub pages`]
+(https://meteoswiss-apn.github.io/mch-python-blueprint/). Here, we give a brief overview on what is implemented.
 
 ### Testing and coding standards
-
-Testing your code and keeping it compliant with the most important Python standards is a requirement for Python software written in APN. To make the life of package administrators easier, the most important checks are run automatically on GitHub actions. If your code goes into production, it must additionally be tested on CSCS machines, which is only possible with a Jenkins pipeline (GitHub actions is running on a GitHub server).
+Testing your code and compliance with the most important Python standards is a requirement for Python software written in APN. To make the life of package
+administrators easier, the most important checks are run automatically on GitHub actions. If your code goes into production, it must additionally be tested on CSCS
+machines, which is only possible with a Jenkins pipeline (GitHub actions is running on a GitHub server).
 
 ### Pre-commit on GitHub actions
-
-`.github/workflows/pre-commit.yml` contains a hook that will trigger the creation of your environment (unpinned, dev) on the GitHub actions server and then run pytest as well as various formatters and linters through pre-commit. This hook is only triggered upon pushes to the main branch (in general: don't do that) and in pull requests to the main branch.
+`.github/workflows/pre-commit.yml` contains a hook that will trigger the creation of your environment (unpinned, dev) on the GitHub actions server and
+then run pytest as well as various formatters and linters through pre-commit. This hook is only triggered upon pushes to the main branch (in general: don't do that)
+and in pull requests to the main branch.
 
 ### Jenkins
-
-Two jenkins plans are available in the `jenkins/` folder. On the one hand `jenkins/Jenkinsfile` controls the nightly (weekly, monthly, ...) builds, on the other hand `jenkins/JenkinsJobPR` controls the pipeline invoked with the command `launch jenkins` in pull requests on GitHub. Your jenkins pipeline will not be set up automatically. If you need to run your tests on CSCS machines, contact DevOps to help you with the setup of the pipelines. Otherwise, you can ignore the Jenkinsfiles and exclusively run your tests and checks on GitHub actions.
+Two jenkins plans are available in the `jenkins/` folder. On the one hand `jenkins/Jenkinsfile` controls the nightly (weekly, monthly, ...) builds, on the other hand
+`jenkins/JenkinsJobPR.j2` controls the pipeline invoked with the command `launch jenkins` in pull requests on GitHub. Your jenkins pipeline will not be set up
+automatically. If you need to run your tests on CSCS machines, contact DevOps to help you with the setup of the pipelines. Otherwise, you can ignore the jenkinsfiles
+and exclusively run your tests and checks on GitHub actions.
 
 ## Credits
 

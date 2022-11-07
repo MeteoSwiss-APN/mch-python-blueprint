@@ -6,8 +6,12 @@
 # - 2022-09 (S. Ruedisuehli) Refactor; add some options
 #
 
+# Default env names
+DEFAULT_ENV_NAME="{{ project_slug }}"
+DEFAULT_DEV_ENV_NAME="${DEFAULT_ENV_NAME}-dev"
+
 # Default options
-ENV_NAME="{{ project_slug }}"
+ENV_NAME=""
 PYVERSION=3.10
 PINNED=true
 DEV=false
@@ -18,7 +22,7 @@ HELP=false
 help_msg="Usage: $(basename "${0}") [-n NAME] [-p VER] [-u] [-e] [-d] [-m] [-h]
 
 Options:
- -n NAME    Env name (-d adds -dev) [default: ${ENV_NAME}]
+ -n NAME    Env name [default: ${DEFAULT_ENV_NAME}; with -d: ${DEFAULT_DEV_ENV_NAME}]
  -p VER     Python version [default: ${PYVERSION}]
  -u         Use unpinned requirements (minimal version restrictions)
  -e         Export environment files (requires -u)
@@ -41,9 +45,13 @@ while getopts n:p:defhimu flag; do
     esac
 done
 
-# Add -dev to env name if -d is passed
-${DEV} && ENV_NAME+="-dev"
-
+# Set prod and dev env names depending on whether -n has been passed
+if [[ "${ENV_NAME}" != "" ]]; then
+    DEV_ENV_NAME="${ENV_NAME}"
+else
+    ENV_NAME="${DEFAULT_ENV_NAME}"
+    DEV_ENV_NAME="${DEFAULT_DEV_ENV_NAME}"
+fi
 
 if ${HELP}; then
     echo "${help_msg}"
@@ -66,32 +74,35 @@ if ${PINNED}; then
         ${CONDA} env update --name ${ENV_NAME} --file requirements/environment.yml || exit
     else
         echo "Dev installation"
-        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-environment.yml || exit
+        ${CONDA} env update --name ${DEV_ENV_NAME} --file requirements/dev-environment.yml || exit
     fi
 else
+    # First, always create a prod env from unpinned deps
+    # Use the prod env name even if -d has been passed, so the prod env is
+    # exported with its correct name if -e has been passed along with -d
     echo "Unpinned installation"
     ${CONDA} env update --name ${ENV_NAME} --file requirements/requirements.yml || exit
+    if ${EXPORT}; then
+        echo "Export pinned prod environment"
+        ${CONDA} env export --name ${ENV_NAME} --no-builds | \grep -v '^prefix:' > requirements/environment.yml || exit
+    fi
     if ! ${DEV}; then
-        if ${EXPORT}; then
-            echo "Export pinned prod environment"
-            ${CONDA} env export --name ${ENV_NAME} --no-builds > requirements/environment.yml || exit
-        fi
         echo "WARNING: Unpinned prod installation!!!" >&2
     else
+        # If -d has been passed, install unpinned dev deps on top of prod deps
         echo "Dev installation"
-        ${CONDA} env update --name ${ENV_NAME} --file requirements/dev-requirements.yml || exit
+        if [[ "${ENV_NAME}" != "${DEV_ENV_NAME}" ]]; then
+            # Use prod env as basis for dev env (unless they are named the same due to -n)
+            # Note: Starting with v4.14.0, `conda rename` command is available to rename an env
+            # TODO: Once v4.14.0 is readily available, replace `conda create/remove` by `conda rename`
+            ${CONDA} create --name ${DEV_ENV_NAME} --clone ${ENV_NAME}
+            ${CONDA} remove --name ${ENV_NAME} --all
+            #${CONDA} rename --name ${ENV_NAME} ${DEV_ENV_NAME}
+        fi
+        ${CONDA} env update --name ${DEV_ENV_NAME} --file requirements/dev-requirements.yml || exit
         if ${EXPORT}; then
             echo "Export pinned dev environment"
-            ${CONDA} env export --name ${ENV_NAME} --no-builds > requirements/dev-environment.yml || exit
+            ${CONDA} env export --name ${DEV_ENV_NAME} --no-builds| \grep -v '^prefix:' > requirements/dev-environment.yml || exit
         fi
     fi
-fi
-
-# Install package itself if requested
-if ! ${DEV}; then
-    echo "Regular package installation"
-    ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps . || exit
-else
-    echo "Editable package installation"
-    ${CONDA} run --name ${ENV_NAME} python -m pip install --no-deps -e . || exit
 fi

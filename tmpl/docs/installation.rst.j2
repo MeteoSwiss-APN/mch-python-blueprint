@@ -46,22 +46,21 @@ for a development installation.
 Maintenance of the environment (for developers)
 -----------------------------------------------
 
-If you need to add new first-level dependencies to your package, make sure to include them in `requirements/requirements.yml` or `requirements/dev-requirements.yml` in case they are used for development only. Don't constrain the version number more than necessary; a minimum minor version (e.g., `>=3.9`) to ensure feature availability is usually a good approach. Note that pip requirements can be added to these files under `- pip:` in the `dependencies:` section of the document. After a (unpinned!) installation, this will change the full dependency tree and you need to export the environment(s). In order to update both the production and the development environments, run
+If you need to add new first-level dependencies to your package, make sure to include them in `requirements/requirements.yml` or `requirements/dev-requirements.yml` in case they are used for development only. Note that pip requirements can be added to these files in the `pip:` section of the document. After a (free!) installation, this will change the full dependency tree and you need to export the environment(s). This is currently not handled automatically, so you need to export both (dev and prod) environments by hand by activating the environment and then running
 
 .. code-block:: console
 
-    $ bash setup_env.sh -e
+    $ conda env export {{ project_slug }} requirements/environment.yml
 
-for a production environment and
+or
 
 .. code-block:: console
 
-    $ bash setup_env.sh -ed
+    $ conda env export dev-{{ project_slug }} requirements/dev-environment.yml
 
-for a development environment, where `-e` means export the environment to `requirements/environment.yml` and `requirements/dev-environment.yml`, respectively.
-
+Note that this requires you to distinguish the name of the dev environment.
 
 Interaction with Jenkins
 ------------------------
 
-All four possible installation options (pinned/unpinned x prod/dev) are tested by jenkins on regular builds and upon merging pull requests to the master branch.
+All four possible installation options (prod/dev) x (free/pinned) are tested by jenkins on regular builds and upon merging pull requests to the master branch.

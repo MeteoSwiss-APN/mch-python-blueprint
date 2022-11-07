@@ -176,8 +176,7 @@ conda env export --name my_env --no-builds > requirements/dev-environment.yml
 Alternatively, use the provided script
 
 ```bash
-setup_env.sh -ue
-setup_env.sh -ued
+setup_env.sh -u -d -e
 ```
 
 to create a runtime and a development (`-d`) environment from unpinned (`-u`) dependencies and export (`-e`) them (consider throwing in `-m` for good measure to speed things up with `mamba`).
