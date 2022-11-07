@@ -45,7 +45,7 @@ jobs:
       working-directory: ./flying_circus
       run: |
         ./setup_env.sh -d -u
-        conda run --name fllying-circus-dev pip install --no-deps .
+        conda run --name flying-circus-dev python -m pip install --no-deps .
     - name: Run pre-commit hooks
       working-directory: ./flying_circus
       run: |
