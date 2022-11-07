@@ -196,7 +196,6 @@ After creating a new project and installing the development dependencies, pre-co
     If you have a good reason to make a commit despite failing pre-commit hooks, you can forego the checks with ``--no-verify``.
     However, this should not be done routinely, but only in exceptional circumstances.
 
-
 Tell me about pytest!
 ---------------------
 
