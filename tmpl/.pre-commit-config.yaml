@@ -1,0 +1,65 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+    -   id: check-ast
+    -   id: check-case-conflict
+    -   id: check-docstring-first
+    -   id: check-symlinks
+    -   id: check-toml
+    -   id: check-yaml
+    -   id: debug-statements
+    -   id: end-of-file-fixer
+        exclude: .copier-answers.yml
+    -   id: trailing-whitespace
+-   repo: https://github.com/myint/rstcheck
+    rev: v6.1.0
+    hooks:
+    -   id: rstcheck
+        additional_dependencies:
+        -   sphinx==5.0.1
+-   repo: https://github.com/codespell-project/codespell
+    rev: v2.2.1
+    hooks:
+    -   id: codespell
+-   repo: https://github.com/psf/black
+    rev: 22.8.0
+    hooks:
+    -   id: black
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
+-   repo: https://github.com/PyCQA/isort/
+    rev: 5.10.1
+    hooks:
+    -   id: isort
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
+-   repo: https://github.com/pycqa/flake8
+    rev: 5.0.4
+    hooks:
+    -   id: flake8
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
+        additional_dependencies:
+        -   flake8-pyproject==1.1.0
+-   repo: https://github.com/PyCQA/pydocstyle
+    rev: 6.1.1
+    hooks:
+    -   id: pydocstyle
+        files: ^src/(.*/)*.*\.py$
+        additional_dependencies:
+        -   toml==0.10.2
+-   repo: local
+    # Running hooks locally provides them access the dependencies
+    hooks:
+    -   id: mypy
+        name: mypy
+        entry: bash run-mypy.sh
+        language: system
+        types: [python]
+        require_serial: true
+        verbose: true
+    -   id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+        require_serial: true
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$

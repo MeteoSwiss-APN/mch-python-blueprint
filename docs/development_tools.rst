@@ -29,20 +29,32 @@ The blueprint provides a variety of tools that assist in development:
 
 -   Various:
 
-    -   `bumpversion <https://github.com/c4urself/bump2version>`__: Utility to increment the version number across a whole project.
     -   `codespell <https://github.com/codespell-project/codespell>`__: Spell checker aimed at detecting common misspellings in code.
 
 How are these tools supposed to be run?
 ---------------------------------------
 
-All tools can be invoked via the command line, either via a framework (*pre-commit* or *tox*) they are embedded in, or directly. A minimal set of tools is run through GitHub actions and pre-commit on every single commit and some more
-extensive linting with flake8 is run upon pushes to the master branch. You can of course customize the corresponding plan (*.github/workflows/precommit.yml*), but you should of course not remove checks excessively.
-Additionally, builds and tests are run through the Jenkins CI/CD framework.
+All tools can be invoked via the command line, either via a framework they are embedded in (we recommend *pre-commit*), or directly.
+All formatters and linters listed above as well as pytest are run through GitHub actions and pre-commit upon pushes to the master branch.
+You can of course customize the corresponding plan (*.github/workflows/precommit.yml*) and the configuration of *pre-commit* (*.pre-commit-config.yaml*), but you should not remove checks
+excessively. Additionally, builds and tests for production software must be run through the Jenkins CI/CD framework to guarantee
+that the builds are running on CSCS machines. Plans for builds on pull requests to the master as well as for nightly builds are
+included in the `jenkins/` folder. These builds and tests cover exclusively pinned non-editable installations. Contact DevOps for
+the setup of your Jenkins pipeline if you need one (i.e. if your code goes into operation).
+
+Where do I customize linters, checkers, GH workflows, etc.
+----------------------------------------------------------
+
+First, with great power comes great responsibility. Adapt linter settings carefully. One idea of the blueprint is to enforce coding standards throughout
+APN to make the life of DevOps and OSM easier. Clearly, this idea is sabotaged if everyone uses their favorite linter settings, pre-commit hooks, etc..
+The settings for the linters and checkers are set in *pyproject.toml* in the corresponding tools sections. Pre-commit hooks (what is run through
+pre-commit) is controlled in *.pre-commit-config.yaml*. Finally the jenkins plan and the plans in *.github/workflows* control the CI/CD pipelines.
+
 
 What do I need to know about versioning?
 ----------------------------------------
 
-Version numbers are crucial to identify versions of a software, for instance to determine whether a certain feature or bugfix is present.
+You can increase the version number in `pyproject.toml`. Version numbers are crucial to identify versions of a software, for instance to determine whether a certain feature or bugfix is present.
 There are different version number schemes suitable for different project complexities, release schedules etc.
 
 A popular approach is `semantic versioning <https://semver.org/>`__ (often *semver*) with version numbers ``X.Y.Z`` composed of three components: *major*, *minor* and *patch*.
@@ -54,13 +66,8 @@ An increase in a specific component conveys the scope of change from the previou
 
 While the boundaries between these types of changes are `not always clear <https://snarky.ca/why-i-dont-like-semver>`__, this provides a good starting point to versioning a project.
 
-The Blueprint provides the utility `bumpversion <https://github.com/c4urself/bump2version>`__ to easily increment the version number of a project in all files that contain it, and optionally create a git commit and git tag as well.
-Its configuration `currently <https://github.com/c4urself/bump2version/issues/42>`__ resides in the file *.bumpversion.cfg*.
-By default, it uses semver with three-component version numbers ``X.Y.Z``.
-
 .. note::
     For relatively simple projects, two components ``X.Y`` may be enough, with the major component indicating non-compatible (or otherwise major) changes and the minor component indicating backward-compatible feature additions and bug fixes.
-    Bumpversion can easily be set up to support this scheme by adapting the regular expression used to parse version numbers and the format template used to write them.
 
 I write beautiful code, I don't need an autoformatter!
 ------------------------------------------------------
@@ -212,18 +219,6 @@ On the flip side, creating the virtual environment and installing the dependenci
 The Makefile provided by the Blueprint takes an intermediate approach: The commands ``make test``, ``make test-fast`` and ``make test-slow`` run the tests directly in the working directory without install overhead, while ``make test-iso`` and ``make test-check`` run them through tox.
 The former commands can thus be used during development to frequently test changes, while periodically using the latter commands ensures installability of the project.
 
-What belongs in the file tox.ini?
----------------------------------
-
-As the name suggests, the file tox.ini is the configuration file of tox.
-However, a look into the file provided by the Blueprint reveals that it also contains configuration of other tools, some of which are not even managed by tox, such as isort, which is managed by pre-commit.
-The reason is that there is no single standard file in which to put configurations of development tools in a Python project.
-
-There are a few files that come close, for instance setup.cfg (which can be used in conjunction with setup.py), but also tox.ini.
-Because the Blueprint only uses a plain setup.py script without an accompanying setup.cfg file, but anyway features a tox.ini file for the configuration of tox itself, we put the configuration of all tools that support tox.ini into that file to avoid having a dozen or so tool-specific configuration files.
-
-.. note::
-    The relatively recently introduced pyproject.toml may over time evolve into the central standard place to put tool configurations, but it is not there yet.
 
 Tell me about pytest!
 ---------------------

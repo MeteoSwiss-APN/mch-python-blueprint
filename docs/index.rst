@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to cookiecutter-pypackage's documentation!
-==================================================
+MetoSwiss-APN Python blueprint
+==============================
 
 Getting Started
 ---------------
@@ -13,30 +13,16 @@ Getting Started
    :maxdepth: 2
 
    readme
-   quickstart
+
+Features
+--------
+
+.. toctree::
+   :maxdepth: 2
+
    documentation
-   ci_cd
    development_tools
-   projects_and_blueprint
-   pypi_release_checklist
-   troubleshooting
-
-Basics
-------
-
-.. toctree::
-   :maxdepth: 2
-
-   prompts
-
-Advanced Features
------------------
-
-.. toctree::
-   :maxdepth: 2
-
-   travis_pypi_setup
-   console_script_setup
+   ci_cd
 
 
 Indices and tables

@@ -17,17 +17,7 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                cp tmpl/setup_miniconda.sh .
                 bash setup_miniconda.sh -p ${WORKSPACE}
-                '''
-                sh '''#!/usr/bin/env bash
-                set -e
-                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda create -n copier
-                conda activate copier
-                conda install -c conda-forge copier
-                copier --vcs-ref=HEAD --defaults copy . flying_circus
-                conda deactivate
                 '''
             }
         }
@@ -35,12 +25,12 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                cd ${WORKSPACE}/flying_circus
+                cd ${WORKSPACE}/{{ project_slug }}
                 source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
                 conda init bash
                 conda activate
-                bash setup_env.sh -n flying_circus -u
-                conda activate flying_circus
+                bash installer.sh -n {{ project_slug }}
+                conda activate {{ project_slug }}
                 pip install .
                 '''
             }
@@ -50,8 +40,8 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash
-                conda activate flying_circus
-                cd ${WORKSPACE}/flying_circus
+                conda activate {{ project_slug }}
+                cd ${WORKSPACE}/{{ project_slug }}
                 pytest tests
                 '''
             }
@@ -63,9 +53,9 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash
                 conda activate
-                cd ${WORKSPACE}/flying_circus
-                bash setup_env.sh -n flying_circus -d -u
-                conda activate flying_circus-dev
+                cd ${WORKSPACE}/{{ project_slug }}
+                bash installer.sh -n dev-{{ project_slug }} -d
+                conda activate dev-{{ project_slug }}
                 pip install --editable .
                 '''
             }
@@ -75,8 +65,8 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash
-                conda activate flying_circus-dev
-                cd ${WORKSPACE}/flying_circus
+                conda activate dev-{{ project_slug }}
+                cd ${WORKSPACE}/{{ project_slug }}
                 pytest tests
                 '''
             }
@@ -88,9 +78,9 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash
                 conda activate
-                cd ${WORKSPACE}/flying_circus
-                bash setup_env.sh -n pinned-flying_circus
-                conda activate pinned-flying_circus
+                cd ${WORKSPACE}/{{ project_slug }}
+                bash installer.sh -n pinned-{{ project_slug }} -p
+                conda activate pinned-{{ project_slug }}
                 pip install .
                 '''
             }
@@ -99,8 +89,8 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate pinned-flying_circus
-                cd ${WORKSPACE}/flying_circus
+                conda activate pinned-{{ project_slug }}
+                cd ${WORKSPACE}/{{ project_slug }}
                 pytest tests
                 '''
             }
@@ -112,9 +102,9 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash
                 conda activate
-                cd ${WORKSPACE}/flying_circus
-                bash setup_env.sh -n pinned-flying_circus -d
-                conda activate pinned-flying_circus-dev
+                cd ${WORKSPACE}/{{ project_slug }}
+                bash installer.sh -n pinned-dev-{{ project_slug }} -p -d
+                conda activate pinned-dev-{{ project_slug }}
                 pip install --editable .
                 '''
             }
@@ -123,8 +113,8 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate pinned-flying_circus-dev
-                cd ${WORKSPACE}/flying_circus
+                conda activate pinned-dev-{{ project_slug }}
+                cd ${WORKSPACE}/{{ project_slug }}
                 pytest tests
                 '''
             }
