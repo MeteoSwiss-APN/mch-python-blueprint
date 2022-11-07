@@ -4,7 +4,6 @@ repos:
     hooks:
     -   id: check-symlinks
     -   id: end-of-file-fixer
-        exclude: .copier-answers.yml
     -   id: trailing-whitespace
     -   id: check-toml
         exclude: tmpl/
