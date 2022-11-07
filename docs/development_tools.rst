@@ -35,10 +35,10 @@ How are these tools supposed to be run?
 ---------------------------------------
 
 All tools can be invoked via the command line, either via a framework they are embedded in (we recommend *pre-commit*), or directly.
-All formatters and linters listed above as well as pytest are run through GitHub actions and pre-commit upon pushes to the master branch.
+All formatters and linters listed above as well as pytest are run through Github actions and pre-commit upon pushes to the main branch.
 You can of course customize the corresponding plan (*.github/workflows/precommit.yml*) and the configuration of *pre-commit* (*.pre-commit-config.yaml*), but you should not remove checks
 excessively. Additionally, builds and tests for production software must be run through the Jenkins CI/CD framework to guarantee
-that the builds are running on CSCS machines. Plans for builds on pull requests to the master as well as for nightly builds are
+that the builds are running on CSCS machines. Plans for builds on pull requests to the main as well as for nightly builds are
 included in the `jenkins/` folder. These builds and tests cover exclusively pinned non-editable installations. Contact DevOps for
 the setup of your Jenkins pipeline if you need one (i.e. if your code goes into operation).
 
@@ -164,11 +164,11 @@ Following are a few examples from the `Black README <https://github.com/psf/blac
 What are pre-commit hooks?
 --------------------------
 
-`Pre-commit hooks <https://github.com/git/git/blob/master/templates/hooks--pre-commit.sample>`__ are one type of `giit hooks <https://githooks.com/>`__ -- scripts that are automatically triggered by certain git events.
+`Pre-commit hooks <https://github.com/git/git/blob/master/templates/hooks--pre-commit.sample>`__ are one type of `git hooks <https://githooks.com/>`__ -- scripts that are automatically triggered by certain git events.
 As their name suggests, pre-commit hooks are executed ahead of commits, which is an ideal time to ensure that the code meets certain standards of quality and correctness, i.e., to apply formatters and linters to the code.
 Thanks to the popular `framework <https://pre-commit.com/>`__ with the same name, pre-commit hooks are very easy to set up and manage thanks to many `ready-made hooks <https://pre-commit.com/hooks.html>`__ ranging from `small utilities <https://github.com/pre-commit/pre-commit-hooks>`__ that remove trailing whitespace, check symlinks or sort files to full-fledged linters like `mypy <https://github.com/pre-commit/mirrors-mypy>`__ or `pylint <https://github.com/PyCQA/pylint>`__.
 
-Once pre-commit hooks are active, they are triggered whenever you attempt to commit a change.
+As a default, pre-commit is invoked through Github actions upon merges to the master. You may however find it useful to be able to run pre-commit for your local commits. To do so, you can either run it manually with :code:`pre-commit run --all-files` or you can set it up with :code:`pre-commit install` to run on each and every commit. Once pre-commit hooks are active, they are triggered whenever you attempt to commit a change.
 The checkers and formatters are applied to the changed lines or files (depending on the tool), and the commit is only completed if all checks are successful.
 If any checker finds an issue or makes a change to the code, the commit is aborted and it is up to you to fix any problems and/or review changes before reattempting the commit.
 While this may sound cumbersome, that is really not the case if you keep your commits reasonably small -- the whole point of pre-commit hooks is to prevent these minor issues from accumulating over time thanks to frequent micro-cleanups.
@@ -191,34 +191,10 @@ After creating a new project and installing the development dependencies, pre-co
     ./venv/bin/pre-commit install           # hook into git
     ./venv/bin/pre-commit run --all-files   # run hooks the first time
 
-Note that ``pre-commit install`` is run as part of ``make install-dev``, so if you stick to the Makefile commands, you won't have to activate pre-commit explicitly.
 
 .. note::
     If you have a good reason to make a commit despite failing pre-commit hooks, you can forego the checks with ``--no-verify``.
     However, this should not be done routinely, but only in exceptional circumstances.
-
-What does tox do?
------------------
-
-`Tox <https://github.com/tox-dev/tox>`__ is an automation framework to run arbitrary commands in isolated virtual environments.
-In addition to running tools like the linters flake8, mypy or pylint that check the correctness of the code, tox can also easily be set up to run unit tests (e.g., with pytest) against multiple installed Python versions (e.g., 3.7, 3.8, 3.9) to ensure broad compatibility.
-
-.. note::
-    While less critical for end-user applications, ensuring compatibility with multiple Python versions is crucial for libraries that are used in other applications.
-
-In the Blueprint, tox manages the following tools:
-
--   the unit testing framework `pytest <https://github.com/pytest-dev/pytest>`__,
--   the linters (i.e., static code analysis tools) `flake8 <https://github.com/PyCQA/flake8>`__ and `pylint <https://github.com/PyCQA/pylint>`__, and
--   the static type checker `mypy <https://github.com/python/mypy>`__.
-
-The fact that tox runs the tools isolated in virtual environments has the advantage that it also tests whether the project is properly installable.
-For instance, if some necessary data files are not listed in MANIFEST.in and thus not copied alongside the code, this won't be detected when tests are run directly in the working directory, but tox will fail because those files will be missing.
-On the flip side, creating the virtual environment and installing the dependencies (or at least verifying that they are installed) introduces some overhead, which means that running fast unit tests may take significantly longer if run with tox.
-
-The Makefile provided by the Blueprint takes an intermediate approach: The commands ``make test``, ``make test-fast`` and ``make test-slow`` run the tests directly in the working directory without install overhead, while ``make test-iso`` and ``make test-check`` run them through tox.
-The former commands can thus be used during development to frequently test changes, while periodically using the latter commands ensures installability of the project.
-
 
 Tell me about pytest!
 ---------------------
