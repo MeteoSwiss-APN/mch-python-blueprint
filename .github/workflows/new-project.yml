@@ -31,7 +31,8 @@ jobs:
         conda env create --name blueprint --file requirements/requirements.yml
     - name: Create new project
       run: |
-        conda run --name blueprint copier -f --defaults copy . flying_circus
+        # Note: Make sure python_version is consistent with python-version hardcoded above
+        conda run --name blueprint copier --force --data python_version=3.9:str copy . flying_circus
     - name: Prepare new project
       working-directory: ./flying_circus
       run: |
