@@ -4,7 +4,11 @@
 Installation
 ============
 
+<<<<<<< HEAD
  There are two installation types, a productive (binary) installation and a development (source) installation which is editable.
+=======
+There are two installation types, production (prod) and development (dev; is editable).
+>>>>>>> dev_refactor
 
 Preparation
 -----------
@@ -13,19 +17,32 @@ To install {{ project_name }} you need a miniconda installation. You can either 
 
 Installation of dependencies
 ----------------------------
+<<<<<<< HEAD
 Dependencies are handled by the conda package manager. The goal of this step is to set up a conda environment according to the requirements of {{ project_name }}. Note that the development installation has some additional dependencies as it includes linters and other development tools. The dependencies are handled in requirement files. Free installations are based on the `requirements/requirements.yml` and `requirements/dev-requirements.yml` files, where the first-level dependencies of the package are listed. Pinned installations are based on exported environments and stored in the files `requirements/environment.yml` and `requirements/dev-environment.yml`. In total, four possible installation options are possible pinned/unpinned x dev/prod. These options are covered in the script `setup_env.sh`. The optional flags `-d` and `-u` stand for dev and unpinned installation respectively. E.g. for an unpinned dev installation type:
+=======
+
+Dependencies are handled by the conda package manager. The goal of this step is to set up a conda environment according to the requirements of {{ project_name }}. Note that the development installation has some additional dependencies as it includes linters and other development tools. The direct dependencies are handled in YAML requirements files. Unpinned installations are based on the `requirements/requirements.yml` and `requirements/dev-requirements.yml` files, where the first-level dependencies of the package are listed. Pinned installations are based on exported environments and stored in the files `requirements/environment.yml` and `requirements/dev-environment.yml`. In total, four possible installation options are possible (pinned/unpinned x prod/dev). These options are covered in the script `setup_env.sh`. The optional flags `-d` and `-u` stand for dev and unpinned installation respectively. E.g., for an unpinned dev installation type:
+>>>>>>> dev_refactor
 
 .. code-block:: console
 
     $ bash setup_env.sh -d -u
 
+<<<<<<< HEAD
 You can control the environment name with the flag `-n` and the python version with `-v`. As defaults the script will use {{ project_slug }} and Python 3.10.
+=======
+You can control the environment name with the flag `-n` and the python version with `-v`. As defaults the script will use {{ project_slug }} and Python 3.10, respectively.
+>>>>>>> dev_refactor
 
 
 Installation of {{ project_name }}
 -----------------------------------------------
 
+<<<<<<< HEAD
 Again, there are two options for installation, binary production installations and development (source) installations which are editable. Go to the root folder of {{ project_slug }}. Then type
+=======
+Again, there are two options for the installation type, production and (editable) development installation. After installing the dependencies with conda, from the root folder of {{ project_slug }} type
+>>>>>>> dev_refactor
 
 .. code-block:: console
 
