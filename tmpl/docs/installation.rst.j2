@@ -49,11 +49,13 @@ Maintenance of the environment (for developers)
 If you need to add new first-level dependencies to your package, make sure to include them in `requirements/requirements.yml` or `requirements/dev-requirements.yml` in case they are used for development only. Don't constrain the version number more than necessary; a minimum minor version (e.g., `>=3.9`) to ensure feature availability is usually a good approach. Note that pip requirements can be added to these files under `- pip:` in the `dependencies:` section of the document. After a (unpinned!) installation, this will change the full dependency tree and you need to export the environment(s). In order to update both the production and the development environments, run
 
 .. code-block:: console
+
     $ bash setup_env.sh -e
 
 for a production environment and
 
 .. code-block:: console
+
     $ bash setup_env.sh -ed
 
 for a development environment, where `-e` means export the environment to `requirements/environment.yml` and `requirements/dev-environment.yml`, respectively.
