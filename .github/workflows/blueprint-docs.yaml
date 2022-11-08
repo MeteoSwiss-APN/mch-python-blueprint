@@ -1,17 +1,20 @@
 name: Build and publish blueprint documentation
 
 on:
-  push:
-    branches:
-    - master
-  pull_request:
-    branches:
+  workflow_run:
+    workflows: ["new-project"]
+    push:
+      branches:
+      - master
+    pull_request:
+      branches:
       - '*'
+    types:
+      - completed
 
 jobs:
   blueprint-docs-build:
     runs-on: ubuntu-latest
-    needs: new-project
     steps:
     - uses: actions/checkout@v1
     - uses: actions/download-artifact@master
