@@ -3,10 +3,10 @@ name: Build and publish blueprint documentation
 on:
   push:
     branches:
-    - '*'
+    - master
   pull_request:
     branches:
-      - dev_refactor
+      - '*'
 
 jobs:
   blueprint-docs-build:
@@ -25,7 +25,7 @@ jobs:
   blueprint-docs-build-and-deploy:
     runs-on: ubuntu-latest
     needs: blueprint-docs-build
-    if: github.ref == 'refs/heads/conditional_build_html'
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/download-artifact@v1
         with:
