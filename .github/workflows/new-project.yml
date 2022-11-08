@@ -44,7 +44,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: GeneratedProject
-        path: flying_circus
+        path: ./flying_circus
     - name: Create dev env (unpinned) and install package
       working-directory: ./flying_circus
       run: |
