@@ -11,8 +11,13 @@ on:
 jobs:
   blueprint-docs-build:
     runs-on: ubuntu-latest
+    needs: new-project
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/download-artifact@master
+      with:
+        name: GeneratedProject
+        path: flying_circus
     - uses: C2SM/sphinx-action@sphinx-latest
       with:
         pre-build-command: 'pip3 install sphinx_mdinclude'

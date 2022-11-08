@@ -41,6 +41,10 @@ jobs:
         git config user.email "monty.python@meteoswiss.ch"
         git add .
         git commit -m "initial commit"
+    - uses: actions/download-artifact@master
+      with:
+        name: GeneratedProject
+        path: flying_circus
     - name: Create dev env (unpinned) and install package
       working-directory: ./flying_circus
       run: |
