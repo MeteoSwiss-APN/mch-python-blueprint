@@ -37,7 +37,6 @@ jobs:
         run: |
           pwd
           ls docs
-          echo ' '
           ls docs/_build
           git clone https://github.com/ammaraskar/sphinx-action-test.git --branch gh-pages --single-branch gh-pages
           cp -r docs/_build/html/* gh-pages/
