@@ -19,5 +19,6 @@ dependencies:
   - rstcheck
   - sphinx
   - sphinx-autobuild
+  - pip
   - pip:
     - flake8-pyproject
