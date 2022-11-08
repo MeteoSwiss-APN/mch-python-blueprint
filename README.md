@@ -48,8 +48,14 @@ and initialize git with the following sequence of commands:
 
 Go back to the GitHub page of your project. Then follow the steps on GitHub under the headline “…or push an existing repository from the command line“
 to connect your repository to the remote on GitHub. **Attention**: It's recommended to use the ssh URL and not https as recommended in the given
-instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_package. To install your package, follow the instructions given in
-`docs/installation.rst` in your project repository.
+instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_package.
+
+## Start developing your package
+
+For first steps, see the `README.md` of
+your package for some guidance. More details on package installation are also given in `docs/installation.rst` in your project repository. Find
+out more about provided development tools and setting up CI/CD pipelines on https://meteoswiss-apn.github.io/mch-python-blueprint/ .
+
 ## Update template
 
 To update your package to the latest version of the underlying meta template, run:
