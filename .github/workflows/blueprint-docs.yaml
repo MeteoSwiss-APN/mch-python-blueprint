@@ -9,7 +9,7 @@ on:
       - dev_refactor
 
 jobs:
-  blueprint-docs-build:
+- blueprint-docs-build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -22,7 +22,7 @@ jobs:
       with:
         name: DocumentationHTML
         path: docs/_build/
-  blueprint-docs-build-and-deploy:
+- blueprint-docs-build-and-deploy:
     runs-on: ubuntu-latest
     needs: blueprint-docs-build
       #    if: github.ref == 'refs/heads/conditional_build_html'
