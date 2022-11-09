@@ -13,9 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: create blueprint project example
+    - name: create blueprint environment
       run: |
         conda env create --name blueprint --file requirements/requirements.yml
+    - name: Create new project
+      run: |
         # Note: Make sure python_version is consistent with python-version hardcoded above
         conda run --name blueprint copier --force --data python_version=3.9 copy . yourproject
     - uses: C2SM/sphinx-action@sphinx-latest
