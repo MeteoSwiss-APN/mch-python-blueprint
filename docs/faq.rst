@@ -12,10 +12,10 @@ FAQ and Troubleshooting
 
 **A:** If you get lots of them, did you install your package with pip (add -e if you need an editable installation for development)?
 
-.. code-block::
+.. code-block:: bash
 
-    conda activate <package_env>
-    cd </package/root/directory>
+    conda activate package_env
+    cd /package/root/directory
     pip install --no-deps .
 
 If yes, are you sure you didn't miss any dependencies in :code:`requirements/requirements.yml` or
@@ -27,10 +27,10 @@ If yes, are you sure you didn't miss any dependencies in :code:`requirements/req
 
 **A:** Sure! If you want the pre-commit hooks to run automatically on every local commit, you can set up pre-commit locally.
 
-.. code-block::
+.. code-block:: bash
 
-    conda activate <dev-package_env>
-    cd </package/root/directory>
+    conda activate dev-package_env
+    cd /package/root/directory
     pre-commit install
 
 If you prefer to run pre-commit independent of committing, you can run the hooks over all files by
