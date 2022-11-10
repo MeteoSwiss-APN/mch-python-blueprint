@@ -16,7 +16,11 @@ repos:
         additional_dependencies:
         -   sphinx==5.0.1
         -   sphinx-mdinclude
-        exclude: ( tmpl/ | docs/readme.rst )
+        exclude: |
+            (?x)^(
+                tmpl/|
+                docs/readme.rst|
+            )$
 -   repo: https://github.com/codespell-project/codespell
     rev: v2.2.1
     hooks:
