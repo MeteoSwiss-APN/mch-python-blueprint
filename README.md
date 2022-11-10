@@ -35,9 +35,9 @@ Copier does not work with older git versions (e.g. the standard one on Tsa). Not
 
 ## Set up your project on GitHub
 
-Create the repository on MeteoSwiss-APN github. **Attention**: the name here must correspond to the information given to copier.
-A .gitignore template is not needed as there is one provided in the blueprint. Go to the repository created by copier, i.e. your project repository
-and initialize git with the following sequence of commands:
+**Warning:** Before setting up your project, think carefully, whether you want to have your repository public or private and whether the provided licence
+suits your need. The package comes with an MIT license. Once you have made up your mind, go to the repository created by copier, i.e. your project
+repository and initialize git with the following sequence of commands:
 
 ```bash
     cd </path/to/your/package>
@@ -45,11 +45,17 @@ and initialize git with the following sequence of commands:
     git add .
     git commit -m “initial commit”
 ```
+Create the repository on MeteoSwiss-APN github. **Attention**: the name here must correspond to the information given to copier. Then follow the steps on
+GitHub under the headline “…or push an existing repository from the command line to connect your repository to the remote on GitHub. A .gitignore template
+is not needed as there is one provided in the blueprint. **Attention**: It's recommended to use the ssh URL and not https as recommended in the given
+instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_package.
 
-Go back to the GitHub page of your project. Then follow the steps on GitHub under the headline “…or push an existing repository from the command line“
-to connect your repository to the remote on GitHub. **Attention**: It's recommended to use the ssh URL and not https as recommended in the given
-instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_package. To install your package, follow the instructions given in
-`docs/installation.rst` in your project repository.
+## Start developing your package
+
+For first steps, see the `README.md` of
+your package for some guidance. More details on package installation are also given in `docs/installation.rst` in your project repository. Find
+out more about provided development tools and setting up CI/CD pipelines on https://meteoswiss-apn.github.io/mch-python-blueprint/ .
+
 ## Update template
 
 To update your package to the latest version of the underlying meta template, run:
