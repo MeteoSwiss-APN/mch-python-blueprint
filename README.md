@@ -25,10 +25,15 @@ pip install copier
 You can now produce your Python package from a copier template by running
 ```
 conda activate blueprint
-copier --vcs-ref copier3_refine git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+copier git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
-The flag `--vcs-ref copier3_refine` makes sure the correct branch of the blueprint is checked out. This will be
-changed, once we have a release.
+If you need to generate your project from a specific commit hash or branch of the blueprint you can run with --vcs-ref
+
+```
+conda activate blueprint
+copier --vcs-ref <branch> git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+```
+
 **Warning:**
 Copier does not work with older git versions (e.g. the standard one on Tsa). Not having an up-to-date git version will lead to cryptic error messages. On CSCS machines, you can get an up-to-date git version with `module load git`.
 
@@ -61,7 +66,7 @@ out more about provided development tools and setting up CI/CD pipelines on http
 To update your package to the latest version of the underlying meta template, run:
 
 ```bash
-copier --vcs-ref copier3_refine -a .copier-answers.yml -f update
+copier -a .copier-answers.yml -f update
 ```
 
 With `-f`, conflicting files are overwritten (which doesn't mean that in the end, the files are changed as those conflicts can be purely internal).
