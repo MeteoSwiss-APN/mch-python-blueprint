@@ -41,7 +41,8 @@ Copier does not work with older git versions (e.g. the standard one on Tsa). Not
 ## Set up your project on GitHub
 
 **Warning:** Before setting up your project, think carefully, whether you want to have your repository public or private and whether the provided licence
-suits your need. The package comes with an MIT license. Once you have made up your mind, go to the repository created by copier, i.e. your project
+suits your need. The package comes with an MIT license, therefore do not commit proprietary code before carefully reviewing or changing the license.
+Once you have made up your mind, go to the repository created by copier, i.e. your project
 repository and initialize git with the following sequence of commands:
 
 ```bash
