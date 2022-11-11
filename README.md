@@ -52,8 +52,8 @@ instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_p
 
 ## Start developing your package
 
-For first steps, see the `README.md` of
-your package for some guidance. More details on package installation are also given in `docs/installation.rst` in your project repository. Find
+For first steps with your project, how to install it, setup and run the development tools, see the documentation of an example project, https://meteoswiss-apn.github.io/mch-python-blueprint/example_project/README.html. 
+Find
 out more about provided development tools and setting up CI/CD pipelines on https://meteoswiss-apn.github.io/mch-python-blueprint/ .
 
 ## Update template
