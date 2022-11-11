@@ -7,7 +7,7 @@ Check available options with
 ```bash
 setup_env.sh -h
 ```
-. We distinguish development installations which are editable and have additional dependencies on formatters and linters from productive installations which are non-editable
+We distinguish development installations which are editable and have additional dependencies on formatters and linters from productive installations which are non-editable
 and have no additional dependencies. Moreover we distinguish pinned installations based on exported (reproducible) environments and free installations where the installation
 is based on first level dependencies listed in `requirements/requirements.yml` and `requirements/dev-requirements.yml` respectively. If you start developing, you might want to do a free
 development installation and export the environments right away.
@@ -48,7 +48,7 @@ and in pull requests to the main branch.
 
 ### Jenkins
 Two jenkins plans are available in the `jenkins/` folder. On the one hand `jenkins/Jenkinsfile` controls the nightly (weekly, monthly, ...) builds, on the other hand
-`jenkins/JenkinsJobPR.j2` controls the pipeline invoked with the command `launch jenkins` in pull requests on GitHub. Your jenkins pipeline will not be set up
+`jenkins/JenkinsJobPR` controls the pipeline invoked with the command `launch jenkins` in pull requests on GitHub. Your jenkins pipeline will not be set up
 automatically. If you need to run your tests on CSCS machines, contact DevOps to help you with the setup of the pipelines. Otherwise, you can ignore the jenkinsfiles
 and exclusively run your tests and checks on GitHub actions.
 

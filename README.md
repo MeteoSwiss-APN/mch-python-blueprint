@@ -25,10 +25,15 @@ pip install copier
 You can now produce your Python package from a copier template by running
 ```
 conda activate blueprint
-copier --vcs-ref copier3_refine git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+copier git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
-The flag `--vcs-ref copier3_refine` makes sure the correct branch of the blueprint is checked out. This will be
-changed, once we have a release.
+If you need to generate your project from a specific commit hash or branch of the blueprint you can run with --vcs-ref
+
+```
+conda activate blueprint
+copier --vcs-ref <branch> git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+```
+
 **Warning:**
 Copier does not work with older git versions (e.g. the standard one on Tsa). Not having an up-to-date git version will lead to cryptic error messages. On CSCS machines, you can get an up-to-date git version with `module load git`.
 
@@ -36,7 +41,8 @@ Copier does not work with older git versions (e.g. the standard one on Tsa). Not
 ## Set up your project on GitHub
 
 **Warning:** Before setting up your project, think carefully, whether you want to have your repository public or private and whether the provided licence
-suits your need. The package comes with an MIT license. Once you have made up your mind, go to the repository created by copier, i.e. your project
+suits your need. The package comes with an MIT license, therefore do not commit proprietary code before carefully reviewing or changing the license.
+Once you have made up your mind, go to the repository created by copier, i.e. your project
 repository and initialize git with the following sequence of commands:
 
 ```bash
@@ -52,8 +58,8 @@ instructions. The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_p
 
 ## Start developing your package
 
-For first steps, see the `README.md` of
-your package for some guidance. More details on package installation are also given in `docs/installation.rst` in your project repository. Find
+For first steps with your project, how to install it, setup and run the development tools, see the documentation of an example project, https://meteoswiss-apn.github.io/mch-python-blueprint/example_project/README.html.
+Find
 out more about provided development tools and setting up CI/CD pipelines on https://meteoswiss-apn.github.io/mch-python-blueprint/ .
 
 ## Update template
@@ -61,7 +67,7 @@ out more about provided development tools and setting up CI/CD pipelines on http
 To update your package to the latest version of the underlying meta template, run:
 
 ```bash
-copier --vcs-ref copier3_refine -a .copier-answers.yml -f update
+copier -a .copier-answers.yml -f update
 ```
 
 With `-f`, conflicting files are overwritten (which doesn't mean that in the end, the files are changed as those conflicts can be purely internal).
