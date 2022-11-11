@@ -13,9 +13,6 @@ Getting Started
    :maxdepth: 2
 
    readme
-   example_project/README
-   example_project/docs/installation
-   example_project/USAGE
    faq
 
 Features
