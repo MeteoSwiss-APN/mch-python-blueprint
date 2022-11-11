@@ -21,7 +21,7 @@ jobs:
         # Note: Make sure python_version is consistent with python-version hardcoded above
         conda run --name blueprint copier --force --vcs-ref=HEAD python_version=3.9 copy . ./docs/example_project
         ls
-        echo "===================================" 
+        echo "==================================="
         ls docs
         echo "==================================="
         ls docs/example_project
