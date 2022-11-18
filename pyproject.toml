@@ -20,7 +20,7 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 authors = [
-    {name="Carlos Osuna", email="carlos.osuna@meteoswiss.ch"}
+    {name="Carlos Osuna", email="carlos.osuna@meteoswiss.ch"},
     {name="Daniel Regenass", email="daniel.regenass@meteoswiss.ch"},
     {name="Stefan Ruedisuehli", email="stefan.ruedisuehli@env.ethz.ch"}
 ]
