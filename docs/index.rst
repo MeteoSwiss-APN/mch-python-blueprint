@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to cookiecutter-pypackage's documentation!
-==================================================
+MeteoSwiss-APN Python blueprint
+===============================
 
 Getting Started
 ---------------
@@ -13,25 +13,17 @@ Getting Started
    :maxdepth: 2
 
    readme
-   tutorial
-   pypi_release_checklist
+   faq
 
-Basics
-------
-
-.. toctree::
-   :maxdepth: 2
-
-   prompts
-
-Advanced Features
------------------
+Features
+--------
 
 .. toctree::
    :maxdepth: 2
 
-   travis_pypi_setup
-   console_script_setup
+   documentation
+   development_tools
+   ci_cd
 
 
 Indices and tables

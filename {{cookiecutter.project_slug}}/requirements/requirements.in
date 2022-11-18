@@ -1,3 +1,0 @@
-{%- if cookiecutter.sample_code != 'no' -%}
-click
-{% endif %}

@@ -1,0 +1,133 @@
+pipeline {
+    environment {
+       PATH = "$WORKSPACE/miniconda/bin:$PATH"
+    }
+    agent {
+        label 'tsa'
+    }
+
+    post {
+        always{
+            echo 'Cleaning up workspace'
+            deleteDir()
+        }
+    }
+    stages {
+        stage('setup miniconda') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                cp tmpl/setup_miniconda.sh .
+                bash setup_miniconda.sh -p ${WORKSPACE}
+                '''
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda create -n copier
+                conda activate copier
+                conda install -c conda-forge copier
+                copier --vcs-ref=HEAD --defaults copy . flying_circus
+                conda deactivate
+                '''
+            }
+        }
+        stage('build package') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                cd ${WORKSPACE}/flying_circus
+                source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
+                conda init bash
+                conda activate
+                bash setup_env.sh -n flying_circus -u
+                conda activate flying_circus
+                pip install --no-deps .
+                '''
+            }
+        }
+        stage('test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda init bash
+                conda activate flying_circus
+                cd ${WORKSPACE}/flying_circus
+                pytest tests
+                '''
+            }
+        }
+        stage('dev-environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/flying_circus
+                bash setup_env.sh -n flying_circus -d -u
+                conda activate flying_circus
+                pip install --no-deps --editable .
+                '''
+            }
+        }
+        stage('dev-test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda init bash
+                conda activate flying_circus
+                cd ${WORKSPACE}/flying_circus
+                pytest tests
+                '''
+            }
+        }
+        stage('pinned-environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/flying_circus
+                bash setup_env.sh -n pinned-flying_circus
+                conda activate pinned-flying_circus
+                pip install --no-deps .
+                '''
+            }
+        }
+        stage('pinned-test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda activate pinned-flying_circus
+                cd ${WORKSPACE}/flying_circus
+                pytest tests
+                '''
+            }
+        }
+        stage('pinned-dev-environment') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                set -e
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda init bash
+                conda activate
+                cd ${WORKSPACE}/flying_circus
+                bash setup_env.sh -n pinned-flying_circus -d
+                conda activate pinned-flying_circus
+                pip install --no-deps --editable .
+                '''
+            }
+        }
+        stage('pinned-dev-test') {
+            steps {
+                sh '''#!/usr/bin/env bash
+                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                conda activate pinned-flying_circus
+                cd ${WORKSPACE}/flying_circus
+                pytest tests
+                '''
+            }
+        }
+    }
+}
