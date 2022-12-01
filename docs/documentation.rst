@@ -11,14 +11,23 @@ Additionally to a initial README.rst file, the blueprint will automatically gene
 .. code:: console
 
     docs/
+    authors.rst
     conf.py
+    contributing.rst
+    history.rst
     index.rst
     installation.rst
     make.bat
     Makefile
+    modules.rst
+    readme.rst
+    usage.rst
 
-This folder is set up to build static html pages with sphinx. To deploy your docs to GitHub-Pages, enable the feature
-in the settings of your repository following the example given in the following figure:
+This folder is set up to build static html pages with sphinx. Some files link to the markdown files in the root directory.
+Special mention should be made of the file `modules.rst`. It contains a directive which triggers automatic documentation builds
+from the docstrings in your modules. Initially, only the example code is listed. If you want to auto-build from docstrings, add your
+modules there. To deploy your docs to GitHub-Pages, enable the feature in the settings of your repository following the example
+given in the following figure:
 
 .. image:: _static/github_pages_settings.png
 
