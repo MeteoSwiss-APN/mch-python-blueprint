@@ -19,6 +19,14 @@ repos:
         additional_dependencies:
         -   sphinx==5.0.1
         -   sphinx-mdinclude
+        exclude: |
+            (?x)^(
+                docs/authors.rst|
+                docs/contributing.rst|
+                docs/history.rst|
+                docs/readme.rst|
+                docs/usage.rst|
+            )$
 -   repo: https://github.com/codespell-project/codespell
     rev: v2.2.1
     hooks:
