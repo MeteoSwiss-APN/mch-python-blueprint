@@ -19,6 +19,7 @@ repos:
         additional_dependencies:
         -   sphinx==5.0.1
         -   sphinx-mdinclude
+        -   sphinx-autobuild
         exclude: |
             (?x)^(
                 docs/authors.rst|
