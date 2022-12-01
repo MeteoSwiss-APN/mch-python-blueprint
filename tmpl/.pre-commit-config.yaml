@@ -20,6 +20,7 @@ repos:
         -   sphinx==5.0.1
         -   sphinx-mdinclude
         -   sphinx-autobuild
+        -   sphinx-automodule
         exclude: |
             (?x)^(
                 docs/authors.rst|
