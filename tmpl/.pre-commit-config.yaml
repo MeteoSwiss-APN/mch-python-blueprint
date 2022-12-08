@@ -18,6 +18,17 @@ repos:
     -   id: rstcheck
         additional_dependencies:
         -   sphinx==5.0.1
+        -   sphinx-mdinclude
+        exclude: |
+            (?x)^(
+                docs/authors.rst|
+                docs/contributing.rst|
+                docs/history.rst|
+                docs/modules.rst|
+                docs/readme.rst|
+                docs/usage.rst|
+            )$
+    # note that the excluded files do not contain more than one directive.
 -   repo: https://github.com/codespell-project/codespell
     rev: v2.2.1
     hooks:
