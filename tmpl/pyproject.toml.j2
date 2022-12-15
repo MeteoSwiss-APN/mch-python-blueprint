@@ -24,8 +24,8 @@ authors = [
 ]
 
 [project.urls]
-source = "https://github.com/{{ git_user }}/{{ project_slug }}"
-#documentation = "https://github.io/{{ git_user }}/{{ project_slug }}"  TODO
+source = "{{ project_git_url }}"
+documentation = "{{ project_doc_url }}"
 
 [project.scripts]
 {{ project_slug }} = "{{ module_name }}.cli:main"
