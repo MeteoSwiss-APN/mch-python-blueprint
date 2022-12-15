@@ -31,7 +31,7 @@ project_description:
   type: str
 
 project_git_url:
-  help: "Web address of project on github"
+  help: "URL of project git repository"
   default: "https://github.com/MeteoSwiss-APN/{{ project_slug }}"
   type: str
 
