@@ -6,7 +6,7 @@ author_name:
   default: "Monty Python"
   type: str
 
-email:
+author_email:
   help: "Your email address"
   default: "{{ author_name.lower().replace(' ', '.') }}@meteoswiss.ch"
   type: str
