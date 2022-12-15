@@ -36,14 +36,14 @@ project_keywords:
   type: str
 
 project_git_user:
-  help: "Name of github/gitlab user hosting the project"
+  help: "Name of github user hosting the project"
   # default: "{{ author_name.lower().replace(' ', '_') }}"
   default: "MeteoSwiss-APN"
   type: str
 
 project_git_url:
   help: "URL of project git repository"
-  default: "https://git.iac.ethz.ch/{{ project_git_user }}/{{ project_slug }}"
+  default: "https://github.com/{{ project_git_user }}/{{ project_slug }}"
   type: str
 
 project_doc_url:
