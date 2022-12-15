@@ -40,7 +40,7 @@ project_doc_url:
   default: "{{ project_git_url.replace('github.com', 'github.io') }}"
   type: str
 
-version:
+project_version:
   help: "Initial project version"
   default: "0.1.0"
   type: str
