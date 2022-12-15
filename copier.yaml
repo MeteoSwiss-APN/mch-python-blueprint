@@ -13,6 +13,7 @@ author_email:
 
 project_name:
   help: "Human-friendly project name used in READMEs etc."
+  default: "Flying Circus"
   type: str
 
 project_slug:
