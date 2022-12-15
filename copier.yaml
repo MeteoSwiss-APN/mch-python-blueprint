@@ -1,19 +1,19 @@
 _subdirectory: "tmpl"
 _templates_suffix: ".j2"
 
-full_name:
+author_name:
   help: "Your full name"
   default: "Monty Python"
   type: str
 
 email:
   help: "Your email address"
-  default: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
+  default: "{{ author_name.lower().replace(' ', '.') }}@meteoswiss.ch"
   type: str
 
 github_username:
   help: "Your user name on github"
-  default: "{{ full_name.lower().replace(' ', '_') }}"
+  default: "{{ author_name.lower().replace(' ', '_') }}"
   type: str
 
 project_name:
@@ -33,7 +33,7 @@ module_name:
 
 project_short_description:
   help: "Your project in one line"
-  default: "{{ full_name }}'s {{ project_name }}"
+  default: "{{ author_name }}'s {{ project_name }}"
   type: str
 
 project_github:
