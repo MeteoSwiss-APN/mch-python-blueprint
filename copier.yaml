@@ -31,7 +31,7 @@ module_name:
   default: "{{ project_slug.replace('-', '_') }}"
   type: str
 
-project_short_description:
+project_description:
   help: "Your project in one line"
   default: "{{ author_name }}'s {{ project_name }}"
   type: str
