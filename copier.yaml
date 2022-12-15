@@ -30,14 +30,20 @@ project_description:
   default: "{{ author_name }}'s {{ project_name }}"
   type: str
 
+project_git_user:
+  help: "Name of github/gitlab user hosting the project"
+  # default: "{{ author_name.lower().replace(' ', '_') }}"
+  default: "MeteoSwiss-APN"
+  type: str
+
 project_git_url:
   help: "URL of project git repository"
-  default: "https://github.com/MeteoSwiss-APN/{{ project_slug }}"
+  default: "https://git.iac.ethz.ch/{{ project_git_user }}/{{ project_slug }}"
   type: str
 
 project_doc_url:
   help: "URL of project documentation"
-  default: "{{ project_git_url.replace('github.com', 'github.io') }}"
+  default: "https://github.io/{{ project_git_user }}/{{ project_slug }}"
   type: str
 
 project_version:
