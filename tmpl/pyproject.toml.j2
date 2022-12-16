@@ -30,7 +30,7 @@ source = "{{ project_git_url }}"
 documentation = "{{ project_doc_url }}"
 
 [project.scripts]
-{{ project_slug }} = "{{ module_name }}.cli:main"
+{{ project_slug }} = "{{ project_package }}.cli:main"
 
 # SR Necessary?
 [tool.setuptools.packages.find]
@@ -46,7 +46,7 @@ addopts = [
     "-ra",
     "--pdbcls=IPython.terminal.debugger:TerminalPdb",
 	"--tb=short",
-    # "--cov={{ module_name }}",
+    # "--cov={{ project_package }}",
     # "--mypy",
 ]
 
@@ -73,7 +73,7 @@ known_third_party = [
 ]
 known_first_party = [
     # Add first-party modules that are misclassified by isort
-    "{{ module_name }}",
+    "{{ project_package }}",
 ]
 
 [tool.mypy]

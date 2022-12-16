@@ -21,8 +21,8 @@ project_slug:
   default: "{{ project_name.lower().replace(\"'\", '').replace(' ', '-') }}"
   type: str
 
-module_name:
-  help: "Python module name (no spaces or dashes)"
+project_package:
+  help: "Python package name (no spaces or dashes)"
   default: "{{ project_slug.replace('-', '_') }}"
   type: str
 

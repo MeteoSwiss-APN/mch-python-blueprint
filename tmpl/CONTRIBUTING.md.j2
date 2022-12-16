@@ -112,8 +112,8 @@ Before you submit a pull request, check that it meets these guidelines:
 For a subset of tests or a specific test, run:
 
 ```bash
-pytest tests.test_{{ module_name }}
-pytest tests.test_{{ module_name }}/test_feature::test_edge_case
+pytest tests.test_{{ project_package }}
+pytest tests.test_{{ project_package }}/test_feature::test_edge_case
 ```
 
 ## Versioning
@@ -136,8 +136,8 @@ Following is a description of the most important files and folders in the projec
     - `dev-requirements.yml`: Top-level development dependencies with only necessary version restrictions (typically a minimum version or a version range); kept manually.
     - `environment.yml`: Complete tree of runtime dependencies with fully pinned version numbers; created with `conda env export`; (approximately) a subset of those `dev-environment.yml`.
     - `requirements.yml`: Top-level runtime dependencies with only necessary version restrictions (typically a minimum version or a version range); kept manually.
-- `src/{{module_name}}/`: Source code of the project package.
-- `tests/test_{{module_name}}/`: Unit tests of the project package; run with `pytest`.
+- `src/{{project_package}}/`: Source code of the project package.
+- `tests/test_{{project_package}}/`: Unit tests of the project package; run with `pytest`.
 - `.gitignore`: Files and folders ignored by `git`.
 - `.pre-commit-config.yaml`: Configuration of pre-commit hooks, which are formatters and checkers run before a successful commit.
 - `AUTHORS.md`: Project authors.
@@ -182,8 +182,8 @@ to create a runtime and a development (`-d`) environment from unpinned (`-u`) de
 
 ## How to provide executable scripts
 
-By default, a single executable script called {{ project_slug }} is provided. It is created when the package is installed. When you call it, the main function (`cli`) in `src/{{ module_name }}/cli.py` is called.
+By default, a single executable script called {{ project_slug }} is provided. It is created when the package is installed. When you call it, the main function (`cli`) in `src/{{ project_package }}/cli.py` is called.
 
-When the package is installed, a executable script named `{{ project_slug }}` is created in the bin folder of the active conda environment. Upon calling this script in the shell, the `main` function in `src/{{ module_name }}/cli.py` is executed.
+When the package is installed, a executable script named `{{ project_slug }}` is created in the bin folder of the active conda environment. Upon calling this script in the shell, the `main` function in `src/{{ project_package }}/cli.py` is executed.
 
 The scripts, their names and entry points are specified in `pyproject.toml` in the `[project.scripts]` section. Just add additional entries to provide more scripts to the users of your package.
