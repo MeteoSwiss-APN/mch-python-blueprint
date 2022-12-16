@@ -36,8 +36,6 @@ every time you add new imports while developing. Check the next section to find 
 
 ### Roadmap to your first contribution
 
-**Disclaimer** It is assumed you know how to use git, in particular how to implement features on a branch and merge them to the main branch using pull requests.
-Avoid working directly on the main branch after the initial commit (or the first few commits if you start alone and from scratch).
 Generally, the source code of your library is located in `src/<library_name>`. The blueprint will generate some example code in `mutable_number.py`, `utils.py` and `cli.py`. `cli.py` thereby serves as an entry
 point for functionalities you want to execute from the command line, it is based on the Click library. If you do not need interactions with the command line, you should remove `cli.py`. Moreover, of course there exist other options for command line interfaces,
 a good overview may be found here (https://realpython.com/comparing-python-command-line-parsing-libraries-argparse-docopt-click/), we recommend however to use click. The provided example
