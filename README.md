@@ -62,4 +62,117 @@ To update your package to the latest version of the underlying meta template, ru
 copier -a .copier-answers.yml -f update
 ```
 
-With `-f`, conflicting files are overwritten (which doesn't mean that in the end, the files are changed as those conflicts can be purely internal).
+With `-f`, conflicting files are overwritten (which doesn't mean that in the end, the files are changed as those conflicts can be purely internal). Note that `-a` can be omitted if the answers file has a standard name (`.copier-answers.y[a]ml`).
+
+### Rename template parameter
+
+Renaming a parameter in `copier.yaml` is possible, but updating a project requires two steps because copier doesn't register the renaming as such.
+
+#### The wrong way in one step
+
+Copier registers the renaming of a parameter as independent removal of an old and addition of a new parameter, whereby any non-default parameter value is lost.
+
+Original template:
+
+```yaml
+# cat copier.yaml
+name:
+  help: "Your name."
+  default: "Monty Python"
+  # -> Foobert Barson
+```
+
+```python
+# tmpl/src/__init__.py.j2
+__author__ = "{{ name }}"
+```
+
+Original project:
+
+```python
+# src/__init__.py
+__author__ = "Foobert Barson"
+```
+
+Adapted template:
+
+```yaml
+# copier.yaml
+author_name:
+  help: "Your name."
+  default: "Monty Python"
+```
+
+```python
+# tmpl/src/{{ project_package }}/__init__.py.j2
+__author__ = "{{ author_name }}"
+```
+
+Project after `copier -f update`:
+
+```yaml
+# .copier-answers.yaml
+author_name: Monty Python
+```
+
+```python
+# src/foobar/__init__.py
+__author__ = "Monty Python"
+```
+
+The user-provided name "Foobert Barson" has been lost during the update and replaced by the default name "Monty Python".
+
+#### The right way in two steps
+
+We start with the same original template and project, but this time, we adapt `copier.yaml` in two steps.
+
+First, we add the renamed parameter but retain the original one, using it's value as the default for the former:
+
+```yaml
+# copier.yaml
+name: # TODO remove
+  default: "Monty Python."
+
+author_name:
+  help: "Your name."
+  # default: "Monty Python"
+  default: "{{ name }}"
+```
+
+In all other files, we can now already use the renamed parameter:
+
+```python
+# tmpl/src/{{ project_package }}/__init__.py.j2
+__author__ = "{{ author_name }}"
+```
+
+This code is now pushed to an intermediate branch `rename-params`. Then we remove the old parameter from `copier.yaml` and push that to the main branch:
+
+```yaml
+# copier.yaml
+author_name:
+  help: "Your name."
+  default: "Monty Python"
+```
+
+Update the project with `copier --vcs-ref=rename-params -f update`:
+
+```yaml
+# .copier-answers.yaml
+name: Foobert Barson
+author_name: Foobert Barson
+```
+
+```python
+# src/foobar/__init__.py
+__author__ = "Foobert Barson"
+```
+
+Commit the changes, then update again with `copier -f update`:
+
+```yaml
+# .copier-answers.yaml
+author_name = "Foobert Barson"
+```
+
+The parameter has successfully been renamed while retaining it's value. Commit again (use `--amend` if you want the whole update in a single commit). Delete the intermediate branch `rename-params`.
