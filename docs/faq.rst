@@ -45,10 +45,10 @@ on how to run the tools from the command line.
 
 **Q:** Pre-commit fails with the following error:
 
-..code-block:: bash
+.. code-block:: bash
 
     An error has occurred: InvalidManifestError:
-    ==> File /users/jappel/.cache/pre-commit/repozhhauwxe/.pre-commit-hooks.yaml
+    ==> File /users/<username>/.cache/pre-commit/repozhhauwxe/.pre-commit-hooks.yaml
     ==> At Hook(id='black-jupyter')
     ==> At key: types_or
     ==> At index 2
