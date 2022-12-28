@@ -43,6 +43,21 @@ navigating to your package root directory and typing :code:`pre-commit run --all
 on how to run the tools from the command line.
 
 
+**Q:** Pre-commit fails with the following error:
+
+..code-block:: bash
+
+    An error has occurred: InvalidManifestError:
+    ==> File /users/jappel/.cache/pre-commit/repozhhauwxe/.pre-commit-hooks.yaml
+    ==> At Hook(id='black-jupyter')
+    ==> At key: types_or
+    ==> At index 2
+    =====> Type tag 'jupyter' is not recognized.  Try upgrading identify and pre-commit?
+
+**A:** You likely forgot to `pre-commit install` before running pre-commit for the first time. Unfortunately you have to force reinstall
+pre-commit to get it working again (in your activated env: `conda install --force-reinstall --update-deps pre-commit`).
+
+
 **Q:** Typing is very non-pythonic, I don't want to and I do not type my code. Still mypy is complaining, can I switch it off somehow?
 
 **A:** Yes, the easiest way is to remove the corresponding hook in :code:`.pre-commit-config.yaml`. It's then cleaner to also remove the
