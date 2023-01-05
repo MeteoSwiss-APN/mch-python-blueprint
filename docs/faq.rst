@@ -18,8 +18,7 @@ FAQ and Troubleshooting
     cd /package/root/directory
     pip install --no-deps .
 
-If yes, are you sure you didn't miss any dependencies in :code:`requirements.yml` or
-:code:`dev-requirements.yml`?
+If yes, are you sure you didn't miss any dependencies in :code:`requirements.yml`?
 
 
 **Q:** Running pre-commit on GH actions is nice, but can I run checkers locally and maybe even during development
@@ -68,6 +67,6 @@ the weaknesses of your code are.
 
 **Q:** Linters and formatters behave differently locally and on the Github actions server.
 
-**A:** First, if possible, update your environment and dev-environment locally. Issues might diverge over time. Then, if you run the
+**A:** First, if possible, update your environment locally. Issues might diverge over time. Then, if you run the
 checkers and linters locally, make sure they use the settings defined in :code:`pyproject.toml`. If this doesn't help or if it is
 unclear, where the problems arise, report your findings and open an issue.

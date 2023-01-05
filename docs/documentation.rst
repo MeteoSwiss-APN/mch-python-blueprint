@@ -51,4 +51,4 @@ and then move it to the other GH action workflow file
 Note that this is an optional feature. If you repository is private, you should probably not push the documentation to
 Github-Pages. Likewise, if you work on a small project, you might not necessarily need this feature. If you do not need
 the feature, you can link individual files directly to the readme in the root directory. In this case remove sphinx from
-your dev-requirements.yml file and remove the GH action (.github/workflows/documentation).
+your requirements.yml file and remove the GH action (.github/workflows/documentation).
