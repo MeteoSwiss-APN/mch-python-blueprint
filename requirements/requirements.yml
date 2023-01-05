@@ -1,8 +1,15 @@
+name: python-blueprint
 channels:
   - conda-forge
-  - defaults
 dependencies:
   - python>=3.10
   - pip
+  # runtime
   - pip:
     - copier>=6.1
+  # development
+  - pre-commit>=2.20
+  - sphinx
+  - pip
+  - pip:
+    - sphinx-mdinclude
