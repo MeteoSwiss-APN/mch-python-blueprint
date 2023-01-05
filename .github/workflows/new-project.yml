@@ -41,32 +41,32 @@ jobs:
         git config user.email "monty.python@meteoswiss.ch"
         git add .
         git commit -m "initial commit"
-    - name: Create dev env (unpinned) and install package
+    - name: Create env (unpinned) and install package
       working-directory: ./flying_circus
       run: |
-        ./setup_env.sh -d -u
-        conda run --name flying-circus-dev python -m pip install --no-deps .
+        ./setup_env.sh -u
+        conda run --name flying-circus python -m pip install --no-deps .
     - name: Run pre-commit hooks
       working-directory: ./flying_circus
       run: |
-        conda run --name flying-circus-dev pre-commit install-hooks
-        conda run --name flying-circus-dev pre-commit run --all-files
+        conda run --name flying-circus pre-commit install-hooks
+        conda run --name flying-circus pre-commit run --all-files
     - name: Run formatters
       working-directory: ./flying_circus
       run: |
-        conda run --name flying-circus-dev black .
-        conda run --name flying-circus-dev isort .
+        conda run --name flying-circus black .
+        conda run --name flying-circus isort .
     - name: Run type checker
       working-directory: ./flying_circus
       run: |
-        conda run --name flying-circus-dev ./run-mypy.sh
+        conda run --name flying-circus ./run-mypy.sh
     - name: Run linters
       working-directory: ./flying_circus
       run: |
-        conda run --name flying-circus-dev pydocstyle
-        conda run --name flying-circus-dev flake8
-        conda run --name flying-circus-dev pylint src tests
+        conda run --name flying-circus pydocstyle
+        conda run --name flying-circus flake8
+        conda run --name flying-circus pylint src tests
     - name: Run unit tests
       working-directory: ./flying_circus
       run: |
-        conda run --name flying-circus-dev pytest
+        conda run --name flying-circus pytest
