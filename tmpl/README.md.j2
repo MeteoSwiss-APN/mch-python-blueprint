@@ -9,30 +9,36 @@ setup_env.sh -h
 ```
 We distinguish development installations which are editable and have additional dependencies on formatters and linters from productive installations which are non-editable
 and have no additional dependencies. Moreover we distinguish pinned installations based on exported (reproducible) environments and free installations where the installation
-is based on first level dependencies listed in `requirements/requirements.yml` and `requirements/dev-requirements.yml` respectively. If you start developing, you might want to do a free
+is based on top-level dependencies listed in `requirements.yml`. If you start developing, you might want to do an unpinned
 development installation and export the environments right away.
+
 ```bash
-setup_env.sh -u -d -e -n <package_dev_env_name>
+setup_env.sh -u -d -e -n <package_env_name>
 ```
 *Hint*: If you are the package administrator, it is a good idea to understand what this script does, you can do everything manually with `conda` instructions.
+
 *Hint*: Use the flag `-m` to speed up the installation using mamba. Of course you will have to install mamba first (we recommend to install mamba into your base
 environment `conda install -c conda-forge mamba`. If you install mamba in another (maybe dedicated) environment, environments installed with mamba will be located
 in `<miniconda_root_dir>/envs/mamba/envs`, which is not very practical.
+
 The package itself is installed with `pip`:
+
 ```bash
-conda activate <package_dev_env_name>
+conda activate <package_env_name>
 pip install --editable .
 ```
+
 *Warning:* Make sure you use the right pip, i.e. the one from the installed conda environment (`which pip` should point to something like `path/to/miniconda/envs/<package_env_name>/bin/pip`).
 
-Once your package is installed, run the tests by typing
+Once your package is installed, run the tests by typing:
+
 ```
-conda activate <package_dev_env_name>
+conda activate <package_env_name>
 pytest
 ```
-. If the tests pass, you are good to go. If not, contact the package administrator {{ full_name }}. Make sure to update your requirement files and export your environments after installation
-every time you add new imports while developing. Check the next section to find some guidance on the development process if you are new to Python and/ or APN.
 
+If the tests pass, you are good to go. If not, contact the package administrator {{ full_name }}. Make sure to update your requirement files and export your environments after installation
+every time you add new imports while developing. Check the next section to find some guidance on the development process if you are new to Python and/or APN.
 
 ### Roadmap to your first contribution
 
@@ -42,24 +48,27 @@ a good overview may be found here (https://realpython.com/comparing-python-comma
 code should provide some guidance on how the individual source code files interact within the library. In addition to the example code in `src/<library_name>`, there are examples for
 unit tests in `tests/<library_name>/`, which can be triggered with `pytest` from the command line. Once you implemented a feature (and of course you also
 implemented a meaningful test ;-)), you are likely willing to commit it. First, go to the root directory of your package and run pytest.
+
 ```bash
-conda activate <your-development-environment>
+conda activate <package_env_name>
 cd <package-root-dir>
 pytest
 ```
+
 Note that neither pytest, nor pre-commit, nor any of the linters invoked by the pre-commit hooks will be available in the production environment, so make sure you have a development environment
 installed and activated. If you use the blueprint as is, pre-commit will not be triggered locally but only if you push to the main branch
 (or push to a PR to the main branch). If you consider it useful, you can set up pre-commit to run locally before every commit by initializing it once. In the root directory of
-your package, type
+your package, type:
+
 ```bash
 pre-commit install
 ```
-. If you run `pre-commit` without installing it before (line above), it will fail and the only way to recover it, is to do a forced reinstallation (`conda install --force-reinstall pre-commit`).
+
+If you run `pre-commit` without installing it before (line above), it will fail and the only way to recover it, is to do a forced reinstallation (`conda install --force-reinstall pre-commit`).
 You can also just run pre-commit selectively, whenever you want by typing (`pre-commit run --all-files`). Note that mypy and pylint take a bit of time, so it is really
 up to you, if you want to use pre-commit locally or not. In any case, after running pytest, you can commit and the linters will run at the latest on the GitHub actions server,
 when you push your changes to the main branch. Note that pytest is currently not invoked by pre-commit, so it will not run automatically. Automated testing should be implemented
 in a Jenkins pipeline (template for a plan available in `jenkins/`. See the next section for more details.
-
 
 ## Development tools
 
@@ -67,21 +76,23 @@ As this package was created with the APN Python blueprint, it comes with a stack
 (https://meteoswiss-apn.github.io/mch-python-blueprint/). Here, we give a brief overview on what is implemented.
 
 ### Testing and coding standards
+
 Testing your code and compliance with the most important Python standards is a requirement for Python software written in APN. To make the life of package
 administrators easier, the most important checks are run automatically on GitHub actions. If your code goes into production, it must additionally be tested on CSCS
 machines, which is only possible with a Jenkins pipeline (GitHub actions is running on a GitHub server).
 
 ### Pre-commit on GitHub actions
-`.github/workflows/pre-commit.yml` contains a hook that will trigger the creation of your environment (unpinned, dev) on the GitHub actions server and
+
+`.github/workflows/pre-commit.yml` contains a hook that will trigger the creation of your environment (unpinned) on the GitHub actions server and
 then run pytest as well as various formatters and linters through pre-commit. This hook is only triggered upon pushes to the main branch (in general: don't do that)
 and in pull requests to the main branch.
 
 ### Jenkins
+
 Two jenkins plans are available in the `jenkins/` folder. On the one hand `jenkins/Jenkinsfile` controls the nightly (weekly, monthly, ...) builds, on the other hand
 `jenkins/JenkinsJobPR` controls the pipeline invoked with the command `launch jenkins` in pull requests on GitHub. Your jenkins pipeline will not be set up
 automatically. If you need to run your tests on CSCS machines, contact DevOps to help you with the setup of the pipelines. Otherwise, you can ignore the jenkinsfiles
 and exclusively run your tests and checks on GitHub actions.
-
 
 ## Features
 

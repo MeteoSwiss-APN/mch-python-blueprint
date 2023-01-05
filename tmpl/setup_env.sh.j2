@@ -57,12 +57,12 @@ ${CONDA} create -n ${ENV_NAME} python=${PYVERSION} --yes || exit
 # Install requirements in new env
 if ${PINNED}; then
     echo "Pinned installation"
-    ${CONDA} env update --name ${ENV_NAME} --file requirements/environment.yml || exit
+    ${CONDA} env update --name ${ENV_NAME} --file environment.yml || exit
 else
     echo "Unpinned installation"
-    ${CONDA} env update --name ${ENV_NAME} --file requirements/requirements.yml || exit
+    ${CONDA} env update --name ${ENV_NAME} --file requirements.yml || exit
     if ${EXPORT}; then
         echo "Export pinned prod environment"
-        ${CONDA} env export --name ${ENV_NAME} --no-builds | \grep -v '^prefix:' > requirements/environment.yml || exit
+        ${CONDA} env export --name ${ENV_NAME} --no-builds | \grep -v '^prefix:' > environment.yml || exit
     fi
 fi

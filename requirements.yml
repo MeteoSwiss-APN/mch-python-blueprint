@@ -1,4 +1,4 @@
-name: python-blueprint
+name: mch-python-blueprint
 channels:
   - conda-forge
 dependencies:
