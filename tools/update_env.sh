@@ -15,7 +15,7 @@ main()
     # Use script in project to update the root environment file
     local env_name
     env_name="$(\grep 'name: ' requirements.yml | sed 's/^name: *\(.\+\)$/\1/')" || return
-    bash -x "${tmpdir}"/tools/setup_env.sh -n "${env_name}" -u -m || return
+    bash -x "${tmpdir}"/tools/setup_env.sh -n "${env_name}" -ue -m || return
     conda env remove -n "${env_name}" || return
 
     # Clean up
