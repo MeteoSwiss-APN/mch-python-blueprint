@@ -17,7 +17,7 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                bash setup_miniconda.sh -p ${WORKSPACE}
+                bash tools/setup_miniconda.sh -p ${WORKSPACE}
                 '''
             }
         }
@@ -29,7 +29,7 @@ pipeline {
                 source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
                 conda init bash
                 conda activate
-                ./setup_env.sh -n {{ project_slug }} -u
+                bash tools/setup_env.sh -n {{ project_slug }} -u
                 conda activate {{ project_slug }}
                 pip install --no-deps .
                 '''
@@ -54,7 +54,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{ project_slug }}
-                ./setup_env.sh -n {{ project_slug }} -d -u
+                bash tools/setup_env.sh -n {{ project_slug }} -d -u
                 conda activate dev-{{ project_slug }}
                 pip install --no-deps --editable .
                 '''
@@ -79,7 +79,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{ project_slug }}
-                ./setup_env.sh -n pinned-{{ project_slug }}
+                bash tools/setup_env.sh -n pinned-{{ project_slug }}
                 conda activate pinned-{{ project_slug }}
                 pip install --no-deps .
                 '''
@@ -103,7 +103,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{ project_slug }}
-                ./setup_env.sh -n pinned-{{ project_slug }} -d
+                bash tools/setup_env.sh -n pinned-{{ project_slug }} -d
                 conda activate pinned-dev-{{ project_slug }}
                 pip install --no-deps --editable .
                 '''

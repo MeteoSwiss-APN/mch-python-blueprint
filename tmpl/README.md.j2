@@ -5,7 +5,7 @@
 Once you created or cloned this repository, make sure the installation is running properly. Install the package dependencies with the provided script `setup_env.sh`.
 Check available options with
 ```bash
-setup_env.sh -h
+tools/setup_env.sh -h
 ```
 We distinguish development installations which are editable and have additional dependencies on formatters and linters from productive installations which are non-editable
 and have no additional dependencies. Moreover we distinguish pinned installations based on exported (reproducible) environments and free installations where the installation
@@ -13,7 +13,7 @@ is based on top-level dependencies listed in `requirements.yml`. If you start de
 development installation and export the environments right away.
 
 ```bash
-setup_env.sh -u -d -e -n <package_env_name>
+tools/setup_env.sh -u -d -e -n <package_env_name>
 ```
 *Hint*: If you are the package administrator, it is a good idea to understand what this script does, you can do everything manually with `conda` instructions.
 

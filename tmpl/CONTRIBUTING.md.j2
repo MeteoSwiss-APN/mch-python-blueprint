@@ -53,7 +53,7 @@ Ready to contribute? Here's how to set up `{{ project_slug }}` for local develop
 
     ```bash
     cd {{ project_slug }}/
-    ./setup_env.sh -di
+    ./tools/setup_env.sh -di
     ```
 
     This will create a conda environment named `{{ project_slug }}` (change with `-n`) and install the following:
@@ -143,9 +143,9 @@ Following is a description of the most important files and folders in the projec
 - `MANIFEST.in`: Files installed alongside the source code.
 - `pyproject.toml`: Main package specification file, including build dependencies, metadata and the configurations of development tools like `black`, `pytest`, `mypy` etc.
 - `README.md`: Description of the project.
-- `run-mypy.sh`: Run script for the static type checker `mypy`.
-- `setup_env.sh`: Script to create new conda environments; see `setup_env.sh -h` for all available options.
-- `setup_miniconda.sh`: Script to install miniconda.
+- `tools/run-mypy.sh`: Run script for the static type checker `mypy`.
+- `tools/setup_env.sh`: Script to create new conda environments; see `tools/setup_env.sh -h` for all available options.
+- `tools/setup_miniconda.sh`: Script to install miniconda.
 - `requirements.yml`: Top-level runtime and development dependencies with only necessary version restrictions (typically a minimum version or a version range); kept manually.
 - `USAGE.md`: Information on how to use the package.
 
@@ -167,7 +167,7 @@ Updating the environment files involves the following steps:
 Alternatively, use the provided script
 
 ```bash
-./setup_env.sh -ue
+./tools/setup_env.sh -ue
 ```
 
 to create a environment from unpinned (`-u`) runtime and development dependencies and export (`-e`) it (consider throwing in `-m` for good measure to speed things up with `mamba`).
