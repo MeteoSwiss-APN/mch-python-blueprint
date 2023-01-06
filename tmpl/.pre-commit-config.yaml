@@ -62,7 +62,7 @@ repos:
     hooks:
     -   id: mypy
         name: mypy
-        entry: bash run-mypy.sh
+        entry: bash tools/run-mypy.sh
         language: system
         types: [python]
         require_serial: true
