@@ -44,7 +44,7 @@ jobs:
     - name: Create env (unpinned) and install package
       working-directory: ./flying_circus
       run: |
-        ./setup_env.sh -u
+        bash setup_env.sh -u
         conda run --name flying-circus python -m pip install --no-deps .
     - name: Run pre-commit hooks
       working-directory: ./flying_circus
