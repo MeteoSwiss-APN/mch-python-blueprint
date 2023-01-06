@@ -59,7 +59,7 @@ jobs:
     - name: Run type checker
       working-directory: ./flying_circus
       run: |
-        conda run --name flying-circus ./run-mypy.sh
+        conda run --name flying-circus tools/run-mypy.sh
     - name: Run linters
       working-directory: ./flying_circus
       run: |
