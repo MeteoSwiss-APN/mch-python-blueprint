@@ -1,11 +1,13 @@
 _subdirectory: "tmpl"
 _templates_suffix: ".j2"
 
+# author_name:
 full_name:
   help: "Your full name"
   default: "Monty Python"
   type: str
 
+# author_email:
 email:
   help: "Your email address"
   default: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
@@ -21,11 +23,13 @@ project_slug:
   default: "{{ project_name.lower().replace(\"'\", '').replace(' ', '-') }}"
   type: str
 
+# project_package:
 module_name:
   help: "Python module name (no spaces or dashes)"
   default: "{{ project_slug.replace('-', '_') }}"
   type: str
 
+# project_description:
 project_short_description:
   help: "Describe your project in one line"
   default: "{{ full_name }}'s {{ project_name }}"
@@ -36,12 +40,14 @@ project_keywords:
   default: "{{ project_name }}"
   type: str
 
+# project_git_user:
 github_username:
   help: "Name of github/gitlab user hosting the project"
   # default: "MeteoSwiss-APN"
   default: "{{ full_name.lower().replace(' ', '_') }}"
   type: str
 
+# project_git_url:
 project_github:
   help: "URL of project git repository"
   default: "https://github.com/{{ github_username }}/{{ project_slug }}"
@@ -57,6 +63,7 @@ project_doc_url:
   default: "https://github.io/{{ github_username }}/{{ project_slug }}"
   type: str
 
+# project_version:
 version:
   help: "Initial project version"
   default: "0.1.0"
