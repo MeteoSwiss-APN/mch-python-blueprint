@@ -11,11 +11,6 @@ email:
   default: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
   type: str
 
-github_username:
-  help: "Your user name on github"
-  default: "{{ full_name.lower().replace(' ', '_') }}"
-  type: str
-
 project_name:
   help: "Human-friendly project name"
   default: "Flying Circus"
@@ -36,6 +31,11 @@ project_short_description:
   default: "{{ full_name }}'s {{ project_name }}"
   type: str
 
+
+github_username:
+  help: "Your user name on github"
+  default: "{{ full_name.lower().replace(' ', '_') }}"
+  type: str
 project_github:
   help: "Project path on github"
   default: "MeteoSwiss-APN/{{ project_slug }}"
