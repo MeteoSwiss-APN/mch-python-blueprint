@@ -47,6 +47,16 @@ project_github:
   default: "https://github.com/{{ github_username }}/{{ project_slug }}"
   type: str
 
+project_ssh_url:
+  help: "SSH URL of project git repository"
+  default: "{{ project_github.replace('https://', 'git+ssh://git@') }}.git"
+  type: str
+
+project_doc_url:
+  help: "URL of project documentation"
+  default: "https://github.io/{{ github_username }}/{{ project_slug }}"
+  type: str
+
 version:
   help: "Initial project version"
   default: "0.1.0"
