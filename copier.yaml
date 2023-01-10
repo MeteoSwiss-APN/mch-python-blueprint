@@ -12,12 +12,12 @@ email:
   type: str
 
 project_name:
-  help: "Human-friendly project name"
+  help: "Human-friendly project name used in READMEs etc."
   default: "Flying Circus"
   type: str
 
 project_slug:
-  help: "URL-friendly project name (no spaces)"
+  help: "URL-friendly project name used in github/gitlab URL etc. (no spaces)"
   default: "{{ project_name.lower().replace(\"'\", '').replace(' ', '-') }}"
   type: str
 
@@ -27,13 +27,13 @@ module_name:
   type: str
 
 project_short_description:
-  help: "Your project in one line"
+  help: "Describe your project in one line"
   default: "{{ full_name }}'s {{ project_name }}"
   type: str
 
 
 github_username:
-  help: "Your user name on github"
+  help: "Name of github/gitlab user hosting the project"
   default: "{{ full_name.lower().replace(' ', '_') }}"
   type: str
 project_github:
