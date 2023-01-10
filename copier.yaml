@@ -31,6 +31,10 @@ project_short_description:
   default: "{{ full_name }}'s {{ project_name }}"
   type: str
 
+project_keywords:
+  help: "Keywords that describe your project (comma-separated)"
+  default: "{{ project_name }}"
+  type: str
 
 github_username:
   help: "Name of github/gitlab user hosting the project"
