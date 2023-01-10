@@ -9,6 +9,9 @@
 # Default options
 INSTALL_PREFIX=${PWD}
 
+MINICONDA_URL=https://repo.anaconda.com/miniconda/Miniconda3-py310_22.11.1-1-Linux-x86_64.sh
+SHA256=00938c3534750a0e4069499baf8f4e6dc1c2e471c86a59caa0dd03f4a9269db6
+
 # Eval command line options
 while getopts p: flag; do
     case ${flag} in
@@ -17,11 +20,12 @@ while getopts p: flag; do
 done
 
 # Install conda executable if not yet available
-if [[ -v CONDA_EXE ]]; then
+if [[ -v CONDA_EXE ]] && [[ -f $CONDA_EXE ]]; then
     echo "Found a conda executable at: ${CONDA_EXE}"
 else
     echo "No conda executable available, fetching Miniconda install script"
-    wget -O ${INSTALL_PREFIX}/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    wget -O ${INSTALL_PREFIX}/miniconda.sh ${MINICONDA_URL}
+    echo "${SHA256}  ${INSTALL_PREFIX}/miniconda.sh" | sha256sum --check || exit 1
     bash ${INSTALL_PREFIX}/miniconda.sh -b -p ${INSTALL_PREFIX}/miniconda
     source ${INSTALL_PREFIX}/miniconda/etc/profile.d/conda.sh
     conda config --set always_yes yes --set changeps1 no
