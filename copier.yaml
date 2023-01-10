@@ -34,11 +34,13 @@ project_short_description:
 
 github_username:
   help: "Name of github/gitlab user hosting the project"
+  # default: "MeteoSwiss-APN"
   default: "{{ full_name.lower().replace(' ', '_') }}"
   type: str
+
 project_github:
-  help: "Project path on github"
-  default: "MeteoSwiss-APN/{{ project_slug }}"
+  help: "URL of project git repository"
+  default: "https://github.com/{{ github_username }}/{{ project_slug }}"
   type: str
 
 version:
