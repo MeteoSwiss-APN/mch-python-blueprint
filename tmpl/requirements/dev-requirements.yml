@@ -12,7 +12,6 @@ dependencies:
   - mypy
   - pip
   - pre-commit
-  - pre-commit-hooks
   - pydocstyle
   - pylint >= 2.6.0
   - pytest
