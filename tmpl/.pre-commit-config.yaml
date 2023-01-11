@@ -17,6 +17,7 @@ repos:
         name: rstcheck
         entry: rstcheck
         language: system
+        description: Check REST files for correctness
         types: [rst]
         exclude: |
             (?x)^(
@@ -27,14 +28,13 @@ repos:
                 docs/readme.rst|
                 docs/usage.rst|
             )$
-    # note that the excluded files do not contain more than one directive.
 -   repo: local
     hooks:
     -   id: codespell
         name: codespell
         entry: codespell
         language: system
-        description: Checks for common misspellings in text files.
+        description: Check for spelling errors
         types: [text]
 -   repo: local
     hooks:
@@ -42,7 +42,7 @@ repos:
         name: black
         entry: black
         language: system
-        description: "Black: The uncompromising Python code formatter"
+        description: Format Python code
         types_or: [python, pyi]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
@@ -51,8 +51,8 @@ repos:
         name: isort
         entry: isort
         language: system
-        types_or: [cython, pyi, python]
-        args: ['--filter-files']
+        description: Group and sort Python imports
+        types_or: [python, pyi, cython]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
@@ -60,7 +60,7 @@ repos:
         name: flake8
         entry: flake8
         language: system
-        description: '`flake8` is a command-line utility for enforcing style consistency across Python projects.'
+        description: Check Python code for correctness, consistency and adherence to best practices
         types: [python]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
@@ -69,7 +69,7 @@ repos:
         name: pydocstyle
         entry: pydocstyle
         language: system
-        description: pydocstyle is a static analysis tool for checking compliance with Python docstring conventions.
+        description: Check docstrings in Python code for compliance with conventions
         types: [python]
         files: ^src/(.*/)*.*\.py$
 -   repo: local
@@ -78,6 +78,7 @@ repos:
         name: mypy
         entry: bash run-mypy.sh
         language: system
+        description: Perform static type analysis of Python code
         require_serial: true
         verbose: true
         types: [python]
@@ -87,5 +88,6 @@ repos:
         name: pylint
         entry: pylint
         language: system
+        description: Check Python code for correctness, consistency and adherence to best practices
         types: [python]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
