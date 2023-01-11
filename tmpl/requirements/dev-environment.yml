@@ -74,7 +74,6 @@ dependencies:
   - platformdirs=2.5.1=pyhd8ed1ab_0
   - pluggy=1.0.0=py310hff52083_3
   - pre-commit=2.19.0=py310hff52083_0
-  - pre-commit-hooks=4.4.0=pyhd8ed1ab_0
   - prompt-toolkit=3.0.29=pyha770c72_0
   - psutil=5.9.1=py310h5764c6d_0
   - ptyprocess=0.7.0=pyhd3deb0d_0
