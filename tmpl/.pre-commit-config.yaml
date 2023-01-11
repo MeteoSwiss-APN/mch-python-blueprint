@@ -15,9 +15,9 @@ repos:
     hooks:
     -   id: rstcheck
         name: rstcheck
-        entry: rstcheck
-        language: system
         description: Check REST files for correctness
+        language: system
+        entry: rstcheck
         types: [rst]
         exclude: |
             (?x)^(
@@ -32,53 +32,53 @@ repos:
     hooks:
     -   id: codespell
         name: codespell
-        entry: codespell
-        language: system
         description: Check for spelling errors
+        language: system
+        entry: codespell
         types: [text]
 -   repo: local
     hooks:
     -   id: black
         name: black
-        entry: black
-        language: system
         description: Format Python code
+        language: system
+        entry: black
         types_or: [python, pyi]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
     -   id: isort
         name: isort
-        entry: isort
-        language: system
         description: Group and sort Python imports
+        language: system
+        entry: isort
         types_or: [python, pyi, cython]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
     -   id: flake8
         name: flake8
-        entry: flake8
-        language: system
         description: Check Python code for correctness, consistency and adherence to best practices
+        language: system
+        entry: flake8
         types: [python]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
     -   id: pydocstyle
         name: pydocstyle
-        entry: pydocstyle
-        language: system
         description: Check docstrings in Python code for compliance with conventions
+        language: system
+        entry: pydocstyle
         types: [python]
         files: ^src/(.*/)*.*\.py$
 -   repo: local
     hooks:
     -   id: mypy
         name: mypy
-        entry: bash run-mypy.sh
-        language: system
         description: Perform static type analysis of Python code
+        language: system
+        entry: bash run-mypy.sh
         require_serial: true
         verbose: true
         types: [python]
@@ -86,8 +86,8 @@ repos:
     hooks:
     -   id: pylint
         name: pylint
-        entry: pylint
-        language: system
         description: Check Python code for correctness, consistency and adherence to best practices
+        language: system
+        entry: pylint
         types: [python]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
