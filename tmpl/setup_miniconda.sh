@@ -9,6 +9,7 @@
 # Default options
 INSTALL_PREFIX=${PWD}
 
+# here the conda version is fixed, the sha256 hash has to be set accordingly
 MINICONDA_URL=https://repo.anaconda.com/miniconda/Miniconda3-py310_22.11.1-1-Linux-x86_64.sh
 SHA256=00938c3534750a0e4069499baf8f4e6dc1c2e471c86a59caa0dd03f4a9269db6
 
@@ -20,7 +21,7 @@ while getopts p: flag; do
 done
 
 # Install conda executable if not yet available
-if [[ -v CONDA_EXE ]] && [[ -f $CONDA_EXE ]]; then
+if [[ -f $CONDA_EXE ]]; then
     echo "Found a conda executable at: ${CONDA_EXE}"
 else
     echo "No conda executable available, fetching Miniconda install script"
