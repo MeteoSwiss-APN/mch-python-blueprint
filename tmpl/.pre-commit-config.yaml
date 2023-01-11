@@ -18,7 +18,6 @@ repos:
         entry: rstcheck
         language: system
         types: [rst]
-        require_serial: true
         exclude: |
             (?x)^(
                 docs/authors.rst|
@@ -44,7 +43,6 @@ repos:
         entry: black
         language: system
         description: "Black: The uncompromising Python code formatter"
-        require_serial: true
         types_or: [python, pyi]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
@@ -53,7 +51,6 @@ repos:
         name: isort
         entry: isort
         language: system
-        require_serial: true
         types_or: [cython, pyi, python]
         args: ['--filter-files']
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
@@ -65,7 +62,6 @@ repos:
         language: system
         description: '`flake8` is a command-line utility for enforcing style consistency across Python projects.'
         types: [python]
-        require_serial: true
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
@@ -91,6 +87,5 @@ repos:
         name: pylint
         entry: pylint
         language: system
-        require_serial: true
         types: [python]
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
