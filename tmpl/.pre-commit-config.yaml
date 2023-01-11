@@ -104,9 +104,6 @@ repos:
         language: python
         types: [python]
         require_serial: true
-        args:
-        - "--max-line-length=88"
-        - "--ignore=E203,W503"
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
         additional_dependencies:
         -   flake8-pyproject==1.1.0
