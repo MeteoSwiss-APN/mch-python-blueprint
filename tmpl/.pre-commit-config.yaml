@@ -58,15 +58,6 @@ repos:
         files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
-    -   id: flake8
-        name: flake8
-        description: Check Python code for correctness, consistency and adherence to best practices
-        language: system
-        entry: flake8
-        types: [python]
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
--   repo: local
-    hooks:
     -   id: pydocstyle
         name: pydocstyle
         description: Check docstrings in Python code for compliance with conventions
@@ -74,6 +65,24 @@ repos:
         entry: pydocstyle
         types: [python]
         files: ^src/(.*/)*.*\.py$
+-   repo: local
+    hooks:
+    -   id: pylint
+        name: pylint
+        description: Check Python code for correctness, consistency and adherence to best practices
+        language: system
+        entry: pylint
+        types: [python]
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
+-   repo: local
+    hooks:
+    -   id: flake8
+        name: flake8
+        description: Check Python code for correctness, consistency and adherence to best practices
+        language: system
+        entry: flake8
+        types: [python]
+        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
     -   id: mypy
@@ -84,12 +93,3 @@ repos:
         require_serial: true
         verbose: true
         types: [python]
--   repo: local
-    hooks:
-    -   id: pylint
-        name: pylint
-        description: Check Python code for correctness, consistency and adherence to best practices
-        language: system
-        entry: pylint
-        types: [python]
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
