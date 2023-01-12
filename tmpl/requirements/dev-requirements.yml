@@ -3,7 +3,7 @@ channels:
   - defaults
 dependencies:
   - black
-  - codespell
+  - codespell>=2.2.2
   - flake8
   - flake8-black
   - ipdb
@@ -12,11 +12,11 @@ dependencies:
   - mypy
   - pip
   - pre-commit
-  - pydocstyle>=6.2.2
+  - pydocstyle
   - pylint>=2.6.0
   - pytest
   - rope
-  - rstcheck >= 6.1.1
+  - rstcheck>=6.1.1
   - sphinx
   - sphinx-autobuild
   - tomli
