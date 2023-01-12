@@ -38,7 +38,6 @@ repos:
         description: Check for spelling errors
         language: system
         entry: codespell
-        types: [text]
 -   repo: local
     hooks:
     -   id: black

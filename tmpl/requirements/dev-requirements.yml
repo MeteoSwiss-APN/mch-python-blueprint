@@ -12,13 +12,14 @@ dependencies:
   - mypy
   - pip
   - pre-commit
-  - pydocstyle
+  - pydocstyle >= 6.1.1
   - pylint >= 2.6.0
   - pytest
   - rope
   - rstcheck
   - sphinx
   - sphinx-autobuild
+  - tomli
   - pip
   - pip:
     - flake8-pyproject
