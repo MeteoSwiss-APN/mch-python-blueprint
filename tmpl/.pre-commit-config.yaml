@@ -31,15 +31,6 @@ repos:
         language: system
         entry: rstcheck
         types: [rst]
-        exclude: |
-            (?x)^(
-                docs/authors.rst|
-                docs/contributing.rst|
-                docs/history.rst|
-                docs/modules.rst|
-                docs/readme.rst|
-                docs/usage.rst|
-            )$
 -   repo: local
     hooks:
     -   id: codespell
