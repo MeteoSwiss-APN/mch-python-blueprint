@@ -14,7 +14,8 @@ repos:
     hooks:
     -   id: rstcheck
         additional_dependencies:
-        -   sphinx==5.0.1
+        -   rstcheck[toml]
+        -   sphinx
         -   sphinx-mdinclude
 -   repo: https://github.com/codespell-project/codespell
     rev: v2.2.2
