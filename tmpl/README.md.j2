@@ -9,11 +9,10 @@ setup_env.sh -h
 ```
 We distinguish development installations which are editable and have additional dependencies on formatters and linters from productive installations which are non-editable
 and have no additional dependencies. Moreover we distinguish pinned installations based on exported (reproducible) environments and free installations where the installation
-is based on top-level dependencies listed in `requirements/requirements.yml`. If you start developing, you might want to do an unpinned
-development installation and export the environments right away.
+is based on top-level dependencies listed in `requirements/requirements.yml`. If you start developing, you might want to do an unpinned installation and export the environment:
 
 ```bash
-setup_env.sh -u -d -e -n <package_env_name>
+setup_env.sh -u -e -n <package_env_name>
 ```
 *Hint*: If you are the package administrator, it is a good idea to understand what this script does, you can do everything manually with `conda` instructions.
 
