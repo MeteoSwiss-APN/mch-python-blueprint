@@ -1,13 +1,15 @@
-
 [build-system]
-requires = ["setuptools >= 35.0.2", "wheel"]
+requires = [
+    "setuptools>=65",
+    "wheel>=0.38",
+]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "{{ project_slug }}"
 version = "{{ version }}"
 description = "{{ project_short_description }}"
-readme = "README.rst"
+readme = "README.md"
 keywords = [
     "{{ project_slug }}",
 ]
@@ -28,14 +30,8 @@ source = "https://github.com/{{ github_username }}/{{ project_slug }}"
 #documentation = "https://github.io/{{ github_username }}/{{ project_slug }}"  TODO
 
 [project.scripts]
-{{ project_slug }} = "{{ module_name }}.cli:main"
-
-# SR Necessary?
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["*"]
-exclude = []
-namespaces = false
+# Format: <command> = "<package>.<module>:<function>"
+# {{ project_slug }} = "{{ module_name }}.cli:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -67,7 +63,6 @@ known_standard_library = [
 ]
 known_third_party = [
     # Add third-party modules that are misclassified by isort
-    "click",
 ]
 known_first_party = [
     # Add first-party modules that are misclassified by isort
@@ -77,6 +72,8 @@ known_first_party = [
 [tool.mypy]
 
 [[tool.mypy.overrides]]
+# Note: Only globally ignore missing imports as a matter of last resort!
+# See https://blog.wolt.com/engineering/2021/09/30/professional-grade-mypy-configuration/
 module = [
     # Add external modules w/o type hints here
 ]
@@ -84,11 +81,15 @@ ignore_missing_imports = true
 
 [tool.flake8]
 max-line-length = 88
+# max-complexity = 10
 ignore = [
     "E203", # Allow whitespace before ':' (https://github.com/PyCQA/pycodestyle/issues/373)
     "F811", # Allow redefinition of unused name (necessary for typing.overload)
     "I002", # Don't check for isort configuration
     "W503", # Allow line break before binary operator (PEP 8-compatible)
+]
+per-file-ignores = [
+    "__init__.py: F401",  # Allow unused imports
 ]
 
 [tool.pylint]
