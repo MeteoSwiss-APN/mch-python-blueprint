@@ -22,9 +22,6 @@ while getopts p:n  flag; do
     esac
 done
 
-echo $INSTALL_PREFIX
-echo $USER_INSTALL
-
 # Install conda executable if not yet available
 if [[ -f $CONDA_EXE ]]; then
     echo "Found a conda executable at: ${CONDA_EXE}"
