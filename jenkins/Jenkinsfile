@@ -113,7 +113,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/flying_circus
-                bash setup_env.sh -n pinned-flying_circus
+                bash setup_env.sh -n pinned-dev-flying_circus
                 conda activate pinned-dev-flying_circus
                 pip install --no-deps --editable .
                 '''
