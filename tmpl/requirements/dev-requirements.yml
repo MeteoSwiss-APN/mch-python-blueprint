@@ -8,15 +8,15 @@ dependencies:
   - flake8-black
   - ipdb
   - ipython
-  - isort >= 5
+  - isort>=5
   - mypy
   - pip
   - pre-commit
-  - pydocstyle >= 6.1.1
-  - pylint >= 2.6.0
+  - pydocstyle>=6.2.2
+  - pylint>=2.6.0
   - pytest
   - rope
-  - rstcheck
+  - rstcheck >= 6.1.1
   - sphinx
   - sphinx-autobuild
   - tomli
