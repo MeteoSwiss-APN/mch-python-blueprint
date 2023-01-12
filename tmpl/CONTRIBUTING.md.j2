@@ -137,7 +137,7 @@ Following is a description of the most important files and folders in the projec
 - `.pre-commit-config.yaml`: Configuration of pre-commit hooks, which are formatters and checkers run before a successful commit.
 - `AUTHORS.md`: Project authors.
 - `CONTRIBUTING.md`: Instructions on how to contribute to the project.
-- `environment.yml`: Complete tree of runtime and development dependencies with fully pinned version numbers; created with `conda env export`.
+- `environment.yml`: Full tree of runtime and development dependencies with fully specified ('pinned') version numbers; created with `conda env export`.
 - `HISTORY.md`: List of changes for each version of the project.
 - `LICENSE`: License of the project.
 - `MANIFEST.in`: Files installed alongside the source code.
@@ -146,15 +146,15 @@ Following is a description of the most important files and folders in the projec
 - `run-mypy.sh`: Run script for the static type checker `mypy`.
 - `setup_env.sh`: Script to create new conda environments; see `setup_env.sh -h` for all available options.
 - `setup_miniconda.sh`: Script to install miniconda.
-- `requirements.yml`: Top-level runtime and development dependencies with only necessary version restrictions (typically a minimum version or a version range); kept manually.
+- `requirements.yml`: Top-level runtime and development dependencies with minimal version restrictions (typically a minimum version or a version range); kept manually.
 - `USAGE.md`: Information on how to use the package.
 
 ## Managing dependencies
 
 {{ project_name }} uses [Conda](https://docs.conda.io/en/latest/) to manage dependencies. (Also check out [Mamba](https://mamba.readthedocs.io/en/latest/) if you like your package installations fast.) Dependencies are specified in YAML files, of which there are two:
 
-- `requirements.yml`: Top-level runtime and development dependencies with minimal version restrictions (typically a minimum version or a version range). It is kept manually.
-- `environment.yml`: Full tree of runtime and development dependencies with fully specified ('pinned') version numbers. It is created with `conda env export`.
+- `requirements.yml`: Top-level runtime and development dependencies with minimal version restrictions (typically a minimum version or a version range); kept manually.
+- `environment.yml`: Full tree of runtime and development dependencies with fully specified ('pinned') version numbers; created with `conda env export`.
 
 The pinned `environment.yml` file should be used to create reproducible environments for development or deployment. This ensures reproducible results across machines and users. The unpinned `requirements.yml` file has two main purposes: (i) keeping track of the top-level dependencies, and (ii) periodically updating the pinned `environment.yml` file to the latest package versions.
 
