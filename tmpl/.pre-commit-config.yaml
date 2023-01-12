@@ -63,6 +63,14 @@ repos:
         entry: pydocstyle
         types: [python]
         files: ^src/
+# SR It would be handy to abort if one linter fails b/c the same error often
+# SR triggers multiple linters. That way, if flake8 fails, pylint and mypy
+# SR (which in large code bases can take some time to run) could be skipped
+# SR before fixing the error. Unfortunately, pre-commit only provides the global
+# SR option fail_fast, which would abort even after the small fixers and
+# SR formatters changed something. A potential solution could be to write a
+# SR small bash script run-linters.sh that runs flake8, pylint and run-mypy.sh
+# SR in that order and aborts on error.
 -   repo: local
     hooks:
     -   id: pylint
