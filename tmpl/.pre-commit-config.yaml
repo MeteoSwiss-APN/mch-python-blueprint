@@ -46,7 +46,6 @@ repos:
         language: system
         entry: black
         types_or: [python, pyi]
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
     -   id: isort
@@ -55,7 +54,6 @@ repos:
         language: system
         entry: isort
         types_or: [python, pyi, cython]
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
     -   id: pydocstyle
@@ -64,7 +62,7 @@ repos:
         language: system
         entry: pydocstyle
         types: [python]
-        files: ^src/(.*/)*.*\.py$
+        files: ^src/
 -   repo: local
     hooks:
     -   id: pylint
@@ -73,7 +71,6 @@ repos:
         language: system
         entry: pylint
         types: [python]
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
     -   id: flake8
@@ -82,7 +79,6 @@ repos:
         language: system
         entry: flake8
         types: [python]
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
 -   repo: local
     hooks:
     -   id: mypy
@@ -93,3 +89,4 @@ repos:
         require_serial: true
         verbose: true
         types: [python]
+        files: ^(src|tests)/
