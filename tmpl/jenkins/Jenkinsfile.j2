@@ -50,11 +50,11 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                source $WORKSPACE/miniconda/etc/profile.d/conda.sh
+                source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{ project_slug }}
-                ./setup_env.sh -n {{ project_slug }} -d -u
+                ./setup_env.sh -n dev-{{ project_slug }} -u
                 conda activate dev-{{ project_slug }}
                 pip install --no-deps --editable .
                 '''
@@ -103,7 +103,7 @@ pipeline {
                 conda init bash
                 conda activate
                 cd ${WORKSPACE}/{{ project_slug }}
-                ./setup_env.sh -n pinned-{{ project_slug }} -d
+                ./setup_env.sh -n pinned-dev-{{ project_slug }}
                 conda activate pinned-dev-{{ project_slug }}
                 pip install --no-deps --editable .
                 '''
