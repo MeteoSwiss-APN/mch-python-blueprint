@@ -13,7 +13,7 @@ To install {{ project_name }} you need a miniconda installation. You can either 
 
 Installation of dependencies
 ----------------------------
-Dependencies are handled by the conda package manager. The goal of this step is to set up a conda environment according to the requirements of {{ project_name }}. Note that the development installation has some additional dependencies as it includes linters and other development tools. The dependencies are handled in requirement files. Free installations are based on the `requirements/requirements.yml` file, where the first-level dependencies of the package are listed. Pinned installations are based on exported environments and stored in the file `requirements/environment.yml`.yml`. In total, four possible installation options are possible pinned/unpinned x dev/prod. These options are covered in the script `setup_env.sh`. The optional flag `-u` stands for unpinned installation:
+Dependencies are handled by the conda package manager. The goal of this step is to set up a conda environment according to the requirements of {{ project_name }}. Note that by design, there are some dependencies already when you start developing the package, as the environment includes linters and other development tools. The dependencies are handled in requirement files. Free installations are based on the `requirements/requirements.yml` file, where the first-level dependencies of the package are listed. Pinned installations are based on exported environments and stored in the file `requirements/environment.yml`.yml`. Unpinned/ pinned installations are covered in the script `setup_env.sh`. The optional flag `-u` stands for unpinned installation:
 
 .. code-block:: console
 
@@ -25,7 +25,7 @@ You can control the environment name with the flag `-n` and the python version w
 Installation of {{ project_name }}
 -----------------------------------------------
 
-Again, there are two options for installation, binary production installations and development (source) installations which are editable. Go to the root folder of {{ project_slug }}. Then type
+There are two options for installation, binary production installations and development (source) installations which are editable. Go to the root folder of {{ project_slug }}. Then type
 
 .. code-block:: console
 
@@ -45,19 +45,17 @@ for a development (editable) installation.
 Maintenance of the environment (for developers)
 -----------------------------------------------
 
-If you need to add new first-level dependencies to your package, make sure to include them in `requirements/requirements.yml` in case they are used for development only. Note that pip requirements can be added to these files in the `pip:` section of the document. After a (free!) installation, this will change the full dependency tree and you need to export the environment(s). This is currently not handled automatically, so you need to export both (dev and prod) environments by hand by activating the environment and then running
 
+If you need to add new first-level dependencies to your package, make sure to include them in `requirements/requirements.yml`. Note that pip requirements can be added to these files in the `pip:` section of the document. After a (free!) installation, this will change the full dependency tree and you need to export the environment. You can either do this by hand by activating the environment and then running
 .. code-block:: console
 
     $ conda env export {{ project_slug }} requirements/environment.yml
 
-or
+or you can reinstall with the setup script from `requirements/requirements.yml` and directly export the environment with the `-e` flag.
 
 .. code-block:: console
 
-    $ conda env export {{ project_slug }} requirements/environment.yml
-
-Note that this requires you to distinguish the name of the dev environment.
+    $ ./setup_env -ue
 
 
 Interaction with Jenkins and Github actions
