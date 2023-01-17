@@ -93,7 +93,7 @@ repos:
         name: mypy
         description: Perform static type analysis of Python code
         language: system
-        entry: bash run-mypy.sh
+        entry: bash tools/run-mypy.sh
         require_serial: true
         pass_filenames: false
         verbose: true
