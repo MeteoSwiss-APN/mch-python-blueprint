@@ -43,8 +43,8 @@ project_keywords:
 # project_git_user:
 github_username:
   help: "Name of github/gitlab user hosting the project"
-  # default: "MeteoSwiss-APN"
-  default: "{{ full_name.lower().replace(' ', '_') }}"
+  default: "MeteoSwiss-APN"
+  # default: "{{ full_name.lower().replace(' ', '_') }}" # for private projects
   type: str
 
 # project_git_url:
