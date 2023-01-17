@@ -9,7 +9,7 @@ GH pages of this repository (https://meteoswiss-apn.github.io/mch-python-bluepri
 
 ## Preparation
 Ensure that your active Python version is 3.7 or higher.
-The recommended way to manage Python versions is with `Conda` (https://docs.conda.io/en/latest/). On CSCS machines it is recommended to install the leaner `Miniconda` (https://docs.conda.io/en/latest/miniconda.html), which offers enough functionality for most of our use cases. If you don't want to do this step manually, you can also use the script that is provided in the copier template `tmpl/setup_miniconda.sh`.
+The recommended way to manage Python versions is with `Conda` (https://docs.conda.io/en/latest/). On CSCS machines it is recommended to install the leaner `Miniconda` (https://docs.conda.io/en/latest/miniconda.html), which offers enough functionality for most of our use cases. If you don't want to do this step manually, you can also use the script that is provided in the copier template `tools/tmpl/setup_miniconda.sh`.
 
 ## Install Copier
 

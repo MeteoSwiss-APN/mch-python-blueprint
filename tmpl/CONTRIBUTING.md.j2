@@ -53,7 +53,7 @@ Ready to contribute? Here's how to set up `{{ project_slug }}` for local develop
 
     ```bash
     cd {{ project_slug }}/
-    ./setup_env.sh
+    ./tools/setup_env.sh
     ```
 
     This will create a conda environment named `{{ project_slug }}` (change with `-n`) and install the following:
@@ -136,6 +136,10 @@ Following is a description of the most important files and folders in the projec
     - `requirements.yml`: Top-level runtime and development dependencies with minimal version restrictions (typically a minimum version or a version range); kept manually.
 - `src/{{module_name}}/`: Source code of the project package.
 - `tests/test_{{module_name}}/`: Unit tests of the project package; run with `pytest`.
+- `tools/`: Scripts primarily for development
+    - `run-mypy.sh`: Run script for the static type checker `mypy`.
+    - `setup_env.sh`: Script to create new conda environments; see `tools/setup_env.sh -h` for all available options.
+    - `setup_miniconda.sh`: Script to install miniconda.
 - `.gitignore`: Files and folders ignored by `git`.
 - `.pre-commit-config.yaml`: Configuration of pre-commit hooks, which are formatters and checkers run before a successful commit.
 - `AUTHORS.md`: Project authors.
@@ -145,9 +149,6 @@ Following is a description of the most important files and folders in the projec
 - `MANIFEST.in`: Files installed alongside the source code.
 - `pyproject.toml`: Main package specification file, including build dependencies, metadata and the configurations of development tools like `black`, `pytest`, `mypy` etc.
 - `README.md`: Description of the project.
-- `run-mypy.sh`: Run script for the static type checker `mypy`.
-- `setup_env.sh`: Script to create new conda environments; see `setup_env.sh -h` for all available options.
-- `setup_miniconda.sh`: Script to install miniconda.
 - `USAGE.md`: Information on how to use the package.
 
 ## Managing dependencies
@@ -168,7 +169,7 @@ Updating the environment files involves the following steps:
 Alternatively, use the provided script
 
 ```bash
-./setup_env.sh -ue
+./tools/setup_env.sh -ue
 ```
 
 to create a environment from unpinned (`-u`) runtime and development dependencies and export (`-e`) it (consider throwing in `-m` for good measure to speed things up with `mamba`).

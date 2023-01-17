@@ -10,7 +10,7 @@ There are two installation types, a production installation, which is static, an
 Preparation
 -----------
 
-To install {{ project_name }} you need a miniconda installation. You can either set up your miniconda installation manually or use the script `setup_miniconda.sh`, which will download and install the latest version of miniconda.
+To install {{ project_name }} you need a miniconda installation. You can either set up your miniconda installation manually or use the script `tools/setup_miniconda.sh`, which will download and install the latest version of miniconda.
 
 
 Installation of dependencies
@@ -20,15 +20,15 @@ Dependencies are handled by the conda package manager. The goal of this step is 
 
 The dependencies are handled in requirement files. Free installations are based on the `requirements/requirements.yml` file, where the top-level dependencies of the package are listed. Pinned installations are based on exported environments and stored in the file `requirements/environment.yml`.
 
-Environments (based on either unpinned or pinned requirements) are handled by the script `setup_env.sh`. The optional flag `-u` stands for unpinned installation:
+Environments (based on either unpinned or pinned requirements) are handled by the script `tools/setup_env.sh`. The optional flag `-u` stands for unpinned installation:
 
 .. code-block:: console
 
-    $ bash setup_env.sh -u
+    $ bash tools/setup_env.sh -u
 
 This will create an up-to-date environment that can be exported to `requirements/environment.yml` with the optional flag `-e` (see below).
 
-You can control the environment name with the flag `-n` and the Python version with `-v`. Run :code:`./setup_env -h` for available options and defaults (incl. mamba support).
+You can control the environment name with the flag `-n` and the Python version with `-v`. Run :code:`./tools/setup_env -h` for available options and defaults (incl. mamba support).
 
 
 Installation of {{ project_name }}
@@ -38,7 +38,7 @@ After creating and activating your environment by running
 
 .. code-block:: console
 
-    $ ./setup_env.sh
+    $ ./tools/setup_env.sh
     $ conda activate {{ project_slug }}
 
 in the root folder of {{ project_slug }}, type
@@ -68,7 +68,7 @@ or you can reinstall with the setup script from `requirements/requirements.yml` 
 
 .. code-block:: console
 
-    $ ./setup_env -ue
+    $ ./tools/setup_env -ue
 
 
 Interaction with Jenkins and Github actions
