@@ -49,11 +49,11 @@ Ready to contribute? Here's how to set up `{{ project_slug }}` for local develop
     git clone git@github.com:your_name_here/{{ project_slug }}.git
     ```
 
-3. Create a virtual environment and install the runtime and development dependencies:
+3. Create a virtual environment and install the dependencies:
 
     ```bash
     cd {{ project_slug }}/
-    ./tools/setup_env.sh -di
+    ./tools/setup_env.sh
     ```
 
     This will create a conda environment named `{{ project_slug }}` (change with `-n`) and install the following:

@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.2.0
+    rev: v4.4.0
     hooks:
     -   id: check-symlinks
     -   id: end-of-file-fixer
@@ -10,18 +10,16 @@ repos:
     -   id: check-yaml
         exclude: tmpl/
 -   repo: https://github.com/myint/rstcheck
-    rev: v6.1.0
+    rev: v6.1.1
     hooks:
     -   id: rstcheck
         additional_dependencies:
-        -   sphinx==5.0.1
+        -   rstcheck[toml]
+        -   sphinx
         -   sphinx-mdinclude
-        exclude: |
-            (?x)^(
-                tmpl/|
-                docs/readme.rst|
-            )$
 -   repo: https://github.com/codespell-project/codespell
-    rev: v2.2.1
+    rev: v2.2.2
     hooks:
     -   id: codespell
+        additional_dependencies:
+        -   tomli

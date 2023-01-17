@@ -83,11 +83,15 @@ ignore_missing_imports = true
 
 [tool.flake8]
 max-line-length = 88
+# max-complexity = 10
 ignore = [
     "E203", # Allow whitespace before ':' (https://github.com/PyCQA/pycodestyle/issues/373)
     "F811", # Allow redefinition of unused name (necessary for typing.overload)
     "I002", # Don't check for isort configuration
     "W503", # Allow line break before binary operator (PEP 8-compatible)
+]
+per-file-ignores = [
+    "__init__.py: F401",  # Allow unused imports
 ]
 
 [tool.pylint]
@@ -146,3 +150,12 @@ ignore = [
     "D406", # Section name should end with a newline
     "D407", # Missing dashed underline after section
 ]
+
+[tool.rstcheck]
+ignore_directives = [
+    "automodule",
+    "mdinclude",
+]
+
+[tool.codespell]
+ignore-words-list = "inout"
