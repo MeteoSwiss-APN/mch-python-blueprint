@@ -27,6 +27,7 @@ pipeline {
                 conda activate copier
                 conda install -c conda-forge copier
                 copier --vcs-ref=HEAD --defaults copy . flying_circus
+                conda init bash --reverse
                 conda deactivate
                 '''
             }
