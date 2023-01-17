@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
     -   id: check-ast
     -   id: check-case-conflict
@@ -10,82 +10,92 @@ repos:
     -   id: check-yaml
     -   id: debug-statements
     -   id: end-of-file-fixer
-        exclude: .copier-answers.yml
     -   id: trailing-whitespace
 -   repo: local
-    # Running hooks locally provides them access the dependencies
+    hooks:
+    -   id: forbidden-files-copier-rej
+        name: find copier rejection files
+        language: fail
+        entry: "Found copier update rejection file(s): review and remove them"
+        files: "\\.rej$"
+    -   id: forbidden-files-git-orig
+        name: find git merge backup files
+        language: fail
+        entry: "Found git merge backup file(s): review and remove them"
+        files: "\\.orig$"
+-   repo: local
     hooks:
     -   id: rstcheck
         name: rstcheck
+        description: Check REST files for correctness
+        language: system
         entry: rstcheck
-        language: python
         types: [rst]
-        require_serial: true
-        additional_dependencies:
-        -   sphinx==5.0.1
-        -   sphinx-mdinclude
-        exclude: |
-            (?x)^(
-                docs/authors.rst|
-                docs/contributing.rst|
-                docs/history.rst|
-                docs/modules.rst|
-                docs/readme.rst|
-                docs/usage.rst|
-            )$
-    # note that the excluded files do not contain more than one directive.
+-   repo: local
+    hooks:
     -   id: codespell
         name: codespell
-        description: Checks for common misspellings in text files.
+        description: Check for spelling errors
+        language: system
         entry: codespell
-        language: python
-        types: [text]
+-   repo: local
+    hooks:
     -   id: black
         name: black
-        description: "Black: The uncompromising Python code formatter"
+        description: Format Python code
+        language: system
         entry: black
-        language: python
-        require_serial: true
         types_or: [python, pyi]
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
+-   repo: local
+    hooks:
     -   id: isort
         name: isort
+        description: Group and sort Python imports
+        language: system
         entry: isort
-        require_serial: true
-        language: python
-        types_or: [cython, pyi, python]
-        args: ['--filter-files']
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
-    -   id: flake8
-        name: flake8
-        description: '`flake8` is a command-line utility for enforcing style consistency across Python projects.'
-        entry: flake8
-        language: python
-        types: [python]
-        require_serial: true
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
-        additional_dependencies:
-        -   flake8-pyproject==1.1.0
+        types_or: [python, pyi, cython]
+-   repo: local
+    hooks:
     -   id: pydocstyle
         name: pydocstyle
-        description: pydocstyle is a static analysis tool for checking compliance with Python docstring conventions.
-        entry: pydocstyle
-        language: python
-        types: [python]
-        files: ^src/(.*/)*.*\.py$
-        additional_dependencies:
-        -   toml==0.10.2
-    -   id: mypy
-        name: mypy
-        entry: bash run-mypy.sh
+        description: Check docstrings in Python code for compliance with conventions
         language: system
+        entry: pydocstyle
         types: [python]
-        require_serial: true
-        verbose: true
+        files: ^src/
+# SR It would be handy to abort if one linter fails b/c the same error often
+# SR triggers multiple linters. That way, if flake8 fails, pylint and mypy
+# SR (which in large code bases can take some time to run) could be skipped
+# SR before fixing the error. Unfortunately, pre-commit only provides the global
+# SR option fail_fast, which would abort even after the small fixers and
+# SR formatters changed something. A potential solution could be to write a
+# SR small bash script run-linters.sh that runs flake8, pylint and run-mypy.sh
+# SR in that order and aborts on error.
+-   repo: local
+    hooks:
     -   id: pylint
         name: pylint
-        entry: pylint
+        description: Check Python code for correctness, consistency and adherence to best practices
         language: system
+        entry: pylint
         types: [python]
+-   repo: local
+    hooks:
+    -   id: flake8
+        name: flake8
+        description: Check Python code for correctness, consistency and adherence to best practices
+        language: system
+        entry: flake8
+        types: [python]
+-   repo: local
+    hooks:
+    -   id: mypy
+        name: mypy
+        description: Perform static type analysis of Python code
+        language: system
+        entry: bash run-mypy.sh
         require_serial: true
-        files: ^(.*\.py|(src|tests|docs)/(.*/)*.*\.py)$
+        pass_filenames: false
+        verbose: true
+        types: [python]
+        files: ^(src|tests)/

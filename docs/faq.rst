@@ -45,7 +45,7 @@ on how to run the tools from the command line.
 
 **Q:** Pre-commit fails with the following error:
 
-.. code-block::
+.. code-block:: shell
 
     An error has occurred: InvalidManifestError:
     ==> File /users/<username>/.cache/pre-commit/repozhhauwxe/.pre-commit-hooks.yaml

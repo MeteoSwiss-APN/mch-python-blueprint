@@ -3,22 +3,23 @@ channels:
   - defaults
 dependencies:
   - black
-  - codespell
+  - codespell>=2.2.2
   - flake8
   - flake8-black
   - ipdb
   - ipython
-  - isort >= 5
+  - isort>=5
   - mypy
   - pip
   - pre-commit
   - pydocstyle
-  - pylint >= 2.6.0
+  - pylint>=2.6.0
   - pytest
   - rope
-  - rstcheck
+  - rstcheck>=6.1.1
   - sphinx
   - sphinx-autobuild
+  - tomli
   - pip
   - pip:
     - flake8-pyproject
