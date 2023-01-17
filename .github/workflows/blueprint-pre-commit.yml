@@ -28,7 +28,7 @@ jobs:
         show-channel-urls: true
     - name: Create env from unpinned reqs
       run: |
-        conda env create --name blueprint --file requirements.yml
+        conda env create --name blueprint --file requirements/requirements.yml
     - name: Install pre-commit hooks
       run: |
         conda run --name blueprint pre-commit install-hooks

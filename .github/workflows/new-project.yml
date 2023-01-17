@@ -28,7 +28,7 @@ jobs:
         show-channel-urls: true
     - name: Create blueprint run env from unpinned reqs
       run: |
-        conda env create --name blueprint --file requirements.yml
+        conda env create --name blueprint --file requirements/requirements.yml
     - name: Create new project
       run: |
         # Note: Make sure python_version is consistent with python-version hardcoded above

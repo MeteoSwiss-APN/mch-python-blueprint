@@ -58,7 +58,7 @@ Ready to contribute? Here's how to set up `{{ project_slug }}` for local develop
 
     This will create a conda environment named `{{ project_slug }}` (change with `-n`) and install the following:
 
-    - Pinned runtime and development dependencies in `environment.yml`
+    - Pinned runtime and development dependencies in `requirements/environment.yml`
     - The `{{ project_slug }}` package itself in editable mode.
 
     Activate the environment:
@@ -67,7 +67,7 @@ Ready to contribute? Here's how to set up `{{ project_slug }}` for local develop
     conda activate {{ project_slug }}
     ```
 
-    Use `-u` to get the newest package versions (unpinned dependencies in `requirements.yml`), and additionally `-e` to update the environment files.
+    Use `-u` to get the newest package versions (unpinned dependencies in `requirements/requirements.yml`), and additionally `-e` to update the environment files.
 
 4. Create a branch for local development:
 
@@ -131,6 +131,9 @@ Following is a description of the most important files and folders in the projec
 - `.github/workflows/`: [GitHub Actions](https://docs.github.com/en/actions) workflows, e.g., checks that are run when certain branches are pushed.
 - `docs/`: Documentation.
 - `jenkins/`: Jenkins setup.
+- `requirements/`: Project dependencies and environment
+    - `environment.yml`: Full tree of runtime and development dependencies with fully specified ('pinned') version numbers; created with `conda env export`.
+    - `requirements.yml`: Top-level runtime and development dependencies with minimal version restrictions (typically a minimum version or a version range); kept manually.
 - `src/{{module_name}}/`: Source code of the project package.
 - `tests/test_{{module_name}}/`: Unit tests of the project package; run with `pytest`.
 - `tools/`: Scripts primarily for development
@@ -141,29 +144,27 @@ Following is a description of the most important files and folders in the projec
 - `.pre-commit-config.yaml`: Configuration of pre-commit hooks, which are formatters and checkers run before a successful commit.
 - `AUTHORS.md`: Project authors.
 - `CONTRIBUTING.md`: Instructions on how to contribute to the project.
-- `environment.yml`: Complete tree of runtime and development dependencies with fully pinned version numbers; created with `conda env export`.
 - `HISTORY.md`: List of changes for each version of the project.
 - `LICENSE`: License of the project.
 - `MANIFEST.in`: Files installed alongside the source code.
 - `pyproject.toml`: Main package specification file, including build dependencies, metadata and the configurations of development tools like `black`, `pytest`, `mypy` etc.
 - `README.md`: Description of the project.
-- `requirements.yml`: Top-level runtime and development dependencies with only necessary version restrictions (typically a minimum version or a version range); kept manually.
 - `USAGE.md`: Information on how to use the package.
 
 ## Managing dependencies
 
 {{ project_name }} uses [Conda](https://docs.conda.io/en/latest/) to manage dependencies. (Also check out [Mamba](https://mamba.readthedocs.io/en/latest/) if you like your package installations fast.) Dependencies are specified in YAML files, of which there are two:
 
-- `requirements.yml`: Top-level runtime and development dependencies with minimal version restrictions (typically a minimum version or a version range). It is kept manually.
-- `environment.yml`: Full tree of runtime and development dependencies with fully specified ('pinned') version numbers. It is created with `conda env export`.
+- `requirements/requirements.yml`: Top-level runtime and development dependencies with minimal version restrictions (typically a minimum version or a version range); kept manually.
+- `requirements/environment.yml`: Full tree of runtime and development dependencies with fully specified ('pinned') version numbers; created with `conda env export`.
 
 The pinned `environment.yml` file should be used to create reproducible environments for development or deployment. This ensures reproducible results across machines and users. The unpinned `requirements.yml` file has two main purposes: (i) keeping track of the top-level dependencies, and (ii) periodically updating the pinned `environment.yml` file to the latest package versions.
 
 After introducing new first-level dependencies to your requirements, you have to update the environment files in order to be able to create reproducible environments for deployment and production.
 Updating the environment files involves the following steps:
 
-1. Creating an environment from your top-level dependencies in `requirements.yml`
-2. Exporting this environment to `environment.yml`
+1. Creating an environment from your top-level dependencies in `requirements/requirements.yml`
+2. Exporting this environment to `requirements/environment.yml`
 
 Alternatively, use the provided script
 

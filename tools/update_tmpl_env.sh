@@ -20,8 +20,8 @@ main()
     \cd .. || return
 
     # Merge updated environment file back into template
-    \cp -v "${tmpdir}"/environment.yml tmpl/environment.yml.j2 || return
-    \sed -i 's/^name:.*/name: {{ project_slug }}/' tmpl/environment.yml.j2 || return
+    \cp -v "${tmpdir}"/requirements/environment.yml tmpl/requirements/environment.yml.j2 || return
+    \sed -i 's/^name:.*/name: {{ project_slug }}/' tmpl/requirements/environment.yml.j2 || return
 
     # Clean up
     \rm -rv "${tmpdir}" || return

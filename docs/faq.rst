@@ -18,7 +18,7 @@ FAQ and Troubleshooting
     cd /package/root/directory
     pip install --no-deps .
 
-If yes, are you sure you didn't miss any dependencies in :code:`requirements.yml`?
+If yes, are you sure you didn't miss any dependencies in :code:`requirements/requirements.yml`?
 
 
 **Q:** Running pre-commit on GH actions is nice, but can I run checkers locally and maybe even during development
@@ -44,7 +44,7 @@ on how to run the tools from the command line.
 
 **Q:** Pre-commit fails with the following error:
 
-.. code-block::
+.. code-block:: shell
 
     An error has occurred: InvalidManifestError:
     ==> File /users/<username>/.cache/pre-commit/repozhhauwxe/.pre-commit-hooks.yaml
