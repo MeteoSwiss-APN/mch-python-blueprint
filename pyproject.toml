@@ -72,7 +72,7 @@ ignore_missing_imports = true
 
 [tool.flake8]
 max-line-length = 88
-# max-complexity = 10
+max-complexity = 10
 ignore = [
     "E203", # Allow whitespace before ':' (https://github.com/PyCQA/pycodestyle/issues/373)
     "F811", # Allow redefinition of unused name (necessary for typing.overload)
