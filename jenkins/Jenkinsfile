@@ -17,7 +17,7 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                cp tmpl/setup_miniconda.sh .
+                cp tmpl/tools/setup_miniconda.sh .
                 bash setup_miniconda.sh -p ${WORKSPACE}
                 '''
                 sh '''#!/usr/bin/env bash
@@ -39,7 +39,7 @@ pipeline {
                 source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
                 conda init bash --no-user --install --system
                 conda activate
-                bash setup_env.sh -n flying_circus -u
+                bash tools/setup_env.sh -n flying_circus -u
                 conda activate flying_circus
                 pip install --no-deps .
                 '''
@@ -64,8 +64,8 @@ pipeline {
                 conda init bash --no-user --install --system
                 conda activate
                 cd ${WORKSPACE}/flying_circus
-                bash setup_env.sh -n flying_circus -d -u
-                conda activate flying_circus
+                bash tools/setup_env.sh -n dev-flying_circus -u
+                conda activate dev-flying_circus
                 pip install --no-deps --editable .
                 '''
             }
@@ -89,7 +89,7 @@ pipeline {
                 conda init bash --no-user --install --system
                 conda activate
                 cd ${WORKSPACE}/flying_circus
-                bash setup_env.sh -n pinned-flying_circus
+                bash tools/setup_env.sh -n pinned-flying_circus
                 conda activate pinned-flying_circus
                 pip install --no-deps .
                 '''
@@ -113,8 +113,8 @@ pipeline {
                 conda init bash --no-user --install --system
                 conda activate
                 cd ${WORKSPACE}/flying_circus
-                bash setup_env.sh -n pinned-flying_circus -d
-                conda activate pinned-flying_circus
+                bash tools/setup_env.sh -n pinned-dev-flying_circus
+                conda activate pinned-dev-flying_circus
                 pip install --no-deps --editable .
                 '''
             }
@@ -123,7 +123,7 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
-                conda activate pinned-flying_circus
+                conda activate pinned-dev-flying_circus
                 cd ${WORKSPACE}/flying_circus
                 pytest tests
                 '''

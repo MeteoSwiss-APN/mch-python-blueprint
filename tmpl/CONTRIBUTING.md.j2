@@ -49,25 +49,25 @@ Ready to contribute? Here's how to set up `{{ project_slug }}` for local develop
     git clone git@github.com:your_name_here/{{ project_slug }}.git
     ```
 
-3. Create a virtual environment and install the development dependencies:
+3. Create a virtual environment and install the dependencies:
 
     ```bash
     cd {{ project_slug }}/
-    ./setup_env.sh -di
+    ./tools/setup_env.sh
     ```
 
-    This will create a conda environment named `{{ project_slug }}-dev` (change with `-n`) and install the following:
+    This will create a conda environment named `{{ project_slug }}` (change with `-n`) and install the following:
 
-    - Pinned runtime dependencies in `requirements/environment.yml`
-    - Pinned Development dependencies in `requirements/dev-environment.yml`
+    - Pinned runtime and development dependencies in `requirements/environment.yml`
     - The `{{ project_slug }}` package itself in editable mode.
 
     Activate the environment:
 
     ```bash
-    conda activate {{ project_slug }}-dev
+    conda activate {{ project_slug }}
     ```
-    Use `-u` to get the newest package versions (unpinned dependencies in `requirements/requirements.yml` and `requirements/dev-requirements.yml`), and additionally `-e` to update the environment files.
+
+    Use `-u` to get the newest package versions (unpinned dependencies in `requirements/requirements.yml`), and additionally `-e` to update the environment files.
 
 4. Create a branch for local development:
 
@@ -131,13 +131,15 @@ Following is a description of the most important files and folders in the projec
 - `.github/workflows/`: [GitHub Actions](https://docs.github.com/en/actions) workflows, e.g., checks that are run when certain branches are pushed.
 - `docs/`: Documentation.
 - `jenkins/`: Jenkins setup.
-- `requirements/`: Various kinds of dependencies with different degrees of version restrictions.
-    - `dev-environment.yml`: Complete tree of runtime and development dependencies with fully pinned version numbers; created with `conda env export`; (approximately) a superset of those in `environment.yml`.
-    - `dev-requirements.yml`: Top-level development dependencies with only necessary version restrictions (typically a minimum version or a version range); kept manually.
-    - `environment.yml`: Complete tree of runtime dependencies with fully pinned version numbers; created with `conda env export`; (approximately) a subset of those `dev-environment.yml`.
-    - `requirements.yml`: Top-level runtime dependencies with only necessary version restrictions (typically a minimum version or a version range); kept manually.
+- `requirements/`: Project dependencies and environment
+    - `environment.yml`: Full tree of runtime and development dependencies with fully specified ('pinned') version numbers; created with `conda env export`.
+    - `requirements.yml`: Top-level runtime and development dependencies with minimal version restrictions (typically a minimum version or a version range); kept manually.
 - `src/{{module_name}}/`: Source code of the project package.
 - `tests/test_{{module_name}}/`: Unit tests of the project package; run with `pytest`.
+- `tools/`: Scripts primarily for development
+    - `run-mypy.sh`: Run script for the static type checker `mypy`.
+    - `setup_env.sh`: Script to create new conda environments; see `tools/setup_env.sh -h` for all available options.
+    - `setup_miniconda.sh`: Script to install miniconda.
 - `.gitignore`: Files and folders ignored by `git`.
 - `.pre-commit-config.yaml`: Configuration of pre-commit hooks, which are formatters and checkers run before a successful commit.
 - `AUTHORS.md`: Project authors.
@@ -147,38 +149,32 @@ Following is a description of the most important files and folders in the projec
 - `MANIFEST.in`: Files installed alongside the source code.
 - `pyproject.toml`: Main package specification file, including build dependencies, metadata and the configurations of development tools like `black`, `pytest`, `mypy` etc.
 - `README.md`: Description of the project.
-- `run-mypy.sh`: Run script for the static type checker `mypy`.
-- `setup_env.sh`: Script to create new conda environments; see `setup_env.sh -h` for all available options.
-- `setup_miniconda.sh`: Script to install miniconda.
-- `test_all.sh`: Script to run all tests and checkers, including the pre-commit hooks and unit tests.
 - `USAGE.md`: Information on how to use the package.
 
 ## Managing dependencies
 
-{{ project_name }} uses [Conda](https://docs.conda.io/en/latest/) to manage dependencies. (Also check out [Mamba](https://mamba.readthedocs.io/en/latest/) if you like your package installations fast.) Dependencies are specified in YAML files, of which there are four:
+{{ project_name }} uses [Conda](https://docs.conda.io/en/latest/) to manage dependencies. (Also check out [Mamba](https://mamba.readthedocs.io/en/latest/) if you like your package installations fast.) Dependencies are specified in YAML files, of which there are two:
 
-- `requirements/requirements.yml`: Top-level runtime dependencies with minimal version restrictions (typically a minimum version or a version range). It is kept manually.
-- `requirements/dev-requirements.yml`: Additional top-level development dependencies (formatters, linters, testing, etc.) with minimal version restrictions; also kept manually.
-- `requirements/environment.yml`: Full tree of runtime dependencies with fully specified ('pinned') version numbers. It is created with `conda env export`.
-- `requirements/dev-environment.yml`: Full tree of runtime and development dependencies with fully specified version numbers; also created with `conda env export`. The dependencies are an (approximate) superset of those in `environment.yml`.
+- `requirements/requirements.yml`: Top-level runtime and development dependencies with minimal version restrictions (typically a minimum version or a version range); kept manually.
+- `requirements/environment.yml`: Full tree of runtime and development dependencies with fully specified ('pinned') version numbers; created with `conda env export`.
 
-The pinned `*environment.yml` files should be used to create reproducible environments for development or deployment. This ensures reproducible results across machines and users. The unpinned `*requirements.yml` files have two main purposes: (i) keeping track of the top-level dependencies, and (ii) periodically updating the pinned `*environment.yml` files to the latest package versions.
+The pinned `environment.yml` file should be used to create reproducible environments for development or deployment. This ensures reproducible results across machines and users. The unpinned `requirements.yml` file has two main purposes: (i) keeping track of the top-level dependencies, and (ii) periodically updating the pinned `environment.yml` file to the latest package versions.
 
 After introducing new first-level dependencies to your requirements, you have to update the environment files in order to be able to create reproducible environments for deployment and production.
 Updating the environment files involves the following steps:
 
-1. Creating an environment from your first-level dependencies in `requirements/requirements.yml`
+1. Creating an environment from your top-level dependencies in `requirements/requirements.yml`
 2. Exporting this environment to `requirements/environment.yml`
-3. Creating a development environment from both `requirements/requirements.yml` and `requirements/dev-requirements.yml`.
-4. Exporting the develompment environment to `requirements/dev-environment.yml`
 
 Alternatively, use the provided script
 
 ```bash
-./setup_env.sh -ude
+./tools/setup_env.sh -ue
 ```
 
-to create a runtime and a development (`-d`) environment from unpinned (`-u`) dependencies and export (`-e`) them (consider throwing in `-m` for good measure to speed things up with `mamba`).
+to create a environment from unpinned (`-u`) runtime and development dependencies and export (`-e`) it (consider throwing in `-m` for good measure to speed things up with `mamba`).
+
+_Note that the separation of unpinned runtime and development dependencies into separate files (`requirements.yml` and `dev-requirements.yml`, respectively) has been given up because when creating an environment from multiple YAML files (with `conda env create` and `conda env update`), only the version restrictions in the last file are guaranteed to be respected, so when installing devevelopment dependencies from `dev-requirements.yml` into an environment created from `requirements.yml`, the solver does not take version restrictions in the latter file into account anymore, potentially resulting in inconsistent production and development environments. Given the negligible overhead (in terms of memory etc.) of installing development dependencies in production environments, they are only separated from the runtime dependencies in `requirements.yml` by a comment._
 
 ## How to provide executable scripts
 

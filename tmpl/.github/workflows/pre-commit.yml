@@ -26,10 +26,11 @@ jobs:
         channels: conda-forge
         channel-priority: flexible
         show-channel-urls: true
-    - name: Create dev env from unpinned reqs
+    - name: Create env from unpinned reqs
       run: |
         conda env create --name dev_env --file requirements/requirements.yml
-        conda env update --name dev_env --file requirements/dev-requirements.yml
+    - name: Install project into env
+      run: |
         conda run --name dev_env pip install --no-deps .
     - name: Install pre-commit hooks
       run: |
