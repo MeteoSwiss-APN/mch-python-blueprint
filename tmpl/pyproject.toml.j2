@@ -11,7 +11,9 @@ version = "{{ version }}"
 description = "{{ project_short_description }}"
 readme = "README.md"
 keywords = [
-    "{{ project_slug }}",
+{%- for keyword in project_keywords.split(",") %}
+    "{{ keyword.strip() }}",
+{%- endfor %}
 ]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
@@ -26,8 +28,8 @@ authors = [
 ]
 
 [project.urls]
-source = "https://github.com/{{ github_username }}/{{ project_slug }}"
-#documentation = "https://github.io/{{ github_username }}/{{ project_slug }}"  TODO
+source = "{{ project_github }}"
+documentation = "{{ project_doc_url }}"
 
 [project.scripts]
 # Format: <command> = "<package>.<module>:<function>"

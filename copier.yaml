@@ -1,46 +1,69 @@
 _subdirectory: "tmpl"
 _templates_suffix: ".j2"
 
+# author_name:
 full_name:
   help: "Your full name"
   default: "Monty Python"
   type: str
 
+# author_email:
 email:
   help: "Your email address"
   default: "{{ full_name.lower().replace(' ', '.') }}@meteoswiss.ch"
   type: str
 
-github_username:
-  help: "Your user name on github"
-  default: "{{ full_name.lower().replace(' ', '_') }}"
-  type: str
-
 project_name:
-  help: "Human-friendly project name"
+  help: "Human-friendly project name used in READMEs etc."
   default: "Flying Circus"
   type: str
 
 project_slug:
-  help: "URL-friendly project name (no spaces)"
+  help: "URL-friendly project name used in github/gitlab URL etc. (no spaces)"
   default: "{{ project_name.lower().replace(\"'\", '').replace(' ', '-') }}"
   type: str
 
+# project_package:
 module_name:
   help: "Python module name (no spaces or dashes)"
   default: "{{ project_slug.replace('-', '_') }}"
   type: str
 
+# project_description:
 project_short_description:
-  help: "Your project in one line"
+  help: "Describe your project in one line"
   default: "{{ full_name }}'s {{ project_name }}"
   type: str
 
-project_github:
-  help: "Project path on github"
-  default: "MeteoSwiss-APN/{{ project_slug }}"
+project_keywords:
+  help: "Keywords that describe your project (comma-separated)"
+  default: "{{ project_name }}"
   type: str
 
+# project_git_user:
+github_username:
+  help: "Name of github/gitlab user hosting the project"
+  default: "MeteoSwiss-APN"
+  # default: "{{ full_name.lower().replace(' ', '_') }}" # for private projects
+  type: str
+
+# project_git_url:
+project_github:
+  help: "URL of project git repository"
+  default: "https://github.com/{{ github_username }}/{{ project_slug }}"
+  type: str
+
+project_ssh_url:
+  help: "SSH URL of project git repository"
+  default: "{{ project_github.replace('https://', 'git+ssh://git@') }}.git"
+  type: str
+
+project_doc_url:
+  help: "URL of project documentation"
+  default: "https://github.io/{{ github_username }}/{{ project_slug }}"
+  type: str
+
+# project_version:
 version:
   help: "Initial project version"
   default: "0.1.0"
