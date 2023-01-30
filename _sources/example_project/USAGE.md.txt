@@ -1,0 +1,13 @@
+# Usage
+
+Use Flying Circus in a project:
+
+```python
+import flying_circus
+```
+
+Before running, make sure to activate your project environment:
+
+```bash
+conda activate flying-circus
+```

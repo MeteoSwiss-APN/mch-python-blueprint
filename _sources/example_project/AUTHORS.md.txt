@@ -1,0 +1,9 @@
+# Credits
+
+## Development Lead
+
+- Monty Python <monty.python@meteoswiss.ch>
+
+## Contributors
+
+None yet. Why not be the first?
