@@ -70,3 +70,11 @@ jobs:
       working-directory: ./flying_circus
       run: |
         conda run --name flying-circus pytest
+    - name: Check that caches etc. are ignored
+      working-directory: ./flying_circus
+      run: |
+        changed="$(conda run --name blueprint git status --porcelain)"
+        if [[ "${changed}" != "" ]]; then
+            echo -e "error: unignored untracked files after pre-commit:\n${changed}" >&2
+            exit 1
+        fi
