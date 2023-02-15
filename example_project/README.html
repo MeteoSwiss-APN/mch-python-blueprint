@@ -39,13 +39,13 @@
 <h2>Start developing<a class="headerlink" href="#start-developing" title="Permalink to this heading">¶</a></h2>
 <p>Once you created or cloned this repository, make sure the installation is running properly. Install the package dependencies with the provided script <code class="docutils literal notranslate"><span class="pre">setup_env.sh</span></code>.
 Check available options with</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tools/setup_env.sh -h
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>setup_env.sh -h
 </pre></div>
 </div>
 <p>We distinguish development installations which are editable and have additional dependencies on formatters and linters from productive installations which are non-editable
 and have no additional dependencies. Moreover we distinguish pinned installations based on exported (reproducible) environments and free installations where the installation
 is based on top-level dependencies listed in <code class="docutils literal notranslate"><span class="pre">requirements/requirements.yml</span></code>. If you start developing, you might want to do an unpinned installation and export the environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tools/setup_env.sh -u -e -n &lt;package_env_name&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>setup_env.sh -u -e -n &lt;package_env_name&gt;
 </pre></div>
 </div>
 <p><em>Hint</em>: If you are the package administrator, it is a good idea to understand what this script does, you can do everything manually with <code class="docutils literal notranslate"><span class="pre">conda</span></code> instructions.</p>
@@ -77,6 +77,14 @@ implemented a meaningful test ;-)), you are likely willing to commit it. First, 
 <span class="nb">cd</span> &lt;package-root-dir&gt;
 pytest
 </pre></div>
+</div>
+<h4>Pre-Commit</h4>
+If you want pre-commit installed in your requirement you need to install it from the dev-requirement via
+<div class="highlight-bash notranslate">
+  <div class="highlight">
+    <pre><span></span>conda env update --file requirements/dev-requirements.yml
+</pre>
+  </div>
 </div>
 <p>Note that neither pytest, nor pre-commit, nor any of the linters invoked by the pre-commit hooks will be available in the production environment, so make sure you have a development environment
 installed and activated. If you use the blueprint as is, pre-commit will not be triggered locally but only if you push to the main branch
