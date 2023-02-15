@@ -52,9 +52,9 @@ repository and initialize git with the following sequence of commands:
     git commit -m “initial commit”
 ```
 Create the repository on MeteoSwiss-APN github.
- **Attention**: the name here must correspond to the information given to copier. 
- Then follow the steps on GitHub under the headline “…or push an existing repository from the command line to connect your repository to the remote on GitHub. A .gitignore template is not needed as there is one provided in the blueprint. 
-**Attention**: It's recommended to use the ssh URL and not https as recommended in the given instructions. 
+ **Attention**: the name here must correspond to the information given to copier.
+ Then follow the steps on GitHub under the headline “…or push an existing repository from the command line to connect your repository to the remote on GitHub. A .gitignore template is not needed as there is one provided in the blueprint.
+**Attention**: It's recommended to use the ssh URL and not https as recommended in the given instructions.
 The URL has the form git(at)github.com:MeteoSwiss-APN/your_fancy_package.
 **Disclaimer** It is assumed you know how to use git, in particular how to implement features on a branch and merge them to the main branch using pull requests.
 Avoid working directly on the main branch after the initial commit (or the first few commits if you start alone and from scratch).
