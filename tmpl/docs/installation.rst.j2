@@ -60,6 +60,7 @@ Maintenance of the environment (for developers)
 -----------------------------------------------
 
 If you need to add new first-level dependencies to your package, make sure to include them in `requirements/requirements.yml`. (Note that pip requirements can be added to these files in the `- pip:` section of the document.) After a (unpinned!) installation, this will change the full dependency tree and you need to export the environment. You can either do this by hand by activating the environment and then running
+
 .. code-block:: console
 
     $ conda env export {{ project_slug }} requirements/environment.yml
