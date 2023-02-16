@@ -25,7 +25,7 @@ pip install copier
 You can now produce your Python package from a copier template by running
 ```
 conda activate blueprint
-copier git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+copier --vcs-ref main git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
 If you need to generate your project from a specific commit hash or branch of the blueprint you can run with --vcs-ref
 
