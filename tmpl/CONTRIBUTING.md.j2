@@ -42,7 +42,7 @@ If you are proposing a feature,
 
 Ready to contribute? Here's how to set up `{{ project_slug }}` for local development.
 
-1. Fork the [`{{ project_slug }}` repo](https://github.com/{{ github_path }} on GitHub.
+1. Fork the [`{{ project_slug }}` repo](https://github.com/{{ github_path }}) on GitHub.
 2. Clone your fork locally:
 
     ```bash
@@ -56,15 +56,13 @@ Ready to contribute? Here's how to set up `{{ project_slug }}` for local develop
     ./tools/setup_env.sh
     ```
 
-    This will create a conda environment named `{{ project_slug }}` (change with `-n`) and install the following:
+    This will create a conda environment named `{{ project_slug }}` (change with `-n`) and install the pinned runtime and development dependencies in `requirements/environment.yml`.
 
-    - Pinned runtime and development dependencies in `requirements/environment.yml`
-    - The `{{ project_slug }}` package itself in editable mode.
-
-    Activate the environment:
+    Install the package itself in editable mode.
 
     ```bash
     conda activate {{ project_slug }}
+    pip install --editable .
     ```
 
     Use `-u` to get the newest package versions (unpinned dependencies in `requirements/requirements.yml`), and additionally `-e` to update the environment files.
