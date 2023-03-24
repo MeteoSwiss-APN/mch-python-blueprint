@@ -32,7 +32,6 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                 set -e
-                cd ${WORKSPACE}/{{ project_slug }}
                 source ${WORKSPACE}/miniconda/etc/profile.d/conda.sh
                 conda init bash --no-user --install --system
                 conda activate
@@ -48,7 +47,6 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash --no-user --install --system
                 conda activate {{ project_slug }}
-                cd ${WORKSPACE}/{{ project_slug }}
                 pytest tests
                 '''
             }
@@ -60,7 +58,6 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash --no-user --install --system
                 conda activate
-                cd ${WORKSPACE}/{{ project_slug }}
                 bash tools/setup_env.sh -n dev-{{ project_slug }} -u
                 conda activate dev-{{ project_slug }}
                 pip install --no-deps --editable .
@@ -73,7 +70,6 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash --no-user --install --system
                 conda activate dev-{{ project_slug }}
-                cd ${WORKSPACE}/{{ project_slug }}
                 pytest tests
                 '''
             }
@@ -85,7 +81,6 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash --no-user --install --system
                 conda activate
-                cd ${WORKSPACE}/{{ project_slug }}
                 bash tools/setup_env.sh -n pinned-{{ project_slug }}
                 conda activate pinned-{{ project_slug }}
                 pip install --no-deps .
@@ -97,7 +92,6 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate pinned-{{ project_slug }}
-                cd ${WORKSPACE}/{{ project_slug }}
                 pytest tests
                 '''
             }
@@ -109,7 +103,6 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda init bash --no-user --install --system
                 conda activate
-                cd ${WORKSPACE}/{{ project_slug }}
                 bash tools/setup_env.sh -n pinned-dev-{{ project_slug }}
                 conda activate pinned-dev-{{ project_slug }}
                 pip install --no-deps --editable .
@@ -121,7 +114,6 @@ pipeline {
                 sh '''#!/usr/bin/env bash
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda activate pinned-dev-{{ project_slug }}
-                cd ${WORKSPACE}/{{ project_slug }}
                 pytest tests
                 '''
             }
