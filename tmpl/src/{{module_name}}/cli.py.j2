@@ -11,7 +11,7 @@ from . import __version__
 from .mutable_number import MutableNumber
 
 
-# pylint: disable=W0613  # unused-argument (param)
+# pylint: disable-next=W0613  # unused-argument (param)
 def print_version(ctx, param, value: bool) -> None:
     """Print the version number and exit."""
     if value:
@@ -19,7 +19,7 @@ def print_version(ctx, param, value: bool) -> None:
         ctx.exit(0)
 
 
-# pylint: disable=W0613  # unused-argument (args, kwargs)
+# pylint: disable-next=W0613  # unused-argument (args, kwargs)
 @click.pass_context
 def print_number(ctx, *args, **kwargs) -> None:
     """Print the current number."""
