@@ -25,6 +25,7 @@ def print_version(ctx, param, value: bool) -> None:
 def set_log_level(ctx, param, value: int) -> None:
     """Set the logging level."""
     logging.getLogger().setLevel(count_to_log_level(value))
+    return value
 
 
 @click.pass_context
