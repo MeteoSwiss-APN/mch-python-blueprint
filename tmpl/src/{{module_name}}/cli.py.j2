@@ -36,6 +36,12 @@ def print_number(ctx, *args, **kwargs) -> None:
     click.echo(f"{number:g}")
 
 
+def print_operation(ctx, operator: str, value: float) -> None:
+    if ctx.obj["verbosity"]:
+        number = ctx.obj['number']
+        click.echo(f"{number.get(-2):g} {operator} {value:g} = {number.get():g}")
+
+
 @click.group(
     context_settings={"help_option_names": ["-h", "--help"]},
     no_args_is_help=True,
@@ -59,6 +65,7 @@ def print_number(ctx, *args, **kwargs) -> None:
 @click.option(
     "--verbose",
     "-v",
+    "verbosity",
     help="Increase verbosity (specify multiple times for more).",
     count=True,
     callback=set_log_level,
@@ -66,17 +73,10 @@ def print_number(ctx, *args, **kwargs) -> None:
 @click.pass_context
 def main(ctx, number: float, **kwargs) -> None:
     """Console script for test_cli_project."""
-
     if ctx.obj is None:
         ctx.obj = {}
     ctx.obj["number"] = MutableNumber(number)
     ctx.obj.update(kwargs)
-
-
-def print_operation(ctx, operator: str, value: float) -> None:
-    if ctx.obj["verbose"]:
-        number = ctx.obj["number"]
-        click.echo(f"{number.get(-2):g} {operator} {value:g} = {number.get():g}")
 
 
 @main.command("plus", help="addition")
