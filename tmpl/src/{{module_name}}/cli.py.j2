@@ -19,8 +19,8 @@ def print_version(ctx, param, value: bool) -> None:
         ctx.exit(0)
 
 
-# pylint: disable-next=W0613  # unused-argument (args, kwargs)
 @click.pass_context
+# pylint: disable-next=W0613  # unused-argument (args, kwargs)
 def print_number(ctx, *args, **kwargs) -> None:
     """Print the current number."""
     number = ctx.obj["number"].get()
