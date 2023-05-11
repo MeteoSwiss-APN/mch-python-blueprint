@@ -65,7 +65,6 @@ def print_number(ctx, *args, **kwargs) -> None:
 @click.pass_context
 def main(ctx, number: float, **kwargs) -> None:
     """Console script for test_cli_project."""
-
     if ctx.obj is None:
         ctx.obj = {}
     ctx.obj["number"] = MutableNumber(number)
