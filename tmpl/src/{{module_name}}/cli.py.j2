@@ -22,7 +22,7 @@ def print_version(ctx, param, value: bool) -> None:
 
 
 # pylint: disable-next=W0613  # unused-argument (args, kwargs)
-def set_log_level(ctx, param, value: int) -> None:
+def set_log_level(ctx, param, value: int) -> int:
     """Set the logging level."""
     logging.getLogger().setLevel(count_to_log_level(value))
     return value
@@ -38,7 +38,7 @@ def print_number(ctx, *args, **kwargs) -> None:
 
 def print_operation(ctx, operator: str, value: float) -> None:
     if ctx.obj["verbosity"]:
-        number = ctx.obj['number']
+        number = ctx.obj["number"]
         click.echo(f"{number.get(-2):g} {operator} {value:g} = {number.get():g}")
 
 
