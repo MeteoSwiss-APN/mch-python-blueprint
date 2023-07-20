@@ -32,3 +32,4 @@ ignore_directives = [
 
 [tool.codespell]
 ignore-words-list = "inout"
+skip = "requirements/*"
