@@ -6,6 +6,11 @@
 # - 2022-09 (S. Ruedisuehli) Refactor; add some options
 #
 
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+  echo "Please simply call the script instead of sourcing it!"
+  return
+fi
+
 # Default env names
 DEFAULT_ENV_NAME="{{ project_slug }}"
 
