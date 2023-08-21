@@ -33,7 +33,7 @@ pipeline {
                 conda create -n copier
                 conda activate copier
                 conda install -c conda-forge copier
-                copier --vcs-ref=HEAD --defaults copy . flying_circus
+                copier copy --vcs-ref=HEAD --defaults copy . flying_circus
                 conda deactivate
                 '''
             }

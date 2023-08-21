@@ -9,6 +9,6 @@ dependencies:
   - sphinx>=4.3
   - pip:
     # runtime
-    - copier>=6.1
+    - copier>=8.1
     # development
     - sphinx-mdinclude>=0.5
