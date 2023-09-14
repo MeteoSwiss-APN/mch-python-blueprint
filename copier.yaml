@@ -76,5 +76,5 @@ python_version:
 
 year:
   help: "This year"
-  default: "2022"
+  default: "2023"
   type: str
