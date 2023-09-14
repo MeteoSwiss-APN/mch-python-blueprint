@@ -32,7 +32,7 @@ jobs:
     - name: Create new project
       run: |
         # Note: Make sure python_version is consistent with python-version hardcoded above
-        conda run --name blueprint copier --force --vcs-ref=HEAD --data python_version=3.9 copy . flying_circus
+        conda run --name blueprint copier copy --force --vcs-ref=HEAD --data python_version=3.9 . flying_circus
     - name: Prepare new project
       working-directory: ./flying_circus
       run: |

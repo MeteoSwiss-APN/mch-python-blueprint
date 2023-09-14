@@ -9,6 +9,11 @@
 #
 # src: https://jaredkhan.com/blog/mypy-pre-commit
 
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+  echo "Please simply call the script instead of sourcing it!"
+  return
+fi
+
 set -o errexit
 
 VERBOSE=${VERBOSE:-false}

@@ -19,7 +19,7 @@ jobs:
     - name: Create new project
       run: |
         # Note: Make sure python_version is consistent with python-version hardcoded above
-        conda run --name blueprint copier --force --vcs-ref=HEAD python_version=3.9 copy . ./docs/example_project
+        conda run --name blueprint copier copy --force --vcs-ref=HEAD . ./docs/example_project
         ls
         echo "==================================="
         ls docs
