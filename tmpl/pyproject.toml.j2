@@ -33,7 +33,7 @@ documentation = "{{ project_doc_url }}"
 
 [project.scripts]
 # Format: <command> = "<package>.<module>:<function>"
-# {{ project_slug }} = "{{ module_name }}.cli:main"
+{{ project_slug }} = "{{ module_name }}.cli:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
