@@ -31,5 +31,15 @@ ignore_directives = [
 ]
 
 [tool.codespell]
-ignore-words-list = "inout"
-skip = "requirements/*"
+ignore-regex = '(\b[A-Z]+\b|.*([#!"]|<!--) *codespell-ignore\b)'
+# - Ignore all-uppercase words (acronyms)
+# - Ignore lines with codespell-ignore comment
+ignore-words = './tmpl/codespell_ignored_words.txt'
+# Note: To skip local files by their full path, codespell (v2.2.2) requires
+# './src/...` when called from the command line but 'src/...' when called via
+# pre-commit (as local hook); '*src/...` matches both
+skip = """\
+.git,\
+*.codespell-ignore.*,\
+requirements/*,\
+"""
