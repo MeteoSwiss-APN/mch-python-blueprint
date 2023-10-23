@@ -2,13 +2,15 @@ name: mch-python-blueprint
 channels:
   - conda-forge
 dependencies:
-  - python>=3.10
+  - python>=3.10,<3.11
   - pip>=22.3
   # development
   - pre-commit>=2.20
   - sphinx>=4.3
   - pip:
-    # runtime
-    - copier>=6.1
-    # development
-    - sphinx-mdinclude>=0.5
+      # runtime
+      - copier>=7.0, <8.0
+      # development
+      - pydantic >= 1.10, <2.0
+      - sphinx-mdinclude>=0.5
+      - rstcheck_core>=1.0
