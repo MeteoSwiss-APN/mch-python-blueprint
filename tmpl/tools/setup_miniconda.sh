@@ -6,6 +6,11 @@
 # - 2022-09 (S. Ruedisuehli) Refactor
 #
 
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+  echo "Please simply call the script instead of sourcing it!"
+  return
+fi
+
 # Default options
 INSTALL_PREFIX=${PWD}
 USER_INSTALL=false
