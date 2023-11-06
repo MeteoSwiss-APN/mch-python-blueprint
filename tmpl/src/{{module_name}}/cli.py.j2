@@ -1,13 +1,19 @@
 """Command line interface of {{ module_name }}."""
+# Standard library
+import logging
+
 # Third-party
 import click
+
+# First-party
+from {{module_name}}.utils import count_to_log_level
 
 # Local
 from . import __version__
 from .mutable_number import MutableNumber
 
 
-# pylint: disable=W0613  # unused-argument (param)
+# pylint: disable-next=W0613  # unused-argument (param)
 def print_version(ctx, param, value: bool) -> None:
     """Print the version number and exit."""
     if value:
@@ -15,12 +21,25 @@ def print_version(ctx, param, value: bool) -> None:
         ctx.exit(0)
 
 
-# pylint: disable=W0613  # unused-argument (args, kwargs)
+# pylint: disable-next=W0613  # unused-argument (args, kwargs)
+def set_log_level(ctx, param, value: int) -> int:
+    """Set the logging level."""
+    logging.getLogger().setLevel(count_to_log_level(value))
+    return value
+
+
 @click.pass_context
+# pylint: disable-next=W0613  # unused-argument (args, kwargs)
 def print_number(ctx, *args, **kwargs) -> None:
     """Print the current number."""
     number = ctx.obj["number"].get()
     click.echo(f"{number:g}")
+
+
+def print_operation(ctx, operator: str, value: float) -> None:
+    if ctx.obj["verbosity"]:
+        number = ctx.obj["number"]
+        click.echo(f"{number.get(-2):g} {operator} {value:g} = {number.get():g}")
 
 
 @click.group(
@@ -46,8 +65,10 @@ def print_number(ctx, *args, **kwargs) -> None:
 @click.option(
     "--verbose",
     "-v",
-    count=True,
+    "verbosity",
     help="Increase verbosity (specify multiple times for more).",
+    count=True,
+    callback=set_log_level,
 )
 @click.pass_context
 def main(ctx, number: float, **kwargs) -> None:
@@ -56,12 +77,6 @@ def main(ctx, number: float, **kwargs) -> None:
         ctx.obj = {}
     ctx.obj["number"] = MutableNumber(number)
     ctx.obj.update(kwargs)
-
-
-def print_operation(ctx, operator: str, value: float) -> None:
-    if ctx.obj["verbose"]:
-        number = ctx.obj["number"]
-        click.echo(f"{number.get(-2):g} {operator} {value:g} = {number.get():g}")
 
 
 @main.command("plus", help="addition")
