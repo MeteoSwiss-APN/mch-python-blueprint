@@ -1,10 +1,12 @@
 #!/bin/bash
 #
 # Install miniconda if necessary
-#
-# - 2022-08 (D. Regenass) Write original script
-# - 2022-09 (S. Ruedisuehli) Refactor
-#
+
+
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+  echo "Please simply call the script instead of sourcing it!"
+  return
+fi
 
 if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
   echo "Please simply call the script instead of sourcing it!"
