@@ -8,30 +8,52 @@ More information on the tools, intended workflow, etc. can be found on
 GH pages of this repository (https://meteoswiss-apn.github.io/mch-python-blueprint/).
 
 ## Preparation
-Ensure that your active Python version is 3.7 or higher.
-The recommended way to manage Python versions is with `Conda` (https://docs.conda.io/en/latest/). On CSCS machines it is recommended to install the leaner `Miniconda` (https://docs.conda.io/en/latest/miniconda.html), which offers enough functionality for most of our use cases. If you don't want to do this step manually, you can also use the script that is provided in the copier template `tmpl/tools/setup_miniconda.sh`.
+
+Ensure that your active Python version is 3.11 or higher.
+The recommended way to manage Python versions is with `Conda`
+(https://docs.conda.io/en/latest/).
+On CSCS machines it is recommended to install the leaner `Miniconda`
+(https://docs.conda.io/en/latest/miniconda.html),
+which offers enough functionality for most of our use cases.
+If you don't want to do this step manually, you may use the script that is
+provided in the copier template `tmpl/tools/setup_miniconda.sh`.
+The default installation path of this script is the current working directory,
+you might want to change that with the `-p` option to a common location for all
+environments, like e.g. `$SCRATCH`. If you want the script to immediately
+initialize conda (executing `conda init` and thereby adding a few commands at the
+end of your `.bashrc`) after installation, add the `-u` option:
+
+```bash
+tmpl/tools/setup_miniconda.sh -p $SCRATCH -u
+```
+
+In case you ever need to uninstall miniconda, do the following:
+
+```bash
+conda init --reverse --all
+rm -rf $SCRATCH/miniconda
+```
 
 ## Install Copier
 
-First you have to install copier and its requirements. Ideally you do it in a conda environment. Either manually
+First you have to install copier and its requirements. Ideally you do this in a conda environment:
 ```bash
 conda create --name blueprint
 conda activate blueprint
-conda install pip
-pip install copier
+conda install copier
 ```
 
 ## Create your Python package from our template
 You can now produce your Python package from a copier template by running
 ```
 conda activate blueprint
-copier git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+copier copy git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
 If you need to generate your project from a specific commit hash or branch of the blueprint you can run with --vcs-ref
 
 ```
 conda activate blueprint
-copier --vcs-ref <branch> git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+copier copy --vcs-ref <branch> git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
 
 **Warning:**
