@@ -9,7 +9,7 @@ GH pages of this repository (https://meteoswiss-apn.github.io/mch-python-bluepri
 
 ## Preparation
 
-Ensure that your active Python version is 3.11 or higher.
+Ensure that your active Python version is 3.7 or higher.
 The recommended way to manage Python versions is with `Conda`
 (https://docs.conda.io/en/latest/).
 On CSCS machines it is recommended to install the leaner `Miniconda`
@@ -40,20 +40,21 @@ First you have to install copier and its requirements. Ideally you do this in a 
 ```bash
 conda create --name blueprint
 conda activate blueprint
-conda install copier
+conda install pip
+pip install copier
 ```
 
 ## Create your Python package from our template
 You can now produce your Python package from a copier template by running
 ```
 conda activate blueprint
-copier copy git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+copier git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
 If you need to generate your project from a specific commit hash or branch of the blueprint you can run with --vcs-ref
 
 ```
 conda activate blueprint
-copier copy --vcs-ref <branch> git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+copier --vcs-ref <branch> git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
 
 **Warning:**
