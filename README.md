@@ -8,17 +8,39 @@ More information on the tools, intended workflow, etc. can be found on
 GH pages of this repository (https://meteoswiss-apn.github.io/mch-python-blueprint/).
 
 ## Preparation
+
 Ensure that your active Python version is 3.7 or higher.
-The recommended way to manage Python versions is with `Conda` (https://docs.conda.io/en/latest/). On CSCS machines it is recommended to install the leaner `Miniconda` (https://docs.conda.io/en/latest/miniconda.html), which offers enough functionality for most of our use cases. If you don't want to do this step manually, you can also use the script that is provided in the copier template `tmpl/tools/setup_miniconda.sh`.
+The recommended way to manage Python versions is with `Conda`
+(https://docs.conda.io/en/latest/).
+On CSCS machines it is recommended to install the leaner `Miniconda`
+(https://docs.conda.io/en/latest/miniconda.html),
+which offers enough functionality for most of our use cases.
+If you don't want to do this step manually, you may use the script that is
+provided in the copier template `tmpl/tools/setup_miniconda.sh`.
+The default installation path of this script is the current working directory,
+you might want to change that with the `-p` option to a common location for all
+environments, like e.g. `$SCRATCH`. If you want the script to immediately
+initialize conda (executing `conda init` and thereby adding a few commands at the
+end of your `.bashrc`) after installation, add the `-u` option:
+
+```bash
+tmpl/tools/setup_miniconda.sh -p $SCRATCH -u
+```
+
+In case you ever need to uninstall miniconda, do the following:
+
+```bash
+conda init --reverse --all
+rm -rf $SCRATCH/miniconda
+```
 
 ## Install Copier
 
-First you have to install copier and its requirements. Ideally you do it in a conda environment. Either manually
+First you have to install copier and its requirements. Ideally you do this in a conda environment:
 ```bash
 conda create --name blueprint
 conda activate blueprint
-conda install pip
-pip install copier
+conda install "copier<8.0"
 ```
 Make sure to have at least copier version 8.1.0. Otherwise, please update copier.
 
@@ -74,3 +96,14 @@ copier update -a .copier-answers.yml -f update
 ```
 
 With `-f`, conflicting files are overwritten (which doesn't mean that in the end, the files are changed as those conflicts can be purely internal).
+
+
+# Contributing to the blueprint code
+
+Improvements and bug fixes for the blueprint are welcome! You can either open an issue on GitHub, or contribute with a pull request!
+If you open a pull request, please make sure that the CI/CD pipeline validates before requesting a review. Here is a short description of the implemented tests:
+
+* GitHub Actions (`.github/workflow/*`): GitHub Actions are triggered automatically when you push to the repository. There main purpose is to run the pre-commit hooks (linter, checkers) on the blueprint code and on a test package created with the blueprint. In the main branch the GitHub Actions also trigger the deployment of the documentation on GitHUb Pages. Check that everything (except the deployment of the documentation) is green!
+* Jenkins (`jenkins/Jenkinsfile`): Jenkins tests the installation of a test package created with the blueprint in different configurations (pinned and unpinned dependencies, non-editable and editable (development) mode). Jenkins is triggered automatically on pushes to the main branch. In your pull request, please trigger Jenkins manually by writing `launch jenkins` in a comment. Please make sure that the Jenkins plan is green!
+
+Thank you very much!

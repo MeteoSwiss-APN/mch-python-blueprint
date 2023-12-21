@@ -2,7 +2,7 @@ name: {{ project_slug }}
 channels:
   - conda-forge
 dependencies:
-  - python>={{ python_version }}
+  - python>={{ python_version }},<3.11
   - pip>=22.3
   # runtime
   - click>=8.1  # for sample code
@@ -35,8 +35,8 @@ dependencies:
   - types-toml>=0.10
   - pip:
     # development
-    - copier>=8.1
+    - copier>=7.0,<8.0
     - flake8-pyproject>=1.2
     - sphinx-mdinclude>=0.5
-    # install rstcheck w/ pip to avoid pydantic runtime error due to copier 8
-    - rstcheck>=6.1
+    - pydantic>=1.10,<2.0
+    - rstcheck_core>=1.0
