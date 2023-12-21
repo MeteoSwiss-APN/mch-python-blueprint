@@ -40,8 +40,7 @@ First you have to install copier and its requirements. Ideally you do this in a 
 ```bash
 conda create --name blueprint
 conda activate blueprint
-conda install pip
-pip install copier
+conda install "copier<8.0"
 ```
 
 ## Create your Python package from our template
