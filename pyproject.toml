@@ -31,9 +31,10 @@ ignore_directives = [
 ]
 
 [tool.codespell]
-ignore-regex = '(\b[A-Z]+\b|.*([#!"]|<!--) *codespell-ignore\b)'
+ignore-regex = '(\b[A-Z]+\b|.*([#!"]|<!--) *codespell-ignore\b|^ *"image/[a-z]+": ".*",$)'
 # - Ignore all-uppercase words (acronyms)
 # - Ignore lines with codespell-ignore comment
+# - Ignore lines "image/...": "..." (images in *.ipynb files)
 ignore-words = './tmpl/codespell_ignored_words.txt'
 # Note: To skip local files by their full path, codespell (v2.2.2) requires
 # './src/...` when called from the command line but 'src/...' when called via
@@ -41,5 +42,5 @@ ignore-words = './tmpl/codespell_ignored_words.txt'
 skip = """\
 .git,\
 *.codespell-ignore.*,\
-requirements/*,\
+*requirements/*,\
 """
