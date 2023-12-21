@@ -73,3 +73,16 @@ copier -a .copier-answers.yml -f update
 ```
 
 With `-f`, conflicting files are overwritten (which doesn't mean that in the end, the files are changed as those conflicts can be purely internal).
+
+
+# Contributing to the blueprint code
+
+Improvements and bug fixes for the blueprint are welcome! You can either open an issue on GitHub, or contribute with a pull request!
+If you open a pull request, please make sure that the CI/CD pipeline validates before requesting a review. Here is a short description of the implemented tests:
+
+* GitHub Actions (`.github/workflow/*`): GitHub Actions are triggered automatically when you push to the repository. There main purpose is to run the pre-commit hooks (linter, checkers) on the blueprint code and on a test package created with the blueprint. In the main branch the GitHub Actions also trigger the deployment of the documentation on GitHUb Pages. Check that everything (except the deployment of the documentation) is green!
+* Jenkins (`jenkins/Jenkinsfile`): Jenkins tests the installation of a test package created with the blueprint in different configurations (pinned and unpinned dependencies, non-editable and editable (development) mode). Jenkins is triggered automatically on pushes to the main branch. In your pull request, please trigger Jenkins manually by writting `launch jenkins` in a comment. Please make sure that the Jenkins plan is green!
+
+Thank you very much!
+
+
