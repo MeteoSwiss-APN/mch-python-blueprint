@@ -32,7 +32,7 @@ pipeline {
                 source $WORKSPACE/miniconda/etc/profile.d/conda.sh
                 conda create -n copier
                 conda activate copier
-                conda install -c conda-forge copier
+                conda install -c conda-forge "copier<8.0"
                 copier --vcs-ref=HEAD --defaults copy . flying_circus
                 conda deactivate
                 '''
