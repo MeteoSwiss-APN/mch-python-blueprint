@@ -1,5 +1,34 @@
 # {{ project_name }}: {{ project_short_description }}
 
+## Preparation
+
+This project has been created from the
+[MeteoSwiss Python blueprint](https://github.com/MeteoSwiss-APN/mch-python-blueprint)
+for the CSCS.
+The recommended way to manage Python versions is with `Conda`
+(https://docs.conda.io/en/latest/).
+On CSCS machines it is recommended to install the leaner `Miniconda`
+(https://docs.conda.io/en/latest/miniconda.html),
+which offers enough functionality for most of our use cases.
+If you don't want to do this step manually, you may use the script
+`tools/setup_miniconda.sh`.
+The default installation path of this script is the current working directory,
+you might want to change that with the `-p` option to a common location for all
+environments, like e.g. `$SCRATCH`. If you want the script to immediately
+initialize conda (executing `conda init` and thereby adding a few commands at the
+end of your `.bashrc`) after installation, add the `-u` option:
+
+```bash
+tmpl/tools/setup_miniconda.sh -p $SCRATCH -u
+```
+
+In case you ever need to uninstall miniconda, do the following:
+
+```bash
+conda init --reverse --all
+rm -rf $SCRATCH/miniconda
+```
+
 ## Start developing
 
 Once you created or cloned this repository, make sure the installation is running properly. Install the package dependencies with the provided script `setup_env.sh`.
