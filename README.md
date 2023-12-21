@@ -84,5 +84,3 @@ If you open a pull request, please make sure that the CI/CD pipeline validates b
 * Jenkins (`jenkins/Jenkinsfile`): Jenkins tests the installation of a test package created with the blueprint in different configurations (pinned and unpinned dependencies, non-editable and editable (development) mode). Jenkins is triggered automatically on pushes to the main branch. In your pull request, please trigger Jenkins manually by writing `launch jenkins` in a comment. Please make sure that the Jenkins plan is green!
 
 Thank you very much!
-
-
