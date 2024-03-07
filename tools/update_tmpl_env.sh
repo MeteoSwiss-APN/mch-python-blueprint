@@ -10,7 +10,7 @@ main()
     if [[ -d "${tmpdir}" ]]; then
         \rm -rfv "${tmpdir}" || return
     fi
-    copier -f --vcs-ref=HEAD . "${tmpdir}" || return
+    copier copy -f --vcs-ref=HEAD . "${tmpdir}" || return
 
     # Update the project's environment file
     \cd "${tmpdir}" || return

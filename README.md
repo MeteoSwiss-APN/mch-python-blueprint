@@ -42,18 +42,19 @@ conda create --name blueprint
 conda activate blueprint
 conda install "copier<8.0"
 ```
+Make sure to have at least copier version 8.1.0. Otherwise, please update copier.
 
 ## Create your Python package from our template
 You can now produce your Python package from a copier template by running
 ```
 conda activate blueprint
-copier git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+copier copy git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
 If you need to generate your project from a specific commit hash or branch of the blueprint you can run with --vcs-ref
 
 ```
 conda activate blueprint
-copier --vcs-ref <branch> git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
+copier copy --vcs-ref <branch> git@github.com:MeteoSwiss-APN/mch-python-blueprint.git </path/to/destination>
 ```
 
 **Warning:**
@@ -91,7 +92,7 @@ out more about provided development tools and setting up CI/CD pipelines on http
 To update your package to the latest version of the underlying meta template, run:
 
 ```bash
-copier -a .copier-answers.yml -f update
+copier update -a .copier-answers.yml -f update
 ```
 
 With `-f`, conflicting files are overwritten (which doesn't mean that in the end, the files are changed as those conflicts can be purely internal).

@@ -10,7 +10,7 @@ main()
     if [[ -d "${tmpdir}" ]]; then
         \rm -rfv "${tmpdir}" || return
     fi
-    copier -f --vcs-ref=HEAD . "${tmpdir}" || return
+    copier copy -f --vcs-ref=HEAD . "${tmpdir}" || return
 
     # Use script in project to update the root environment file
     local env_name

@@ -8,6 +8,11 @@ if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
   return
 fi
 
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+  echo "Please simply call the script instead of sourcing it!"
+  return
+fi
+
 # Default options
 INSTALL_PREFIX=${PWD}
 USER_INSTALL=false
