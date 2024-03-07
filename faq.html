@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>FAQ and Troubleshooting &#8212; MCH Python Blueprint 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=2389946f"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Documentation" href="documentation.html" />
+    <link rel="prev" title="Getting started" href="readme.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="faq-and-troubleshooting">
+<h1>FAQ and Troubleshooting<a class="headerlink" href="#faq-and-troubleshooting" title="Permalink to this heading">¶</a></h1>
+<p><strong>Q:</strong> Copier fails with a <code class="code docutils literal notranslate"><span class="pre">plumbumError</span></code> or something else that I can not make sense of, what on earth is this?</p>
+<p><strong>A:</strong> We don’t know. But you probably have a good chance of fixing the issue by installing a recent version of git
+(<code class="code docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">git</span></code>) on CSCS machines.</p>
+<p><strong>Q:</strong> After installing my package, I get import errors, when I try to run, test or lint. Why?</p>
+<p><strong>A:</strong> If you get lots of them, did you install your package with pip (add -e if you need an editable installation for development)?</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>package_env
+<span class="nb">cd</span><span class="w"> </span>/package/root/directory
+pip<span class="w"> </span>install<span class="w"> </span>--no-deps<span class="w"> </span>.
+</pre></div>
+</div>
+<p>If yes, are you sure you didn’t miss any dependencies in <code class="code docutils literal notranslate"><span class="pre">requirements/requirements.yml</span></code>?</p>
+<p><strong>Q:</strong> Running pre-commit on GH actions is nice, but can I run checkers locally and maybe even during development
+(i.e. before committing)?</p>
+<p><strong>A:</strong> Sure! If you want the pre-commit hooks to run automatically on every local commit, you can set up pre-commit locally.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>dev-package_env
+<span class="nb">cd</span><span class="w"> </span>/package/root/directory
+pre-commit<span class="w"> </span>install
+</pre></div>
+</div>
+<p>If you prefer to run pre-commit independent of committing, you can run the hooks over all files by
+navigating to your package root directory and typing <code class="code docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">run</span> <span class="pre">--all-files</span></code>.</p>
+<p><strong>Q:</strong> Yes OK, but I prefer to run my favorite formatter/ linter/ tool in isolation. Can I do that?</p>
+<p><strong>A:</strong> Absolutely, these are standard Python tools. Make sure you are in the dev environment and then check the respective docs
+on how to run the tools from the command line.</p>
+<p><strong>Q:</strong> Pre-commit fails with the following error:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>An<span class="w"> </span>error<span class="w"> </span>has<span class="w"> </span>occurred:<span class="w"> </span>InvalidManifestError:
+<span class="o">==</span>&gt;<span class="w"> </span>File<span class="w"> </span>/users/&lt;username&gt;/.cache/pre-commit/repozhhauwxe/.pre-commit-hooks.yaml
+<span class="o">==</span>&gt;<span class="w"> </span>At<span class="w"> </span>Hook<span class="o">(</span><span class="nv">id</span><span class="o">=</span><span class="s1">&#39;black-jupyter&#39;</span><span class="o">)</span>
+<span class="o">==</span>&gt;<span class="w"> </span>At<span class="w"> </span>key:<span class="w"> </span><span class="nv">types_or</span>
+<span class="o">==</span>&gt;<span class="w"> </span>At<span class="w"> </span>index<span class="w"> </span><span class="nv">2</span>
+<span class="o">=====</span>&gt;<span class="w"> </span>Type<span class="w"> </span>tag<span class="w"> </span><span class="s1">&#39;jupyter&#39;</span><span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>recognized.<span class="w">  </span>Try<span class="w"> </span>upgrading<span class="w"> </span>identify<span class="w"> </span>and<span class="w"> </span>pre-commit?
+</pre></div>
+</div>
+<p><strong>A:</strong> You likely forgot to <cite>pre-commit install</cite> before running pre-commit for the first time. Unfortunately you have to force reinstall
+pre-commit to get it working again (in your activated env: <cite>conda install –force-reinstall –update-deps pre-commit</cite>).</p>
+<p><strong>Q:</strong> Typing is very non-pythonic, I don’t want to and I do not type my code. Still mypy is complaining, can I switch it off somehow?</p>
+<p><strong>A:</strong> Yes, the easiest way is to remove the corresponding hook in <code class="code docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code>. It’s then cleaner to also remove the
+mypy section in <code class="code docutils literal notranslate"><span class="pre">pyproject.toml</span></code>. Of course you can do the same with any of the linters and formatters, but we strongly
+encourage you to keep the linters and formatters and use ignore or exclude statements in your source code. This way you know, where
+the weaknesses of your code are.</p>
+<p><strong>Q:</strong> Linters and formatters behave differently locally and on the Github actions server.</p>
+<p><strong>A:</strong> First, if possible, update your environment locally. Issues might diverge over time. Then, if you run the
+checkers and linters locally, make sure they use the settings defined in <code class="code docutils literal notranslate"><span class="pre">pyproject.toml</span></code>. If this doesn’t help or if it is
+unclear, where the problems arise, report your findings and open an issue.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MCH Python Blueprint</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#contributing-to-the-blueprint-code">Contributing to the blueprint code</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ and Troubleshooting</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development_tools.html">Development Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ci_cd.html">CI / CD (Jenkins and GH Actions)</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="readme.html" title="previous chapter">Getting started</a></li>
+      <li>Next: <a href="documentation.html" title="next chapter">Documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, MeteoSwiss-APN.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/faq.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

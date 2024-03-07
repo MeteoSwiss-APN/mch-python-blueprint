@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Development Tools &#8212; MCH Python Blueprint 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=2389946f"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CI / CD (Jenkins and GH Actions)" href="ci_cd.html" />
+    <link rel="prev" title="Documentation" href="documentation.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="development-tools">
+<h1>Development Tools<a class="headerlink" href="#development-tools" title="Permalink to this heading">¶</a></h1>
+<section id="what-development-tools-come-with-the-blueprint">
+<h2>What development tools come with the Blueprint?<a class="headerlink" href="#what-development-tools-come-with-the-blueprint" title="Permalink to this heading">¶</a></h2>
+<p>The blueprint provides a variety of tools that assist in development:</p>
+<ul class="simple">
+<li><p>Frameworks:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/pre-commit/pre-commit">pre-commit</a>: Framework for managing git pre-commit hooks.</p></li>
+<li><p><a class="reference external" href="https://github.com/features/actions">Github Actions</a>: Automated triggering of actions upon Github events (like push, merge, etc.)</p></li>
+<li><p><a class="reference external" href="https://github.com/tox-dev/tox">tox</a>: Automation framework to run arbitrary commands – e.g., pytest, mypy, pylint etc. – in isolated virtual environments and easily test a Python program against multiple installed Python versions.</p></li>
+<li><p><a class="reference external" href="https://github.com/pytest-dev/pytest">pytest</a>: Unit testing framework suitable for very small, but also bigger tests.</p></li>
+</ul>
+</li>
+<li><p>Formatters:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/psf/black">black</a>: The “uncompromising” (i.e., minimally configurable) code formatter that auto-formats Python code in accordance with <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a> and best practices with the goal to minimize diffs between code changes.</p></li>
+<li><p><a class="reference external" href="https://github.com/PyCQA/isort">isort</a>: Auto-formatter that sorts and groups Python import statements.</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Lint_(software)">Linters</a>:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/PyCQA/flake8">flake8</a>: Wrapper of static code analysis tools checking Python code for <a class="reference external" href="https://github.com/PyCQA/pyflakes">errors</a>, <a class="reference external" href="https://github.com/PyCQA/pycodestyle">style</a> and <a class="reference external" href="https://github.com/PyCQA/mccabe">complexity</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/python/mypy">mypy</a>: Static type checker relying on <a class="reference external" href="https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html">type hints</a> introduced in Python 3.6.</p></li>
+<li><p><a class="reference external" href="https://github.com/PyCQA/pydocstyle">pydocstyle</a>: Static checker for correctness and completeness of docstrings.</p></li>
+<li><p><a class="reference external" href="https://github.com/PyCQA/pylint">pylint</a>: Static code analysis tool (linter) checking for errors, standard compliance, code smells etc.</p></li>
+</ul>
+</li>
+<li><p>Various:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/codespell-project/codespell">codespell</a>: Spell checker aimed at detecting common misspellings in code.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="how-are-these-tools-supposed-to-be-run">
+<h2>How are these tools supposed to be run?<a class="headerlink" href="#how-are-these-tools-supposed-to-be-run" title="Permalink to this heading">¶</a></h2>
+<p>All tools can be invoked via the command line, either via a framework they are embedded in (we recommend <em>pre-commit</em>), or directly.
+All formatters and linters listed above as well as pytest are run through Github actions and pre-commit upon pushes to the main branch.
+You can of course customize the corresponding plan (<em>.github/workflows/precommit.yml</em>) and the configuration of <em>pre-commit</em> (<em>.pre-commit-config.yaml</em>), but you should not remove checks
+excessively. Additionally, builds and tests for production software must be run through the Jenkins CI/CD framework to guarantee
+that the builds are running on CSCS machines. Plans for builds on pull requests to the main as well as for nightly builds are
+included in the <cite>jenkins/</cite> folder. These builds and tests cover exclusively pinned non-editable installations. Contact DevOps for
+the setup of your Jenkins pipeline if you need one (i.e. if your code goes into operation).</p>
+</section>
+<section id="where-do-i-customize-linters-checkers-gh-workflows-etc">
+<h2>Where do I customize linters, checkers, GH workflows, etc.<a class="headerlink" href="#where-do-i-customize-linters-checkers-gh-workflows-etc" title="Permalink to this heading">¶</a></h2>
+<p>First, with great power comes great responsibility. Adapt linter settings carefully. One idea of the blueprint is to enforce coding standards throughout
+APN to make the life of DevOps and OSM easier. Clearly, this idea is sabotaged if everyone uses their favorite linter settings, pre-commit hooks, etc..
+The settings for the linters and checkers are set in <em>pyproject.toml</em> in the corresponding tools sections. Pre-commit hooks (what is run through
+pre-commit) is controlled in <em>.pre-commit-config.yaml</em>. Finally the jenkins plan and the plans in <em>.github/workflows</em> control the CI/CD pipelines.</p>
+</section>
+<section id="what-do-i-need-to-know-about-versioning">
+<h2>What do I need to know about versioning?<a class="headerlink" href="#what-do-i-need-to-know-about-versioning" title="Permalink to this heading">¶</a></h2>
+<p>You can increase the version number in <cite>pyproject.toml</cite>. Version numbers are crucial to identify versions of a software, for instance to determine whether a certain feature or bugfix is present.
+There are different version number schemes suitable for different project complexities, release schedules etc.</p>
+<p>A popular approach is <a class="reference external" href="https://semver.org/">semantic versioning</a> (often <em>semver</em>) with version numbers <code class="docutils literal notranslate"><span class="pre">X.Y.Z</span></code> composed of three components: <em>major</em>, <em>minor</em> and <em>patch</em>.
+An increase in a specific component conveys the scope of change from the previous version:</p>
+<ul class="simple">
+<li><p><em>major</em>: incompatible API changes;</p></li>
+<li><p><em>minor</em>: backward-compatible additions of functionality;</p></li>
+<li><p><em>patch</em>: bug fixes.</p></li>
+</ul>
+<p>While the boundaries between these types of changes are <a class="reference external" href="https://snarky.ca/why-i-dont-like-semver">not always clear</a>, this provides a good starting point to versioning a project.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For relatively simple projects, two components <code class="docutils literal notranslate"><span class="pre">X.Y</span></code> may be enough, with the major component indicating non-compatible (or otherwise major) changes and the minor component indicating backward-compatible feature additions and bug fixes.</p>
+</div>
+</section>
+<section id="i-write-beautiful-code-i-don-t-need-an-autoformatter">
+<h2>I write beautiful code, I don’t need an autoformatter!<a class="headerlink" href="#i-write-beautiful-code-i-don-t-need-an-autoformatter" title="Permalink to this heading">¶</a></h2>
+<p>No objection – but, as the saying goes, beauty is in the eye of the beholder!
+This applies to Python code as much as to the world at large.</p>
+<p>While its syntax (enforced whitespace) and best practices (<a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a>) put some constraints on the formatting of Python code, they leave considerable freedom to the programmer, for example <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/#indentation">how to indent long function calls and signatures</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Correct:</span>
+
+<span class="c1"># Aligned with opening delimiter.</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">long_function_name</span><span class="p">(</span><span class="n">var_one</span><span class="p">,</span> <span class="n">var_two</span><span class="p">,</span>
+                         <span class="n">var_three</span><span class="p">,</span> <span class="n">var_four</span><span class="p">)</span>
+
+<span class="c1"># Add 4 spaces (an extra level of indentation) to distinguish arguments from the rest.</span>
+<span class="k">def</span> <span class="nf">long_function_name</span><span class="p">(</span>
+        <span class="n">var_one</span><span class="p">,</span> <span class="n">var_two</span><span class="p">,</span> <span class="n">var_three</span><span class="p">,</span>
+        <span class="n">var_four</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">var_one</span><span class="p">)</span>
+
+<span class="c1"># Hanging indents should add a level.</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">long_function_name</span><span class="p">(</span>
+    <span class="n">var_one</span><span class="p">,</span> <span class="n">var_two</span><span class="p">,</span>
+    <span class="n">var_three</span><span class="p">,</span> <span class="n">var_four</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These examples are not exhaustive, as there are many “standard-compatible” ways how to format such expressions – plus, in the end, the standard is merely a recommendation.</p>
+<p>Of course, most important is not which formatting variant is chosen for a certain type of code (e.g., how much hanging indent), but that this choice is enforced consistently across a given project, for reasons like maximized readability and minimized diffs.
+For collaborative projects, this inevitably takes formatting decisions out of the individual programmers’ hands – the goal is not longer to write “beautiful code,” but to adhere to a standard.</p>
+<p>So why not take these decisions out of all the programmers’ hands at once and delegate them to an impartial authority?
+This is where auto-formatters enter the stage: Tools that feed on your inconsistently formatted eyesore of a code and, without complaining, turn it into consistently formatted code following a set of rules that can be customized to a given project to varying degrees (depending on the tool).
+Instead of worrying or arguing about how the code looks, spend your time thinking about what it does!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The benefits of adhering to a clearly defined standard also apply to one-person projects, because over time, even these projects tend to become collaborations – with your past self, who wrote code that you no longer understand, and who used formatting your eyes can no longer bear.
+If you have ever spent an afternoon reformatting all the function calls or signatures in an old script of yours, only to realize that this was in effect a waste of time that would have been better spent actually fixing the script, then you understand one beneficial aspect of formatting standards and auto-formatters even in the absence of (true) collaborators.</p>
+</div>
+<p>There are several popular Python formatters, among them <a class="reference external" href="https://github.com/hhatto/autopep8">Autopep8</a>, <a class="reference external" href="https://github.com/google/yapf">Yapf</a> and <a class="reference external" href="https://github.com/psf/black">Black</a>, all with their <a class="reference external" href="https://www.kevinpeters.net/auto-formatters-for-python">strengths and weaknesses</a>.
+The Blueprint uses Black because it provides the most freedom of mind due to minimal freedom of choice: By design, it is as unconfigurable as possible, which prevents major discussions over minor formatting choices to be simply migrated from the code itself to the formatter configuration.
+Black follows a relatively small number of rules aimed at readability and diff minimization that quickly become intuitive.
+Following are a few examples from the <a class="reference external" href="https://github.com/psf/black">Black README</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in:</span>
+<span class="n">j</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span>
+     <span class="mi">2</span><span class="p">,</span>
+     <span class="mi">3</span>
+<span class="p">]</span>
+
+<span class="c1"># out:</span>
+<span class="n">j</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in:</span>
+<span class="n">ImportantClass</span><span class="o">.</span><span class="n">important_method</span><span class="p">(</span><span class="n">exc</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">lookup_lines</span><span class="p">,</span> <span class="n">capture_locals</span><span class="p">,</span> <span class="n">extra_argument</span><span class="p">)</span>
+
+<span class="c1"># out:</span>
+<span class="n">ImportantClass</span><span class="o">.</span><span class="n">important_method</span><span class="p">(</span>
+    <span class="n">exc</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">lookup_lines</span><span class="p">,</span> <span class="n">capture_locals</span><span class="p">,</span> <span class="n">extra_argument</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in:</span>
+<span class="k">def</span> <span class="nf">very_important_function</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">variables</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Applies `variables` to the `template` and writes to `file`.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="o">...</span>
+
+<span class="c1"># out:</span>
+<span class="k">def</span> <span class="nf">very_important_function</span><span class="p">(</span>
+    <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="n">variables</span><span class="p">,</span>
+    <span class="n">file</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
+    <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">header</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Applies `variables` to the `template` and writes to `file`.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you’re still sceptical about auto-formatters in general or Black’s formatting choices in particular, just try it out for some time.
+Chances are you will get used to the specific formatting choices and come to enjoy the freedom of focusing on what the code does.
+Also, the next time you unearth some script from your distant past, you won’t spend an afternoon reformatting it but a mere couple of seconds!</p>
+</div>
+</section>
+<section id="what-are-pre-commit-hooks">
+<h2>What are pre-commit hooks?<a class="headerlink" href="#what-are-pre-commit-hooks" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference external" href="https://github.com/git/git/blob/master/templates/hooks--pre-commit.sample">Pre-commit hooks</a> are one type of <a class="reference external" href="https://githooks.com/">git hooks</a> – scripts that are automatically triggered by certain git events.
+As their name suggests, pre-commit hooks are executed ahead of commits, which is an ideal time to ensure that the code meets certain standards of quality and correctness, i.e., to apply formatters and linters to the code.
+Thanks to the popular <a class="reference external" href="https://pre-commit.com/">framework</a> with the same name, pre-commit hooks are very easy to set up and manage thanks to many <a class="reference external" href="https://pre-commit.com/hooks.html">ready-made hooks</a> ranging from <a class="reference external" href="https://github.com/pre-commit/pre-commit-hooks">small utilities</a> that remove trailing whitespace, check symlinks or sort files to full-fledged linters like <a class="reference external" href="https://github.com/pre-commit/mirrors-mypy">mypy</a> or <a class="reference external" href="https://github.com/PyCQA/pylint">pylint</a>.</p>
+<p>As a default, pre-commit is invoked through Github actions upon merges to the master. You may however find it useful to be able to run pre-commit for your local commits. To do so, you can either run it manually with <code class="code docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">run</span> <span class="pre">--all-files</span></code> or you can set it up with <code class="code docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">install</span></code> to run on each and every commit. Once pre-commit hooks are active, they are triggered whenever you attempt to commit a change.
+The checkers and formatters are applied to the changed lines or files (depending on the tool), and the commit is only completed if all checks are successful.
+If any checker finds an issue or makes a change to the code, the commit is aborted and it is up to you to fix any problems and/or review changes before reattempting the commit.
+While this may sound cumbersome, that is really not the case if you keep your commits reasonably small – the whole point of pre-commit hooks is to prevent these minor issues from accumulating over time thanks to frequent micro-cleanups.</p>
+<p>The Blueprint provides pre-commit set up with several useful tools which are primarily aimed at code formatting.
+In addition to some small checkers and fixers (find debug statements, remove trailing whitespace, check validity of toml/yaml files), these are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/psf/black">black</a> to format the code;</p></li>
+<li><p><a class="reference external" href="https://github.com/PyCQA/isort">isort</a> to sort and group imports; and</p></li>
+<li><p><a class="reference external" href="https://github.com/PyCQA/pydocstyle">pydocstyle</a> to check doc strings.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Another good candidate, the spell checker <a class="reference external" href="https://github.com/codespell-project/codespell">codespell</a>, is among the default development dependencies, but is not set up as a pre-commit hook because while it is very useful to find misspellings, it finds too many false positives, which are easy to ignore by eye but not by pre-commit.
+We strongly recommends to occasionally run codespell manually, though, in order to keep misspellings to a minimum.</p>
+</div>
+<p>After creating a new project and installing the development dependencies, pre-commit must be activated:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./venv/bin/pre-commit<span class="w"> </span>install<span class="w">           </span><span class="c1"># hook into git</span>
+./venv/bin/pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files<span class="w">   </span><span class="c1"># run hooks the first time</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have a good reason to make a commit despite failing pre-commit hooks, you can forego the checks with <code class="docutils literal notranslate"><span class="pre">--no-verify</span></code>.
+However, this should not be done routinely, but only in exceptional circumstances.</p>
+</div>
+</section>
+<section id="tell-me-about-pytest">
+<h2>Tell me about pytest!<a class="headerlink" href="#tell-me-about-pytest" title="Permalink to this heading">¶</a></h2>
+<p>See <a class="reference external" href="https://github.com/pytest-dev/pytest">github page</a> and <a class="reference external" href="https://docs.pytest.org/en/stable/contents.html">documentation</a>.</p>
+</section>
+<section id="tell-me-about-flake8">
+<h2>Tell me about flake8!<a class="headerlink" href="#tell-me-about-flake8" title="Permalink to this heading">¶</a></h2>
+<p>See <a class="reference external" href="https://github.com/PyCQA/flake8">github page</a> and <a class="reference external" href="https://flake8.pycqa.org/en/latest/">documentation</a>.</p>
+</section>
+<section id="tell-me-about-pylint">
+<h2>Tell me about pylint!<a class="headerlink" href="#tell-me-about-pylint" title="Permalink to this heading">¶</a></h2>
+<p>See <a class="reference external" href="https://github.com/PyCQA/pylint">github page</a> and <a class="reference external" href="http://pylint.pycqa.org/en/latest/">documentation</a>.</p>
+</section>
+<section id="tell-me-about-mypy">
+<h2>Tell me about mypy!<a class="headerlink" href="#tell-me-about-mypy" title="Permalink to this heading">¶</a></h2>
+<p>See <a class="reference external" href="https://github.com/python/mypy">github page</a> and <a class="reference external" href="https://mypy.readthedocs.io/en/stable/">documentation</a>.</p>
+</section>
+<section id="why-should-i-want-to-declare-variable-types-in-python">
+<h2>Why should I want to declare variable types in Python?<a class="headerlink" href="#why-should-i-want-to-declare-variable-types-in-python" title="Permalink to this heading">¶</a></h2>
+<p>Python is a dynamically typed language where the types of variables do not need to be declared and can indeed change freely.
+This is in contrast to statically typed languages like C or Fortran, where the variable types must be declared and cannot change freely.
+Dynamic typing makes it very easy to write Python scripts, to reuse functions with custom objects, and so forth.
+However, at least some type information is usually necessary, especially in interfaces, e.g., when an argument is expected to be a number, a string or a list.
+This information is usually provided in docstrings.
+The problem with type information in docstrings is that it cannot be easily verified and is in danger of becoming outdated when an interface changes but the docstring is not adapted accordingly.</p>
+<p>To address this issue, Python gradually introduced the concept of type hints, initially as comments but eventually as part of the language.
+The <a class="reference external" href="https://www.python.org/dev/peps/pep-0484/">modern type hint syntax</a> has been introduced in Python 3.5 and is based on <a class="reference external" href="https://www.python.org/dev/peps/pep-3107/">function annotations</a>
+The hints can be parsed by external tools like <a class="reference external" href="http://mypy-lang.org/">mypy</a>, which use them together type information derived from variable assignments to perform static type analysis.
+This allows them to detect errors such as passing a string to a function that expects a bool, as illustrated in this example (<a class="reference external" href="https://realpython.com/python-type-checking/#hello-types">source</a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># headlines.py</span>
+
+<span class="k">def</span> <span class="nf">headline</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">align</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">align</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">text</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">text</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">headline</span><span class="p">(</span><span class="s2">&quot;python type checking&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">headline</span><span class="p">(</span><span class="s2">&quot;use mypy&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mypy<span class="w"> </span>headlines.py
+headlines.py:10:<span class="w"> </span>error:<span class="w"> </span>Argument<span class="w"> </span><span class="s2">&quot;align&quot;</span><span class="w"> </span>to<span class="w"> </span><span class="s2">&quot;headline&quot;</span><span class="w"> </span>has<span class="w"> </span>incompatible<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="s2">&quot;str&quot;</span><span class="p">;</span><span class="w"> </span>expected<span class="w"> </span><span class="s2">&quot;bool&quot;</span>
+</pre></div>
+</div>
+<p>For more information on type hints, see the <a class="reference external" href="https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html">mypy cheat sheet</a> and this <a class="reference external" href="https://realpython.com/python-type-checking/">RealPython guide</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In contrast to statically typed languages, however, the type information is not used at runtime to increase performance, and also won’t be used to that end in the future (at least by CPython, the official Python interpreter).
+Type hints are therefore best thought of as testable documentation.</p>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MCH Python Blueprint</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#contributing-to-the-blueprint-code">Contributing to the blueprint code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ and Troubleshooting</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Development Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-development-tools-come-with-the-blueprint">What development tools come with the Blueprint?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-are-these-tools-supposed-to-be-run">How are these tools supposed to be run?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-do-i-customize-linters-checkers-gh-workflows-etc">Where do I customize linters, checkers, GH workflows, etc.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-do-i-need-to-know-about-versioning">What do I need to know about versioning?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-write-beautiful-code-i-don-t-need-an-autoformatter">I write beautiful code, I don’t need an autoformatter!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-are-pre-commit-hooks">What are pre-commit hooks?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tell-me-about-pytest">Tell me about pytest!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tell-me-about-flake8">Tell me about flake8!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tell-me-about-pylint">Tell me about pylint!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tell-me-about-mypy">Tell me about mypy!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-should-i-want-to-declare-variable-types-in-python">Why should I want to declare variable types in Python?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ci_cd.html">CI / CD (Jenkins and GH Actions)</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="documentation.html" title="previous chapter">Documentation</a></li>
+      <li>Next: <a href="ci_cd.html" title="next chapter">CI / CD (Jenkins and GH Actions)</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, MeteoSwiss-APN.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/development_tools.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

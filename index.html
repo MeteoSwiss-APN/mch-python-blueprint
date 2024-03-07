@@ -1,19 +1,19 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Welcome to No Errors Test Project’s documentation! &#8212; No Errors Test Project  documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>MeteoSwiss-APN Python blueprint &#8212; MCH Python Blueprint 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=2389946f"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting started" href="readme.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -30,19 +30,66 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-no-errors-test-project-s-documentation">
-<h1>Welcome to No Errors Test Project’s documentation!<a class="headerlink" href="#welcome-to-no-errors-test-project-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <section id="meteoswiss-apn-python-blueprint">
+<h1>MeteoSwiss-APN Python blueprint<a class="headerlink" href="#meteoswiss-apn-python-blueprint" title="Permalink to this heading">¶</a></h1>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#preparation">Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#install-copier">Install Copier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#create-your-python-package-from-our-template">Create your Python package from our template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#set-up-your-project-on-github">Set up your project on GitHub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#start-developing-your-package">Start developing your package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#update-template">Update template</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#contributing-to-the-blueprint-code">Contributing to the blueprint code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ and Troubleshooting</a></li>
+</ul>
 </div>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html#documentation-template-in-the-docs-folder">Documentation template in the docs folder</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="development_tools.html">Development Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#what-development-tools-come-with-the-blueprint">What development tools come with the Blueprint?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#how-are-these-tools-supposed-to-be-run">How are these tools supposed to be run?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#where-do-i-customize-linters-checkers-gh-workflows-etc">Where do I customize linters, checkers, GH workflows, etc.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#what-do-i-need-to-know-about-versioning">What do I need to know about versioning?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#i-write-beautiful-code-i-don-t-need-an-autoformatter">I write beautiful code, I don’t need an autoformatter!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#what-are-pre-commit-hooks">What are pre-commit hooks?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#tell-me-about-pytest">Tell me about pytest!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#tell-me-about-flake8">Tell me about flake8!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#tell-me-about-pylint">Tell me about pylint!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#tell-me-about-mypy">Tell me about mypy!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_tools.html#why-should-i-want-to-declare-variable-types-in-python">Why should I want to declare variable types in Python?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ci_cd.html">CI / CD (Jenkins and GH Actions)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ci_cd.html#gh-actions-workflow">GH Actions workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ci_cd.html#jenkins">Jenkins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ci_cd.html#a-word-on-tox">A word on tox</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</div>
+</section>
 
 
           </div>
@@ -51,7 +98,7 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="#">No Errors Test Project</a></h1>
+<h1 class="logo"><a href="#">MCH Python Blueprint</a></h1>
 
 
 
@@ -61,11 +108,22 @@
 
 
 <h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#contributing-to-the-blueprint-code">Contributing to the blueprint code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ and Troubleshooting</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development_tools.html">Development Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ci_cd.html">CI / CD (Jenkins and GH Actions)</a></li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="readme.html" title="next chapter">Getting started</a></li>
   </ul></li>
 </ul>
 </div>
@@ -73,12 +131,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -92,11 +150,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2019, sphinx-action Test Suite.
+      &copy;2022, MeteoSwiss-APN.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="_sources/index.rst.txt"
