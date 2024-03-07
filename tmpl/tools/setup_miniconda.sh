@@ -13,8 +13,8 @@ INSTALL_PREFIX=${PWD}
 USER_INSTALL=false
 
 # here the conda version is fixed, the sha256 hash has to be set accordingly
-MINICONDA_URL=https://repo.anaconda.com/miniconda/Miniconda3-py310_23.9.0-0-Linux-x86_64.sh
-SHA256=b272a5f843762f0a18f6b70a162cd554a43a06adcd6f5a2102840e41907fffe5
+MINICONDA_URL=https://repo.anaconda.com/miniconda/Miniconda3-py310_23.11.0-1-Linux-x86_64.sh
+SHA256=6581658486be8e700d77e24eccafba586a0fbafafadcf73d35ab13eaee4b80b1
 
 
 # Eval command line options
